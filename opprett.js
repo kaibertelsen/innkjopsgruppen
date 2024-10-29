@@ -147,11 +147,14 @@ function loadCompany(companyObject) {
 
 
 
-
 function openCreatCompanyDiv(){
+    // Gjør wrapper-elementet synlig
+    const wrapperElement = document.getElementById("mycompanyinputwrapper");
+    wrapperElement.style.display = "block"; // Setter display til block for å gjøre elementet synlig
+}
 
-// Gjør wrapper-elementet synlig
-const wrapperElement = document.getElementById("mycompanyinputwrapper");
-wrapperElement.style.display = "block"; // Setter display til block for å gjøre elementet synlig
 
+function creatUserOnCompany(){
+
+    
 }
