@@ -171,7 +171,18 @@ function setCompanyselectors(data) {
             }
         }
     });
+
+    // Sjekk og last inn logoen hvis den finnes i data
+    if (data.logo && Array.isArray(data.logo) && data.logo.length > 0) {
+        const logoImage = document.getElementById("logo-image");
+        if (logoImage) {
+            logoImage.src = data.logo[0].url; // Bruker URL-en til første logo i arrayet
+            logoImage.style.display = "in-block"; // Gjør logoen synlig
+        }
+    }
 }
+
+
 
 
 
