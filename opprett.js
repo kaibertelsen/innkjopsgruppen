@@ -317,14 +317,15 @@ function controllcompanyinputs() {
 
 
 async function sendToZapier(data) {
-  
+
+    const formData = new FormData();
+    for (const key in data) {
+        formData.append(key, JSON.stringify(data[key])); // Konverterer verdier til streng for arrays eller objekter
+    }
 
     const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/29whqiz/", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+        body: formData
     });
 
     if (response.ok) {
