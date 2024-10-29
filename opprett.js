@@ -144,10 +144,31 @@ function loadCompany(companyObject) {
     }
 }
 
-function setCompanyselectors(data){
+function setCompanyselectors(data) {
+    // Kartlegging av data-nøkler til select-element-ID-er
+    const selectMap = {
+        gruppe: 'group',
+        radgiver: 'ownerinput',
+        valuegroup: 'valueselector'
+    };
 
+    // Itererer gjennom selectMap for å sette verdier
+    Object.keys(selectMap).forEach(key => {
+        const selectId = selectMap[key];
+        const selectElement = document.getElementById(selectId);
 
+        if (data[key] && selectElement) {
+            // Finn alternativ i select-elementet som samsvarer med data[key]
+            const optionToSelect = Array.from(selectElement.options).find(option => option.value === data[key]);
+
+            // Hvis alternativet finnes, sett select-elementet til denne verdien
+            if (optionToSelect) {
+                selectElement.value = optionToSelect.value;
+            }
+        }
+    });
 }
+
 
 function updateCompanysetppOne(){
     // Gjør wrapper-elementet synlig
@@ -190,7 +211,6 @@ let companyObject = data.fields;
 console.log(companyObject);
 
 }
-
 
 
 function controllcompanyinputs() {
