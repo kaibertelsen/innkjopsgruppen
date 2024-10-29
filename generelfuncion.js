@@ -1,3 +1,9 @@
+var updateCompany = false;
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     getGroup();
 });

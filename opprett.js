@@ -112,6 +112,7 @@ function loadCompany(companyObject) {
 
     // Sjekk om response har data
     if (response.length > 0) {
+        updateCompany = true;
         // Hvis selskapet allerede er registrert, vis informasjon og knapper
         const company = response[0]; // Forutsatt at vi sjekker det første objektet i listen
         const name = company.Name || "Navn ikke tilgjengelig";
@@ -123,9 +124,9 @@ function loadCompany(companyObject) {
         portalresponsdiv.appendChild(infoText);
         // Opprett knappene
         const createCompanyButton = document.createElement('button');
-        createCompanyButton.textContent = "Opprett likevel";
+        createCompanyButton.textContent = "Oppdater selskap";
         createCompanyButton.classList.add("buttoncreate");
-        createCompanyButton.onclick = openCreatCompanyDiv;
+        createCompanyButton.onclick = updateCompanysetppOne;
         const addUserButton = document.createElement('button');
         addUserButton.textContent = "Legg til bruker";
         addUserButton.classList.add("buttoncreate");
@@ -135,6 +136,7 @@ function loadCompany(companyObject) {
         portalresponsdiv.appendChild(addUserButton);
         document.getElementById("mycompanyinputwrapper").style.display = "none";
     } else {
+        updateCompany = false;
         // Hvis selskapet ikke er registrert tidligere
         portalresponsdiv.textContent = "Dette selskapet er ikke tidligere registrert i portalen.";
         document.getElementById("mycompanyinputwrapper").style.display = "block";
@@ -142,7 +144,7 @@ function loadCompany(companyObject) {
 }
 
 
-function openCreatCompanyDiv(){
+function updateCompanysetppOne(){
     // Gjør wrapper-elementet synlig
     const wrapperElement = document.getElementById("mycompanyinputwrapper");
     wrapperElement.style.display = "block";
@@ -167,7 +169,7 @@ createCompany();
 function createCompany(){
  let body = controllcompanyinputs();
 
- POSTairtable("baseId","tableId",JSON.stringify(body),"responscreatecompany")
+ POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany")
 
 }
 
