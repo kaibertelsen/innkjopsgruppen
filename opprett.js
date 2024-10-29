@@ -206,9 +206,7 @@ function controllcompanyinputs() {
             return false;
         } else {
             let dataName = fieldIds[i].dataset.name;
-            
-            // Sjekk om dataName er "verdi" og om verdien er et tall
-            if (dataName === "verdi") {
+            if (dataName == "valuegroup") {
                 let numberValue = parseFloat(fieldIds[i].value);
                 if (isNaN(numberValue)) { // Sjekker om verdien ikke er et tall
                     numberValue = 0;
