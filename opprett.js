@@ -246,12 +246,11 @@ function responscreatecompanyUpdate(data){
    
     //oppdater i webflow også
     let companyObject = data.fields;
-
     let body = {
-        Name: companyObject.Name,
+    name:companyObject.Name,
+    orgnr:companyObject.orgnr
     }
-   // PATCHwebflow("65d656f0dbd8e9b39138a7e0",companyObject.webflowId,JSON.stringify(body),"responswebflowUpdate");
-    POSTwebflow("65d656f0dbd8e9b39138a7e0",body,"responswebflowUpdate");
+    sendToZapier(body);
 
 }
 
@@ -312,5 +311,27 @@ function controllcompanyinputs() {
     return saveObject;
 }
 
+
+
+
+
+
+async function sendToZapier(data) {
+  
+
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/29whqiz/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        console.log("Data sent to Zapier successfully!");
+    } else {
+        console.error("Error sending data to Zapier:", response.statusText);
+    }
+}
 
 
