@@ -184,6 +184,7 @@ function controllcompanyinputs() {
         postnrinput,
         poststedinput,
         orgnumberinput,
+        valueselector,
         verdi,
         ownerinput,
         group
@@ -196,9 +197,16 @@ function controllcompanyinputs() {
             alert("Feltet " + fieldName + " mangler verdi");
         } else {
             let dataName = fieldIds[i].dataset.name;
-            saveObject[dataName] = fieldIds[i].value;
+            
+            // Legg verdien i en array hvis dataName er "gruppe" eller "radgiver"
+            if (dataName === "gruppe" || dataName === "radgiver") {
+                saveObject[dataName] = [fieldIds[i].value];
+            } else {
+                saveObject[dataName] = fieldIds[i].value;
+            }
         }
     }
 
     return saveObject;
 }
+
