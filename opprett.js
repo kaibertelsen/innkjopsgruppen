@@ -229,30 +229,34 @@ function createCompany(){
     if(body){
 
         if(companyId == ""){
-        POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
+        POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responsecompany");
         }else{
-        PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responscreatecompanyUpdate");
+        PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responsecompany");
         }
 
     }
 }
 
-function responscreatecompany(data){
-let companyObject = data.fields;
-//lag et i webflow også
-}
+function responsecompany(data) {
+    // Oppdater i Webflow også
+    let companyObject = data.fields || {}; // Sikrer at fields eksisterer
 
-function responscreatecompanyUpdate(data){
-   
-    //oppdater i webflow også
-    let companyObject = data.fields;
-    let body = {
-    name:companyObject.Name,
-    orgnr:companyObject.orgnr
-    }
+    // Bygg body med sikker sjekk for hvert felt
+    const body = {
+        Name: companyObject.Name || "",
+        adresse: companyObject.adresse || "",
+        postnr: companyObject.postnr || "",
+        poststed: companyObject.poststed || "",
+        airtable: companyObject.airtable || "",
+        orgnr: companyObject.orgnr || "",
+        gruppe: (companyObject.gruppewebflowId && companyObject.gruppewebflowId[0]) || "",
+        radgiver: (companyObject.radgiverwebflowId && companyObject.radgiverwebflowId[0]) || "",
+        // Legg til flere felt her hvis nødvendig
+    };
+
     sendToZapier(body);
-
 }
+
 
 function responswebflowUpdate(data){
 
@@ -316,16 +320,9 @@ function controllcompanyinputs() {
 
 
 
-async function sendToZapier(datamain) {
-    const data = {
-        "Name": "EXPOSOFT AS",
-        "orgnr": "931694014",
-        "valuegroup": 12000,
-        "email": "kai@exposoft.no",
-        "gruppe": ["recU81JfS8XBXbrg1"],
-        "radgiver": ["rec1Oapkpzeq30X3I"],
-        // Legg til flere felt her hvis nødvendig
-    };
+async function sendToZapier(data) {
+    
+
 
     const formData = new FormData();
     for (const key in data) {

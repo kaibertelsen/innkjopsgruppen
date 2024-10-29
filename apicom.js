@@ -172,9 +172,7 @@ function ruteresponse(data,id){
       companycheck(data);
   }else if(id == "responscreatecompany"){
       responscreatecompany(data);
-  }else if(id == "responscreatecompanyUpdate"){
-    responscreatecompanyUpdate(data);
-  }else if(id == "responswebflowUpdate"){
-    responswebflowUpdate(data);
+  }else if(id == "responsecompany"){
+    responsecompany(data);
   }
 }
