@@ -98,3 +98,11 @@ function apireturn(response){
         console.log(response);
     }
 }
+
+function ruteresponse(data,id){
+  if(id == "responsgroup"){
+      responsgroup(data);
+  }else if(id == "companycheck"){
+      companycheck(data);
+  }
+}
