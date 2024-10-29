@@ -122,29 +122,25 @@ function loadCompany(companyObject) {
         infoText.textContent = `Selskapet er allerede registrert i portalen:\nNavn: ${name}\nOrg.nr: ${orgnr}`;
         infoText.style.whiteSpace = "pre-line"; // Tillat linjeskift
         portalresponsdiv.appendChild(infoText);
-
         // Opprett knappene
         const createCompanyButton = document.createElement('button');
         createCompanyButton.textContent = "Opprett likevel";
         createCompanyButton.classList.add("buttonCreate");
         createCompanyButton.onclick = openCreatCompanyDiv;
-
         const addUserButton = document.createElement('button');
         addUserButton.textContent = "Legg til bruker";
         addUserButton.classList.add("buttonCreate");
         addUserButton.onclick = creatUserOnCompany;
-
         // Legg knappene til i portalresponsdiv
         portalresponsdiv.appendChild(createCompanyButton);
         portalresponsdiv.appendChild(addUserButton);
-        
+        document.getElementById("mycompanyinputwrapper").style.display = "none";
     } else {
         // Hvis selskapet ikke er registrert tidligere
         portalresponsdiv.textContent = "Dette selskapet er ikke tidligere registrert i portalen.";
-        openCreatCompanyDiv();
+        document.getElementById("mycompanyinputwrapper").style.display = "block";
     }
 }
-
 
 
 function openCreatCompanyDiv(){
@@ -156,5 +152,5 @@ function openCreatCompanyDiv(){
 
 function creatUserOnCompany(){
 
-    
+
 }
