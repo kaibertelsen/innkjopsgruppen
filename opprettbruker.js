@@ -34,3 +34,16 @@ function showUserExistsAlert(data) {
     alert(alertMessage);
 }
 
+function creatUser(){
+
+        const inputs = document.querySelectorAll('#userwrapper input'); // Henter kun input-felter under userwrapper
+        const result = {};
+    
+        inputs.forEach(input => {
+            const key = input.dataset.name; // Henter verdien fra data-name
+            if (key) { // Hvis data-name finnes, legg til i objektet
+                result[key] = input.value;
+            }
+        });
+    console.log(result); // Viser objektet med key fra data-name og verdier fra input
+}
