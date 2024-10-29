@@ -192,7 +192,7 @@ function setCompanyselectors(data) {
         const logoImage = document.getElementById("logo-image");
         if (logoImage) {
             logoImage.src = data.logo[0].url; // Bruker URL-en til første logo i arrayet
-            logoImage.style.display = "block"; // Gjør logoen synlig
+            logoImage.style.display = "in-block"; // Gjør logoen synlig
         }
     }
 }
@@ -282,7 +282,7 @@ function controllcompanyinputs() {
     }
 
     if(logoUrl != ""){
-        saveObject.logo = logoUrl;
+       // saveObject.logo = logoUrl;
         saveObject.logourl = logoUrl;
     }
 
