@@ -117,9 +117,10 @@ function loadCompany(companyObject) {
         const name = company.Name || "Navn ikke tilgjengelig";
         const orgnr = company.orgnr || "Org.nr ikke tilgjengelig";
         
-        // Vis selskapets informasjon
+        // Vis selskapets informasjon med linjeskift
         const infoText = document.createElement('p');
         infoText.textContent = `Selskapet er allerede registrert i portalen:\nNavn: ${name}\nOrg.nr: ${orgnr}`;
+        infoText.style.whiteSpace = "pre-line"; // Tillat linjeskift
         portalresponsdiv.appendChild(infoText);
 
         // Opprett knappene
@@ -143,6 +144,7 @@ function loadCompany(companyObject) {
         openCreatCompanyDiv();
     }
 }
+
 
 
 
