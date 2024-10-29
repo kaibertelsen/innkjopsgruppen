@@ -1,5 +1,5 @@
 var companyId = "";
-
+var logoUrl = "";
 
 
 
@@ -60,18 +60,14 @@ document.getElementById("valueselector").addEventListener('change', function() {
 
 
 const dataOutput = document.querySelector('lr-data-output');
-dataOutput.addEventListener('lr-data-output', (e) => {
- 
-  /*
-  fileurlinputarray = [];
-  for(var i = 0;i<e.detail.data.files.length;i++){
-  var object = {filename:e.detail.data.files[i].name,url:e.detail.data.files[i].cdnUrl}
-  fileurlinputarray.push(object);
-  }
-*/
 
-document.getElementById("logolonk-1").value = e.detail.data.files[0].cdnUrl
-   
- 
- // fileurlinputarray
+dataOutput.addEventListener('lr-data-output', (e) => {
+logoUrl = e.detail.data.files[0].cdnUrl
+
+const logoImage = document.getElementById("logo-image");
+if (logoImage) {
+    logoImage.src = logoUrl; // Bruker URL-en til første logo i arrayet
+    logoImage.style.display = "in-block"; // Gjør logoen synlig
+}
+
 });
