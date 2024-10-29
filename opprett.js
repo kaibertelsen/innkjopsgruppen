@@ -157,3 +157,52 @@ function creatUserOnCompany(){
     let portalresponsdiv = document.getElementById("responseportal");
     portalresponsdiv.innerHTML
 }
+
+
+
+document.getElementById("createCompanybutton").onclick = function() {
+createCompany();
+}
+
+function createCompany(){
+ let body = controllcompanyinputs();
+
+ POSTairtable("baseId","tableId",JSON.stringify(body),"responscreatecompany")
+
+}
+
+function responscreatecompany(data){
+console.log(data);
+}
+
+
+
+
+function controllcompanyinputs(){
+    let fielsid = [
+        firmanavninput,
+        adresseinput,
+        postnrinput,
+        poststedinput,
+        orgnumberinput,
+        valueselector,
+        verdi,
+        ownerinput,
+        group
+    ]
+    let saveObject = {};
+    for (var i = 0;i<fielsid.length;i++){
+        if(document.getElementById(fielsid[i]).value != ""){
+            //dette feltet inneholder ikke vedri
+            let fieldname = document.getElementById(fielsid[i]).name;
+            alert("Feltet "+fieldname+" mangler verdi");
+        }
+        else{
+            let dataname = document.getElementById(fielsid[i]).dataset.name;
+            saveObject[dataname] = document.getElementById(fielsid[i]).value;
+        }
+    }
+
+    return saveObject
+
+}

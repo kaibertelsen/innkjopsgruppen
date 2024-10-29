@@ -54,8 +54,12 @@ async function POSTairtable(baseId,tableId,body,id){
        'Content-Type': 'application/json'
         }
        });
-       let data = await response.json();
-       apireturn (data,id);
+       if (!response.ok) {
+        throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+        }else {
+        let data = await response.json();
+        apireturn({success: true, data: data, id: id});
+        }
 }
     
 async function DELETEairtable(baseId,tableId,itemId,id){
@@ -104,5 +108,7 @@ function ruteresponse(data,id){
       responsgroup(data);
   }else if(id == "companycheck"){
       companycheck(data);
+  }else if(id == "responscreatecompany"){
+      responscreatecompany(data);
   }
 }
