@@ -114,6 +114,7 @@ function loadCompany(companyObject) {
     if (response.length > 0) {
         // Hvis selskapet allerede er registrert, vis informasjon og knapper
         const company = response[0]; // Forutsatt at vi sjekker det første objektet i listen
+        setCompanyselectors(company);
         companyId = company.airtable;
         const name = company.Name || "Navn ikke tilgjengelig";
         const orgnr = company.orgnr || "Org.nr ikke tilgjengelig";
@@ -143,6 +144,10 @@ function loadCompany(companyObject) {
     }
 }
 
+function setCompanyselectors(data){
+
+
+}
 
 function updateCompanysetppOne(){
     // Gjør wrapper-elementet synlig
@@ -169,11 +174,14 @@ createCompany();
 function createCompany(){
  let body = controllcompanyinputs();
     if(body){
+        POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
+        /*
         if(companyId == ""){
         POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
         }else{
         PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responscreatecompany");
         }
+        */
     }
 }
 
