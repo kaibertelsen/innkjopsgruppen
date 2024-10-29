@@ -159,7 +159,7 @@ function setCompanyselectors(data) {
         valuegroup: 'valueselector'
     };
 
-    // Itererer gjennom selectMap for å sette verdier
+    // Itererer gjennom selectMap for å sette verdier i select-elementer
     Object.keys(selectMap).forEach(key => {
         const selectId = selectMap[key];
         const selectElement = document.getElementById(selectId);
@@ -179,15 +179,24 @@ function setCompanyselectors(data) {
         }
     });
 
+    // Sjekk og sett verdi for "valuegroup" i input-feltet med id "verdi"
+    if (data.valuegroup) {
+        const valueInput = document.getElementById("verdi");
+        if (valueInput) {
+            valueInput.value = data.valuegroup;
+        }
+    }
+
     // Sjekk og last inn logoen hvis den finnes i data
     if (data.logo && Array.isArray(data.logo) && data.logo.length > 0) {
         const logoImage = document.getElementById("logo-image");
         if (logoImage) {
             logoImage.src = data.logo[0].url; // Bruker URL-en til første logo i arrayet
-            logoImage.style.display = "in-block"; // Gjør logoen synlig
+            logoImage.style.display = "block"; // Gjør logoen synlig
         }
     }
 }
+
 
 
 
