@@ -36,17 +36,36 @@ function showUserExistsAlert(data) {
     }
 }
 
-function creatUser(){
+document.getElementById("createUserbutton").addEventListener("click", creatUser);
 
-        const inputs = document.querySelectorAll('#userwrapper input'); // Henter kun input-felter under userwrapper
-        const result = {};
-    
-        inputs.forEach(input => {
-            const key = input.dataset.name; // Henter verdien fra data-name
-            if (key) { // Hvis data-name finnes, legg til i objektet
-                result[key] = input.value;
-            }
-        });
+function creatUser() {
+    const inputs = document.querySelectorAll('#userwrapper input'); // Henter kun input-felter under userwrapper
+    const result = {};
+
+    inputs.forEach(input => {
+        const key = input.dataset.name; // Henter verdien fra data-name
+        if (key) { // Hvis data-name finnes, legg til i objektet
+            result[key] = input.value;
+        }
+    });
+
     console.log(result); // Viser objektet med key fra data-name og verdier fra input
 
+    // Send data til Zapier webhook
+    fetch('https://hooks.zapier.com/hooks/catch/10455257/29gwc4y/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(result) // Konverterer resultatet til JSON-streng
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Data sent to Zapier successfully!");
+        } else {
+            console.error("Error sending data to Zapier:", response.statusText);
+        }
+    })
+    .catch(error => console.error("Fetch error:", error));
 }
+
