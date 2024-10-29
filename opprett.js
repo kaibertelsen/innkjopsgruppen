@@ -250,7 +250,9 @@ function responscreatecompanyUpdate(data){
     let body = {
         Name: companyObject.Name,
     }
-    PATCHwebflow("65d656f0dbd8e9b39138a7e0",companyObject.webflowId,JSON.stringify(body),"responswebflowUpdate")
+   // PATCHwebflow("65d656f0dbd8e9b39138a7e0",companyObject.webflowId,JSON.stringify(body),"responswebflowUpdate");
+    POSTwebflow("65d656f0dbd8e9b39138a7e0",body,"responswebflowUpdate");
+
 }
 
 function responswebflowUpdate(data){
