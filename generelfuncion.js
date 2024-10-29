@@ -18,7 +18,7 @@ function responsgroup(data){
         // Iterer over dataene og opprett <option> elementer
         data.forEach(item => {
             const option = document.createElement('option');
-            option.value = item.Slug;  // Verdien til <option>
+            option.value = item.airtableId;  // Verdien til <option>
             option.text = item.Name;   // Teksten som vises i dropdown
             selectElement.appendChild(option);  // Legg til <option> i <select>
         });
