@@ -282,7 +282,11 @@ function controllcompanyinputs() {
     }
 
     if(logoUrl != ""){
-       // saveObject.logo = logoUrl;
+        saveObject.logo = [
+            {
+                "url": logoUrl
+            }
+        ]
         saveObject.logourl = logoUrl;
     }
 
