@@ -116,7 +116,6 @@ function loadCompany(companyObject) {
         const company = response[0]; // Forutsatt at vi sjekker det første objektet i listen
         const name = company.Name || "Navn ikke tilgjengelig";
         const orgnr = company.orgnr || "Org.nr ikke tilgjengelig";
-        
         // Vis selskapets informasjon med linjeskift
         const infoText = document.createElement('p');
         infoText.textContent = `Selskapet er allerede registrert i portalen:\nNavn: ${name}\nOrg.nr: ${orgnr}`;
@@ -125,11 +124,11 @@ function loadCompany(companyObject) {
         // Opprett knappene
         const createCompanyButton = document.createElement('button');
         createCompanyButton.textContent = "Opprett likevel";
-        createCompanyButton.classList.add("buttonCreate");
+        createCompanyButton.classList.add("buttoncreate");
         createCompanyButton.onclick = openCreatCompanyDiv;
         const addUserButton = document.createElement('button');
         addUserButton.textContent = "Legg til bruker";
-        addUserButton.classList.add("buttonCreate");
+        addUserButton.classList.add("buttoncreate");
         addUserButton.onclick = creatUserOnCompany;
         // Legg knappene til i portalresponsdiv
         portalresponsdiv.appendChild(createCompanyButton);
