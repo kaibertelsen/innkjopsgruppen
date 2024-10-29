@@ -178,8 +178,8 @@ console.log(data);
 
 
 
-function controllcompanyinputs(){
-    let fielsid = [
+function controllcompanyinputs() {
+    let fieldIds = [
         firmanavninput,
         adresseinput,
         postnrinput,
@@ -189,20 +189,18 @@ function controllcompanyinputs(){
         verdi,
         ownerinput,
         group
-    ]
+    ];
+
     let saveObject = {};
-    for (var i = 0;i<fielsid.length;i++){
-        if(document.getElementById(fielsid[i]).value != ""){
-            //dette feltet inneholder ikke vedri
-            let fieldname = document.getElementById(fielsid[i]).name;
-            alert("Feltet "+fieldname+" mangler verdi");
-        }
-        else{
-            let dataname = document.getElementById(fielsid[i]).dataset.name;
-            saveObject[dataname] = document.getElementById(fielsid[i]).value;
+    for (let i = 0; i < fieldIds.length; i++) {
+        if (fieldIds[i].value === "") { // Sjekker om feltet mangler verdi
+            let fieldName = fieldIds[i].name;
+            alert("Feltet " + fieldName + " mangler verdi");
+        } else {
+            let dataName = fieldIds[i].dataset.name;
+            saveObject[dataName] = fieldIds[i].value;
         }
     }
 
-    return saveObject
-
+    return saveObject;
 }
