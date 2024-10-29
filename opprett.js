@@ -185,7 +185,6 @@ function controllcompanyinputs() {
         postnrinput,
         poststedinput,
         orgnumberinput,
-        valueselector,
         verdi,
         ownerinput,
         group
