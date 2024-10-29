@@ -248,8 +248,7 @@ function responscreatecompanyUpdate(data){
     let companyObject = data.fields;
 
     let body = {
-        slug: companyObject.slug,
-        name: companyObject.Name,
+        Name: companyObject.Name,
         _archived: false,
         _draft: false
     }
