@@ -216,8 +216,7 @@ function updateCompanysetppOne(){
 
 
 function creatUserOnCompany(){
-    let portalresponsdiv = document.getElementById("responseportal");
-    portalresponsdiv.innerHTML
+    document.getElementById("userwrapper").style.display = "block";
 }
 
 
