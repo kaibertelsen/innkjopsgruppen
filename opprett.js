@@ -175,15 +175,12 @@ function createCompany(){
  let body = controllcompanyinputs();
     if(body){
 
-        body = {Name:"test"};
-        POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
-        /*
         if(companyId == ""){
         POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
         }else{
         PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responscreatecompany");
         }
-        */
+
     }
 }
 
