@@ -107,7 +107,10 @@ async function GETairtable(baseId,tableId,itemId,id){
   
   let response = await fetch(`https://webflow-woad.vercel.app/api/item?collectionId=${collectionId}&itemId=${itemId}&token=${token}`, {
     method: "PATCH",
-    body: body
+    body: body,
+    headers: {
+      'Content-Type': 'application/json'
+      }
   });
 
   if (!response.ok) {
@@ -124,7 +127,10 @@ async function POSTwebflow(collectionId,body,id){
   let token = MemberStack.getToken();
   let response = await fetch(`https://webflow-woad.vercel.app/api/item?collectionId=${collectionId}&token=${token}`, {
     method: "POST",
-    body: body
+    body: body,
+    headers: {
+      'Content-Type': 'application/json'
+      }
   });
 
   if (!response.ok) {
