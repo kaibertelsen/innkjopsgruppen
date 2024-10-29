@@ -168,10 +168,12 @@ createCompany();
 
 function createCompany(){
  let body = controllcompanyinputs();
-    if(companyId == ""){
-    POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
-    }else{
-    PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
+    if(body){
+        if(companyId == ""){
+        POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
+        }else{
+        PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responscreatecompany");
+        }
     }
 }
 
@@ -199,6 +201,7 @@ function controllcompanyinputs() {
         if (fieldIds[i].value === "") { // Sjekker om feltet mangler verdi
             let fieldName = fieldIds[i].name;
             alert("Feltet " + fieldName + " mangler verdi");
+            return false;
         } else {
             let dataName = fieldIds[i].dataset.name;
             
@@ -213,4 +216,5 @@ function controllcompanyinputs() {
 
     return saveObject;
 }
+
 
