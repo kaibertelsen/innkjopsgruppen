@@ -300,20 +300,28 @@ function companycreateFinish(data) {
 
     // Lag en link
     const link = document.createElement("a");
-    link.textContent = "til portal med "+data.Name;
+    link.textContent = "til portal med " + data.Name;
     link.href = "https://portal.innkjops-gruppen.no/firma/" + data.slug; // Antar 'slug' finnes i data-objektet
     link.target = "_blank"; // Åpner i ny fane
     portalresponsdiv.appendChild(link);
 
+    // Legger til linjeskift etter linken
+    portalresponsdiv.appendChild(document.createElement("br"));
+    portalresponsdiv.appendChild(document.createElement("br"));
+
+    // Skjul input wrapper
     document.getElementById("mycompanyinputwrapper").style.display = "none";
 
-        const addUserButton = document.createElement('button');
-        addUserButton.textContent = "Legg til bruker";
-        addUserButton.classList.add("buttoncreate");
-        addUserButton.onclick = creatUserOnCompany;
-        // Legg knappene til i portalresponsdiv
-        portalresponsdiv.appendChild(addUserButton);
+    // Lag knappen
+    const addUserButton = document.createElement("button");
+    addUserButton.textContent = "Legg til bruker";
+    addUserButton.classList.add("buttoncreate");
+    addUserButton.onclick = creatUserOnCompany;
+    
+    // Legg knappen til under linken
+    portalresponsdiv.appendChild(addUserButton);
 }
+
 
 
 
