@@ -316,11 +316,22 @@ function controllcompanyinputs() {
 
 
 
-async function sendToZapier(data) {
+async function sendToZapier(datamain) {
+    const data = {
+        "Name": "EXPOSOFT AS",
+        "orgnr": "931694014",
+        "valuegroup": 12000,
+        "email": "kai@exposoft.no",
+        "gruppe": ["recU81JfS8XBXbrg1"],
+        "radgiver": ["rec1Oapkpzeq30X3I"],
+        // Legg til flere felt her hvis nødvendig
+    };
 
     const formData = new FormData();
     for (const key in data) {
-        formData.append(key, JSON.stringify(data[key])); // Konverterer verdier til streng for arrays eller objekter
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
     }
 
     const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/29whqiz/", {
@@ -334,5 +345,7 @@ async function sendToZapier(data) {
         console.error("Error sending data to Zapier:", response.statusText);
     }
 }
+
+
 
 
