@@ -142,8 +142,10 @@ function loadCompany(companyObject) {
         portalresponsdiv.textContent = "Dette selskapet er ikke tidligere registrert i portalen.";
         document.getElementById("mycompanyinputwrapper").style.display = "block";
         const logoImage = document.getElementById("logo-image");
+        logoUrl = "";
         if (logoImage) {
             logoImage.style.display = "none";
+            logoImage.src = "";
         }
 
     }
@@ -268,6 +270,11 @@ function controllcompanyinputs() {
                 saveObject[dataName] = fieldIds[i].value;
             }
         }
+    }
+
+    if(logoUrl != ""){
+        saveObject.logo = logoUrl;
+        saveObject.logourl = logoUrl;
     }
 
     return saveObject;
