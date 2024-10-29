@@ -249,8 +249,6 @@ function responscreatecompanyUpdate(data){
 
     let body = {
         Name: companyObject.Name,
-        _archived: false,
-        _draft: false
     }
     PATCHwebflow("65d656f0dbd8e9b39138a7e0",companyObject.webflowId,JSON.stringify(body),"responswebflowUpdate")
 }
