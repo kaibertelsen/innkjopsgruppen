@@ -174,5 +174,7 @@ function ruteresponse(data,id){
       responscreatecompany(data);
   }else if(id == "responsecompany"){
     responsecompany(data);
+  }else if(id == "responseslug"){
+    responseslug(data);
   }
 }

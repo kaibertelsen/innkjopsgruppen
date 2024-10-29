@@ -238,6 +238,9 @@ function createCompany(){
 }
 
 function responsecompany(data) {
+
+
+
     // Oppdater i Webflow også
     let companyObject = data.fields || {}; // Sikrer at fields eksisterer
 
@@ -260,16 +263,47 @@ function responsecompany(data) {
     }
 
     sendToZapier(body);
+
+    if (companyObject.slug){
+    //da er dette en oppdatering
+    companycreateFinish(companyObject);
+    }else{
+        //sett igang å sjekk med 3 sek mellomrom om det er slug object i companyobject
+        getslugfromairtable(airtableid);
+    }
+}
+
+function getslugfromairtable(airtableid){
+    GETairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",airtableid,"responseslug")
+}
+
+function responseslug(data) {
+    if (data.fields?.slug) {
+        companycreateFinish(data.fields);
+    } else {
+        setTimeout(() => {
+            getslugfromairtable(data.fields.airtable);
+        }, 3000);
+    }
 }
 
 
+function companycreateFinish(data) {
+    let portalresponsdiv = document.getElementById("responseportal");
+    portalresponsdiv.innerHTML = '';
 
-function responswebflowUpdate(data){
+    // Tekst som vises
+    const message = document.createElement("p");
+    message.textContent = "Selskapet er oppdatert, gå til selskap i portalen ved å trykke på linken under.";
+    portalresponsdiv.appendChild(message);
 
-console.log(data);
+    // Lag en link
+    const link = document.createElement("a");
+    link.textContent = "til portal";
+    link.href = "https://portal.innkjops-gruppen.no/firma/" + data.slug; // Antar 'slug' finnes i data-objektet
+    link.target = "_blank"; // Åpner i ny fane
+    portalresponsdiv.appendChild(link);
 }
-
-
 
 
 
