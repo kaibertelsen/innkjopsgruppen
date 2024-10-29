@@ -269,7 +269,7 @@ function responsecompany(data) {
     companycreateFinish(companyObject);
     }else{
         //sett igang å sjekk med 3 sek mellomrom om det er slug object i companyobject
-        getslugfromairtable(airtableid);
+        getslugfromairtable(companyObject.airtable);
     }
 }
 
