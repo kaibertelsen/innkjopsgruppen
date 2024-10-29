@@ -120,20 +120,20 @@ async function GETairtable(baseId,tableId,itemId,id){
 }
 
 // Example: Create webflow collection item
-document.getElementById("createItemButton").onclick = async function () {
+async function POSTwebflow(collectionId,body,id){
   let token = MemberStack.getToken();
-  let collectionId = "63a16f0e69134597910f3ddb";
-
   let response = await fetch(`https://webflow-woad.vercel.app/api/item?collectionId=${collectionId}&token=${token}`, {
     method: "POST",
-    body: {
-      "name": "testtest",
-      "slug": "post-body2"
-    }
+    body: body
   });
 
-  let data = await response.json();
-  console.log(data);
+  if (!response.ok) {
+    throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+    }else {
+    let data = await response.json();
+    apireturn({success: true, data: data, id: id});
+    }
+
 }
 
 
