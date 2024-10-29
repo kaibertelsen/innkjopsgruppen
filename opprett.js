@@ -178,7 +178,10 @@ function createCompany(){
 }
 
 function responscreatecompany(data){
-console.log(data);
+
+let companyObject = data.fields;
+console.log(companyObject);
+
 }
 
 
