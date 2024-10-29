@@ -250,8 +250,7 @@ function responsecompany(data) {
         airtable: companyObject.airtable || "",
         orgnr: companyObject.orgnr || "",
         gruppe: (companyObject.gruppewebflowId && companyObject.gruppewebflowId[0]) || "",
-        radgiver: (companyObject.radgiverwebflowId && companyObject.radgiverwebflowId[0]) || "",
-        // Legg til flere felt her hvis nødvendig
+        radgiver: (companyObject.radgiverwebflowId && companyObject.radgiverwebflowId[0]) || ""
     };
 
     sendToZapier(body);
