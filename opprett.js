@@ -249,7 +249,7 @@ function responscreatecompanyUpdate(data){
 
     let body = {
         Firmanavn:companyObject.Name,
-        name:companyObject.Name,
+        Name:companyObject.Name,
         Orgnr:companyObject.orgnr,
         Archived:false,
         Draft:false,
