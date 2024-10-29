@@ -17,8 +17,8 @@ function responsecheckUserEmail(data){
 
 function showUserExistsAlert(data) {
     // Henter ut første objekt i arrayet
-    if(data[0].fields){
-    const userData = data[0].fields;
+    if(data.fields){
+    const userData = data.fields;
     
     // Henter ut navn og e-post
     const name = userData["navn (from bruker)"] ? userData["navn (from bruker)"][0] : "Navn ikke tilgjengelig";
