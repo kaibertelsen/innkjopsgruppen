@@ -101,7 +101,7 @@ function loadCompany(companyObject) {
    }
 
    function companycheck(data) {
-    // Rens dataene først
+    // Rens dataene først og hente ut første treff
     let response = rawdatacleaner(data);
     console.log(response);
 
@@ -112,9 +112,9 @@ function loadCompany(companyObject) {
 
     // Sjekk om response har data
     if (response.length > 0) {
-        companyId = response.airtable;
         // Hvis selskapet allerede er registrert, vis informasjon og knapper
         const company = response[0]; // Forutsatt at vi sjekker det første objektet i listen
+        companyId = company.airtable;
         const name = company.Name || "Navn ikke tilgjengelig";
         const orgnr = company.orgnr || "Org.nr ikke tilgjengelig";
         // Vis selskapets informasjon med linjeskift
