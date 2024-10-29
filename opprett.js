@@ -136,11 +136,13 @@ function loadCompany(companyObject) {
         portalresponsdiv.appendChild(createCompanyButton);
         portalresponsdiv.appendChild(addUserButton);
         document.getElementById("mycompanyinputwrapper").style.display = "none";
+        document.getElementById("createCompanybutton").textContent = "Oppdater selskap";
     } else {
         companyId = "";
         // Hvis selskapet ikke er registrert tidligere
         portalresponsdiv.textContent = "Dette selskapet er ikke tidligere registrert i portalen.";
         document.getElementById("mycompanyinputwrapper").style.display = "block";
+        document.getElementById("createCompanybutton").textContent = "Opprett selskap";
         const logoImage = document.getElementById("logo-image");
         logoUrl = "";
         if (logoImage) {
@@ -299,12 +301,19 @@ function companycreateFinish(data) {
 
     // Lag en link
     const link = document.createElement("a");
-    link.textContent = "til portal";
+    link.textContent = "til portal med "+data.Name;
     link.href = "https://portal.innkjops-gruppen.no/firma/" + data.slug; // Antar 'slug' finnes i data-objektet
     link.target = "_blank"; // Åpner i ny fane
     portalresponsdiv.appendChild(link);
 
     document.getElementById("mycompanyinputwrapper").style.display = "none";
+
+        const addUserButton = document.createElement('button');
+        addUserButton.textContent = "Legg til bruker";
+        addUserButton.classList.add("buttoncreate");
+        addUserButton.onclick = creatUserOnCompany;
+        // Legg knappene til i portalresponsdiv
+        portalresponsdiv.appendChild(addUserButton);
 }
 
 
