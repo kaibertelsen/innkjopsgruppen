@@ -141,6 +141,11 @@ function loadCompany(companyObject) {
         // Hvis selskapet ikke er registrert tidligere
         portalresponsdiv.textContent = "Dette selskapet er ikke tidligere registrert i portalen.";
         document.getElementById("mycompanyinputwrapper").style.display = "block";
+        const logoImage = document.getElementById("logo-image");
+        if (logoImage) {
+            logoImage.style.display = "none";
+        }
+
     }
 }
 
