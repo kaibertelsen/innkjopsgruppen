@@ -252,7 +252,8 @@ function responscreatecompanyUpdate(data){
         name:companyObject.Name,
         Orgnr:companyObject.orgnr,
         Archived:false,
-        Draft:false
+        Draft:false,
+        Slug:companyObject.slug
     }
     PATCHwebflow("65d656f0dbd8e9b39138a7e0",companyObject.webflowId,JSON.stringify(body),"responswebflowUpdate")
 }
