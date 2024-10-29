@@ -11,6 +11,26 @@ function checkUserEmail(email){
 }
 
 function responsecheckUserEmail(data){
-    let response = rawdatacleaner(data);
-    console.log(response);
+    showUserExistsAlert(data);
 }
+
+
+function showUserExistsAlert(data) {
+    // Henter ut første objekt i arrayet
+    const userData = data[0].fields;
+    
+    // Henter ut navn og e-post
+    const name = userData["navn (from bruker)"] ? userData["navn (from bruker)"][0] : "Navn ikke tilgjengelig";
+    const email = userData.epost ? userData.epost[0] : "E-post ikke tilgjengelig";
+    
+    // Henter ut firmaer brukeren er tilknyttet
+    const companies = userData["V2-koblinger"] || [];
+    const companyList = companies.join(", "); // Gjør om til kommaseparert liste
+    
+    // Bygger meldingen
+    const alertMessage = `Denne brukeren eksisterer alt i systemet:\n\nNavn: ${name}\nE-post: ${email}\n\nFirmaer tilknyttet: ${companyList}`;
+
+    // Viser alert med meldingen
+    alert(alertMessage);
+}
+
