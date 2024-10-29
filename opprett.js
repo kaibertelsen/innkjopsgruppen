@@ -303,6 +303,8 @@ function companycreateFinish(data) {
     link.href = "https://portal.innkjops-gruppen.no/firma/" + data.slug; // Antar 'slug' finnes i data-objektet
     link.target = "_blank"; // Åpner i ny fane
     portalresponsdiv.appendChild(link);
+
+    document.getElementById("mycompanyinputwrapper").style.display = "none";
 }
 
 
