@@ -248,10 +248,10 @@ function responscreatecompanyUpdate(data){
     let companyObject = data.fields;
 
     let body = {
-        Firmanavn:companyObject.Name,
-        Name:companyObject.Name,
-        Orgnr:companyObject.orgnr,
-        Slug:companyObject.slug
+        slug: companyObject.slug,
+        name: companyObject.Name,
+        _archived: false,
+        _draft: false
     }
     PATCHwebflow("65d656f0dbd8e9b39138a7e0",companyObject.webflowId,JSON.stringify(body),"responswebflowUpdate")
 }
