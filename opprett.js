@@ -241,21 +241,27 @@ function responsecompany(data) {
     // Oppdater i Webflow også
     let companyObject = data.fields || {}; // Sikrer at fields eksisterer
 
-    // Bygg body med sikker sjekk for hvert felt
-    const body = {
-        Name: companyObject.Name || "",
-        adresse: companyObject.adresse || "",
-        postnr: companyObject.postnr || "",
-        poststed: companyObject.poststed || "",
-        airtable: companyObject.airtable || "",
-        webflow: companyObject.webflowId || "",
-        orgnr: companyObject.orgnr || "",
-        gruppe: (companyObject.gruppewebflowId && companyObject.gruppewebflowId[0]) || "",
-        radgiver: (companyObject.radgiverwebflowId && companyObject.radgiverwebflowId[0]) || ""
-    };
+    // Bygg body dynamisk basert på eksisterende felter
+    const body = {};
+
+    if (companyObject.Name) body.Name = companyObject.Name;
+    if (companyObject.adresse) body.adresse = companyObject.adresse;
+    if (companyObject.postnr) body.postnr = companyObject.postnr;
+    if (companyObject.poststed) body.poststed = companyObject.poststed;
+    if (companyObject.airtable) body.airtable = companyObject.airtable;
+    if (companyObject.webflowId) body.webflow = companyObject.webflowId;
+    if (companyObject.orgnr) body.orgnr = companyObject.orgnr;
+    if (companyObject.logourl) body.logo = companyObject.logourl;
+    if (companyObject.gruppewebflowId && companyObject.gruppewebflowId.length > 0) {
+        body.gruppe = companyObject.gruppewebflowId[0];
+    }
+    if (companyObject.radgiverwebflowId && companyObject.radgiverwebflowId.length > 0) {
+        body.radgiver = companyObject.radgiverwebflowId[0];
+    }
 
     sendToZapier(body);
 }
+
 
 
 function responswebflowUpdate(data){
