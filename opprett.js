@@ -177,7 +177,6 @@ console.log(data);
 
 
 
-
 function controllcompanyinputs() {
     let fieldIds = [
         firmanavninput,
