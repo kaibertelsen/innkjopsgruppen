@@ -248,6 +248,7 @@ function responsecompany(data) {
         postnr: companyObject.postnr || "",
         poststed: companyObject.poststed || "",
         airtable: companyObject.airtable || "",
+        webflow: companyObject.webflowId || "",
         orgnr: companyObject.orgnr || "",
         gruppe: (companyObject.gruppewebflowId && companyObject.gruppewebflowId[0]) || "",
         radgiver: (companyObject.radgiverwebflowId && companyObject.radgiverwebflowId[0]) || ""
