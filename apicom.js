@@ -82,8 +82,12 @@ async function PATCHairtable(baseId,tableId,itemId,body,id){
              'Content-Type': 'application/json'
             }
         });
-        let data = await response.json();
-        apireturn (data,id);
+        if (!response.ok) {
+          throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+          }else {
+          let data = await response.json();
+          apireturn({success: true, data: data, id: id});
+          }
 }
     
 async function GETairtable(baseId,tableId,itemId,id){

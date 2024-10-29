@@ -1,4 +1,4 @@
-var updateCompany = false;
+var companyId = "";
 
 
 

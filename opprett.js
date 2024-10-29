@@ -112,7 +112,7 @@ function loadCompany(companyObject) {
 
     // Sjekk om response har data
     if (response.length > 0) {
-        updateCompany = true;
+        companyId = response.airtable;
         // Hvis selskapet allerede er registrert, vis informasjon og knapper
         const company = response[0]; // Forutsatt at vi sjekker det første objektet i listen
         const name = company.Name || "Navn ikke tilgjengelig";
@@ -136,7 +136,7 @@ function loadCompany(companyObject) {
         portalresponsdiv.appendChild(addUserButton);
         document.getElementById("mycompanyinputwrapper").style.display = "none";
     } else {
-        updateCompany = false;
+        companyId = "";
         // Hvis selskapet ikke er registrert tidligere
         portalresponsdiv.textContent = "Dette selskapet er ikke tidligere registrert i portalen.";
         document.getElementById("mycompanyinputwrapper").style.display = "block";
@@ -168,9 +168,11 @@ createCompany();
 
 function createCompany(){
  let body = controllcompanyinputs();
-
- POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany")
-
+    if(companyId == ""){
+    POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
+    }else{
+    PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
+    }
 }
 
 function responscreatecompany(data){
