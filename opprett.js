@@ -157,9 +157,13 @@ function setCompanyselectors(data) {
         const selectId = selectMap[key];
         const selectElement = document.getElementById(selectId);
 
-        if (data[key] && selectElement) {
-            // Finn alternativ i select-elementet som samsvarer med data[key]
-            const optionToSelect = Array.from(selectElement.options).find(option => option.value === data[key]);
+        // Sjekk at select-elementet finnes og at data[key] har en verdi
+        if (selectElement && data[key]) {
+            // Hent verdien, håndterer både array og enkeltverdi
+            const valueToSelect = Array.isArray(data[key]) ? data[key][0] : data[key];
+
+            // Finn alternativ i select-elementet som samsvarer med valueToSelect
+            const optionToSelect = Array.from(selectElement.options).find(option => option.value == valueToSelect);
 
             // Hvis alternativet finnes, sett select-elementet til denne verdien
             if (optionToSelect) {
@@ -168,6 +172,7 @@ function setCompanyselectors(data) {
         }
     });
 }
+
 
 
 function updateCompanysetppOne(){
