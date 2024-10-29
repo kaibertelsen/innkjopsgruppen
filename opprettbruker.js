@@ -11,13 +11,13 @@ function checkUserEmail(email){
 }
 
 function responsecheckUserEmail(data){
-    showUserExistsAlert(data);
+    showUserExistsAlert(rawdatacleaner(data));
 }
 
 
 function showUserExistsAlert(data) {
     // Henter ut første objekt i arrayet
-    if(data.fields){
+    if(data[0].fields){
     const userData = data.fields;
     
     // Henter ut navn og e-post
