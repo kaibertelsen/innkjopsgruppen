@@ -145,11 +145,15 @@ function loadCompany(companyObject) {
 function openCreatCompanyDiv(){
     // Gjør wrapper-elementet synlig
     const wrapperElement = document.getElementById("mycompanyinputwrapper");
-    wrapperElement.style.display = "block"; // Setter display til block for å gjøre elementet synlig
+    wrapperElement.style.display = "block";
+
+    let portalresponsdiv = document.getElementById("responseportal");
+    portalresponsdiv.innerHTML = '';
+
 }
 
 
 function creatUserOnCompany(){
-
-
+    let portalresponsdiv = document.getElementById("responseportal");
+    portalresponsdiv.innerHTML
 }

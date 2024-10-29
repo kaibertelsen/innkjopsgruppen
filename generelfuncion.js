@@ -1,7 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     getGroup();
 });
-       
+    
+MemberStack.onReady.then(function(member) {
+        if (member.loggedIn){
+                if (member.membership.id!="6362bb533e485100048c26f6"){
+                //har ikke rettigheter
+                const urlpage = 'https://portal.innkjopssjefen.no/login';
+                window.location.href = urlpage;
+                }
+          }else{
+          window.location.href = "https://portal.innkjops-gruppen.no/";
+          }
+});
+
+
 function getGroup(){
         let body = airtablebodylistAND({arkivert:0});
         Getlistairtable("app1WzN1IxEnVu3m0","tblorC4ev3l2UIUG5",body,"responsgroup");
