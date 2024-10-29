@@ -62,12 +62,12 @@ document.getElementById("valueselector").addEventListener('change', function() {
 const dataOutput = document.querySelector('lr-data-output');
 
 dataOutput.addEventListener('lr-data-output', (e) => {
-logoUrl = e.detail.data.files[0].cdnUrl
-
-const logoImage = document.getElementById("logo-image");
-if (logoImage) {
-    logoImage.src = logoUrl; // Bruker URL-en til første logo i arrayet
-    logoImage.style.display = "in-block"; // Gjør logoen synlig
-}
-
+        logoUrl = e.detail.data.files[0].cdnUrl;
+    
+        const logoImage = document.getElementById("logo-image");
+        if (logoImage) {
+            logoImage.src = logoUrl; // Setter URL-en til logoen
+            logoImage.style.display = "block"; // Gjør logoen synlig
+        }
 });
+    
