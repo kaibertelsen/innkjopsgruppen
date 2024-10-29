@@ -99,6 +99,58 @@ async function GETairtable(baseId,tableId,itemId,id){
         
 }
     
+
+//webflow
+
+ async function PATCHwebflow(collectionId,itemId,body,id){
+  let token = MemberStack.getToken();
+  
+  let response = await fetch(`https://webflow-woad.vercel.app/api/item?collectionId=${collectionId}&itemId=${itemId}&token=${token}`, {
+    method: "PATCH",
+    body: body
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+    }else {
+    let data = await response.json();
+    apireturn({success: true, data: data, id: id});
+    }
+
+}
+
+// Example: Create webflow collection item
+document.getElementById("createItemButton").onclick = async function () {
+  let token = MemberStack.getToken();
+  let collectionId = "63a16f0e69134597910f3ddb";
+
+  let response = await fetch(`https://webflow-woad.vercel.app/api/item?collectionId=${collectionId}&token=${token}`, {
+    method: "POST",
+    body: {
+      "name": "testtest",
+      "slug": "post-body2"
+    }
+  });
+
+  let data = await response.json();
+  console.log(data);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//ruting
 function apireturn(response){
     if(response.success){
      ruteresponse(response.data,response.id);
@@ -114,5 +166,9 @@ function ruteresponse(data,id){
       companycheck(data);
   }else if(id == "responscreatecompany"){
       responscreatecompany(data);
+  }else if(id == "responscreatecompanyUpdate"){
+    responscreatecompanyUpdate(data);
+  }else if(id == "responswebflowUpdate"){
+    responswebflowUpdate(data);
   }
 }

@@ -231,18 +231,36 @@ function createCompany(){
         if(companyId == ""){
         POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responscreatecompany");
         }else{
-        PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responscreatecompany");
+        PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responscreatecompanyUpdate");
         }
 
     }
 }
 
 function responscreatecompany(data){
-
 let companyObject = data.fields;
-console.log(companyObject);
-
+//lag et i webflow også
 }
+
+function responscreatecompanyUpdate(data){
+   
+    //oppdater i webflow også
+    let companyObject = data.fields;
+
+    let body = {
+        Firmanavn:companyObject.Name,
+        Orgnr:companyObject.orgnr
+    }
+    PATCHwebflow("65d656f0dbd8e9b39138a7e0",companyObject.webflowId,JSON.stringify(body),"responswebflowUpdate")
+}
+
+function responswebflowUpdate(data){
+
+console.log(data);
+}
+
+
+
 
 
 function controllcompanyinputs() {
