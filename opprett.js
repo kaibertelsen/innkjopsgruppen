@@ -207,8 +207,16 @@ function controllcompanyinputs() {
         } else {
             let dataName = fieldIds[i].dataset.name;
             
+            // Sjekk om dataName er "verdi" og om verdien er et tall
+            if (dataName === "verdi") {
+                let numberValue = parseFloat(fieldIds[i].value);
+                if (isNaN(numberValue)) { // Sjekker om verdien ikke er et tall
+                    numberValue = 0;
+                }
+                saveObject[dataName] = numberValue; // Lagre som tall
+            } 
             // Legg verdien i en array hvis dataName er "gruppe" eller "radgiver"
-            if (dataName === "gruppe" || dataName === "radgiver") {
+            else if (dataName === "gruppe" || dataName === "radgiver") {
                 saveObject[dataName] = [fieldIds[i].value];
             } else {
                 saveObject[dataName] = fieldIds[i].value;
@@ -218,5 +226,6 @@ function controllcompanyinputs() {
 
     return saveObject;
 }
+
 
 
