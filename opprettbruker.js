@@ -17,6 +17,7 @@ function responsecheckUserEmail(data){
 
 function showUserExistsAlert(data) {
     // Henter ut første objekt i arrayet
+    if(data[0].fields){
     const userData = data[0].fields;
     
     // Henter ut navn og e-post
@@ -32,6 +33,7 @@ function showUserExistsAlert(data) {
 
     // Viser alert med meldingen
     alert(alertMessage);
+    }
 }
 
 function creatUser(){
@@ -46,4 +48,5 @@ function creatUser(){
             }
         });
     console.log(result); // Viser objektet med key fra data-name og verdier fra input
+
 }
