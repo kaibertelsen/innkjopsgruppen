@@ -49,10 +49,10 @@ document.getElementById("valueselector").addEventListener('change', function() {
         
         if(value == "annet"){
         document.getElementById("verdi").style.display = "block";
-        document.getElementById("verdi").value = "";
+        document.getElementById("verdi").value = 0;
         }
         else{
-        document.getElementById("verdi").value = value;
+        document.getElementById("verdi").value = Number(value);
         document.getElementById("verdi").style.display = "none";
         }
         
