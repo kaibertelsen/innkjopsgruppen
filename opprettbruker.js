@@ -80,7 +80,16 @@ async function sendUserToZapier(data) {
         document.getElementById("userresponsetext").style.display = "block";
         document.getElementById("userresponsetext").textContent = "Bruker er opprettet";
         document.getElementById("reloadpagebutton").style.display = "block";
+
+        document.getElementById("userwrapper").style.display = "none";
+
+        
     } else {
         console.error("Error sending data to Zapier:", response.statusText);
     }
 }
+
+
+document.getElementById("reloadpagebutton").addEventListener("click", () => {
+    location.reload(); // Laster inn nettsiden på nytt
+});
