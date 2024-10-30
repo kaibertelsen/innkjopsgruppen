@@ -4,13 +4,14 @@ document.getElementById("epostinput").addEventListener("blur", () => {
 
 
 function checkUserEmail(email){
-
-
     let body =  airtablebodylistAND({epost:email});
     Getlistairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responsecheckUserEmail");
+
+    document.getElementById("animation").style.display = "block";
 }
 
 function responsecheckUserEmail(data){
+    document.getElementById("animation").style.display = "none";
     showUserExistsAlert(rawdatacleaner(data));
 }
 
@@ -37,6 +38,9 @@ function showUserExistsAlert(data) {
         console.warn("Ingen data funnet for brukeren.");
         //opprett knapp må bli synlig
         document.getElementById("createUserbutton").style.display = "inline-block";
+        document.getElementById("userinputsaftercheckdiv").style.display = "block";
+
+        
     }
 }
 

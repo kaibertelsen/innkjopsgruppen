@@ -104,7 +104,6 @@ async function GETairtable(baseId,tableId,itemId,id){
         
 }
     
-
 //webflow
 
  async function PATCHwebflow(collectionId,itemId,body,id){
@@ -146,20 +145,6 @@ async function POSTwebflow(collectionId,body,id){
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //ruting
 function apireturn(response){

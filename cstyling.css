@@ -21,4 +21,11 @@
   #createUserbutton{
     display: none;
   }
-  
+
+  #userinputsaftercheckdiv{
+    display: none;
+  }
+
+  #animation{
+    display: none;
+  }
