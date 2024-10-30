@@ -10,7 +10,6 @@ document.getElementById("searchinputfield").addEventListener("input", function()
     }
 });
 
-
 function searchCompany(){
 
     let searchinput = document.getElementById("searchinput").value;
@@ -45,7 +44,6 @@ async function hentFirmaInfo(input) {
     }
 }
 
-
 function hentFirmaData(responseData) {
     const enheter = responseData._embedded?.enheter || [];
 
@@ -61,10 +59,10 @@ function hentFirmaData(responseData) {
             const firmaElement = document.createElement("div");
             firmaElement.classList.add("itemcompanynames");
 
-            // Sett inn navn og adresse som tekstinnhold
+            // Sett inn navn og adresse som tekstinnhold med 0px margin
             firmaElement.innerHTML = `
-                <p><strong>${navn}</strong></p>
-                <p>${adresse}</p>
+            <p style="margin: 0;"><strong>${navn}</strong></p>
+            <p style="margin: 0;">${adresse}</p>
             `;
 
             // Legg til en klikkhendelse for å sende objektet til loadCompany
@@ -97,14 +95,15 @@ function loadCompany(companyObject) {
    
       let body =  airtablebodylistAND({orgnr:orgnummer});
       Getlistairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",body,"companycheck");
+      document.getElementById("animationcompany").style.display = "block";
+      
+}
 
-   }
-
-   function companycheck(data) {
+function companycheck(data) {
     // Rens dataene først og hente ut første treff
     let response = rawdatacleaner(data);
     console.log(response);
-
+    document.getElementById("animationcompany").style.display = "none";
     let portalresponsdiv = document.getElementById("responseportal");
 
     // Tøm portalresponsdiv for å unngå duplikatinnhold
@@ -199,11 +198,6 @@ function setCompanyselectors(data) {
     }
 }
 
-
-
-
-
-
 function updateCompanysetppOne(){
     // Gjør wrapper-elementet synlig
     const wrapperElement = document.getElementById("mycompanyinputwrapper");
@@ -233,13 +227,16 @@ function createCompany(){
         PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(body),"responsecompany");
         }
 
+        document.getElementById("animationcompany").style.display = "block";
     }
 }
 
 function responsecompany(data) {
 
 
-
+    //oppdatert i airtable
+    document.getElementById("loadingtext").style.display = "block";
+    document.getElementById("loadingtext").innerHTML = "Opprettet i airtable<br>venter på link fra webflow...";
     // Oppdater i Webflow også
     let companyObject = data.fields || {}; // Sikrer at fields eksisterer
 
@@ -288,6 +285,12 @@ function responseslug(data) {
 
 
 function companycreateFinish(data) {
+
+    document.getElementById("loadingtext").style.display = "none";
+    document.getElementById("animationcompany").style.display = "none";
+
+
+
     let portalresponsdiv = document.getElementById("responseportal");
     portalresponsdiv.innerHTML = '';
 
@@ -319,9 +322,6 @@ function companycreateFinish(data) {
     // Legg knappen til under linken
     portalresponsdiv.appendChild(addUserButton);
 }
-
-
-
 
 function controllcompanyinputs() {
     let fieldIds = [
@@ -370,11 +370,6 @@ function controllcompanyinputs() {
 
     return saveObject;
 }
-
-
-
-
-
 
 async function sendToZapier(data) {
     

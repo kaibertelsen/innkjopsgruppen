@@ -1,7 +1,9 @@
-document.getElementById("epostinput").addEventListener("blur", () => {
-    checkUserEmail(document.getElementById("epostinput").value); // Kall funksjonen når brukeren forlater feltet
-});
 
+document.getElementById("chechuserbutton").addEventListener("click", checkUser);
+
+function checkUser() {
+    checkUserEmail(document.getElementById("epostinput").value);
+}
 
 function checkUserEmail(email){
     let body =  airtablebodylistAND({epost:email});
@@ -14,7 +16,6 @@ function responsecheckUserEmail(data){
     document.getElementById("animation").style.display = "none";
     showUserExistsAlert(rawdatacleaner(data));
 }
-
 
 function showUserExistsAlert(data) {
     // Sjekker om data[0] finnes
@@ -39,11 +40,9 @@ function showUserExistsAlert(data) {
         //opprett knapp må bli synlig
         document.getElementById("createUserbutton").style.display = "inline-block";
         document.getElementById("userinputsaftercheckdiv").style.display = "block";
-
-        
+        document.getElementById("chechuserbutton").style.display = "none";
     }
 }
-
 
 document.getElementById("createUserbutton").addEventListener("click", creatUser);
 
@@ -57,7 +56,8 @@ function creatUser() {
             result[key] = input.value;
         }
     });
-
+    result.company = companyId;
+    
     console.log(result); // Viser objektet med key fra data-name og verdier fra input
 
     // Send data til Zapier webhook
