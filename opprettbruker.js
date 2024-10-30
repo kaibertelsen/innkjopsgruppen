@@ -6,7 +6,7 @@ document.getElementById("epostinput").addEventListener("blur", () => {
 function checkUserEmail(email){
 
 
-    let body =  airtablebodylistAND({email:email});
+    let body =  airtablebodylistAND({epost:email});
     Getlistairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responsecheckUserEmail");
 }
 
@@ -16,25 +16,28 @@ function responsecheckUserEmail(data){
 
 
 function showUserExistsAlert(data) {
-    // Henter ut første objekt i arrayet
-    if(data[0]){
-    const userData = data[0];
-    
-    // Henter ut navn og e-post
-    const name = userData["navn (from bruker)"] ? userData["navn (from bruker)"][0] : "Navn ikke tilgjengelig";
-    const email = userData.epost ? userData.epost[0] : "E-post ikke tilgjengelig";
-    
-    // Henter ut firmaer brukeren er tilknyttet
-    const companies = userData["V2-koblinger"] || [];
-    const companyList = companies.join(", "); // Gjør om til kommaseparert liste
-    
-    // Bygger meldingen
-    const alertMessage = `Denne brukeren eksisterer alt i systemet:\n\nNavn: ${name}\nE-post: ${email}\n\nFirmaer tilknyttet: ${companyList}`;
+    // Sjekker om data[0] finnes
+    if (data[0]) {
+        const userData = data[0];
+        
+        // Henter ut navn og e-post, eller bruker en standard tekst hvis de ikke finnes
+        const name = userData.navn || "Navn ikke tilgjengelig";
+        const email = userData.epost || "E-post ikke tilgjengelig";
+        
+        // Henter ut firmaer brukeren er tilknyttet
+        const companies = userData.companyname || [];
+        const companyList = Array.isArray(companies) ? companies.join(", ") : companies; // Gjør om til kommaseparert liste
+        
+        // Bygger meldingen
+        const alertMessage = `Denne brukeren eksisterer alt i systemet:\n\nNavn: ${name}\nE-post: ${email}\n\nFirmaer tilknyttet: ${companyList}`;
 
-    // Viser alert med meldingen
-    alert(alertMessage);
+        // Viser alert med meldingen
+        alert(alertMessage);
+    } else {
+        console.warn("Ingen data funnet for brukeren.");
     }
 }
+
 
 document.getElementById("createUserbutton").addEventListener("click", creatUser);
 
