@@ -131,7 +131,7 @@ function loadCompany(companyObject) {
         const addUserButton = document.createElement('button');
         addUserButton.textContent = "Legg til bruker";
         addUserButton.classList.add("buttoncreate");
-        addUserButton.onclick = creatUserOnCompany;
+        addUserButton.onclick = () => creatUserOnCompany(addUserButton);
         // Legg knappene til i portalresponsdiv
         portalresponsdiv.appendChild(createCompanyButton);
         portalresponsdiv.appendChild(addUserButton);
@@ -214,12 +214,10 @@ function updateCompanysetppOne(){
 
 }
 
-
-function creatUserOnCompany(){
+function creatUserOnCompany(button){
+    button.style.display = "none";
     document.getElementById("userwrapper").style.display = "block";
 }
-
-
 
 document.getElementById("createCompanybutton").onclick = function() {
 createCompany();
@@ -295,7 +293,7 @@ function companycreateFinish(data) {
 
     // Tekst som vises
     const message = document.createElement("p");
-    message.textContent = "Selskapet er oppdatert, gå til selskap i portalen ved å trykke på linken under.";
+    message.textContent = "Selskapet er oppdatert";
     portalresponsdiv.appendChild(message);
 
     // Lag en link
