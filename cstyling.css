@@ -33,3 +33,10 @@
   #animationcompany{
     display: none;
   }
+
+  #reloadpagebutton{
+    display: none;
+  }
+#userresponsetext{
+    display: none;
+}

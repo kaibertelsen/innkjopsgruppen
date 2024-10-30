@@ -57,29 +57,30 @@ function creatUser() {
         }
     });
     result.company = companyId;
-    
-    console.log(result); // Viser objektet med key fra data-name og verdier fra input
 
-    // Send data til Zapier webhook
-    fetch('https://hooks.zapier.com/hooks/catch/10455257/29gwc4y/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(result) // Konverterer resultatet til JSON-streng
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log("Data sent to Zapier successfully!");
-            //Legge teksten inn bruker er opprettet
-            
-
-
-
-        } else {
-            console.error("Error sending data to Zapier:", response.statusText);
-        }
-    })
-    .catch(error => console.error("Fetch error:", error));
+    sendUserToZapier(result);
 }
 
+async function sendUserToZapier(data) {
+    
+
+    const formData = new FormData();
+    for (const key in data) {
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+    }
+
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/29gwc4y/", {
+        method: "POST",
+        body: formData
+    });
+
+    if (response.ok) {
+        document.getElementById("userresponsetext").style.display = "block";
+        document.getElementById("userresponsetext").textContent = "Bruker er opprettet";
+        document.getElementById("reloadpagebutton").style.display = "block";
+    } else {
+        console.error("Error sending data to Zapier:", response.statusText);
+    }
+}

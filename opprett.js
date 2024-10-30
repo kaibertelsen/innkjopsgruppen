@@ -283,7 +283,6 @@ function responseslug(data) {
     }
 }
 
-
 function companycreateFinish(data) {
 
     document.getElementById("loadingtext").style.display = "none";
@@ -317,7 +316,7 @@ function companycreateFinish(data) {
     const addUserButton = document.createElement("button");
     addUserButton.textContent = "Legg til bruker";
     addUserButton.classList.add("buttoncreate");
-    addUserButton.onclick = creatUserOnCompany;
+    addUserButton.onclick = () => creatUserOnCompany(addUserButton);
     
     // Legg knappen til under linken
     portalresponsdiv.appendChild(addUserButton);
