@@ -67,6 +67,11 @@ function creatUser() {
     .then(response => {
         if (response.ok) {
             console.log("Data sent to Zapier successfully!");
+            //Legge teksten inn bruker er opprettet
+            
+
+
+
         } else {
             console.error("Error sending data to Zapier:", response.statusText);
         }
