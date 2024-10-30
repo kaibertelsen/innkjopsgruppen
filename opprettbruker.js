@@ -35,6 +35,8 @@ function showUserExistsAlert(data) {
         alert(alertMessage);
     } else {
         console.warn("Ingen data funnet for brukeren.");
+        //opprett knapp må bli synlig
+        document.getElementById("createUserbutton").style.display = "inline-block";
     }
 }
 
