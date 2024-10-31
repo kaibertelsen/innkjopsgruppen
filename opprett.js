@@ -128,7 +128,7 @@ function companycheck(data) {
         createCompanyButton.classList.add("buttoncreate");
         createCompanyButton.onclick = updateCompanysetppOne;
         const addUserButton = document.createElement('button');
-        addUserButton.textContent = "Legg til bruker";
+        addUserButton.textContent = "Inviter bruker";
         addUserButton.classList.add("buttoncreate");
         addUserButton.onclick = () => creatUserOnCompany(addUserButton);
         // Legg knappene til i portalresponsdiv
