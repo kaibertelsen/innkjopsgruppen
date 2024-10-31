@@ -258,6 +258,10 @@ function responsecompany(data) {
         body.radgiver = companyObject.radgiverwebflowId[0];
     }
 
+    if(companyObject?.valuegroup){
+        body.valuegroup = companyObject.valuegroup
+    }
+
     sendToZapier(body);
 
     if (companyObject.slug){
