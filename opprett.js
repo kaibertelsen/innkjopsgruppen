@@ -262,6 +262,10 @@ function responsecompany(data) {
         body.valuegroup = companyObject.valuegroup
     }
 
+    if(companyObject?.ownerpipedriveid){
+        body.ownerpipedriv = companyObject.ownerpipedriveid[0];
+    }
+
     sendToZapier(body);
 
     if (companyObject.slug){
