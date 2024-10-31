@@ -240,6 +240,7 @@ function responsecompany(data) {
     // Oppdater i Webflow også
     let companyObject = data.fields || {}; // Sikrer at fields eksisterer
 
+    companyId = companyObject.airtable;
     // Bygg body dynamisk basert på eksisterende felter
     const body = {};
 
