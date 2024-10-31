@@ -1,6 +1,6 @@
 var companyId = "";
 var logoUrl = "";
-
+var membermail = ""
 
 
 
@@ -15,6 +15,9 @@ MemberStack.onReady.then(function(member) {
                 const urlpage = 'https://portal.innkjopssjefen.no/login';
                 window.location.href = urlpage;
                 }
+                
+                membermail = member.email;
+
           }else{
           window.location.href = "https://portal.innkjops-gruppen.no/";
           }

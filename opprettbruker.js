@@ -57,6 +57,10 @@ function creatUser() {
         }
     });
     result.company = companyId;
+        const date = new Date();
+        const isoDateString = date.toISOString();
+    result.date = isoDateString;
+    result.membermail = membermail
 
     sendUserToZapier(result);
 }
