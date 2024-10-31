@@ -82,7 +82,7 @@ async function sendUserToZapier(data) {
 
     if (response.ok) {
         document.getElementById("userresponsetext").style.display = "block";
-        document.getElementById("userresponsetext").textContent = "Bruker er opprettet";
+        document.getElementById("userresponsetext").textContent = "Bruker er invitert.";
         document.getElementById("reloadpagebutton").style.display = "block";
 
         document.getElementById("userwrapper").style.display = "none";
