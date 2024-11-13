@@ -221,7 +221,7 @@ function startfollowuplist(data,load,sortname,descending){
      
      
    let property= {
-   rowclick:true,
+   rowclick:false,
    newitembutton:newitembutton,
    placenewitembutton:placenewitembutton,
    saveColums:saveColums,
