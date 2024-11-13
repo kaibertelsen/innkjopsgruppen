@@ -50,7 +50,8 @@ function markConnections(connections) {
 
 
 var livecompanyconnection = [];
-function updatelivelist(element) {
+function updatelivelist(elementid) {
+    const element = document.getElementById(elementid);
     const supplierId = element.dataset.supplierid;
 
     // Sjekk om supplierId er definert
