@@ -1,7 +1,7 @@
 var companyId = "";
 var logoUrl = "";
 var membermail = ""
-
+var companyGroupId = "";
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -31,6 +31,7 @@ function getGroup(){
     
 function responsgroup(data){
         data = rawdatacleaner(data);
+        globalGroups = data;
         // Sorter dataene alfabetisk etter 'Name'
         data.sort((a, b) => a.Name.localeCompare(b.Name));
         

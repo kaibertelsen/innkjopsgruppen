@@ -136,6 +136,13 @@ function companycheck(data) {
         portalresponsdiv.appendChild(addUserButton);
         document.getElementById("mycompanyinputwrapper").style.display = "none";
         document.getElementById("createCompanybutton").textContent = "Oppdater selskap";
+        
+        //om selskapet ligger i en gruppe hant denne gruppeid
+        if(company?.group[0]){
+            companyGroupId = company.group[0];
+        }
+
+
     } else {
         companyId = "";
         // Hvis selskapet ikke er registrert tidligere
@@ -243,6 +250,11 @@ function responsecompany(data) {
     companyId = companyObject.airtable;
     // Bygg body dynamisk basert på eksisterende felter
     const body = {};
+
+       //om selskapet ligger i en gruppe hant denne gruppeid
+       if(companyObject?.group[0]){
+        companyGroupId = companyObject.group[0];
+    }
 
     if (companyObject.Name) body.Name = companyObject.Name;
     if (companyObject.adresse) body.adresse = companyObject.adresse;
