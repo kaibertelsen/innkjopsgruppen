@@ -147,7 +147,7 @@ async function POSTwebflow(collectionId,body,id){
 }
 
 
-async function POSTairtableMulti(baseId, tableId, body, id) {
+async function POSTairtable(baseId, tableId, body, id) {
   try {
       let token = await MemberStack.getToken();
       console.log("Token:", token);
@@ -155,18 +155,21 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
       console.log("TableId:", tableId);
       console.log("Body:", body);
 
+      // Fjern "records"-nøkkelen og send bare "fields"
+      const parsedBody = JSON.parse(body);
+      const fields = parsedBody.records[0].fields; // Hent bare "fields"
+
       let response = await fetch(
           `https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`,
           {
               method: "POST",
-              body: body,
+              body: JSON.stringify({ fields }),
               headers: {
                   'Content-Type': 'application/json'
               }
           }
       );
 
-      // Les responsen som tekst hvis statusen ikke er "ok"
       if (!response.ok) {
           const errorText = await response.text();
           console.error(`Feilrespons fra API: ${response.status} - ${response.statusText}`);
@@ -182,6 +185,7 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
       apireturn({ success: false, error: error.message, id: id });
   }
 }
+
 
 
 
