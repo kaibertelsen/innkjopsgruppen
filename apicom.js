@@ -155,6 +155,8 @@ function apireturn(response){
     }
 }
 
+
+
 function ruteresponse(data,id){
   if(id == "responsgroup"){
       responsgroup(data);
