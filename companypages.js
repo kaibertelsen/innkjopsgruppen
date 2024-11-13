@@ -1,3 +1,9 @@
+document.getElementById("sendconnectionbutton").addEventListener("click", function() {
+    // Koden som skal kjøres når knappen trykkes
+saveConnections();
+});
+
+
 function startupCode(){
 getConnections(airtableCompanyId);
 }
@@ -7,6 +13,7 @@ function getConnections(data) {
     var body = airtablebodylistAND({firmaid:data,slettet:0});
     Getlistairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"getConnectionsresponse");
 }
+var companyconnection;
 
 function getConnectionsresponse(data){
     
@@ -40,3 +47,37 @@ function markConnections(connections) {
 
  
 
+
+
+var livecompanyconnection = [];
+function updatelivelist(element) {
+    const supplierId = element.dataset.supplierid;
+
+    // Sjekk om supplierId er definert
+    if (!supplierId) {
+        console.warn("Elementet mangler data-supplierid:", element);
+        return;
+    }
+
+    // Sjekk om supplierId finnes i companyconnection
+    const existsInCompanyConnection = companyconnection.some((connection) => {
+        return Array.isArray(connection.supplierid) && connection.supplierid.includes(supplierId);
+    });
+
+    // Hvis supplierId ikke finnes, legg den til i livecompanyconnection
+    if (!existsInCompanyConnection) {
+        livecompanyconnection.push({
+            company: airtableCompanyId,
+            supplier: supplierId
+        });
+        console.log("Ny connection lagt til i livecompanyconnection:", {
+            company: airtableCompanyId,
+            supplier: supplierId
+        });
+    } else {
+        console.log(`SupplierId ${supplierId} finnes allerede i companyconnection.`);
+    }
+
+    // Logg hele livecompanyconnection for å se resultatet
+    console.log("Oppdatert livecompanyconnection:", livecompanyconnection);
+}
