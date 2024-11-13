@@ -146,6 +146,50 @@ async function POSTwebflow(collectionId,body,id){
 
 }
 
+function multisave(data,baseid,tabelid,returid) {
+  // Transformér dataene dynamisk ved å bruke alle nøklene i hvert objekt
+  const records = data.map((item) => ({
+      fields: { ...item }
+  }));
+
+  const batchSize = 10;
+  const delay = 300; // Forsinkelse i millisekunder
+  let sendpacks = 0;
+
+  // Funksjon for å sende en batch til Airtable
+  const sendBatch = async (batch) => {
+      const body = { records: batch }; // Airtable forventer en "records"-nøkkel
+      console.log("Sender batch til Airtable:", body);
+      POSTairtable(baseid, tabelid, JSON.stringify(body), returid);
+      sendpacks++;
+  };
+
+  // Funksjon for å legge inn forsinkelse
+  const delayExecution = (ms) => {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  // Funksjon for å prosessere batcher
+  const processBatches = async () => {
+      for (let i = 0; i < records.length; i += batchSize) {
+          const batch = records.slice(i, i + batchSize);
+          await sendBatch(batch);
+          if (i + batchSize < records.length) {
+              await delayExecution(delay);
+          }
+      }
+  };
+
+  // Start batch-prosesseringen
+  processBatches();
+}
+
+
+
+
+
+
+
 //ruting
 function apireturn(response){
     if(response.success){
@@ -172,6 +216,7 @@ function ruteresponse(data,id){
     responsecheckUserEmail(data);
   }else if(id == "getConnectionsresponse"){
     getConnectionsresponse(data);
+  }else if(id == "retursaveConnections"){
+    retursaveConnections(data);
   }
-
 }

@@ -1,6 +1,6 @@
 document.getElementById("sendconnectionbutton").addEventListener("click", function() {
     // Koden som skal kjøres når knappen trykkes
-saveConnections();
+saveConnections(livecompanyconnection);
 });
 
 
@@ -101,3 +101,12 @@ function updatelivelist(elementid) {
     console.log("Oppdatert livecompanyconnection:", livecompanyconnection);
 }
 
+function saveConnections(data){
+
+    multisave(data,"app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb","retursaveConnections")
+
+}
+
+function retursaveConnections(data){
+    console.log(data);
+}
