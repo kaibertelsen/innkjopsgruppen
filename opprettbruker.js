@@ -62,7 +62,7 @@ function creatUser() {
     result.date = isoDateString;
     result.membermail = membermail;
 
-    let group = findObjectByKey(globalGroups, companyGroupId, "airtable");
+    let group = findObjectByKey(globalGroups, companyGroupId, "airtableId");
 
 
     if(group){
