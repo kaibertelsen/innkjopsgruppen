@@ -1,3 +1,6 @@
+function startupCode(){
+getConnections("{{wf {&quot;path&quot;:&quot;airtableid&quot;,&quot;type&quot;:&quot;PlainText&quot;\} }}");
+}
 
 //spør etter alle koblinger på dette selskap
 function getConnections(companyid) {

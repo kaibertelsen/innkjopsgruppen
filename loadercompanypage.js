@@ -21,6 +21,7 @@ cdnScripts.reduce((promise, script) => {
     return promise.then(() => loadScript(script));
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
+    startupCode();
 }).catch(error => {
     console.error(error);
 });
