@@ -50,8 +50,7 @@ function markConnections(connections) {
 
 
 var livecompanyconnection = [];
-function updatelivelist(elementid) {
-    const element = document.getElementById(elementid);
+function updatelivelist(element) {
     const supplierId = element.dataset.supplierid;
 
     // Sjekk om supplierId er definert
@@ -67,6 +66,12 @@ function updatelivelist(elementid) {
 
     // Hvis elementet er "checked" (true)
     if (element.checked) {
+        // Ikke legg til i livecompanyconnection hvis supplierId allerede finnes i companyconnection
+        if (existsInCompanyConnection) {
+            console.log(`SupplierId ${supplierId} finnes allerede i companyconnection. Ingen handling utført.`);
+            return;
+        }
+
         // Sjekk om supplierId allerede finnes i livecompanyconnection
         const existsInLiveConnection = livecompanyconnection.some((connection) => {
             return connection.supplier === supplierId;
@@ -94,3 +99,4 @@ function updatelivelist(elementid) {
     // Logg hele livecompanyconnection for å se resultatet
     console.log("Oppdatert livecompanyconnection:", livecompanyconnection);
 }
+
