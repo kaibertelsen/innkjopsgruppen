@@ -69,7 +69,6 @@ function updatelivelist(elementid) {
     if (element.checked) {
         // Ikke legg til i livecompanyconnection hvis supplierId allerede finnes i companyconnection
         if (existsInCompanyConnection) {
-            console.log(`SupplierId ${supplierId} finnes allerede i companyconnection. Ingen handling utført.`);
             return;
         }
 
@@ -84,21 +83,16 @@ function updatelivelist(elementid) {
                 company: [airtableCompanyId],
                 supplier: [supplierId]
             });
-            console.log("Ny connection lagt til i livecompanyconnection:", {
-                company: [airtableCompanyId],
-                supplier: [supplierId]
-            });
+
         }
     } else {
         // Hvis elementet er "unchecked" (false), fjern objektet fra livecompanyconnection
         livecompanyconnection = livecompanyconnection.filter((connection) => {
             return connection.supplier !== supplierId;
         });
-        console.log(`Connection med supplierId ${supplierId} fjernet fra livecompanyconnection.`);
+        
     }
 
-    // Logg hele livecompanyconnection for å se resultatet
-    console.log("Oppdatert livecompanyconnection:", livecompanyconnection);
 }
 
 function saveConnections(data){
