@@ -33,8 +33,8 @@ function markConnections(connections) {
         });
 
         // Log resultatet og eventuelt sett elementet som checked
-        //element.checked = isConnected;
-        console.log(`Element med supplierId ${supplierId} er koblet:`, isConnected);
+        element.checked = isConnected;
+        //console.log(`Element med supplierId ${supplierId} er koblet:`, isConnected);
     });
 }
 
