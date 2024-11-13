@@ -1,4 +1,4 @@
-document.getElementById("senddatatoairtable").addEventListener("click", function() {
+document.getElementById("sendconnectionbutton").addEventListener("click", function() {
     // Koden som skal kjøres når knappen trykkes
 saveConnections(livecompanyconnection);
 });
