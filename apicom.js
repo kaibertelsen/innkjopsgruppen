@@ -166,7 +166,7 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
           requestBody = recordsArray.map(record => ({ fields: record.fields }));
       } else {
           // Én oppføring - send objektet med "fields"-nøkkel
-          requestBody = { fields: recordsArray[0].fields };
+          requestBody = body;
       }
 
       console.log("Request Body som skal sendes:", requestBody);
