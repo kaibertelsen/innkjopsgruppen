@@ -155,42 +155,50 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
       console.log("TableId:", tableId);
       console.log("Body før parsing:", body);
 
-      // Parse body og hent kun "fields"-delen
+      // Parse body
       const parsedBody = JSON.parse(body);
-      const fieldsArray = parsedBody.records.map(record => record.fields);
+      const recordsArray = parsedBody.records;
 
-      // Logg det nye formatet som skal sendes
-      console.log("Fields som skal sendes:", fieldsArray);
+      // Bestem request body basert på antall oppføringer
+      let requestBody;
+      if (recordsArray.length > 1) {
+          // Flere oppføringer - bruk "records"-nøkkelen med "fields"
+          requestBody = { records: recordsArray };
+      } else {
+          // Én oppføring - send objektet direkte uten "fields"
+          requestBody = recordsArray[0].fields;
+      }
 
-      // Send hver "fields" som en egen POST-forespørsel
-      for (const fields of fieldsArray) {
-          let response = await fetch(
-              `https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`,
-              {
-                  method: "POST",
-                  body: JSON.stringify({ fields }),
-                  headers: {
-                      'Content-Type': 'application/json'
-                  }
+      console.log("Request Body som skal sendes:", requestBody);
+
+      // Send POST-forespørsel
+      let response = await fetch(
+          `https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`,
+          {
+              method: "POST",
+              body: JSON.stringify(requestBody),
+              headers: {
+                  'Content-Type': 'application/json'
               }
-          );
-
-          if (!response.ok) {
-              const errorText = await response.text();
-              console.error(`Feilrespons fra API: ${response.status} - ${response.statusText}`);
-              console.error("Responsdata:", errorText);
-              throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
-          } else {
-              let data = await response.json();
-              console.log("Suksess:", data);
-              apireturn({ success: true, data: data, id: id });
           }
+      );
+
+      if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`Feilrespons fra API: ${response.status} - ${response.statusText}`);
+          console.error("Responsdata:", errorText);
+          throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+      } else {
+          let data = await response.json();
+          console.log("Suksess:", data);
+          apireturn({ success: true, data: data, id: id });
       }
   } catch (error) {
       console.error("Feil i POSTairtableMulti:", error);
       apireturn({ success: false, error: error.message, id: id });
   }
 }
+
 
 
 
