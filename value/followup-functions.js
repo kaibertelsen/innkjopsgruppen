@@ -205,13 +205,13 @@ function startfollowuplist(data,load,sortname,descending){
    let placenewitembutton = "topp";
    
    let tabelid = "tblFySDb9qVeVVY5c";
-   let viewColums = ["Name","winningdate","lastfollowupdate","daytorenewal","nextrenewaldate","nofollowup",""];
-   let saveColums = [0,0,0,0,1,0];
-   let labledColums = ["Kunde","Vunnetdato","Sist oppfulgt","Dager til fornyes","Fornyes dato","Ikke følge opp",""];
-   let justifyColums = ["start","end","end","end","end","end","end"];
-   let typeColums = ["text","text","text","text","text","bool","button"];
-   let typeEditelement = ["text","text","text","text","text","checkbox","button"];
-   let cellClass = ["cellitem","cellitem","cellitem","redboltitem","cellitem","cell","celleditbutton"];
+   let viewColums = ["Name","winningdate","lastfollowupdate","daytorenewal","nextrenewaldate"];
+   let saveColums = [0,0,0,0];
+   let labledColums = ["Kunde","Vunnetdato","Sist oppfulgt","Dager til fornyes","Fornyes dato"];
+   let justifyColums = ["start","end","end","end","end"];
+   let typeColums = ["text","text","text","text","text"];
+   let typeEditelement = ["text","text","text","text","text"];
+   let cellClass = ["cellitem","cellitem","cellitem","redboltitem","cellitem"];
    //let headerColums = Object.keys(data[0]);
    let spaceColums = "1fr ".repeat(viewColums.length).trim();
    
@@ -221,7 +221,7 @@ function startfollowuplist(data,load,sortname,descending){
      
      
    let property= {
-   rowclick:false,
+   rowclick:true,
    newitembutton:newitembutton,
    placenewitembutton:placenewitembutton,
    saveColums:saveColums,
