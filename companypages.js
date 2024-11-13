@@ -81,12 +81,12 @@ function updatelivelist(elementid) {
         // Legg til i livecompanyconnection hvis det ikke allerede finnes
         if (!existsInLiveConnection) {
             livecompanyconnection.push({
-                company: airtableCompanyId,
-                supplier: supplierId
+                company: [airtableCompanyId],
+                supplier: [supplierId]
             });
             console.log("Ny connection lagt til i livecompanyconnection:", {
-                company: airtableCompanyId,
-                supplier: supplierId
+                company: [airtableCompanyId],
+                supplier: [supplierId]
             });
         }
     } else {
