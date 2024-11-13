@@ -13,8 +13,8 @@ function startfollowinguplist(){
  }
  
  function generateAirtableQuery(fromdate, todate, dateField, statusField, statusValue) {
-    // Konverter statusValue til riktig Airtable-format (TRUE() eller FALSE())
-    const statusCheck = statusValue ? "TRUE()" : "FALSE()";
+    // Konverter statusValue til riktig Airtable-format (1 for true, 0 for false)
+    const statusCheck = statusValue ? "1" : "0";
 
     // Bygg formelen dynamisk med dato-sjekk og status-sjekk
     let formula = `AND(IS_AFTER({${dateField}}, '${fromdate}'), IS_BEFORE({${dateField}}, '${todate}'), NOT({${statusField}} = ${statusCheck}))`;
@@ -27,9 +27,6 @@ function startfollowinguplist(){
 
     return body;
 }
-
-
-
 
 
 
