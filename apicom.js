@@ -165,7 +165,7 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
           }));
       } else {
           // Én oppføring - send objektet med "fields"-nøkkel
-          requestBody = { fields: body[0] };
+          requestBody = body;
       }
 
       console.log("Request Body som skal sendes:", requestBody);
