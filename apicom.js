@@ -165,7 +165,7 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
           }));
       } else if (body.length === 1) {
           // Én oppføring - send objektet direkte med "fields"-nøkkelen
-          requestBody = { fields: { ...body[0] } };
+          requestBody = body[0];
       } else {
           // Ingen oppføringer - logg en advarsel og returner
           console.warn("Ingen oppføringer å sende.");
