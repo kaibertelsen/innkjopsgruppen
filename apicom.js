@@ -150,22 +150,26 @@ async function POSTwebflow(collectionId,body,id){
 async function POSTairtableMulti(baseId, tableId, body, id) {
   try {
       const token = await MemberStack.getToken();
-      console.log("Token:", token);
+      console.log("Token mottatt:", token);
       console.log("BaseId:", baseId);
       console.log("TableId:", tableId);
-      console.log("Body før parsing:", body);
+      console.log("Body før behandling:", body);
 
       // Bestem request body basert på antall oppføringer
       let requestBody;
 
       if (body.length > 1) {
-          // Flere oppføringer - opprett en ny array med "fields"-nøkkelen
+          // Flere oppføringer - opprett en ny array med "fields"-nøkkelen for hver oppføring
           requestBody = body.map(item => ({
               fields: { ...item }
           }));
+      } else if (body.length === 1) {
+          // Én oppføring - send objektet direkte med "fields"-nøkkelen
+          requestBody = { fields: { ...body[0] } };
       } else {
-          // Én oppføring - send objektet med "fields"-nøkkel
-          requestBody = body;
+          // Ingen oppføringer - logg en advarsel og returner
+          console.warn("Ingen oppføringer å sende.");
+          return;
       }
 
       console.log("Request Body som skal sendes:", requestBody);
@@ -185,11 +189,11 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
       if (!response.ok) {
           const errorText = await response.text();
           console.error(`Feilrespons fra API: ${response.status} - ${response.statusText}`);
-          console.error("Responsdata:", errorText);
+          console.error("Responsdata fra API:", errorText);
           throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
       } else {
           const data = await response.json();
-          console.log("Suksess:", data);
+          console.log("Data lagret med suksess:", data);
           apireturn({ success: true, data: data, id: id });
       }
   } catch (error) {
@@ -197,6 +201,7 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
       apireturn({ success: false, error: error.message, id: id });
   }
 }
+
 
 
 
