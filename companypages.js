@@ -18,7 +18,7 @@ function getConnectionsresponse(data){
 function markConnections(connections) {
     // Gå gjennom alle elementer med klassen .merkibj
     document.querySelectorAll('.merkibj').forEach((element) => {
-        // Sjekk om elementet har data-supplierid
+        // Hent data-supplierid fra elementet
         const supplierId = element.dataset.supplierid;
 
         if (!supplierId) {
@@ -26,13 +26,17 @@ function markConnections(connections) {
             return;
         }
 
-        // Sjekk om supplierId finnes i connections-arrayen
-        const isConnected = connections.some((connection) => connection.supplierid === supplierId);
+        // Sjekk om supplierId finnes i noen av supplierid-arrayene i connections
+        const isConnected = connections.some((connection) => {
+            // Sjekker om supplierid er en array og om den inneholder supplierId
+            return Array.isArray(connection.supplierid) && connection.supplierid.includes(supplierId);
+        });
 
-        // Sett element.checked til true eller false basert på resultatet
+        // Log resultatet og eventuelt sett elementet som checked
         //element.checked = isConnected;
-        console.log(isConnected);
+        console.log(`Element med supplierId ${supplierId} er koblet:`, isConnected);
     });
 }
+
  
 
