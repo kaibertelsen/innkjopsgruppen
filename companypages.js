@@ -12,7 +12,7 @@ function getConnectionsresponse(data){
     
     companyconnection = rawdatacleaner(data);
     console.log(companyconnection);
-   // markConnections(companyconnection);
+    markConnections(companyconnection);
 }
 
 function markConnections(connections) {
@@ -30,7 +30,8 @@ function markConnections(connections) {
         const isConnected = connections.some((connection) => connection.supplierid === supplierId);
 
         // Sett element.checked til true eller false basert på resultatet
-        element.checked = isConnected;
+        //element.checked = isConnected;
+        console.log(isConnected);
     });
 }
  
