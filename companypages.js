@@ -64,18 +64,30 @@ function updatelivelist(element) {
         return Array.isArray(connection.supplierid) && connection.supplierid.includes(supplierId);
     });
 
-    // Hvis supplierId ikke finnes, legg den til i livecompanyconnection
-    if (!existsInCompanyConnection) {
-        livecompanyconnection.push({
-            company: airtableCompanyId,
-            supplier: supplierId
+    // Hvis elementet er "checked" (true)
+    if (element.checked) {
+        // Sjekk om supplierId allerede finnes i livecompanyconnection
+        const existsInLiveConnection = livecompanyconnection.some((connection) => {
+            return connection.supplier === supplierId;
         });
-        console.log("Ny connection lagt til i livecompanyconnection:", {
-            company: airtableCompanyId,
-            supplier: supplierId
-        });
+
+        // Legg til i livecompanyconnection hvis det ikke allerede finnes
+        if (!existsInLiveConnection) {
+            livecompanyconnection.push({
+                company: airtableCompanyId,
+                supplier: supplierId
+            });
+            console.log("Ny connection lagt til i livecompanyconnection:", {
+                company: airtableCompanyId,
+                supplier: supplierId
+            });
+        }
     } else {
-        console.log(`SupplierId ${supplierId} finnes allerede i companyconnection.`);
+        // Hvis elementet er "unchecked" (false), fjern objektet fra livecompanyconnection
+        livecompanyconnection = livecompanyconnection.filter((connection) => {
+            return connection.supplier !== supplierId;
+        });
+        console.log(`Connection med supplierId ${supplierId} fjernet fra livecompanyconnection.`);
     }
 
     // Logg hele livecompanyconnection for å se resultatet
