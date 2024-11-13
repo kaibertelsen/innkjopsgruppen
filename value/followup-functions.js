@@ -195,6 +195,54 @@ function startfollowinguplist(){
  }
  }
  
- 
- 
+function startfollowuplist(data,load,sortname,descending){
+    sortnameproperty = sortname;
+   if(load){
+   listarray = [];
+   }
+   listarray = data;
+   let newitembutton = false;
+   let placenewitembutton = "topp";
+   
+   let tabelid = "tblFySDb9qVeVVY5c";
+   let viewColums = ["Name","winningdate","lastfollowupdate","daytorenewal","nextrenewaldate"];
+   let saveColums = [0,0,0,0];
+   let labledColums = ["Kunde","Vunnetdato","Sist oppfulgt","Dager til fornyes","Fornyes dato"];
+   let justifyColums = ["start","end","end","end","end"];
+   let typeColums = ["text","text","text","text","text"];
+   let typeEditelement = ["text","text","text","text","text"];
+   let cellClass = ["cellitem","cellitem","cellitem","redboltitem","cellitem"];
+   //let headerColums = Object.keys(data[0]);
+   let spaceColums = "1fr ".repeat(viewColums.length).trim();
+   
+   
+    //sorterer som standard etter første kollonne
+    var returnobject = sortarrayrows(sortname,descending,listarray);
+     
+     
+   let property= {
+   rowclick:true,
+   newitembutton:newitembutton,
+   placenewitembutton:placenewitembutton,
+   saveColums:saveColums,
+   tableid:tabelid,
+   typeEditelement:typeEditelement,
+   viewColums:viewColums,
+   labledColums:labledColums,
+   spaceColums:spaceColums,
+   justifyColums:justifyColums,
+   typeColums:typeColums,
+   idflagg:"airtable",
+   classrow:"rowclickable",
+   classHeaderrow:"headerrow",
+   cellClass:cellClass,
+   sortname:returnobject.sortname,
+   descending:returnobject.descending
+   };
+
+   
+   const list = document.getElementById("followuplist");
+   rowGenerator(returnobject.array,list,property);
+
+}
  
