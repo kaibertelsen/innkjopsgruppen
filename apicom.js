@@ -162,11 +162,11 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
       // Bestem request body basert på antall oppføringer
       let requestBody;
       if (recordsArray.length > 1) {
-          // Flere oppføringer - bruk "records"-nøkkelen med "fields"
-          requestBody = { records: recordsArray };
+          // Flere oppføringer - send listen med "fields"-nøkkel
+          requestBody = recordsArray.map(record => ({ fields: record.fields }));
       } else {
-          // Én oppføring - send objektet direkte uten "fields"
-          requestBody = recordsArray[0].fields;
+          // Én oppføring - send objektet med "fields"-nøkkel
+          requestBody = { fields: recordsArray[0].fields };
       }
 
       console.log("Request Body som skal sendes:", requestBody);
@@ -198,6 +198,7 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
       apireturn({ success: false, error: error.message, id: id });
   }
 }
+
 
 
 
@@ -279,3 +280,4 @@ function ruteresponse(data,id){
     retursaveConnections(data);
   }
 }
+
