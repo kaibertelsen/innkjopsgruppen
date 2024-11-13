@@ -6,11 +6,33 @@ function startfollowinguplist(){
     let datebefore = finddateBackIntime(9);
     let datefrom = "2010-01-01"
     
-   let body = bodylistdatefromto(datefrom,datebefore,"currentfollowupdate");
+   let body = generateAirtableQuery(datefrom,datebefore,"currentfollowupdate", "nofollowup", false);
+
     Getlistairtable(baseid,"tblFySDb9qVeVVY5c",body,"respondfollouplist")  
     }
  }
  
+ function generateAirtableQuery(fromdate, todate, dateField, statusField, statusValue) {
+    // Konverter statusValue til riktig Airtable-format (TRUE() eller FALSE())
+    const statusCheck = statusValue ? "TRUE()" : "FALSE()";
+
+    // Bygg formelen dynamisk med dato-sjekk og status-sjekk
+    let formula = `AND(IS_AFTER({${dateField}}, '${fromdate}'), IS_BEFORE({${dateField}}, '${todate}'), NOT({${statusField}} = ${statusCheck}))`;
+
+    let body = JSON.stringify({
+        "formula": formula,
+        "pageSize": 50,
+        "offset": 0
+    });
+
+    return body;
+}
+
+
+
+
+
+
  function respondfollouplist(data,id){
      
  var cleandata = rawdatacleaner(data);
