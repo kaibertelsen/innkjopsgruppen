@@ -69,6 +69,9 @@ function creatUser() {
         if(group?.typeterms){
             result.typeterms = group.typeterms;
         }
+    }else{
+        //standard vilkår
+        result.typeterms = 1;
     }
 
 
