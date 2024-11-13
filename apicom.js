@@ -168,6 +168,8 @@ function ruteresponse(data,id){
     responseslug(data);
   }else if(id == "responsecheckUserEmail"){
     responsecheckUserEmail(data);
+  }else if(id == "getConnectionsresponse"){
+    getConnectionsresponse(data);
   }
 
 }
