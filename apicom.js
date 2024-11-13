@@ -146,6 +146,47 @@ async function POSTwebflow(collectionId,body,id){
 
 }
 
+
+async function POSTairtableMulti(baseId, tableId, body, id) {
+  try {
+      let token = await MemberStack.getToken();
+      console.log("Token:", token);
+      console.log("BaseId:", baseId);
+      console.log("TableId:", tableId);
+      console.log("Body:", body);
+
+      let response = await fetch(
+          `https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`,
+          {
+              method: "POST",
+              body: body,
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          }
+      );
+
+      // Les responsen som tekst hvis statusen ikke er "ok"
+      if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`Feilrespons fra API: ${response.status} - ${response.statusText}`);
+          console.error("Responsdata:", errorText);
+          throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+      } else {
+          let data = await response.json();
+          console.log("Suksess:", data);
+          apireturn({ success: true, data: data, id: id });
+      }
+  } catch (error) {
+      console.error("Feil i POSTairtable:", error);
+      apireturn({ success: false, error: error.message, id: id });
+  }
+}
+
+
+
+
+
 function multisave(data,baseid,tabelid,returid) {
   // Transformér dataene dynamisk ved å bruke alle nøklene i hvert objekt
   const records = data.map((item) => ({
@@ -160,7 +201,7 @@ function multisave(data,baseid,tabelid,returid) {
   const sendBatch = async (batch) => {
       const body = { records: batch }; // Airtable forventer en "records"-nøkkel
       console.log("Sender batch til Airtable:", body);
-      POSTairtable(baseid, tabelid, JSON.stringify(body), returid);
+      POSTairtableMulti(baseid, tabelid, JSON.stringify(body), returid);
       sendpacks++;
   };
 
