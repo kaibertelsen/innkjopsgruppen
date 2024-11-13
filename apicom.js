@@ -149,30 +149,29 @@ async function POSTwebflow(collectionId,body,id){
 
 async function POSTairtableMulti(baseId, tableId, body, id) {
   try {
-      let token = await MemberStack.getToken();
+      const token = await MemberStack.getToken();
       console.log("Token:", token);
       console.log("BaseId:", baseId);
       console.log("TableId:", tableId);
       console.log("Body før parsing:", body);
 
-      // Parse body
-      const parsedBody = JSON.parse(body);
-      const recordsArray = parsedBody.records;
-
       // Bestem request body basert på antall oppføringer
       let requestBody;
-      if (recordsArray.length > 1) {
-          // Flere oppføringer - send listen med "fields"-nøkkel
-          requestBody = recordsArray.map(record => ({ fields: record.fields }));
+
+      if (body.length > 1) {
+          // Flere oppføringer - opprett en ny array med "fields"-nøkkelen
+          requestBody = body.map(item => ({
+              fields: { ...item }
+          }));
       } else {
           // Én oppføring - send objektet med "fields"-nøkkel
-          requestBody = body;
+          requestBody = { fields: body[0] };
       }
 
       console.log("Request Body som skal sendes:", requestBody);
 
       // Send POST-forespørsel
-      let response = await fetch(
+      const response = await fetch(
           `https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`,
           {
               method: "POST",
@@ -189,7 +188,7 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
           console.error("Responsdata:", errorText);
           throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
       } else {
-          let data = await response.json();
+          const data = await response.json();
           console.log("Suksess:", data);
           apireturn({ success: true, data: data, id: id });
       }
@@ -201,27 +200,21 @@ async function POSTairtableMulti(baseId, tableId, body, id) {
 
 
 
-
-
-
-
-
-function multisave(data,baseid,tabelid,returid) {
-  // Transformér dataene dynamisk ved å bruke alle nøklene i hvert objekt
-  const records = data.map((item) => ({
-      fields: { ...item }
-  }));
-
+async function multisave(data, baseid, tabelid, returid) {
   const batchSize = 10;
   const delay = 300; // Forsinkelse i millisekunder
   let sendpacks = 0;
 
   // Funksjon for å sende en batch til Airtable
   const sendBatch = async (batch) => {
-      const body = { records: batch }; // Airtable forventer en "records"-nøkkel
-      console.log("Sender batch til Airtable:", body);
-      POSTairtableMulti(baseid, tabelid, JSON.stringify(body), returid);
-      sendpacks++;
+      try {
+          console.log("Sender batch:", batch);
+          await POSTairtableMulti(baseid, tabelid, batch, returid);
+          sendpacks++;
+          console.log(`Batch ${sendpacks} sendt.`);
+      } catch (error) {
+          console.error("Feil ved sending av batch:", error);
+      }
   };
 
   // Funksjon for å legge inn forsinkelse
@@ -231,18 +224,21 @@ function multisave(data,baseid,tabelid,returid) {
 
   // Funksjon for å prosessere batcher
   const processBatches = async () => {
-      for (let i = 0; i < records.length; i += batchSize) {
-          const batch = records.slice(i, i + batchSize);
+      for (let i = 0; i < data.length; i += batchSize) {
+          const batch = data.slice(i, i + batchSize);
           await sendBatch(batch);
-          if (i + batchSize < records.length) {
+          if (i + batchSize < data.length) {
               await delayExecution(delay);
           }
       }
+      console.log("Alle batcher er ferdig prosessert.");
   };
 
-  // Start batch-prosesseringen
-  processBatches();
+  // Start batch-prosesseringen og returner en Promise
+  return processBatches();
 }
+
+
 
 
 
