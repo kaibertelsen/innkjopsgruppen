@@ -1,10 +1,10 @@
 function startupCode(){
-getConnections("{{wf {&quot;path&quot;:&quot;airtableid&quot;,&quot;type&quot;:&quot;PlainText&quot;\} }}");
+getConnections(airtableCompanyId);
 }
 
 //spør etter alle koblinger på dette selskap
-function getConnections(companyid) {
-    var body = airtablebodylistAND({firmaid:companyid,slettet:0});
+function getConnections(data) {
+    var body = airtablebodylistAND({firmaid:data,slettet:0});
     Getlistairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"getConnectionsresponse");
 }
 
