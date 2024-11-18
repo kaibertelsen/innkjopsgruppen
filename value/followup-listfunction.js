@@ -100,25 +100,13 @@ function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteBut
         editFollowupNote(noteButton, airtableId, updatedText);
     });
 
-    // Sender oppdateringen til serveren
-    fetch('/api/updateFollowupNote', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ airtableId, updatedText }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Notatet er oppdatert:', data);
-        alert('Notatet ble lagret.');
-    })
-    .catch(error => {
-        console.error('Feil ved lagring av notatet:', error);
-        alert('Kunne ikke lagre notatet. Vennligst prøv igjen.');
-    });
-}
+    const body = {
+        followupnote: updatedText
+    };
 
+    // Sender oppdateringen til serveren
+    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
+}
 
 // Funksjon for å håndtere klikk på selskapets navn
 function handleCompanyClick(name, airtableId) {
@@ -126,36 +114,53 @@ function handleCompanyClick(name, airtableId) {
     companySelected(airtableId, name);
 }
 
-// Funksjon for å håndtere klikk på oppfølgingsstatus
-function handleFollowupStatusClick(name, airtableId) {
-    console.log(`Klikket på oppfølgingsstatus for: ${name} (ID: ${airtableId})`);
+// Funksjon for å lagre oppdatert notat
+function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteButton) {
+    console.log(`Lagrer oppfølgingsnotat for ID: ${airtableId}, Ny tekst: ${updatedText}`);
 
-    const confirmChange = confirm(`Vil du sette oppfølgingsstatus til "Nei" for ${name}?`);
-    if (confirmChange) {
-        updateFollowupStatus(name, airtableId, "Nei");
-    }
+    // Oppdaterer teksten på knappen basert på om det er et notat eller ikke
+    noteButton.textContent = updatedText ? "✎" : "+";
+
+    // Erstatter textarea og fjerner lagre-knappen
+    textarea.replaceWith(noteButton);
+    saveButton.remove();
+
+    // Fjerner gamle klikkhendelser for å unngå duplikater
+    noteButton.replaceWith(noteButton.cloneNode(true));
+    const newNoteButton = noteButton.cloneNode(true);
+    noteButton.parentNode.replaceChild(newNoteButton, noteButton);
+
+    // Legger til klikkhendelse for å redigere notatet igjen
+    newNoteButton.addEventListener("click", () => {
+        editFollowupNote(newNoteButton, airtableId, updatedText);
+    });
+
+    // Oppretter body-objektet som skal sendes til Airtable
+    const body = {
+        followupnote: updatedText
+    };
+
+    console.log("Body som sendes til Airtable:", body);
+
+    // Sender oppdateringen til serveren
+    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
 }
+
 
 // Funksjon for å oppdatere oppfølgingsstatus
 function updateFollowupStatus(name, airtableId, newStatus) {
     console.log(`Oppdaterer oppfølgingsstatus for: ${name} (ID: ${airtableId}) til ${newStatus}`);
 
-    // Her kan du sende oppdateringen til serveren
-    fetch('/api/updateFollowupStatus', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, airtableId, newStatus }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Status oppdatert:', data);
-        alert(`Oppfølgingsstatus er oppdatert til ${newStatus}.`);
-    })
-    .catch(error => {
-        console.error('Feil ved oppdatering:', error);
-        alert('Kunne ikke oppdatere oppfølgingsstatus. Prøv igjen senere.');
-    });
+    // Sjekker status og setter `nofollowup` til true eller false
+    const nofollowup = newStatus.toUpperCase() === "NEI";
+
+    // Oppretter objektet som skal sendes i PATCH-forespørselen
+    const body = {
+        nofollowup: nofollowup
+    };
+
+    // Sender PATCH-forespørsel til Airtable
+    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
 }
+
 
