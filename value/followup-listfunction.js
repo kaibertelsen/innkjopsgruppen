@@ -12,9 +12,22 @@ function startFollowinglistElement(data) {
         return;
     }
 
-    // Itererer gjennom selskapene i data-arrayet
-    for (const company of data) {
+    // Sorterer data basert på 'nextrenewaldate' (format "YYYY-MM-DD")
+    data.sort((a, b) => {
+        const dateA = new Date(a.nextrenewaldate);
+        const dateB = new Date(b.nextrenewaldate);
+        return dateA - dateB; // Sorterer i stigende rekkefølge
+    });
+
+    // Itererer gjennom de sorterte dataene
+    data.forEach((company, index) => {
         const rowElement = nodeElement.cloneNode(true);
+
+        // Legger til klassen "grayrow" på annenhver rad
+        if (index % 2 === 1) {
+            rowElement.classList.add("grayrow");
+        }
+
         list.appendChild(rowElement);
 
         // Oppdaterer tekstinnhold i rad-elementet med selskapets data
@@ -23,6 +36,6 @@ function startFollowinglistElement(data) {
         rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "Ingen oppfølging";
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal || "Ingen data";
         rowElement.querySelector(".rewaldate").textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
-    }
+    });
 }
 
