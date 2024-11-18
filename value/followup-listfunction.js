@@ -46,11 +46,13 @@ function startFollowinglistElement(data) {
 
         if (company.followupnote) {
             noteContainer.style.display = "block";
+            notebutton.style.display = "none";
             notebutton.addEventListener("click", () => {
                 editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, company.followupnote);
             });
         } else {
             noteContainer.style.display = "none";
+            notebutton.style.display = "inline-block";
             notebutton.addEventListener("click", () => {
                 editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, "");
             });
@@ -66,30 +68,24 @@ function startFollowinglistElement(data) {
 function editFollowupNote(textlable, airtableId, currentText = "") {
     const textarea = document.createElement("textarea");
     textarea.value = currentText;
-    textarea.classList.add("note-editor");
-
-    const saveButton = document.createElement("button");
-    saveButton.textContent = "Lagre";
-    saveButton.classList.add("save-note-button");
-
+    //textarea.classList.add("note-editor");
     textlable.replaceWith(textarea);
-    textarea.after(saveButton);
-
     textarea.focus();
 
+    const saveButton = parentElement.textlable.querySelector(".savebutton");
     saveButton.addEventListener("click", () => {
         const updatedText = textarea.value;
-        saveFollowupNote(updatedText, airtableId, textarea, saveButton, textlable);
+        saveFollowupNote(updatedText, airtableId,textlable),textarea;
     });
 }
 
 // Funksjon for å lagre oppdatert notat
-function saveFollowupNote(updatedText, airtableId, textarea, saveButton, textlable) {
+function saveFollowupNote(updatedText, airtableId,textlable,textarea) {
     console.log(`Lagrer oppfølgingsnotat for ID: ${airtableId}, Ny tekst: ${updatedText}`);
     textlable.textContent = updatedText;
     textarea.replaceWith(textlable);
-    saveButton.remove();
-
+    textarea.remove();
+    
     const body = {
         followupnote: updatedText
     };
