@@ -19,19 +19,15 @@ function startFollowinglistElement(data) {
         return dateA - dateB;
     });
 
-    // Bruker DocumentFragment for å optimalisere DOM-manipulasjon
     const fragment = document.createDocumentFragment();
 
-    // Itererer gjennom de sorterte dataene
     data.forEach((company, index) => {
         const rowElement = nodeElement.cloneNode(true);
 
-        // Legger til klassen "grayrow" på annenhver rad
         if (index % 2 === 1) {
             rowElement.classList.add("grayrow");
         }
 
-        // Oppdaterer tekstinnhold i rad-elementet med selskapsdata
         rowElement.querySelector(".companynamelable").textContent = company.Name || "Ukjent";
         rowElement.querySelector(".winningdate").textContent = company.winningdate || "Ingen dato";
         rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
@@ -40,57 +36,93 @@ function startFollowinglistElement(data) {
 
         // Klikkhendelse på companynamelable
         const companyNameLabel = rowElement.querySelector(".companynamelable");
+        companyNameLabel.style.cursor = "pointer";
         companyNameLabel.addEventListener("click", () => {
             handleCompanyClick(company.Name, company.airtable);
         });
 
-        // Klikkhendelse på followupStatus
-        const followupStatusElement = rowElement.querySelector(".textlablemanuel.lastfollowingup");
-        followupStatusElement.addEventListener("click", () => {
+        // Klikkhendelse på foreldre-elementet til lastfollowingup
+        const followupParentElement = rowElement.querySelector(".textholder");
+        followupParentElement.style.cursor = "pointer";
+        followupParentElement.addEventListener("click", () => {
             handleFollowupStatusClick(company.Name, company.airtable);
         });
 
-        // Viser oppfølgingsnotat hvis det finnes
+        // Viser og håndterer redigering av oppfølgingsnotat
         const noteElement = rowElement.querySelector(".textlablemanuel.note");
         const noteContainer = rowElement.querySelector(".textholder.note");
 
         if (company.followupnote && noteElement && noteContainer) {
             noteElement.textContent = company.followupnote;
             noteContainer.style.display = "block";
+
+            // Klikkhendelse for redigering av notatet
+            noteElement.style.cursor = "pointer";
+            noteElement.addEventListener("click", () => {
+                editFollowupNote(noteElement, company.airtable);
+            });
         } else if (noteContainer) {
             noteContainer.style.display = "none";
         }
 
-        // Legger til rad-elementet i fragmentet
         fragment.appendChild(rowElement);
     });
 
-    // Legger til alle radene i DOM på én gang
     list.appendChild(fragment);
 }
 
-// Funksjon som håndterer klikk på selskapets navn
-function handleCompanyClick(name, airtableId) {
-    console.log(`Klikket på selskapet: ${name} (ID: ${airtableId})`);
-    
-    companySelected(airtableId,name);
+// Funksjon for å redigere notatet
+function editFollowupNote(noteElement, airtableId) {
+    const currentText = noteElement.textContent;
+    const textarea = document.createElement("textarea");
+    textarea.value = currentText;
+    textarea.classList.add("note-editor");
+
+    // Lagre-knapp
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Lagre";
+    saveButton.classList.add("save-note-button");
+
+    // Erstatter notatet med textarea og lagre-knapp
+    noteElement.replaceWith(textarea);
+    textarea.after(saveButton);
+
+    // Fokus på textarea
+    textarea.focus();
+
+    // Funksjon for å lagre oppdateringen
+    saveButton.addEventListener("click", () => {
+        const updatedText = textarea.value;
+        saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteElement);
+    });
 }
 
-// Funksjon som håndterer klikk på oppfølgingsstatus
-function handleFollowupStatusClick(name, airtableId) {
-    console.log(`Klikket på oppfølgingsstatus for: ${name} (ID: ${airtableId})`);
+// Funksjon for å lagre oppdatert notat
+function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteElement) {
+    console.log(`Lagrer oppfølgingsnotat for ID: ${airtableId}, Ny tekst: ${updatedText}`);
 
-    // Spør brukeren om de vil sette status til "Nei"
-    const confirmChange = confirm(`Vil du sette oppfølgingsstatus til "Nei" for ${name}?`);
-    if (confirmChange) {
-        updateFollowupStatus(name, airtableId, "Nei");
-    }
+    // Oppdaterer notatet visuelt
+    noteElement.textContent = updatedText;
+
+    // Erstatter textarea og lagre-knapp med det oppdaterte notatet
+    textarea.replaceWith(noteElement);
+    saveButton.remove();
+
+    // Eksempel på API-kall for å oppdatere notatet på serveren
+    fetch('/api/updateFollowupNote', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ airtableId, updatedText }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Notatet er oppdatert:', data);
+        alert('Notatet ble lagret.');
+    })
+    .catch(error => {
+        console.error('Feil ved lagring av notatet:', error);
+        alert('Kunne ikke lagre notatet. Vennligst prøv igjen.');
+    });
 }
-
-// Funksjon for å oppdatere oppfølgingsstatus
-function updateFollowupStatus(name, airtableId, newStatus) {
-    console.log(`Oppdaterer oppfølgingsstatus for: ${name} (ID: ${airtableId}) til ${newStatus}`);
-    
-}
-
-
