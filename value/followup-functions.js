@@ -1,19 +1,16 @@
 function startfollowinguplist(){
-   
-   
+
     if(!mainfollowuplist.length>0){
     //alle firma som har currentfolloupdate før 9mnd fra i dag
     let datebefore = finddateBackIntime(9);
     let datefrom = "2010-01-01"
     
    let body = generateAirtableQuery(datefrom,datebefore,"currentfollowupdate", "nofollowup");
-
     Getlistairtable(baseid,"tblFySDb9qVeVVY5c",body,"respondfollouplist")  
     }
  }
  
  function generateAirtableQuery(fromdate, todate, dateField, statusField) {
-    // Bygg formelen dynamisk med dato-sjekk og status-sjekk
     let formula = `AND(IS_AFTER({${dateField}}, '${fromdate}'), IS_BEFORE({${dateField}}, '${todate}'), NOT({${statusField}} = 1))`;
 
     let body = JSON.stringify({
@@ -25,19 +22,17 @@ function startfollowinguplist(){
     return body;
 }
 
-
-
-
  function respondfollouplist(data,id){
-     
- var cleandata = rawdatacleaner(data);
- 
- 
- var listanddate = addNextRenewalDatetoarray(cleandata);
- mainfollowuplist = listanddate;
- //gå gjennom den lokale datovelger
- filterfollowupSelector("followupselector");
- document.getElementById("followingloader").style.display = "none";
+            
+        var cleandata = rawdatacleaner(data);
+        var listanddate = addNextRenewalDatetoarray(cleandata);
+
+        mainfollowuplist = listanddate;
+
+        let activeList= filterfollowupSelector("followupselector");
+        startfollowuplist(activeList,true,"nextrenewaldate",false);
+        //gå gjennom den lokale datovelger
+        document.getElementById("followingloader").style.display = "none";
  }
  
  function loadfollowingupselector(){
@@ -67,9 +62,9 @@ function startfollowinguplist(){
       
   loadselector(document.getElementById("followupselector"),options);
  }
+
  function addNextRenewalDatetoarray(data){
      
- 
      for(var i = 0;i<data.length;i++){
          //finne ut nestegang denne avtalen fornyes
          let nextrenewaldate = getNextRenewalDate(data[i].followupintervall,data[i].winningdate);
@@ -124,27 +119,24 @@ function startfollowinguplist(){
    return differenceInDays;
  }
  
- function filterfollowupSelector(selectorid){
+ function filterfollowupSelector(data,selectorid){
   var selector = document.getElementById(selectorid);
-  var data = mainfollowuplist;
-  
-  var array = [];
-  if(selector.value == "missingfollowup"){
-      //list alle som mangler oppfølging
-     startfollowuplist(data,true,"nextrenewaldate",false);
-  }else{
-      
-      let fromdate = finddateforwardIntime(Number(selector.value));
-      for(var i = 0;i<data.length;i++){
-        let date = data[i].nextrenewaldate;
-         if(isDateAfter(fromdate, date)){
-             //datoen her er etter filteret
-            array.push(data[i]);
-         }
-      }
-      
-     startfollowuplist(array,true,"nextrenewaldate",false); 
-  }
+ 
+    if(selector.value == "missingfollowup"){
+        //list alle som mangler oppfølging
+        return mainfollowuplist;
+    }else{
+        let fromdate = finddateforwardIntime(Number(selector.value));
+        var array = [];
+        for(var i = 0;i<data.length;i++){
+            let date = data[i].nextrenewaldate;
+            if(isDateAfter(fromdate, date)){
+                //datoen her er etter filteret
+                array.push(data[i]);
+            }
+        }
+        return  array;
+    }
  }
  function isDateAfter(date1, date2) {
    // Konverterer strengene til Date-objekter
