@@ -4,7 +4,7 @@ function startFollowinglistElement(data) {
     const list = document.getElementById("followuplist");
     list.replaceChildren(); // Tømmer holderen for å unngå duplisering
 
-    const elementLibrary = document.getElementById("elementholderfollowup");
+    const elementLibrary = document.getElementById("elementfollowinguplist");
     const nodeElement = elementLibrary.querySelector('.rowelementmanuel');
 
     if (!nodeElement) {
