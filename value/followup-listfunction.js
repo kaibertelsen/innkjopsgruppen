@@ -108,21 +108,27 @@ function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteEle
     textarea.replaceWith(noteElement);
     saveButton.remove();
 
-    // Eksempel på API-kall for å oppdatere notatet på serveren
-    fetch('/api/updateFollowupNote', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ airtableId, updatedText }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Notatet er oppdatert:', data);
-        alert('Notatet ble lagret.');
-    })
-    .catch(error => {
-        console.error('Feil ved lagring av notatet:', error);
-        alert('Kunne ikke lagre notatet. Vennligst prøv igjen.');
-    });
+    
+}
+
+
+// Funksjon som håndterer klikk på selskapets navn
+function handleCompanyClick(name, airtableId) {
+    console.log(`Klikket på selskapet: ${name} (ID: ${airtableId})`);
+    companySelected(airtableId, name);
+}
+
+// Funksjon som håndterer klikk på oppfølgingsstatus
+function handleFollowupStatusClick(name, airtableId) {
+    console.log(`Klikket på oppfølgingsstatus for: ${name} (ID: ${airtableId})`);
+
+    const confirmChange = confirm(`Vil du sette oppfølgingsstatus til "Nei" for ${name}?`);
+    if (confirmChange) {
+        updateFollowupStatus(name, airtableId, "Nei");
+    }
+}
+
+// Funksjon for å oppdatere oppfølgingsstatus
+function updateFollowupStatus(name, airtableId, newStatus) {
+    console.log(`Oppdaterer oppfølgingsstatus for: ${name} (ID: ${airtableId}) til ${newStatus}`);
 }
