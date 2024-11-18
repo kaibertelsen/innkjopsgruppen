@@ -2,7 +2,7 @@ function startFollowinglistElement(data) {
     console.log(data);
 
     const list = document.getElementById("elementfollowinguplist");
-    list.replaceChildren(); // Tømmer holderen for å unngå duplisering
+    list.replaceChildren();
 
     const elementLibrary = document.getElementById("elementholderfollowup");
     const nodeElement = elementLibrary.querySelector('.rowelementmanuel');
@@ -12,7 +12,6 @@ function startFollowinglistElement(data) {
         return;
     }
 
-    // Sorterer data basert på 'nextrenewaldate' (format "YYYY-MM-DD")
     data.sort((a, b) => {
         const dateA = new Date(a.nextrenewaldate);
         const dateB = new Date(b.nextrenewaldate);
@@ -40,19 +39,24 @@ function startFollowinglistElement(data) {
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal || "Ingen data";
         rowElement.querySelector(".rewaldate").textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
 
-        // Legg til notat-knapp rett etter firmanavnet
+        // Håndterer notat-knappen
         const noteButton = document.createElement("button");
         noteButton.classList.add("post-it-button");
         noteButton.title = "Legg til notat";
         noteButton.style.cursor = "pointer";
+        noteButton.style.backgroundColor = "rgba(255, 200, 0, 0.18)";
+
+        const noteContainer = rowElement.querySelector(".textholder.note");
 
         if (company.followupnote) {
             noteButton.textContent = "✎";
+            noteContainer.style.display = "block";
             noteButton.addEventListener("click", () => {
                 editFollowupNote(noteButton, company.airtable, company.followupnote);
             });
         } else {
             noteButton.textContent = "+";
+            noteContainer.style.display = "none";
             noteButton.addEventListener("click", () => {
                 editFollowupNote(noteButton, company.airtable);
             });
@@ -104,9 +108,17 @@ function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteBut
         followupnote: updatedText
     };
 
-    // Sender oppdateringen til serveren
-    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
+    console.log("Body som sendes til Airtable:", body);
+
+    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
 }
+
+// Callback-funksjon for oppdatering
+function responseupdateFollowingUpNote(data) {
+    console.log("Notat oppdatert med respons:", data);
+    alert("Notatet ble lagret og oppdatert i Airtable.");
+}
+
 
 // Funksjon for å håndtere klikk på selskapets navn
 function handleCompanyClick(name, airtableId) {
