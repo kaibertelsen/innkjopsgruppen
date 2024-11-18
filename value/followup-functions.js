@@ -24,15 +24,21 @@ function startfollowinguplist(){
 
  function respondfollouplist(data,id){
             
-        var cleandata = rawdatacleaner(data);
-        var listanddate = addNextRenewalDatetoarray(cleandata);
+    var cleandata = rawdatacleaner(data);
+    var listanddate = addNextRenewalDatetoarray(cleandata);
+    mainfollowuplist = listanddate;
 
-        mainfollowuplist = listanddate;
+    let activeList= filterfollowupSelector("followupselector");
 
-        let activeList= filterfollowupSelector("followupselector");
+    const elementholder = document.getElementById("elementholderfollowup");
+    if(elementholder){
+        startFollowinglistElement(activeList);
+    }else{
         startfollowuplist(activeList,true,"nextrenewaldate",false);
-        //gå gjennom den lokale datovelger
-        document.getElementById("followingloader").style.display = "none";
+    }
+
+    //gå gjennom den lokale datovelger
+    document.getElementById("followingloader").style.display = "none";
  }
  
  function loadfollowingupselector(){
@@ -188,6 +194,8 @@ function startfollowinguplist(){
  }
  
 function startfollowuplist(data,load,sortname,descending){
+
+    
     sortnameproperty = sortname;
    if(load){
    listarray = [];
