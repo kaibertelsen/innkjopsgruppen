@@ -46,15 +46,11 @@ function startFollowinglistElement(data) {
 
         if (company.followupnote) {
             noteContainer.style.display = "block";
-            notebutton.textContent = "✎";
-            notebutton.removeEventListener("click", () => {});
             notebutton.addEventListener("click", () => {
                 editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, company.followupnote);
             });
         } else {
             noteContainer.style.display = "none";
-            notebutton.textContent = "+";
-            notebutton.removeEventListener("click", () => {});
             notebutton.addEventListener("click", () => {
                 editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, "");
             });
