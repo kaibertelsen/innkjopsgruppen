@@ -16,7 +16,7 @@ function startFollowinglistElement(data) {
     data.sort((a, b) => {
         const dateA = new Date(a.nextrenewaldate);
         const dateB = new Date(b.nextrenewaldate);
-        return dateA - dateB; // Sorterer i stigende rekkefølge
+        return dateA - dateB;
     });
 
     // Bruker DocumentFragment for å optimalisere DOM-manipulasjon
@@ -31,22 +31,34 @@ function startFollowinglistElement(data) {
             rowElement.classList.add("grayrow");
         }
 
-        // Oppdaterer tekstinnhold i rad-elementet med selskapets data
+        // Oppdaterer tekstinnhold i rad-elementet med selskapsdata
         rowElement.querySelector(".companynamelable").textContent = company.Name || "Ukjent";
         rowElement.querySelector(".winningdate").textContent = company.winningdate || "Ingen dato";
-        rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "Ingen oppfølging";
+        rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal || "Ingen data";
         rowElement.querySelector(".rewaldate").textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
 
-        // Viser oppfølgingsnotat hvis det finnes
-        if (company.followupnote) {
-            const noteElement = rowElement.querySelector(".textlablemanuel");
-            const noteContainer = rowElement.querySelector(".note");
+        // Klikkhendelse på companynamelable
+        const companyNameLabel = rowElement.querySelector(".companynamelable");
+        companyNameLabel.addEventListener("click", () => {
+            handleCompanyClick(company.Name, company.airtable);
+        });
 
-            if (noteElement && noteContainer) {
-                noteElement.textContent = company.followupnote;
-                noteContainer.style.display = "block";
-            }
+        // Klikkhendelse på followupStatus
+        const followupStatusElement = rowElement.querySelector(".textlablemanuel.lastfollowingup");
+        followupStatusElement.addEventListener("click", () => {
+            handleFollowupStatusClick(company.Name, company.airtable);
+        });
+
+        // Viser oppfølgingsnotat hvis det finnes
+        const noteElement = rowElement.querySelector(".textlablemanuel.note");
+        const noteContainer = rowElement.querySelector(".textholder.note");
+
+        if (company.followupnote && noteElement && noteContainer) {
+            noteElement.textContent = company.followupnote;
+            noteContainer.style.display = "block";
+        } else if (noteContainer) {
+            noteContainer.style.display = "none";
         }
 
         // Legger til rad-elementet i fragmentet
@@ -55,6 +67,30 @@ function startFollowinglistElement(data) {
 
     // Legger til alle radene i DOM på én gang
     list.appendChild(fragment);
+}
+
+// Funksjon som håndterer klikk på selskapets navn
+function handleCompanyClick(name, airtableId) {
+    console.log(`Klikket på selskapet: ${name} (ID: ${airtableId})`);
+    
+    companySelected(airtableId,name);
+}
+
+// Funksjon som håndterer klikk på oppfølgingsstatus
+function handleFollowupStatusClick(name, airtableId) {
+    console.log(`Klikket på oppfølgingsstatus for: ${name} (ID: ${airtableId})`);
+
+    // Spør brukeren om de vil sette status til "Nei"
+    const confirmChange = confirm(`Vil du sette oppfølgingsstatus til "Nei" for ${name}?`);
+    if (confirmChange) {
+        updateFollowupStatus(name, airtableId, "Nei");
+    }
+}
+
+// Funksjon for å oppdatere oppfølgingsstatus
+function updateFollowupStatus(name, airtableId, newStatus) {
+    console.log(`Oppdaterer oppfølgingsstatus for: ${name} (ID: ${airtableId}) til ${newStatus}`);
+    
 }
 
 
