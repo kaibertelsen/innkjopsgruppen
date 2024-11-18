@@ -48,7 +48,7 @@ function startFollowinglistElement(data) {
             handleFollowupStatusClick(company.Name, company.airtable);
         });
 
-        // Viser og håndterer redigering av oppfølgingsnotat
+        // Håndterer oppfølgingsnotat eller knapp for å legge til notat
         const noteElement = rowElement.querySelector(".textlablemanuel.note");
         const noteContainer = rowElement.querySelector(".textholder.note");
 
@@ -62,7 +62,22 @@ function startFollowinglistElement(data) {
                 editFollowupNote(noteElement, company.airtable);
             });
         } else if (noteContainer) {
+            // Skjuler notatelementet og viser "Legg til notat"-knapp
             noteContainer.style.display = "none";
+
+            const addNoteButton = document.createElement("button");
+            addNoteButton.textContent = "Legg til notat";
+            addNoteButton.classList.add("add-note-button");
+            addNoteButton.style.backgroundColor = "#f0f0f0"; // Sett bakgrunnsfargen her
+
+            // Klikkhendelse for å legge til notat
+            addNoteButton.addEventListener("click", () => {
+                editFollowupNote(addNoteButton, company.airtable);
+            });
+
+            // Legger til knappen i noteContainer
+            noteContainer.appendChild(addNoteButton);
+            noteContainer.style.display = "block";
         }
 
         fragment.appendChild(rowElement);
@@ -112,6 +127,7 @@ function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteEle
 }
 
 
+
 // Funksjon som håndterer klikk på selskapets navn
 function handleCompanyClick(name, airtableId) {
     console.log(`Klikket på selskapet: ${name} (ID: ${airtableId})`);
@@ -132,3 +148,28 @@ function handleFollowupStatusClick(name, airtableId) {
 function updateFollowupStatus(name, airtableId, newStatus) {
     console.log(`Oppdaterer oppfølgingsstatus for: ${name} (ID: ${airtableId}) til ${newStatus}`);
 }
+
+// Funksjon for å redigere eller legge til notatet
+function editFollowupNote(noteElement, airtableId) {
+    const currentText = noteElement.textContent === "Legg til notat" ? "" : noteElement.textContent;
+    const textarea = document.createElement("textarea");
+    textarea.value = currentText;
+    textarea.classList.add("note-editor");
+
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Lagre";
+    saveButton.classList.add("save-note-button");
+
+    // Erstatter notatet eller knappen med textarea og lagre-knapp
+    noteElement.replaceWith(textarea);
+    textarea.after(saveButton);
+
+    textarea.focus();
+
+    // Funksjon for å lagre oppdateringen
+    saveButton.addEventListener("click", () => {
+        const updatedText = textarea.value;
+        saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteElement);
+    });
+}
+
