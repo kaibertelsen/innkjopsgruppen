@@ -42,7 +42,7 @@ function startFollowinglistElement(data) {
         });
 
         // Klikkhendelse på foreldre-elementet til lastfollowingup
-        const followupParentElement = rowElement.querySelector(".textholder");
+        const followupParentElement = rowElement.querySelector(".status");
         followupParentElement.style.cursor = "pointer";
         followupParentElement.addEventListener("click", () => {
             handleFollowupStatusClick(company.Name, company.airtable);
