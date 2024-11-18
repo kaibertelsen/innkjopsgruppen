@@ -38,32 +38,27 @@ function startFollowinglistElement(data) {
         rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal || "Ingen data";
         rowElement.querySelector(".rewaldate").textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
+        rowElement.querySelector(".notetextlable").textContent = company.followupnote || "";
 
         // Håndterer notat-knappen
-        const noteButton = document.createElement("button");
-        noteButton.classList.add("post-it-button");
-        noteButton.title = "Legg til notat";
-        noteButton.style.cursor = "pointer";
-        noteButton.style.backgroundColor = "rgba(255, 200, 0, 0.18)";
-
-        const noteContainer = rowElement.querySelector(".textholder.note");
+        const notebutton = rowElement.querySelector(".notebutton");
+        const noteContainer = rowElement.querySelector(".note");
 
         if (company.followupnote) {
-            noteButton.textContent = "✎";
             noteContainer.style.display = "block";
-            noteButton.addEventListener("click", () => {
-                editFollowupNote(noteButton, company.airtable, company.followupnote);
+            notebutton.textContent = "✎";
+            notebutton.removeEventListener("click", () => {});
+            notebutton.addEventListener("click", () => {
+                editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, company.followupnote);
             });
         } else {
-            noteButton.textContent = "+";
             noteContainer.style.display = "none";
-            noteButton.addEventListener("click", () => {
-                editFollowupNote(noteButton, company.airtable);
+            notebutton.textContent = "+";
+            notebutton.removeEventListener("click", () => {});
+            notebutton.addEventListener("click", () => {
+                editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, "");
             });
         }
-
-        // Plasserer knappen rett etter firmanavnet
-        companyNameLabel.after(noteButton);
 
         fragment.appendChild(rowElement);
     });
@@ -72,7 +67,7 @@ function startFollowinglistElement(data) {
 }
 
 // Funksjon for å redigere eller legge til notatet
-function editFollowupNote(noteButton, airtableId, currentText = "") {
+function editFollowupNote(textlable, airtableId, currentText = "") {
     const textarea = document.createElement("textarea");
     textarea.value = currentText;
     textarea.classList.add("note-editor");
@@ -81,28 +76,23 @@ function editFollowupNote(noteButton, airtableId, currentText = "") {
     saveButton.textContent = "Lagre";
     saveButton.classList.add("save-note-button");
 
-    noteButton.replaceWith(textarea);
+    textlable.replaceWith(textarea);
     textarea.after(saveButton);
 
     textarea.focus();
 
     saveButton.addEventListener("click", () => {
         const updatedText = textarea.value;
-        saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteButton);
+        saveFollowupNote(updatedText, airtableId, textarea, saveButton, textlable);
     });
 }
 
 // Funksjon for å lagre oppdatert notat
-function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteButton) {
+function saveFollowupNote(updatedText, airtableId, textarea, saveButton, textlable) {
     console.log(`Lagrer oppfølgingsnotat for ID: ${airtableId}, Ny tekst: ${updatedText}`);
-
-    noteButton.textContent = updatedText ? "✎" : "+";
-    textarea.replaceWith(noteButton);
+    textlable.textContent = updatedText;
+    textarea.replaceWith(textlable);
     saveButton.remove();
-
-    noteButton.addEventListener("click", () => {
-        editFollowupNote(noteButton, airtableId, updatedText);
-    });
 
     const body = {
         followupnote: updatedText
@@ -112,6 +102,7 @@ function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteBut
 
     PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
 }
+
 
 // Callback-funksjon for oppdatering
 function responseupdateFollowingUpNote(data) {
