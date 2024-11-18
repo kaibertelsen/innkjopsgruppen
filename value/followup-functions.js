@@ -28,7 +28,7 @@ function startfollowinguplist(){
     var listanddate = addNextRenewalDatetoarray(cleandata);
     mainfollowuplist = listanddate;
 
-    let activeList= filterfollowupSelector("followupselector");
+    let activeList= filterfollowupSelector(listanddate,"followupselector");
 
     const elementholder = document.getElementById("elementholderfollowup");
     if(elementholder){
