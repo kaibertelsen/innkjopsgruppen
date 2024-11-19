@@ -102,7 +102,7 @@ async function exportXLS(rows, name, dateColumns = []) {
 
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = "Klinketil-" + name + ".xlsx";
+    link.download = name + ".xlsx";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
