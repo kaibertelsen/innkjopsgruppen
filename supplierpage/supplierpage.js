@@ -104,3 +104,23 @@ function formatDate(inputDate) {
 
     return `${day}.${month} ${year}`;
 }
+
+
+document.getElementById("xlsexportbutton").addEventListener("click", () => {
+    // Feltene du vil hente
+    const selectedFields = ["lastmodified", "companyorgnr", "companyname", "useremail", "companybrukernavn"];
+
+    // Mapping til nye navn
+    const fieldMapping = {
+        lastmodified: "Dato",
+        companyorgnr: "Orgnummer",
+        companyname: "Selskapsnavn",
+        useremail: "Innsender",
+        companybrukernavn: "Brukere"
+    };
+
+    let filename = "Tilkoblinger for " + GlobalConnections[0].suppliername[0];
+
+    // Eksporter til Excel
+    exportData(GlobalConnections, selectedFields, fieldMapping, filename);
+});

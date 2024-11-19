@@ -1,24 +1,4 @@
 
-document.getElementById("xlsexportbutton").addEventListener("click", () => {
-    // Feltene du vil hente
-    const selectedFields = ["lastmodified", "companyorgnr", "companyname", "useremail", "companybrukernavn"];
-
-    // Mapping til nye navn
-    const fieldMapping = {
-        lastmodified: "Dato",
-        companyorgnr: "Orgnummer",
-        companyname: "Selskapsnavn",
-        useremail: "Innsender",
-        companybrukernavn: "Brukere"
-    };
-
-    let filename = "Tilkoblinger for " + GlobalConnections[0].suppliername[0];
-
-    // Eksporter til Excel
-    exportData(GlobalConnections, selectedFields, fieldMapping, filename);
-});
-
-
 function exportData(rawDataArray, selectedFields, fieldMapping, fileName) {
     // Forbered dataene med omdøpte nøkler
     const preparedData = prepareExportDataArray(rawDataArray, selectedFields, fieldMapping);
