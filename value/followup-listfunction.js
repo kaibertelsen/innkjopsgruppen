@@ -98,12 +98,24 @@ function editFollowupNote(noteContainer, airtableId) {
     textarea.addEventListener("change", function () {
         handleTextareaChange(noteContainer);
     });
+
+    textarea.addEventListener("input", function () {
+        textAreaChange(notetextlable,textarea);
+    });
 }
+
+function textAreaChange(notetextlable,textarea){
+
+    notetextlable.textContent = textarea.value;
+     //synligjør save knapp
+     notetextlable.parentElement.querySelector(".savebutton").style.display = "inline-block";
+
+}
+
 
 // Funksjon som håndterer endringer i textarea
 function handleTextareaChange(noteContainer) {
     //synligjør save knapp
-    noteContainer.querySelector(".savebutton").style.display = "inline-block";
     let notevalue = noteContainer.querySelector(".textareanote").value;
     const notetext = noteContainer.querySelector(".notetextlable");
     notetext.textContent = notevalue;
