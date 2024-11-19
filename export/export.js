@@ -18,9 +18,9 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 });
 
 
-function exportData(rawDataArray, selectedFields, fileName, format) {
-    // Forbered dataene
-    const preparedData = prepareExportDataArray(rawDataArray, selectedFields);
+function exportData(rawDataArray, selectedFields, fieldMapping, fileName, format) {
+    // Forbered dataene med feltnavnene omdøpt
+    const preparedData = prepareExportDataArray(rawDataArray, selectedFields, fieldMapping);
 
     // Velg eksportformat (Excel eller CSV)
     if (format === "excel") {
@@ -31,6 +31,7 @@ function exportData(rawDataArray, selectedFields, fileName, format) {
         console.error("Ugyldig eksportformat. Bruk 'excel' eller 'csv'.");
     }
 }
+
 
 
 
