@@ -39,12 +39,34 @@ function startConnectionList(data) {
         }
 
         // Populate the row with data
-        rowElement.querySelector(".date").textContent = connections.lastmodified || "Ingen dato";
+        rowElement.querySelector(".date").textContent = formatDate(connections.lastmodified) || "Ingen dato";
         rowElement.querySelector(".company").textContent = connections.companyname || "";
-        rowElement.querySelector(".person").textContent = connections.companybrukernavn || "";
+        rowElement.querySelector(".person").textContent = formatNameList(connections.companybrukernavn) || "";
         rowElement.querySelector(".status").textContent = "aktiv";
 
         // Append the populated row to the list
         list.appendChild(rowElement);
     });
+}
+
+function formatNameList(nameList) {
+    // Split the names by ","
+    const names = nameList.split(',');
+    // Get the first name, trim any extra whitespace, and add "..."
+    return `${names[0].trim()}...`;
+}
+
+
+function formatDate(inputDate) {
+    const months = [
+        "jan", "feb", "mar", "apr", "mai", "jun",
+        "jul", "aug", "sep", "okt", "nov", "des"
+    ];
+
+    const date = new Date(inputDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day}.${month} ${year}`;
 }
