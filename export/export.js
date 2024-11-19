@@ -17,7 +17,6 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     exportData(GlobalConnections, selectedFields, fieldMapping, filename, "excel");
 });
 
-
 function exportData(rawDataArray, selectedFields, fieldMapping, fileName, format) {
     // Forbered dataene med feltnavnene omdøpt
     const preparedData = prepareExportDataArray(rawDataArray, selectedFields, fieldMapping);
@@ -31,10 +30,6 @@ function exportData(rawDataArray, selectedFields, fieldMapping, fileName, format
         console.error("Ugyldig eksportformat. Bruk 'excel' eller 'csv'.");
     }
 }
-
-
-
-
 
 function prepareExportDataArray(rawDataArray, selectedFields) {
     return rawDataArray.map(rawData => {
@@ -54,9 +49,6 @@ function prepareExportDataArray(rawDataArray, selectedFields) {
         return preparedData;
     });
 }
-
-
-
 
 async function exportXLS(rows, name, dateColumns = []) {
     const workbook = new ExcelJS.Workbook();
@@ -115,9 +107,6 @@ async function exportXLS(rows, name, dateColumns = []) {
     link.click();
     document.body.removeChild(link);
 }
-
-
-
 
 async function exportCSV(rows, name) {
     if (!rows || rows.length === 0) {
