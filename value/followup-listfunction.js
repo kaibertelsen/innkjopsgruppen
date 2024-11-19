@@ -51,15 +51,13 @@ function startFollowinglistElement(data) {
         });
 
         savebutton.style.display = "none";
+        savebutton.addEventListener("click", () => {
+            saveFollowupNote(noteContainer, company.airtable);
+        });
 
         if (company.followupnote) {
             noteContainer.style.display = "block";
             notebutton.style.display = "none";
-
-            savebutton.addEventListener("click", () => {
-                saveFollowupNote(noteContainer, company.airtable);
-            });
-
         } else {
             noteContainer.style.display = "none";
             notebutton.style.display = "inline-block";
