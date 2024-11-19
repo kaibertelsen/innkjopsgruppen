@@ -87,10 +87,8 @@ function editFollowupNote(noteContainer, airtableId) {
     const textarea = document.createElement("textarea");
     const noteTextLabel = noteContainer.querySelector(".notetextlable");
 
-    if (noteTextLabel && noteTextLabel.textContent !== "#") {
+    if (noteTextLabel && noteTextLabel.textContent !== "") {
         textarea.value = noteTextLabel.textContent;
-    } else {
-        textarea.value = "";
     }
 
     textarea.classList.add("textareanote");
