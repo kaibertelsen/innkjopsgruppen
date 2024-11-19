@@ -12,7 +12,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         companybrukernavn: "Brukere"
     };
 
-    let filename = GlobalConnections[0].suppliername[0];
+    let filename = "Tilkoblinger for "+GlobalConnections[0].suppliername[0];
     // Eksporter til Excel
     exportData(GlobalConnections, selectedFields, fieldMapping, filename, "excel");
 });
