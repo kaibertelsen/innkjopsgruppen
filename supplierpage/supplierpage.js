@@ -52,8 +52,8 @@ function startConnectionList(data) {
         // Populate the row with data
         rowElement.querySelector(".date").textContent = formatDate(connections.lastmodified) || "Ingen dato";
         rowElement.querySelector(".company").textContent = connections.companyname || "";
-        rowElement.querySelector(".person").textContent = formatNameList(connections.companybrukernavn) || "";
-
+        //rowElement.querySelector(".person").textContent = formatNameList(connections.companybrukernavn) || "";
+        /*
         // Create a link for the sender element
         const senderElement = rowElement.querySelector(".sender");
         if (senderElement) {
@@ -63,6 +63,7 @@ function startConnectionList(data) {
             emailLink.target = "_blank"; // Opens email client in a new tab/window
             senderElement.replaceChildren(emailLink);
         }
+        */
 
         // Append the populated row to the list
         list.appendChild(rowElement);
