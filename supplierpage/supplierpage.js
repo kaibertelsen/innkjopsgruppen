@@ -60,11 +60,15 @@ function startConnectionList(data) {
 
 
 function formatNameList(nameList) {
-    // Split the names by ","
-    const names = nameList.split(',');
-    // Get the first name, trim any extra whitespace, and add "..."
-    return `${names[0].trim()}...`;
+    if (typeof nameList !== "string") {
+        console.error("Expected a string, but got:", nameList);
+        return "Ukjent...";
+    }
+    
+    const names = nameList.split(','); // Split names by comma
+    return `${names[0].trim()}...`; // Return the first name with "..."
 }
+
 
 
 function formatDate(inputDate) {
