@@ -77,32 +77,48 @@ function startFollowinglistElement(data) {
 
 
 function editFollowupNote(noteContainer, airtableId) {
-    const textarea = document.createElement("textarea");
-    const notetextlable = noteContainer.querySelector(".notetextlable")
+    // Fjern eksisterende textarea hvis det finnes
+    const existingTextarea = noteContainer.querySelector(".textareanote");
+    if (existingTextarea) {
+        existingTextarea.remove();
+    }
 
-    if(notetextlable.textContent != "#"){
-        textarea.value = notetextlable.textContent
-    }else{
+    // Opprett og konfigurer textarea
+    const textarea = document.createElement("textarea");
+    const noteTextLabel = noteContainer.querySelector(".notetextlable");
+
+    if (noteTextLabel && noteTextLabel.textContent !== "#") {
+        textarea.value = noteTextLabel.textContent;
+    } else {
         textarea.value = "";
     }
 
     textarea.classList.add("textareanote");
-    noteContainer.prepend(textarea);
+    textarea.placeholder = "Legg til en kommentar";
     textarea.focus();
+
+    // Legg textarea som første element i noteContainer
+    noteContainer.prepend(textarea);
+
+    // Skjul tekstlabel
+    if (noteTextLabel) {
+        noteTextLabel.style.display = "none";
+    }
+
+    // Sørg for at container er synlig
     noteContainer.style.display = "block";
 
-    //skjul text label
-    notetextlable.style.display = "none";
-
-    // Legg til eventlistener for når innholdet i textarea endres
+    // Eventlistener for når innholdet i textarea endres
     textarea.addEventListener("change", function () {
         handleTextareaChange(noteContainer);
     });
 
+    // Eventlistener for sanntidsoppdatering av tekst
     textarea.addEventListener("input", function () {
-        textAreaChange(notetextlable,textarea);
+        textAreaChange(noteTextLabel, textarea);
     });
 }
+
 
 function textAreaChange(notetextlable,textarea){
 
