@@ -70,12 +70,16 @@ function startFollowinglistElement(data) {
 
 
 function editFollowupNote(noteContainer, airtableId) {
+
     const textarea = document.createElement("textarea");
     textarea.value = "";
     textarea.placeholder = "Legg til kommentar";
     noteContainer.appendChild(textarea);
     textarea.focus();
     noteContainer.style.display = "block";
+
+    //skjul text label
+    noteContainer.querySelector(".notetextlable").style.display = "none";
 
     // Legg til eventlistener for når innholdet i textarea endres
     textarea.addEventListener("input", function () {
