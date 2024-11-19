@@ -75,7 +75,7 @@ function editFollowupNote(noteContainer, airtableId) {
     textarea.value = "";
     textarea.placeholder = "Legg til kommentar";
     textarea.classList.add("textareanote");
-    noteContainer.appendChild(textarea);
+    noteContainer.prepend(textarea);
     textarea.focus();
     noteContainer.style.display = "block";
 
@@ -83,14 +83,14 @@ function editFollowupNote(noteContainer, airtableId) {
     noteContainer.querySelector(".notetextlable").style.display = "none";
 
     // Legg til eventlistener for når innholdet i textarea endres
-    textarea.addEventListener("input", function () {
-        handleTextareaChange(noteContainer,textarea.value, airtableId);
+    textarea.addEventListener("change", function () {
+        handleTextareaChange(noteContainer, textarea.value, airtableId);
     });
+    
 }
 
 // Funksjon som håndterer endringer i textarea
 function handleTextareaChange(noteContainer,newValue, airtableId) {
-    console.log(`Teksten er endret til: ${newValue} for Airtable ID: ${airtableId}`);
     //synligjør save knapp
     noteContainer.querySelector(".savebutton").style.display = "inline-block";
 }
