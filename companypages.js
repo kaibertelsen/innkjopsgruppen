@@ -81,7 +81,8 @@ function updatelivelist(elementid) {
         if (!existsInLiveConnection) {
             livecompanyconnection.push({
                 company: [airtableCompanyId],
-                supplier: [supplierId]
+                supplier: [supplierId],
+                user:myuserID
             });
 
         }
