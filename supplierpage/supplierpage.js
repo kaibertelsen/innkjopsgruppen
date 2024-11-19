@@ -42,7 +42,7 @@ function startConnectionList(data) {
         rowElement.querySelector(".date").textContent = formatDate(connections.lastmodified) || "Ingen dato";
         rowElement.querySelector(".company").textContent = connections.companyname || "";
         rowElement.querySelector(".person").textContent = formatNameList(connections.companybrukernavn) || "";
-        rowElement.querySelector(".status").textContent = "aktiv";
+        rowElement.querySelector(".sender").textContent = connections.brukernavn || "";
 
         // Append the populated row to the list
         list.appendChild(rowElement);
