@@ -12,10 +12,12 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         companybrukernavn: "Brukere"
     };
 
-    let filename = "Tilkoblinger for "+GlobalConnections[0].suppliername[0];
+    let filename = "Tilkoblinger for " + GlobalConnections[0].suppliername[0];
+
     // Eksporter til Excel
-    exportData(GlobalConnections, selectedFields, fieldMapping, filename, "excel");
+    exportData(GlobalConnections, selectedFields, fieldMapping, filename);
 });
+
 
 function exportData(rawDataArray, selectedFields, fieldMapping, fileName) {
     // Forbered dataene med omdøpte nøkler
