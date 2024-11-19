@@ -28,6 +28,7 @@ function respondfollouplist(data,id){
     var listanddate = addNextRenewalDatetoarray(cleandata);
     mainfollowuplist = listanddate;
     startfollouplist(listanddate);
+    document.getElementById("followingloader").style.display = "none";
 }
 
  function startfollouplist(listanddate){
@@ -41,8 +42,6 @@ function respondfollouplist(data,id){
         startfollowuplist(activeList,true,"nextrenewaldate",false);
     }
 
-    //gå gjennom den lokale datovelger
-    document.getElementById("followingloader").style.display = "none";
  }
  
  function loadfollowingupselector(){
