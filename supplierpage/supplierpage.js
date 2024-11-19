@@ -67,7 +67,7 @@ function formatNameList(nameList) {
     } else if (typeof nameList === "string") {
         // Hvis det er en streng, splitt den på komma
         const names = nameList.split(',');
-        return `${names[0].trim()}...`;
+        return `${names[0].trim()} ...`;
     } else {
         console.error("Expected a string or array, but got:", nameList);
         return "Ukjent...";
