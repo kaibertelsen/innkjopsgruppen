@@ -22,11 +22,15 @@ function startfollowinguplist(){
     return body;
 }
 
- function respondfollouplist(data,id){
-            
+
+function respondfollouplist(data,id){
     var cleandata = rawdatacleaner(data);
     var listanddate = addNextRenewalDatetoarray(cleandata);
     mainfollowuplist = listanddate;
+    startfollouplist(listanddate);
+}
+
+ function startfollouplist(listanddate){
 
     let activeList= filterfollowupSelector(listanddate,"followupselector");
 
