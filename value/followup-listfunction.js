@@ -71,10 +71,23 @@ function startFollowinglistElement(data) {
             noteContainer.style.display = "block";
         } else {
             noteContainer.style.display = "none";
-            notebutton.addEventListener("click", () => {
-                editFollowupNote(noteContainer, company.airtable, "");
-            });
         }
+
+        let clickCount = 0; // Teller for klikk
+
+        notebutton.addEventListener("click", () => {
+            clickCount++;
+            
+            if (clickCount === 1) {
+                // Første klikk
+                editFollowupNote(noteContainer, company.airtable, "");
+            } else if (clickCount === 2) {
+                // Andre klikk
+                editFollowupNoteClouse(noteContainer);
+                clickCount = 0;
+            }
+        });
+
 
         fragment.appendChild(rowElement);
     });
@@ -125,6 +138,9 @@ function editFollowupNote(noteContainer, airtableId) {
     });
 }
 
+function editFollowupNoteClouse(noteContainer){
+    noteContainer.style.display = "none"
+}
 
 function textAreaChange(notetextlable,textarea){
 
