@@ -44,6 +44,12 @@ function startFollowinglistElement(data) {
         const notebutton = rowElement.querySelector(".notebutton");
         const noteContainer = rowElement.querySelector(".noteholder");
         const savebutton = rowElement.querySelector(".savebutton");
+        const textlable = rowElement.querySelector(".notetextlable");
+
+        textlable.addEventListener("click", () => {
+            editFollowupNote(noteContainer, company.airtable);
+        });
+
         savebutton.style.display = "none";
 
         if (company.followupnote) {
@@ -69,33 +75,36 @@ function startFollowinglistElement(data) {
 }
 
 
-function editFollowupNote(noteContainer, airtableId) {
 
+function editFollowupNote(noteContainer, airtableId) {
     const textarea = document.createElement("textarea");
-    textarea.value = "";
-    textarea.placeholder = "Legg til kommentar";
+    const notetextlable = noteContainer.querySelector(".notetextlable")
+
+    if(notetextlable.textContent != "#"){
+        textarea.value = notetextlable.textContent
+    }else{
+        textarea.value = "";
+    }
+
     textarea.classList.add("textareanote");
     noteContainer.prepend(textarea);
     textarea.focus();
     noteContainer.style.display = "block";
 
     //skjul text label
-    noteContainer.querySelector(".notetextlable").style.display = "none";
+    notetextlable.style.display = "none";
 
     // Legg til eventlistener for når innholdet i textarea endres
     textarea.addEventListener("change", function () {
         handleTextareaChange(noteContainer);
     });
-    
 }
 
 // Funksjon som håndterer endringer i textarea
 function handleTextareaChange(noteContainer) {
     //synligjør save knapp
     noteContainer.querySelector(".savebutton").style.display = "inline-block";
-    
     let notevalue = noteContainer.querySelector(".textareanote").value;
-
     const notetext = noteContainer.querySelector(".notetextlable");
     notetext.textContent = notevalue;
     notetext.style.display = "block";
@@ -106,10 +115,10 @@ function handleTextareaChange(noteContainer) {
 // Funksjon for å lagre oppdatert notat
 function saveFollowupNote(noteContainer, airtableId) {
    
-
+    const notetext = noteContainer.querySelector(".notetextlable");
 
     const body = {
-        followupnote: notevalue
+        followupnote: notetext.textContent
     };
 
     console.log("Body som sendes til Airtable:", body);
@@ -130,39 +139,6 @@ function handleCompanyClick(name, airtableId) {
     console.log(`Klikket på selskapet: ${name} (ID: ${airtableId})`);
     companySelected(airtableId, name);
 }
-
-// Funksjon for å lagre oppdatert notat
-function saveFollowupNote(updatedText, airtableId, textarea, saveButton, noteButton) {
-    console.log(`Lagrer oppfølgingsnotat for ID: ${airtableId}, Ny tekst: ${updatedText}`);
-
-    // Oppdaterer teksten på knappen basert på om det er et notat eller ikke
-    noteButton.textContent = updatedText ? "✎" : "+";
-
-    // Erstatter textarea og fjerner lagre-knappen
-    textarea.replaceWith(noteButton);
-    saveButton.remove();
-
-    // Fjerner gamle klikkhendelser for å unngå duplikater
-    noteButton.replaceWith(noteButton.cloneNode(true));
-    const newNoteButton = noteButton.cloneNode(true);
-    noteButton.parentNode.replaceChild(newNoteButton, noteButton);
-
-    // Legger til klikkhendelse for å redigere notatet igjen
-    newNoteButton.addEventListener("click", () => {
-        editFollowupNote(newNoteButton, airtableId, updatedText);
-    });
-
-    // Oppretter body-objektet som skal sendes til Airtable
-    const body = {
-        followupnote: updatedText
-    };
-
-    console.log("Body som sendes til Airtable:", body);
-
-    // Sender oppdateringen til serveren
-    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
-}
-
 
 // Funksjon for å oppdatere oppfølgingsstatus
 function updateFollowupStatus(name, airtableId, newStatus) {
