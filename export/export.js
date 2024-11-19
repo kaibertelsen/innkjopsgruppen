@@ -17,40 +17,35 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     exportData(GlobalConnections, selectedFields, fieldMapping, filename, "excel");
 });
 
-function exportData(rawDataArray, selectedFields, fieldMapping, fileName, format) {
-    // Forbered dataene med feltnavnene omdøpt
+function exportData(rawDataArray, selectedFields, fieldMapping, fileName) {
+    // Forbered dataene med omdøpte nøkler
     const preparedData = prepareExportDataArray(rawDataArray, selectedFields, fieldMapping);
 
-    // Velg eksportformat (Excel eller CSV)
-    if (format === "excel") {
-        exportXLS(preparedData, fileName); // Eksporter til Excel
-    } else if (format === "csv") {
-        exportCSV(preparedData, fileName); // Eksporter til CSV
-    } else {
-        console.error("Ugyldig eksportformat. Bruk 'excel' eller 'csv'.");
-    }
+    // Eksporter til Excel
+    exportXLS(preparedData, fileName);
 }
 
-function prepareExportDataArray(rawDataArray, selectedFields) {
+function prepareExportDataArray(rawDataArray, selectedFields, fieldMapping) {
     return rawDataArray.map(rawData => {
         const preparedData = {};
         selectedFields.forEach(field => {
+            const newFieldName = fieldMapping[field]; // Hent nytt navn fra mapping
             if (Array.isArray(rawData[field])) {
                 // Kombiner arrays til kommaseparerte strenger
-                preparedData[field] = rawData[field].join(", ");
+                preparedData[newFieldName] = rawData[field].join(", ");
             } else if (rawData[field] === undefined || rawData[field] === null) {
                 // Sett tom streng for undefined eller null verdier
-                preparedData[field] = "";
+                preparedData[newFieldName] = "";
             } else {
                 // Behold verdien som den er
-                preparedData[field] = rawData[field];
+                preparedData[newFieldName] = rawData[field];
             }
         });
         return preparedData;
     });
 }
 
-async function exportXLS(rows, name, dateColumns = []) {
+async function exportXLS(rows, name) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(name);
 
@@ -62,7 +57,7 @@ async function exportXLS(rows, name, dateColumns = []) {
 
     // Legg til data-rader
     rows.forEach(row => {
-        worksheet.addRow(headers.map(header => row[header]));
+        worksheet.addRow(headers.map(header => row[header] || ""));
     });
 
     // Style header-raden (rad 1)
@@ -86,11 +81,6 @@ async function exportXLS(rows, name, dateColumns = []) {
             }
         });
         column.width = Math.min(maxLength + 2, 30); // Legg til litt ekstra plass, maks bredde 30 tegn
-
-        // Sjekk om denne kolonnen er en dato og sett datoformat
-        if (dateColumns.includes(headers[colIndex])) {
-            column.numFmt = "yyyy-mm-dd hh:mm:ss"; // Sett ønsket datoformat
-        }
     });
 
     // Fryse første rad
