@@ -150,7 +150,7 @@ function respondfollouplist(data, id) {
  
     if(selector.value == "missingfollowup"){
         //list alle som mangler oppfølging
-        return mainfollowuplist;
+        return data;
     }else{
         let fromdate = finddateforwardIntime(Number(selector.value));
         var array = [];
