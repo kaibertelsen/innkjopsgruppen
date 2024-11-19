@@ -34,6 +34,18 @@ function startFollowinglistElement(data) {
             handleCompanyClick(company.Name, company.airtable);
         });
 
+        // Håndterer klikk på "status"-elementet
+        const statusElement = rowElement.querySelector(".status");
+        statusElement.style.cursor = "pointer";
+        statusElement.addEventListener("click", () => {
+            const confirmAction = confirm(`Ønsker du å koble selskapet "${company.Name}" fra oppfølging?`);
+            if (confirmAction) {
+                updateFollowupStatus(company.Name, company.airtable, "NEI");
+            }
+        });
+
+        
+
         rowElement.querySelector(".winningdate").textContent = company.winningdate || "Ingen dato";
         rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal || "Ingen data";
@@ -164,6 +176,8 @@ function handleCompanyClick(name, airtableId) {
     companySelected(airtableId, name);
     document.getElementById("besparelsebutton").click();
 }
+
+
 
 // Funksjon for å oppdatere oppfølgingsstatus
 function updateFollowupStatus(name, airtableId, newStatus) {
