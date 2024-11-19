@@ -49,11 +49,11 @@ function startFollowinglistElement(data) {
         if (company.followupnote) {
             noteContainer.style.display = "block";
             notebutton.style.display = "none";
-            /*
-            notebutton.addEventListener("click", () => {
-                editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, company.followupnote);
+
+            savebutton.addEventListener("click", () => {
+                saveFollowupNote(noteContainer, company.airtable);
             });
-            */
+
         } else {
             noteContainer.style.display = "none";
             notebutton.style.display = "inline-block";
@@ -84,32 +84,37 @@ function editFollowupNote(noteContainer, airtableId) {
 
     // Legg til eventlistener for når innholdet i textarea endres
     textarea.addEventListener("change", function () {
-        handleTextareaChange(noteContainer, textarea.value, airtableId);
+        handleTextareaChange(noteContainer);
     });
     
 }
 
 // Funksjon som håndterer endringer i textarea
-function handleTextareaChange(noteContainer,newValue, airtableId) {
+function handleTextareaChange(noteContainer) {
     //synligjør save knapp
     noteContainer.querySelector(".savebutton").style.display = "inline-block";
+    
+    let notevalue = noteContainer.querySelector(".textareanote").value;
+
+    const notetext = noteContainer.querySelector(".notetextlable");
+    notetext.textContent = notevalue;
+    notetext.style.display = "block";
+    noteContainer.querySelector(".textareanote").remove();
 }
 
 
 // Funksjon for å lagre oppdatert notat
-function saveFollowupNote(updatedText, airtableId,textlable,textarea) {
-    console.log(`Lagrer oppfølgingsnotat for ID: ${airtableId}, Ny tekst: ${updatedText}`);
-    textlable.textContent = updatedText;
-    textarea.replaceWith(textlable);
-    textarea.remove();
+function saveFollowupNote(noteContainer, airtableId) {
+   
+
 
     const body = {
-        followupnote: updatedText
+        followupnote: notevalue
     };
 
     console.log("Body som sendes til Airtable:", body);
 
-    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
+   // PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
 }
 
 
