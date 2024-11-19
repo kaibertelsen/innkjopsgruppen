@@ -32,20 +32,27 @@ function prepareExportDataArray(rawDataArray, selectedFields, fieldMapping) {
         const preparedData = {};
         selectedFields.forEach(field => {
             const newFieldName = fieldMapping[field]; // Hent nytt navn fra mapping
-            if (Array.isArray(rawData[field])) {
+            let value = rawData[field];
+
+            if (Array.isArray(value)) {
                 // Kombiner arrays til kommaseparerte strenger
-                preparedData[newFieldName] = rawData[field].join(", ");
-            } else if (rawData[field] === undefined || rawData[field] === null) {
+                preparedData[newFieldName] = value.join(", ");
+            } else if (value === undefined || value === null) {
                 // Sett tom streng for undefined eller null verdier
                 preparedData[newFieldName] = "";
+            } else if (field === "lastmodified") {
+                // Formater dato til 'yyyy-mm-dd' for Excel
+                const date = new Date(value);
+                preparedData[newFieldName] = date.toISOString().split("T")[0]; // yyyy-mm-dd
             } else {
                 // Behold verdien som den er
-                preparedData[newFieldName] = rawData[field];
+                preparedData[newFieldName] = value;
             }
         });
         return preparedData;
     });
 }
+
 
 async function exportXLS(rows, name) {
     const workbook = new ExcelJS.Workbook();
