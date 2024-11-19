@@ -11,7 +11,8 @@ function loadScript(url) {
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/supplierpage/supplierpage.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/supplierpage/api.js"
+    "https://kaibertelsen.github.io/innkjopsgruppen/supplierpage/api.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/supplierpage/export.js"
 ];
 
 // Laste inn alle skriptene sekvensielt
