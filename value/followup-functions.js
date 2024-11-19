@@ -1,12 +1,15 @@
 function startfollowinguplist(){
 
-    if(!mainfollowuplist.length>0){
     //alle firma som har currentfolloupdate før 9mnd fra i dag
     let datebefore = finddateBackIntime(9);
     let datefrom = "2010-01-01"
     
    let body = generateAirtableQuery(datefrom,datebefore,"currentfollowupdate", "nofollowup");
     Getlistairtable(baseid,"tblFySDb9qVeVVY5c",body,"respondfollouplist")  
+    
+    // Sjekker om `mainfollowuplist` har elementer
+    if (Array.isArray(mainfollowuplist) && mainfollowuplist.length > 0) {
+        startfollouplist(mainfollowuplist); // Oppdaterer oppfølgingslisten
     }
  }
  
@@ -23,13 +26,25 @@ function startfollowinguplist(){
 }
 
 
-function respondfollouplist(data,id){
+function respondfollouplist(data, id) {
+    // Renser rådata
     var cleandata = rawdatacleaner(data);
+
+    // Legger til neste fornyelsesdato i arrayet
     var listanddate = addNextRenewalDatetoarray(cleandata);
+
+    // Sjekker om mainfollowuplist er forskjellig fra listanddate
+    if (JSON.stringify(mainfollowuplist) !== JSON.stringify(listanddate)) {
+        startfollouplist(listanddate); // Starter oppdatering av oppfølgingslisten
+    }
+
+    // Oppdaterer mainfollowuplist
     mainfollowuplist = listanddate;
-    startfollouplist(listanddate);
-    if(document.getElementById("followingloader")){
-    document.getElementById("followingloader").style.display = "none";
+
+    // Skjuler loader hvis den finnes
+    const loader = document.getElementById("followingloader");
+    if (loader) {
+        loader.style.display = "none";
     }
 }
 
