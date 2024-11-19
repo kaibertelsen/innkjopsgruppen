@@ -24,6 +24,7 @@ function startFollowinglistElement(data) {
     data.forEach((company, index) => {
         const rowElement = nodeElement.cloneNode(true);
         rowElement.classList.add("rowlistelement");
+        rowElement.id = "row"+"elementfollowinguplist"+company.airtable;
         if (index % 2 === 1) {
             rowElement.classList.add("grayrow");
         }
