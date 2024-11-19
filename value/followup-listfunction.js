@@ -40,7 +40,7 @@ function startFollowinglistElement(data) {
         statusElement.addEventListener("click", () => {
             const confirmAction = confirm(`Ønsker du å koble selskapet "${company.Name}" fra oppfølging?`);
             if (confirmAction) {
-                updateFollowupStatus(company.Name, company.airtable, "NEI");
+                updateFollowupStatus(statusElement, company.airtable, "NEI");
             }
         });
 
@@ -177,8 +177,9 @@ function handleCompanyClick(name, airtableId) {
 
 
 // Funksjon for å oppdatere oppfølgingsstatus
-function updateFollowupStatus(name, airtableId, newStatus) {
-    console.log(`Oppdaterer oppfølgingsstatus for: ${name} (ID: ${airtableId}) til ${newStatus}`);
+function updateFollowupStatus(statusElement, airtableId, newStatus) {
+    statusElement.style.color = rød
+    statusElement.querySelector(".lastfollowingup").textContent = newStatus;
 
     // Sjekker status og setter `nofollowup` til true eller false
     const nofollowup = newStatus.toUpperCase() === "NEI";
