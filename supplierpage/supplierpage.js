@@ -29,8 +29,18 @@ function startConnectionList(data) {
         console.error("Template element not found");
         return;
     }
-    document.getElementById("connectioncounter").textContent = data.length+" stk. tilkoblede selskaper."
-    
+
+    // Update connection counter
+    document.getElementById("connectioncounter").textContent = data.length + " stk. tilkoblede selskaper.";
+
+    // Sort data by lastmodified (newest first)
+    data.sort((a, b) => {
+        const dateA = new Date(a.lastmodified);
+        const dateB = new Date(b.lastmodified);
+        return dateB - dateA; // Descending order
+    });
+
+    // Populate the list
     data.forEach((connections, index) => {
         const rowElement = nodeElement.cloneNode(true);
 
@@ -58,6 +68,7 @@ function startConnectionList(data) {
         list.appendChild(rowElement);
     });
 }
+
 
 
 function formatNameList(nameList) {
