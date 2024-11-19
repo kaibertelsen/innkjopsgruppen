@@ -140,28 +140,29 @@ function handleTextareaChange(noteContainer) {
 function saveFollowupNote(noteContainer, airtableId) {
    
     const notetext = noteContainer.querySelector(".notetextlable");
-
+    noteContainer.querySelector(".savebutton").style.display = "none";
+    noteContainer.parentElement.querySelector(".notebutton").style.display = "none";
+    
     const body = {
         followupnote: notetext.textContent
     };
 
     console.log("Body som sendes til Airtable:", body);
 
-   // PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
+   PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
 }
 
 
 // Callback-funksjon for oppdatering
 function responseupdateFollowingUpNote(data) {
     console.log("Notat oppdatert med respons:", data);
-    alert("Notatet ble lagret og oppdatert i Airtable.");
 }
 
 
 // Funksjon for å håndtere klikk på selskapets navn
 function handleCompanyClick(name, airtableId) {
-    console.log(`Klikket på selskapet: ${name} (ID: ${airtableId})`);
     companySelected(airtableId, name);
+    document.getElementById("besparelsebutton").click();
 }
 
 // Funksjon for å oppdatere oppfølgingsstatus
