@@ -29,7 +29,8 @@ function startConnectionList(data) {
         console.error("Template element not found");
         return;
     }
-
+    document.getElementById("connectioncounter").textContent = data.length+" stk. tilkoblede selskaper."
+    
     data.forEach((connections, index) => {
         const rowElement = nodeElement.cloneNode(true);
 
