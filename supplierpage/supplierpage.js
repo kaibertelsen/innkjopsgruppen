@@ -60,14 +60,19 @@ function startConnectionList(data) {
 
 
 function formatNameList(nameList) {
-    if (typeof nameList !== "string") {
-        console.error("Expected a string, but got:", nameList);
+    if (Array.isArray(nameList)) {
+        // Hvis det er en array, returner det første elementet med "..."
+        return `${nameList[0].trim()}...`;
+    } else if (typeof nameList === "string") {
+        // Hvis det er en streng, splitt den på komma
+        const names = nameList.split(',');
+        return `${names[0].trim()}...`;
+    } else {
+        console.error("Expected a string or array, but got:", nameList);
         return "Ukjent...";
     }
-    
-    const names = nameList.split(','); // Split names by comma
-    return `${names[0].trim()}...`; // Return the first name with "..."
 }
+
 
 
 
