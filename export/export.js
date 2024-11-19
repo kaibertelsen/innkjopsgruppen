@@ -1,46 +1,81 @@
 
 document.getElementById("xlsexportbutton").addEventListener("click", () => {
-    preExport(GlobalConnections);
+// Feltene du vil hente
+const selectedFields = ["lastmodified", "companyorgnr", "companyname", "useremail", "companybrukernavn"];
+
+// Mapping til nye navn
+const fieldMapping = {
+    lastmodified: "Dato",
+    companyorgnr: "Orgnummer",
+    companyname: "Selskapsnavn",
+    useremail: "Innsender",
+    companybrukernavn: "Brukere"
+};
+
+let filename = GlobalConnections[0].suppliername[0];
+// Eksporter til Excel
+exportData(rawData, selectedFields, fieldMapping, filename, "excel");
 });
 
-function preExport(data){
-console.log(data[0]);
+
+function exportData(rawDataArray, selectedFields, fileName, format) {
+    // Forbered dataene
+    const preparedData = prepareExportDataArray(rawDataArray, selectedFields);
+
+    // Velg eksportformat (Excel eller CSV)
+    if (format === "excel") {
+        exportXLS(preparedData, fileName); // Eksporter til Excel
+    } else if (format === "csv") {
+        exportCSV(preparedData, fileName); // Eksporter til CSV
+    } else {
+        console.error("Ugyldig eksportformat. Bruk 'excel' eller 'csv'.");
+    }
 }
 
-async function exportXLS(rows, name) {
-    if (!rows || rows.length === 0) {
-        console.error("Ingen rader å eksportere.");
-        return;
-    }
 
+
+
+function prepareExportDataArray(rawDataArray, selectedFields) {
+    return rawDataArray.map(rawData => {
+        const preparedData = {};
+        selectedFields.forEach(field => {
+            if (Array.isArray(rawData[field])) {
+                // Kombiner arrays til kommaseparerte strenger
+                preparedData[field] = rawData[field].join(", ");
+            } else if (rawData[field] === undefined || rawData[field] === null) {
+                // Sett tom streng for undefined eller null verdier
+                preparedData[field] = "";
+            } else {
+                // Behold verdien som den er
+                preparedData[field] = rawData[field];
+            }
+        });
+        return preparedData;
+    });
+}
+
+
+
+
+async function exportXLS(rows, name, dateColumns = []) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(name);
 
-    // Hent nøklene fra det første objektet for å bruke som headers
+    // Hent header fra det første objektet
     const headers = Object.keys(rows[0]);
 
     // Legg til header-raden
     worksheet.addRow(headers);
 
-    // Legg til alle dataene, erstatt NaN eller specialValue NaN med tom string
+    // Legg til data-rader
     rows.forEach(row => {
-        const rowData = headers.map(header => {
-            const value = row[header];
-
-            // Hvis verdien er NaN eller inneholder specialValue: "NaN", erstatt med tom string
-            if (typeof value === 'object' && value?.specialValue === 'NaN') {
-                return '';
-            }
-
-            return isNaN(value) && typeof value === 'number' ? '' : value; 
-        });
-        worksheet.addRow(rowData);
+        worksheet.addRow(headers.map(header => row[header]));
     });
 
     // Style header-raden (rad 1)
     const headerRow = worksheet.getRow(1);
     headerRow.font = { bold: true }; // Fet skrift
-    headerRow.eachCell((cell) => {
+    headerRow.eachCell(cell => {
         cell.fill = {
             type: 'pattern',
             pattern: 'solid',
@@ -48,16 +83,21 @@ async function exportXLS(rows, name) {
         };
     });
 
-    // Juster kolonnebredder automatisk basert på innhold med maks bredde på 30 tegn og minimum som header-lengde
+    // Juster kolonnebredder
     worksheet.columns.forEach((column, colIndex) => {
-        let maxLength = headers[colIndex].length; // Sett minimum bredde som lengden på header
-        column.eachCell({ includeEmpty: true }, (cell) => {
-            const cellLength = cell.value ? cell.value.toString().length : 10; // Sett en minimum bredde for tomme celler
+        let maxLength = headers[colIndex].length; // Minimum bredde som lengden på header
+        column.eachCell({ includeEmpty: true }, cell => {
+            const cellLength = cell.value ? cell.value.toString().length : 10;
             if (cellLength > maxLength) {
                 maxLength = cellLength;
             }
         });
-        column.width = Math.min(maxLength + 2, 30); // Legg til 2 ekstra tegn og sett maks bredde til 30 tegn
+        column.width = Math.min(maxLength + 2, 30); // Legg til litt ekstra plass, maks bredde 30 tegn
+
+        // Sjekk om denne kolonnen er en dato og sett datoformat
+        if (dateColumns.includes(headers[colIndex])) {
+            column.numFmt = "yyyy-mm-dd hh:mm:ss"; // Sett ønsket datoformat
+        }
     });
 
     // Fryse første rad
@@ -67,14 +107,14 @@ async function exportXLS(rows, name) {
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 
-    const sanitizedFileName = name.replace(/[^a-zA-Z0-9_-]/g, "");
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = "Klinketil-" + sanitizedFileName + ".xlsx";
+    link.download = "Klinketil-" + name + ".xlsx";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
+
 
 
 
