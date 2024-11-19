@@ -28,7 +28,9 @@ function respondfollouplist(data,id){
     var listanddate = addNextRenewalDatetoarray(cleandata);
     mainfollowuplist = listanddate;
     startfollouplist(listanddate);
+    if(document.getElementById("followingloader")){
     document.getElementById("followingloader").style.display = "none";
+    }
 }
 
  function startfollouplist(listanddate){
