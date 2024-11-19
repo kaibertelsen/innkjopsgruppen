@@ -74,6 +74,7 @@ function editFollowupNote(noteContainer, airtableId) {
     const textarea = document.createElement("textarea");
     textarea.value = "";
     textarea.placeholder = "Legg til kommentar";
+    textarea.classList.add("textareanote");
     noteContainer.appendChild(textarea);
     textarea.focus();
     noteContainer.style.display = "block";
