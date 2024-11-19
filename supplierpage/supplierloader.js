@@ -12,7 +12,7 @@ function loadScript(url) {
 const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/supplierpage/supplierpage.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/supplierpage/api.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/supplierpage/export.js"
+    "https://kaibertelsen.github.io/innkjopsgruppen/export/export.js"
 ];
 
 // Laste inn alle skriptene sekvensielt

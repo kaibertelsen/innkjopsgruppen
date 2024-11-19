@@ -3,11 +3,9 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     preExport(GlobalConnections);
 });
 
-
 function preExport(data){
 console.log(data[0]);
 }
-
 
 async function exportXLS(rows, name) {
     if (!rows || rows.length === 0) {
