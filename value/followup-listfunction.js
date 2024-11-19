@@ -178,7 +178,7 @@ function handleCompanyClick(name, airtableId) {
 
 // Funksjon for å oppdatere oppfølgingsstatus
 function updateFollowupStatus(statusElement, airtableId, newStatus) {
-    statusElement.style.color = rød
+    statusElement.style.color = "red";
     statusElement.querySelector(".lastfollowingup").textContent = newStatus;
 
     // Sjekker status og setter `nofollowup` til true eller false
