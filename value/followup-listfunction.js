@@ -26,7 +26,7 @@ function startFollowinglistElement(data) {
         rowElement.classList.add("rowlistelement");
         rowElement.id = "row"+"elementfollowinguplist"+company.airtable;
         if (index % 2 === 1) {
-            rowElement.classList.add("grayrow");
+            rowElement.classList.add("pair");
         }
 
         const companyNameLabel = rowElement.querySelector(".companynamelable");
