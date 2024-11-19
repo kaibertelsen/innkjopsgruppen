@@ -1,20 +1,13 @@
-
 function getconnections(supplierid){
    let body = airtablebodylistAND({supplierid:supplierid});
     Getlistairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"respondconnections");
 }
  
-
-
 function respondconnections(data){
 
     var cleandata = rawdatacleaner(data);
-
     startConnectionList(cleandata);
-
-
 }
-
 
 function startConnectionList(data) {
     const list = document.getElementById("listholderconnections");
@@ -55,83 +48,3 @@ function startConnectionList(data) {
         list.appendChild(rowElement);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-async function Getlistairtable(baseId,tableId,body,id){
-    let token = MemberStack.getToken();
-    let response = await fetch(`https://expoapi-zeta.vercel.app/api/search?baseId=${baseId}&tableId=${tableId}&token=${token}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body
-    });
-
-    if (!response.ok) {
-    throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
-    }else {
-    let data = await response.json();
-    apireturnA({success: true, data: data, id: id});
-    }
-
-}
-
-
-
-
-
- 
-
-function createAirtableANDFormula(obj) {
-    const conditions = Object.keys(obj).map(key => {
-      const value = typeof obj[key] === 'string' ? `'${obj[key]}'` : obj[key];
-      return `{${key}} = ${value}`;
-    });
-    return `AND(${conditions.join(', ')})`;
-}
-
-function airtablebodylistAND(obj){
-    //Føringer etter dato
-    let formula = createAirtableANDFormula(obj);
-      let body = JSON.stringify({
-              "formula":formula ,
-              "pageSize": 50,
-              "offset": 0
-            });
-      return body;
-}
-
-
-
-//ruting
-function apireturnA(response){
-    if(response.success){
-     ruteresponse(response.data,response.id);
-    }else{
-        console.log(response);
-    }
-}
-
-
-
-function ruteresponse(data,id){
-  if(id == "respondconnections"){
-    respondconnections(data);
-  }
-}
-
-
-
-
-
