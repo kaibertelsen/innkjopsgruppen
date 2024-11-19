@@ -42,19 +42,23 @@ function startFollowinglistElement(data) {
 
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
-        const noteContainer = rowElement.querySelector(".note");
+        const noteContainer = rowElement.querySelector(".noteholder");
+        const savebutton = rowElement.querySelector(".savebutton");
+        savebutton.style.display = "none";
 
         if (company.followupnote) {
             noteContainer.style.display = "block";
             notebutton.style.display = "none";
+            /*
             notebutton.addEventListener("click", () => {
                 editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, company.followupnote);
             });
+            */
         } else {
             noteContainer.style.display = "none";
             notebutton.style.display = "inline-block";
             notebutton.addEventListener("click", () => {
-                editFollowupNote(rowElement.querySelector(".notetextlable"), company.airtable, "");
+                editFollowupNote(noteContainer, company.airtable, "");
             });
         }
 
@@ -65,19 +69,25 @@ function startFollowinglistElement(data) {
 }
 
 // Funksjon for å redigere eller legge til notatet
-function editFollowupNote(textlable, airtableId, currentText = "") {
+function editFollowupNote(noteContainer, airtableId) {
     const textarea = document.createElement("textarea");
-    textarea.value = currentText;
-    //textarea.classList.add("note-editor");
-    textlable.replaceWith(textarea);
+    textarea.value = "";
+    textarea.placeholder = "Legg til kommentar";
+    noteContainer.appendChild(textarea);
     textarea.focus();
 
-    const saveButton = parentElement.textlable.querySelector(".savebutton");
-    saveButton.addEventListener("click", () => {
-        const updatedText = textarea.value;
-        saveFollowupNote(updatedText, airtableId,textlable),textarea;
+    // Legg til eventlistener for når innholdet i textarea endres
+    textarea.addEventListener("input", function () {
+        handleTextareaChange(textarea.value, airtableId);
     });
 }
+
+// Funksjon som håndterer endringer i textarea
+function handleTextareaChange(newValue, airtableId) {
+    console.log(`Teksten er endret til: ${newValue} for Airtable ID: ${airtableId}`);
+    // Legg til logikk for hva som skal gjøres ved endring, f.eks. oppdatere Airtable
+}
+
 
 // Funksjon for å lagre oppdatert notat
 function saveFollowupNote(updatedText, airtableId,textlable,textarea) {
@@ -85,7 +95,7 @@ function saveFollowupNote(updatedText, airtableId,textlable,textarea) {
     textlable.textContent = updatedText;
     textarea.replaceWith(textlable);
     textarea.remove();
-    
+
     const body = {
         followupnote: updatedText
     };
