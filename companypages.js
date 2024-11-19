@@ -82,7 +82,7 @@ function updatelivelist(elementid) {
             livecompanyconnection.push({
                 company: [airtableCompanyId],
                 supplier: [supplierId],
-                user:[myuserID]
+                bruker:[myuserID]
             });
 
         }
