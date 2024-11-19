@@ -69,10 +69,8 @@ function startFollowinglistElement(data) {
 
         if (company.followupnote) {
             noteContainer.style.display = "block";
-            notebutton.style.display = "none";
         } else {
             noteContainer.style.display = "none";
-            notebutton.style.display = "inline-block";
             notebutton.addEventListener("click", () => {
                 editFollowupNote(noteContainer, company.airtable, "");
             });
@@ -153,7 +151,6 @@ function saveFollowupNote(noteContainer, airtableId) {
    
     const notetext = noteContainer.querySelector(".notetextlable");
     noteContainer.querySelector(".savebutton").style.display = "none";
-    noteContainer.parentElement.querySelector(".notebutton").style.display = "none";
     
     const body = {
         followupnote: notetext.textContent
