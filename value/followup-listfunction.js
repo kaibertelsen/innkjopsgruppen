@@ -1,6 +1,5 @@
 function startFollowinglistElement(data) {
-    console.log(data);
-
+    listarray = data;
     const list = document.getElementById("elementfollowinguplist");
     list.replaceChildren();
 
@@ -19,6 +18,8 @@ function startFollowinglistElement(data) {
     });
 
     const fragment = document.createDocumentFragment();
+    document.getElementById("counterfollowingup").textContent = data.length+" stk.";
+    
 
     data.forEach((company, index) => {
         const rowElement = nodeElement.cloneNode(true);
