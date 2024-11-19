@@ -83,14 +83,15 @@ function editFollowupNote(noteContainer, airtableId) {
 
     // Legg til eventlistener for når innholdet i textarea endres
     textarea.addEventListener("input", function () {
-        handleTextareaChange(textarea.value, airtableId);
+        handleTextareaChange(noteContainer,textarea.value, airtableId);
     });
 }
 
 // Funksjon som håndterer endringer i textarea
-function handleTextareaChange(newValue, airtableId) {
+function handleTextareaChange(noteContainer,newValue, airtableId) {
     console.log(`Teksten er endret til: ${newValue} for Airtable ID: ${airtableId}`);
-    // Legg til logikk for hva som skal gjøres ved endring, f.eks. oppdatere Airtable
+    //synligjør save knapp
+    noteContainer.querySelector(".savebutton").style.display = "inline-block";
 }
 
 
