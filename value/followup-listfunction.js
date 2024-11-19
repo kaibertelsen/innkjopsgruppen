@@ -50,7 +50,7 @@ function startFollowinglistElement(data) {
 
         rowElement.querySelector(".winningdate").textContent = company.winningdate || "Ingen dato";
         rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
-        rowElement.querySelector(".daysagain").textContent = company.daytorenewal || "Ingen data";
+        rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
         rowElement.querySelector(".rewaldate").textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
         rowElement.querySelector(".notetextlable").textContent = company.followupnote || "";
 
