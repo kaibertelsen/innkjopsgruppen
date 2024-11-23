@@ -121,7 +121,7 @@ function saveFollowupNote(noteContainer, airtableId) {
     };
    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
 
-    const notbutton = noteContainer.parentElement.querySelector(".notebutton");
+    const notebutton = noteContainer.parentElement.querySelector(".notebutton");
 
     if(notetext == ""){
         notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b1179e28a2ad73ca8fd_note-gray.svg";
