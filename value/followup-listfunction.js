@@ -264,7 +264,7 @@ function updateFollowupStatus(rowElement,airtableId, newStatus) {
 
     //Om den skal skules så kan denne fjernes visuelt
     if(newStatus == "HIDE"){
-    rowElement.remove();
+   // rowElement.remove();
     }
 }
 
