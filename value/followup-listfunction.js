@@ -151,8 +151,8 @@ function editFollowupNoteClouse(noteContainer){
 }
 // Funksjon for å justere høyden på textarea dynamisk
 function adjustTextareaHeight(textarea) {
-    textarea.style.height = "auto"; // Tilbakestill høyden for nøyaktig måling
-    textarea.style.height = textarea.scrollHeight + "px"; // Sett høyden til innholdet
+   // textarea.style.height = "auto"; // Tilbakestill høyden for nøyaktig måling
+  //  textarea.style.height = textarea.scrollHeight + "px"; // Sett høyden til innholdet
 }
 
 
