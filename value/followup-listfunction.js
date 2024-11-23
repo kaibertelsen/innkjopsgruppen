@@ -115,7 +115,7 @@ function saveFollowupNote(noteContainer, airtableId) {
    
     const notetext = noteContainer.querySelector(".textareanote").value;
     noteContainer.querySelector(".savebutton").style.display = "none";
-    noteContainer.style.display = "none";
+    
     
     const body = {
         followupnote: notetext
@@ -124,6 +124,7 @@ function saveFollowupNote(noteContainer, airtableId) {
 
     const notebutton = noteContainer.parentElement.querySelector(".notebutton");
     if(notetext == ""){
+        notebutton.click();
         notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b1179e28a2ad73ca8fd_note-gray.svg";
     }else{
         notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b35d007835010a0b68f_note-gul.svg')";
