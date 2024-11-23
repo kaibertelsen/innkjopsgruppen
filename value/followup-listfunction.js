@@ -51,14 +51,28 @@ function startFollowinglistElement(data) {
         rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
         rowElement.querySelector(".rewaldate").textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
-        rowElement.querySelector(".textareanote").value = company.followupnote || "";
-
+        
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
         const noteContainer = rowElement.querySelector(".noteholder");
         noteContainer.style.display = "none";
-        const savebutton = rowElement.querySelector(".savebutton");
+
+
+        const textarea = noteContainer.querySelector(".textareanote");
+        textarea.value = company.followupnote || "";
+
+        textarea.addEventListener("change", function () {
+            saveFollowupNote(noteContainer, airtableId);
+        });
     
+        textarea.addEventListener("input", function () {
+            notetextlable.parentElement.querySelector(".savebutton").style.display = "inline-block";
+        });
+    
+
+        
+
+        const savebutton = rowElement.querySelector(".savebutton");
         savebutton.style.display = "none";
         savebutton.addEventListener("click", () => {
             saveFollowupNote(noteContainer, company.airtable);
@@ -77,10 +91,10 @@ function startFollowinglistElement(data) {
             
             if (clickCount === 1) {
                 // Første klikk
-                editFollowupNote(noteContainer, company.airtable, "");
+                noteContainer.style.display = "block";
             } else if (clickCount === 2) {
                 // Andre klikk
-                editFollowupNoteClouse(noteContainer);
+                noteContainer.style.display = "none"
                 clickCount = 0;
             }
         });
@@ -93,52 +107,9 @@ function startFollowinglistElement(data) {
 }
 
 
-
-function editFollowupNote(noteContainer, airtableId) {
-    
-    let textarea = noteContainer.querySelector(".textareanote");
- 
-    // Sørg for at container er synlig
-    noteContainer.style.display = "block";
-
-    // Eventlistener for når innholdet i textarea endres
-    textarea.addEventListener("change", function () {
-        handleTextareaChange(noteContainer, airtableId);
-    });
-
-    // Eventlistener for sanntidsoppdatering av tekst og høyde
-    textarea.addEventListener("input", function () {
-        textAreaChange(noteTextLabel, textarea);
-        adjustTextareaHeight(textarea);
-    });
-}
-
-function editFollowupNoteClouse(noteContainer){
-    noteContainer.style.display = "none"
-}
-// Funksjon for å justere høyden på textarea dynamisk
-function adjustTextareaHeight(textarea) {
-   // textarea.style.height = "auto"; // Tilbakestill høyden for nøyaktig måling
-  //  textarea.style.height = textarea.scrollHeight + "px"; // Sett høyden til innholdet
-}
-
-
-function textAreaChange(notetextlable,textarea){
-
-    notetextlable.textContent = textarea.value;
-     //synligjør save knapp
-     notetextlable.parentElement.querySelector(".savebutton").style.display = "inline-block";
-
-}
-
 // Funksjon som håndterer endringer i textarea
 function handleTextareaChange(noteContainer,airtableId) {
     //synligjør save knapp
-    let notevalue = noteContainer.querySelector(".textareanote").value;
-    const notetext = noteContainer.querySelector(".notetextlable");
-    notetext.textContent = notevalue;
-    notetext.style.display = "block";
-    noteContainer.querySelector(".textareanote").remove();
     saveFollowupNote(noteContainer, airtableId);
 }
 
