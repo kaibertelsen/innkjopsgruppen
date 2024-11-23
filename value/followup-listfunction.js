@@ -360,6 +360,9 @@ function responseupdatefollowingUpstatus(data){
     let updateObject = data.fields;
     updateObjectInArray(mainfollowuplist, updateObject.airtable, updateObject);
 
+    //oppdatert dager og tid
+    // Legger til neste fornyelsesdato i arrayet
+    mainfollowuplist = addNextRenewalDatetoarray(mainfollowuplist);
 }
 
 function updateObjectInArray(mainfollowuplist, airtableKey, newData) {
