@@ -56,6 +56,7 @@ function startFollowinglistElement(data) {
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
         const noteContainer = rowElement.querySelector(".noteholder");
+        noteContainer.style.display = "none";
         const savebutton = rowElement.querySelector(".savebutton");
         const textlable = rowElement.querySelector(".notetextlable");
 
@@ -68,12 +69,9 @@ function startFollowinglistElement(data) {
             saveFollowupNote(noteContainer, company.airtable);
         });
 
-        
         if (company.followupnote) {
-          
+    
             notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b35d007835010a0b68f_note-gul.svg')";
-        } else {
-            noteContainer.style.display = "none";
         }
        
         
