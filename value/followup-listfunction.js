@@ -100,41 +100,39 @@ function startFollowinglistElement(data) {
 }
 
 function createStatusDropdown(rowElement, statusElement, company) {
-    // Fjern eksisterende dropdown hvis den finnes
-    const existingDropdown = rowElement.querySelector(".status-dropdown");
-    if (existingDropdown) {
-        existingDropdown.remove();
-        return; // Stopp hvis dropdown allerede var synlig
+    // Sjekk om dropdown allerede finnes
+    let dropdown = rowElement.querySelector(".status-dropdown");
+
+    if (!dropdown) {
+        // Opprett dropdown-meny
+        dropdown = document.createElement("select");
+        dropdown.classList.add("status-dropdown");
+
+        // Legg til alternativer
+        const options = [
+            { value: "REMOVE", label: "Fjern fra oppfølging", color: "red" },
+            { value: "HIDE", label: "Skjul fra liste", color: "black" },
+            { value: "NORMAL", label: "Normal oppfølging", color: "green" }
+        ];
+
+        options.forEach(option => {
+            const opt = document.createElement("option");
+            opt.value = option.value;
+            opt.textContent = option.label;
+            opt.style.color = option.color; // Sett farge for alternativene
+            dropdown.appendChild(opt);
+        });
+
+        // Legg dropdown direkte etter statusElement i samme celle
+        statusElement.parentElement.appendChild(dropdown);
+
+        // Skjul dropdown som standard
+        dropdown.style.display = "none";
     }
 
-    // Opprett dropdown-meny
-    const dropdown = document.createElement("select");
-    dropdown.classList.add("status-dropdown");
-
-    // Legg til alternativer med farge
-    const options = [
-        { value: "REMOVE", label: "Fjern fra oppfølging", color: "red" },
-        { value: "HIDE", label: "Skjul fra liste", color: "black" },
-        { value: "NORMAL", label: "Normal oppfølging", color: "green" }
-    ];
-
-    options.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option.value;
-        opt.textContent = option.label;
-        opt.style.color = option.color; // Legg til farge basert på verdien
-        dropdown.appendChild(opt);
-    });
-
-    // Legg dropdown til DOM rett under statusElement
-    statusElement.parentElement.appendChild(dropdown);
-
-    // Juster posisjonering til høyre for statusElement
-    const statusRect = statusElement.getBoundingClientRect();
-    dropdown.style.position = "absolute";
-    dropdown.style.left = `${statusRect.right + 10}px`; // 10px avstand til høyre
-    dropdown.style.top = `${statusRect.top}px`;
-    dropdown.style.zIndex = "1000";
+    // Vis dropdown når brukeren klikker på statusElement
+    dropdown.style.display = "inline-block";
+    statusElement.style.display = "none"; // Skjul statusElement midlertidig
 
     // Håndter valg
     dropdown.addEventListener("change", () => {
@@ -151,23 +149,16 @@ function createStatusDropdown(rowElement, statusElement, company) {
             updateFollowupStatus(statusElement, company.airtable, "JA");
         }
 
-        // Fjern dropdown etter valg
-        dropdown.remove();
-        document.removeEventListener("click", handleOutsideClick); // Fjern eventlistener for klikking utenfor
+        // Tilbakestill visningen
+        dropdown.style.display = "none"; // Skjul dropdown etter valg
+        statusElement.style.display = "inline-block"; // Vis statusElement igjen
     });
-
-    // Stil for dropdown
-    dropdown.style.padding = "5px";
-    dropdown.style.border = "1px solid #ccc";
-    dropdown.style.borderRadius = "4px";
-    dropdown.style.backgroundColor = "#fff";
-    dropdown.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
-    dropdown.style.minWidth = "150px";
 
     // Håndter klikking utenfor dropdown
     function handleOutsideClick(event) {
         if (!dropdown.contains(event.target) && event.target !== statusElement) {
-            dropdown.remove(); // Fjern dropdown
+            dropdown.style.display = "none"; // Skjul dropdown
+            statusElement.style.display = "inline-block"; // Vis statusElement igjen
             document.removeEventListener("click", handleOutsideClick); // Fjern eventlistener
         }
     }
@@ -175,7 +166,7 @@ function createStatusDropdown(rowElement, statusElement, company) {
     // Legg til eventlistener for å fjerne dropdown ved klikk utenfor
     setTimeout(() => {
         document.addEventListener("click", handleOutsideClick);
-    }, 0); // Timeout for å unngå å fange det samme klikket som åpnet dropdown
+    }, 0); // Timeout for å unngå å fange samme klikk som åpnet dropdown
 }
 
 
