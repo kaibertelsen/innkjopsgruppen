@@ -149,7 +149,7 @@ function handleRewaldateClick(rewaldate, company) {
     // Håndter endring av dato
     dateInput.addEventListener("change", () => {
         company.nextrenewaldate = dateInput.value; // Oppdater selskapets dato
-        handleDateChange(company.airtable, dateInput.value); // Kall funksjon for lagring
+        handleDateChange(rewaldate,company.airtable, dateInput.value); // Kall funksjon for lagring
     });
 
     // Håndter klikking utenfor feltet
@@ -170,7 +170,7 @@ function handleRewaldateClick(rewaldate, company) {
 
 
 
-function handleDateChange(airtableId, newDate) {
+function handleDateChange(rewaldate,airtableId, newDate) {
     console.log(`Oppdaterer dato for ${airtableId} til ${newDate}`);
     // Legg til logikk for å oppdatere datoen i databasen eller arrayen din
 
@@ -180,6 +180,9 @@ function handleDateChange(airtableId, newDate) {
     // Sender PATCH-forespørsel til Airtable
     PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
     //Om den skal skules så kan denne fjernes visuelt
+
+    //oppdatere dager til denne datoen
+    rewaldate.parentElement.querySelector(".daysagain").textContent = calculateDaysUntil(newDate)+" dager";
 
 }
 
@@ -359,4 +362,19 @@ function updateObjectInArray(mainfollowuplist, airtableKey, newData) {
 
     // Returner false hvis ingen match ble funnet
     return false;
+}
+
+
+function calculateDaysUntil(dateString) {
+    if (!dateString) return null;
+
+    const today = new Date();
+    const targetDate = new Date(dateString);
+
+    if (isNaN(targetDate)) return null; // Returner null hvis datoen er ugyldig
+
+    const timeDifference = targetDate - today;
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    return daysDifference;
 }
