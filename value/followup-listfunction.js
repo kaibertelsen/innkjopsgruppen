@@ -143,11 +143,27 @@ function handleRewaldateClick(rewaldate, company) {
     // Sett fokus på inputfeltet
     dateInput.focus();
 
-    // Håndter endring av dato
+   // Håndter endring av dato
     dateInput.addEventListener("change", () => {
-        company.nextrenewaldate = dateInput.value; // Oppdater selskapets dato
-        handleDateChange(rewaldate,company.airtable, dateInput.value); // Kall funksjon for lagring
+        // Oppdater selskapets dato
+        company.nextrenewaldate = dateInput.value;
+
+        // Kall funksjon for å lagre og håndtere datoendringen
+        handleDateChange(rewaldate, company.airtable, dateInput.value);
+
+        // Formatér datoen til YYYY-MM-DD
+        const formattedDate = formatDate(dateInput.value);
+
+        // Vis rewaldate-teksten igjen
+        rewaldate.style.display = "inline-block";
+
+        // Oppdater tekstinnholdet i rewaldate med den formaterte datoen eller en standardtekst
+        rewaldate.textContent = formattedDate || "Ingen fornyelsesdato";
+
+        // Fjern dato-inputfeltet
+        dateInput.remove();
     });
+
 
     // Håndter klikking utenfor feltet
     function handleOutsideClick(event) {
@@ -374,4 +390,19 @@ function calculateDaysUntil(dateString) {
     const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
     return daysDifference;
+}
+
+
+function formatDate(dateString) {
+    if (!dateString) return null; // Returner null hvis datoen er tom
+
+    const date = new Date(dateString);
+
+    if (isNaN(date)) return null; // Returner null hvis datoen er ugyldig
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Legg til ledende null hvis nødvendig
+    const day = String(date.getDate()).padStart(2, "0"); // Legg til ledende null hvis nødvendig
+
+    return `${year}-${month}-${day}`;
 }
