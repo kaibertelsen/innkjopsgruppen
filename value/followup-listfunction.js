@@ -51,14 +51,14 @@ function startFollowinglistElement(data) {
         rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
         rowElement.querySelector(".rewaldate").textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
-        rowElement.querySelector(".notetextlable").textContent = company.followupnote || "";
+        rowElement.querySelector(".textareanote").value = company.followupnote || "";
 
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
         const noteContainer = rowElement.querySelector(".noteholder");
         noteContainer.style.display = "none";
         const savebutton = rowElement.querySelector(".savebutton");
-        const textlable = rowElement.querySelector(".notetextlable");
+    
 
         textlable.addEventListener("click", () => {
             editFollowupNote(noteContainer, company.airtable);
@@ -100,37 +100,9 @@ function startFollowinglistElement(data) {
 
 
 function editFollowupNote(noteContainer, airtableId) {
-    // Fjern eksisterende textarea hvis det finnes
-    const existingTextarea = noteContainer.querySelector(".textareanote");
-    if (existingTextarea) {
-        existingTextarea.remove();
-    }
-
-    // Opprett og konfigurer textarea
-    const textarea = document.createElement("textarea");
-    const noteTextLabel = noteContainer.querySelector(".notetextlable");
-
-    if (noteTextLabel && noteTextLabel.textContent !== "") {
-        textarea.value = noteTextLabel.textContent;
-    }
-
-    textarea.classList.add("textareanote");
-    textarea.placeholder = "Legg til en kommentar";
-    textarea.style.overflow = "hidden"; // Skjuler scrollbar for jevn resizing
-    textarea.style.resize = "none"; // Hindrer manuell resizing
-    textarea.focus();
-
-    // Juster høyden første gang for å matche innholdet
-    adjustTextareaHeight(textarea);
-
-    // Legg textarea som første element i noteContainer
-    noteContainer.prepend(textarea);
-
-    // Skjul tekstlabel
-    if (noteTextLabel) {
-        noteTextLabel.style.display = "none";
-    }
-
+    
+    let textarea = noteContainer.querySelector(".textareanote");
+ 
     // Sørg for at container er synlig
     noteContainer.style.display = "block";
 
