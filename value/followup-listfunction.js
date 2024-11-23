@@ -68,12 +68,14 @@ function startFollowinglistElement(data) {
         rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
 
 
-        const rewaldate =  rowElement.querySelector(".rewaldate");
+        const rewaldate = rowElement.querySelector(".rewaldate");
         rewaldate.textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
         rewaldate.style.cursor = "pointer";
+
         rewaldate.addEventListener("click", () => {
             handleRewaldateClick(rewaldate, company);
         });
+
 
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
@@ -126,9 +128,6 @@ function startFollowinglistElement(data) {
 
 
 function handleRewaldateClick(rewaldate, company) {
-    // Sjekk om inputfeltet allerede finnes
-    if (rewaldate.parentElement.querySelector(".rewaldate-input")) return;
-
     // Skjul rewaldate-teksten midlertidig
     rewaldate.style.display = "none";
 
@@ -137,9 +136,11 @@ function handleRewaldateClick(rewaldate, company) {
     dateInput.type = "date";
     dateInput.classList.add("rewaldate-input");
     dateInput.value = company.nextrenewaldate || ""; // Sett eksisterende dato, eller tom
-    dateInput.style.position = "absolute";
+    dateInput.style.width = rewaldate.offsetWidth + "px"; // Sett samme bredde som rewaldate
+    dateInput.style.height = rewaldate.offsetHeight + "px"; // Sett samme høyde som rewaldate
+    dateInput.style.fontSize = window.getComputedStyle(rewaldate).fontSize; // Match font-størrelse
 
-    // Legg til inputfeltet i DOM
+    // Legg til inputfeltet i stedet for rewaldate
     rewaldate.parentElement.appendChild(dateInput);
 
     // Sett fokus på inputfeltet
@@ -147,14 +148,16 @@ function handleRewaldateClick(rewaldate, company) {
 
     // Håndter endring av dato
     dateInput.addEventListener("change", () => {
-        handleDateChange(company.airtable, dateInput.value); // Kall funksjon med ny dato
+        company.nextrenewaldate = dateInput.value; // Oppdater selskapets dato
+        handleDateChange(company.airtable, dateInput.value); // Kall funksjon for lagring
     });
 
     // Håndter klikking utenfor feltet
     function handleOutsideClick(event) {
         if (!dateInput.contains(event.target)) {
-            dateInput.remove(); // Fjern inputfeltet
             rewaldate.style.display = "block"; // Vis rewaldate-teksten igjen
+            rewaldate.textContent = company.nextrenewaldate || "Ingen fornyelsesdato"; // Oppdater teksten
+            dateInput.remove(); // Fjern inputfeltet
             document.removeEventListener("click", handleOutsideClick); // Fjern eventlistener
         }
     }
@@ -166,9 +169,16 @@ function handleRewaldateClick(rewaldate, company) {
 }
 
 
+
 function handleDateChange(airtableId, newDate) {
     console.log(`Oppdaterer dato for ${airtableId} til ${newDate}`);
     // Legg til logikk for å oppdatere datoen i databasen eller arrayen din
+
+    let body = {};
+    // Sender PATCH-forespørsel til Airtable
+    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
+    //Om den skal skules så kan denne fjernes visuelt
+
 }
 
 
