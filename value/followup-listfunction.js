@@ -146,6 +146,9 @@ function editFollowupNote(noteContainer, airtableId) {
     });
 }
 
+function editFollowupNoteClouse(noteContainer){
+    noteContainer.style.display = "none"
+}
 // Funksjon for å justere høyden på textarea dynamisk
 function adjustTextareaHeight(textarea) {
     textarea.style.height = "auto"; // Tilbakestill høyden for nøyaktig måling
