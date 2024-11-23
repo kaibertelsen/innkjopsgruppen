@@ -113,15 +113,12 @@ function adjustTextareaHeight(textarea) {
 // Funksjon for å lagre oppdatert notat
 function saveFollowupNote(noteContainer, airtableId) {
    
-    const notetext = noteContainer.querySelector(".notetextlable");
+    const notetext = noteContainer.querySelector(".textareanote").value;
     noteContainer.querySelector(".savebutton").style.display = "none";
     
     const body = {
-        followupnote: notetext.textContent
+        followupnote: notetext
     };
-
-    console.log("Body som sendes til Airtable:", body);
-
    PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdateFollowingUpNote");
 }
 
