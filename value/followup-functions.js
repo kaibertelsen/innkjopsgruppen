@@ -84,7 +84,7 @@ function respondfollouplist(data, id) {
                        text:"Fornyes innen tre måned",
                        value:3
                   },{
-                    text:"Er kjult fra listen",
+                    text:"Er skjult fra listen",
                     value:"HIDE"
                     }
                      ];
