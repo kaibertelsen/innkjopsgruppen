@@ -36,15 +36,13 @@ function startFollowinglistElement(data) {
             handleCompanyClick(company.Name, company.airtable);
         });
 
-        // Håndterer klikk på "status"-elementet
-        const statusElement = rowElement.querySelector(".status");
-        statusElement.style.cursor = "pointer";
-        statusElement.addEventListener("click", () => {
-            const confirmAction = confirm(`Ønsker du å koble selskapet "${company.Name}" fra oppfølging?`);
-            if (confirmAction) {
-                updateFollowupStatus(statusElement, company.airtable, "NEI");
-            }
-        });
+       // Håndterer klikk på "status"-elementet
+            const statusElement = rowElement.querySelector(".status");
+            statusElement.style.cursor = "pointer";
+
+            statusElement.addEventListener("click", () => {
+                createStatusDropdown(rowElement, statusElement, company);
+            });
 
         
         rowElement.querySelector(".winningdate").textContent = company.winningdate || "Ingen dato";
@@ -99,6 +97,61 @@ function startFollowinglistElement(data) {
     });
 
     list.appendChild(fragment);
+}
+
+function createStatusDropdown(rowElement, statusElement, company) {
+    // Fjern eksisterende dropdown hvis den finnes
+    const existingDropdown = rowElement.querySelector(".status-dropdown");
+    if (existingDropdown) {
+        existingDropdown.remove();
+        return; // Stopp hvis dropdown allerede var synlig
+    }
+
+    // Opprett dropdown-meny
+    const dropdown = document.createElement("select");
+    dropdown.classList.add("status-dropdown");
+
+    // Legg til alternativer
+    const options = [
+        { value: "REMOVE", label: "Fjern fra oppfølging" },
+        { value: "HIDE", label: "Skjul fra liste" },
+        { value: "NORMAL", label: "Normal oppfølging" }
+    ];
+
+    options.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option.value;
+        opt.textContent = option.label;
+        dropdown.appendChild(opt);
+    });
+
+    // Legg dropdown til DOM rett under statusElement
+    statusElement.parentElement.appendChild(dropdown);
+
+    // Håndter valg
+    dropdown.addEventListener("change", () => {
+        const selectedValue = dropdown.value;
+
+        if (selectedValue === "REMOVE") {
+            const confirmAction = confirm(`Ønsker du å koble selskapet "${company.Name}" fra oppfølging?`);
+            if (confirmAction) {
+                updateFollowupStatus(statusElement, company.airtable, "NEI");
+            }
+        } else if (selectedValue === "HIDE") {
+            updateFollowupStatus(statusElement, company.airtable, "SKJUL");
+        } else if (selectedValue === "NORMAL") {
+            updateFollowupStatus(statusElement, company.airtable, "JA");
+        }
+
+        // Fjern dropdown etter valg
+        dropdown.remove();
+    });
+
+    // Stil for dropdown (valgfritt for posisjonering)
+    dropdown.style.position = "absolute";
+    dropdown.style.zIndex = "1000";
+    dropdown.style.marginTop = "5px";
+    dropdown.style.padding = "5px";
 }
 
 
