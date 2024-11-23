@@ -155,15 +155,15 @@ function createStatusDropdown(rowElement, statusElement, company) {
         const selectedValue = dropdown.value;
 
         if (selectedValue === "REMOVE") {
-            updateFollowupStatus(company.airtable, "REMOVE");
+            updateFollowupStatus(rowElement,company.airtable, "REMOVE");
             statusElement.textContent = "Fjernes fra listen";
             statusElement.style.color = "red";
         } else if (selectedValue === "HIDE") {
-            updateFollowupStatus(company.airtable, "HIDE");
+            updateFollowupStatus(rowElement,company.airtable, "HIDE");
             statusElement.textContent = "Skjules fra listen";
             statusElement.style.color = "black";
         } else if (selectedValue === "NORMAL") {
-            updateFollowupStatus(company.airtable, "NORMAL");
+            updateFollowupStatus(rowElement,company.airtable, "NORMAL");
             statusElement.textContent = "Skal følges opp";
             statusElement.style.color = "green";
         }
@@ -234,9 +234,8 @@ function handleCompanyClick(name, airtableId) {
 
 
 // Funksjon for å oppdatere oppfølgingsstatus
-function updateFollowupStatus(airtableId, newStatus) {
+function updateFollowupStatus(rowElement,airtableId, newStatus) {
  
-
     // Oppretter objektet som skal sendes i PATCH-forespørselen
     const body = {
         followupstatus:newStatus
@@ -248,9 +247,13 @@ function updateFollowupStatus(airtableId, newStatus) {
         body.nofollowup = false;
     }
 
-
     // Sender PATCH-forespørsel til Airtable
     PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
+
+    //Om den skal skules så kan denne fjernes visuelt
+    if(newStatus == "HIDE"){
+    rowElement.remove();
+    }
 }
 
 
