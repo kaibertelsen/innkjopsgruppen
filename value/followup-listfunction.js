@@ -40,6 +40,7 @@ function startFollowinglistElement(data) {
             const statusElement = rowElement.querySelector(".statusfollowingup");
             statusElement.textContent = company.followupstatus || "Skal følges opp";
             if(company?.followupstatus){
+                statusElement.dataset.value = company.followupstatus
                 if(company.followupstatus == "HIDE"){
                     statusElement.textContent = "Skjules fra listen";
                     statusElement.style.color = "black";
@@ -51,6 +52,7 @@ function startFollowinglistElement(data) {
                     statusElement.style.color = "green";
                     }
             }else{
+                statusElement.dataset.value = "NORMAL"
                 statusElement.style.color = "green";
                 statusElement.textContent = "Skal følges opp";
             }
@@ -123,28 +125,38 @@ function createStatusDropdown(rowElement, statusElement, company) {
         // Opprett dropdown-meny
         dropdown = document.createElement("select");
         dropdown.classList.add("status-dropdown");
-
+    
+        // Hent den nåværende verdien fra statusElement (dataset.value)
+        const currentValue = statusElement.dataset.value;
+    
         // Legg til alternativer
         const options = [
             { value: "REMOVE", label: "Fjern fra oppfølging", color: "red" },
             { value: "HIDE", label: "Skjul fra liste", color: "black" },
             { value: "NORMAL", label: "Normal oppfølging", color: "green" }
         ];
-
+    
         options.forEach(option => {
             const opt = document.createElement("option");
             opt.value = option.value;
             opt.textContent = option.label;
             opt.style.color = option.color; // Sett farge for alternativene
+    
+            // Marker alternativet som valgt hvis verdien matcher
+            if (option.value === currentValue) {
+                opt.selected = true;
+            }
+    
             dropdown.appendChild(opt);
         });
-
+    
         // Legg dropdown direkte etter statusElement i samme celle
         statusElement.parentElement.appendChild(dropdown);
-
+    
         // Skjul dropdown som standard
         dropdown.style.display = "none";
     }
+    
 
     // Vis dropdown når brukeren klikker på statusElement
     dropdown.style.display = "inline-block";
