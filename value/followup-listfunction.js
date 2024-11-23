@@ -68,14 +68,15 @@ function startFollowinglistElement(data) {
             saveFollowupNote(noteContainer, company.airtable);
         });
 
-        /*
+        
         if (company.followupnote) {
-            noteContainer.style.display = "block";
+          //  noteContainer.style.display = "block";
+           //her må heller note knappen ha en annen farge
         } else {
             noteContainer.style.display = "none";
         }
-        //her må heller note knappen ha en annen farge
-        */
+       
+        
         let clickCount = 0; // Teller for klikk
 
         notebutton.addEventListener("click", () => {
