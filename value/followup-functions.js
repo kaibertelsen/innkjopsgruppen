@@ -100,7 +100,7 @@ function respondfollouplist(data, id) {
         let startdate = data[i].winningdate;
         if(data[i]?.manuelrewaldate){
             //denne har satt manuelt en dato for fornying så regn ut (12) mnd tilbake tid og sett denne datoen
-            startdate = getDateMonthsAgo(dateString, data[i].followupintervall);
+            startdate = getDateMonthsAgo(data[i].manuelrewaldate, data[i].followupintervall);
         }
 
 
