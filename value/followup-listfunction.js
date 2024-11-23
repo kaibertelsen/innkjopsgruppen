@@ -37,7 +37,23 @@ function startFollowinglistElement(data) {
         });
 
        // Håndterer klikk på "status"-elementet
-            const statusElement = rowElement.querySelector(".status");
+            const statusElement = rowElement.querySelector(".statusfollowingup");
+            statusElement.textContent = company.followupstatus || "Skal følges opp";
+            if(company?.followupstatus){
+                if(company.followupstatus == "HIDE"){
+                    statusElement.textContent = "Skal skjules fra listen";
+                    statusElement.style.color = "black";
+                }else if (company.followupstatus == "REMOVE"){
+                    statusElement.textContent = "Fjernes fra listen";
+                    statusElement.style.color = "red";
+                }else if (company.followupstatus == "NORMAL"){
+                    statusElement.textContent = "Skal følges opp";
+                    statusElement.style.color = "green";
+                    }
+            }else{
+                statusElement.style.color = "green";
+                statusElement.textContent = "Skal følges opp";
+            }
             statusElement.style.cursor = "pointer";
 
             statusElement.addEventListener("click", () => {
@@ -141,12 +157,15 @@ function createStatusDropdown(rowElement, statusElement, company) {
         if (selectedValue === "REMOVE") {
             const confirmAction = confirm(`Ønsker du å koble selskapet "${company.Name}" fra oppfølging?`);
             if (confirmAction) {
-                updateFollowupStatus(statusElement, company.airtable, "NEI");
+                updateFollowupStatus(company.airtable, "REMOVE");
+                statusElement.style.color = "red";
             }
         } else if (selectedValue === "HIDE") {
-            updateFollowupStatus(statusElement, company.airtable, "SKJUL");
+            updateFollowupStatus(company.airtable, "HIDE");
+            statusElement.style.color = "black";
         } else if (selectedValue === "NORMAL") {
-            updateFollowupStatus(statusElement, company.airtable, "JA");
+            updateFollowupStatus(company.airtable, "NORMAL");
+            statusElement.style.color = "green";
         }
 
         // Tilbakestill visningen
@@ -215,17 +234,20 @@ function handleCompanyClick(name, airtableId) {
 
 
 // Funksjon for å oppdatere oppfølgingsstatus
-function updateFollowupStatus(statusElement, airtableId, newStatus) {
-    statusElement.style.color = "red";
-    statusElement.querySelector(".lastfollowingup").textContent = newStatus;
-
-    // Sjekker status og setter `nofollowup` til true eller false
-    const nofollowup = newStatus.toUpperCase() === "NEI";
+function updateFollowupStatus(airtableId, newStatus) {
+ 
 
     // Oppretter objektet som skal sendes i PATCH-forespørselen
     const body = {
-        nofollowup: nofollowup
+        followupstatus:newStatus
     };
+
+    if(newStatus == "REMOVE"){
+        body.nofollowup = true;
+    }else{
+        body.nofollowup = false;
+    }
+
 
     // Sender PATCH-forespørsel til Airtable
     PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
