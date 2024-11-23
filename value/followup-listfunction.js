@@ -174,7 +174,9 @@ function handleDateChange(airtableId, newDate) {
     console.log(`Oppdaterer dato for ${airtableId} til ${newDate}`);
     // Legg til logikk for å oppdatere datoen i databasen eller arrayen din
 
-    let body = {};
+    let body = {
+        manuelrewaldate:newDate
+    };
     // Sender PATCH-forespørsel til Airtable
     PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
     //Om den skal skules så kan denne fjernes visuelt
