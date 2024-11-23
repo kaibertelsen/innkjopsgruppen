@@ -83,7 +83,10 @@ function respondfollouplist(data, id) {
                   {
                        text:"Fornyes innen tre måned",
                        value:3
-                  }
+                  },{
+                    text:"Fornyes innen tre måned",
+                    value:"HIDE"
+                    }
                      ];
       
   loadselector(document.getElementById("followupselector"),options);
@@ -148,9 +151,12 @@ function respondfollouplist(data, id) {
  function filterfollowupSelector(data,selectorid){
   var selector = document.getElementById(selectorid);
  
+  
     if(selector.value == "missingfollowup"){
         //list alle som mangler oppfølging
-        return data;
+        return filteredHideFollowup(data, false);
+    }else if(selector.value == "HIDE"){
+        return filteredHideFollowup(data, true);
     }else{
         let fromdate = finddateforwardIntime(Number(selector.value));
         var array = [];
@@ -161,9 +167,40 @@ function respondfollouplist(data, id) {
                 array.push(data[i]);
             }
         }
-        return  array;
+        return  filteredHideFollowup(array, false);
     }
+
+
+
+
+
+
  }
+
+ function filteredHideFollowup(data, status) {
+    let array = []; // Tom liste for filtrerte selskaper
+
+    for (let company of data) {
+        if (status) {
+            // Når status er true, returner kun selskaper med "HIDE"
+            if (company.followupstatus === "HIDE") {
+                array.push(company);
+            }
+        } else {
+            // Når status er false, returner kun selskaper som IKKE har "HIDE"
+            if (company.followupstatus !== "HIDE") {
+                array.push(company);
+            }
+        }
+    }
+
+    return array; // Returner den filtrerte listen
+}
+
+
+
+
+
  function isDateAfter(date1, date2) {
    // Konverterer strengene til Date-objekter
    const d1 = new Date(date1);
