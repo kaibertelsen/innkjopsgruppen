@@ -41,7 +41,7 @@ function startFollowinglistElement(data) {
             statusElement.textContent = company.followupstatus || "Skal følges opp";
             if(company?.followupstatus){
                 if(company.followupstatus == "HIDE"){
-                    statusElement.textContent = "Skal skjules fra listen";
+                    statusElement.textContent = "Skjules fra listen";
                     statusElement.style.color = "black";
                 }else if (company.followupstatus == "REMOVE"){
                     statusElement.textContent = "Fjernes fra listen";
@@ -155,16 +155,16 @@ function createStatusDropdown(rowElement, statusElement, company) {
         const selectedValue = dropdown.value;
 
         if (selectedValue === "REMOVE") {
-            const confirmAction = confirm(`Ønsker du å koble selskapet "${company.Name}" fra oppfølging?`);
-            if (confirmAction) {
-                updateFollowupStatus(company.airtable, "REMOVE");
-                statusElement.style.color = "red";
-            }
+            updateFollowupStatus(company.airtable, "REMOVE");
+            statusElement.textContent = "Fjernes fra listen";
+            statusElement.style.color = "red";
         } else if (selectedValue === "HIDE") {
             updateFollowupStatus(company.airtable, "HIDE");
+            statusElement.textContent = "Skjules fra listen";
             statusElement.style.color = "black";
         } else if (selectedValue === "NORMAL") {
             updateFollowupStatus(company.airtable, "NORMAL");
+            statusElement.textContent = "Skal følges opp";
             statusElement.style.color = "green";
         }
 
