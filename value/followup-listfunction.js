@@ -59,11 +59,6 @@ function startFollowinglistElement(data) {
         noteContainer.style.display = "none";
         const savebutton = rowElement.querySelector(".savebutton");
     
-
-        textlable.addEventListener("click", () => {
-            editFollowupNote(noteContainer, company.airtable);
-        });
-
         savebutton.style.display = "none";
         savebutton.addEventListener("click", () => {
             saveFollowupNote(noteContainer, company.airtable);
