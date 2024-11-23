@@ -279,6 +279,8 @@ function ruteresponse(data,id){
     getConnectionsresponse(data);
   }else if(id == "retursaveConnections"){
     retursaveConnections(data);
+  }else if (id == "responseupdatefollowingUpstatus"){
+    responseupdatefollowingUpstatus(data);
   }
 }
 

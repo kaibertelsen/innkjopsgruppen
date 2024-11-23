@@ -261,11 +261,32 @@ function updateFollowupStatus(rowElement,airtableId, newStatus) {
 
     // Sender PATCH-forespørsel til Airtable
     PATCHairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", airtableId, JSON.stringify(body), "responseupdatefollowingUpstatus");
-
     //Om den skal skules så kan denne fjernes visuelt
     if(newStatus == "HIDE"){
    // rowElement.remove();
     }
+
 }
 
+function responseupdatefollowingUpstatus(data){
 
+    let updateObject = data.fields;
+    updateObjectInArray(listAndData, updateObject.airtable, updateObject);
+
+}
+
+function updateObjectInArray(listAndData, airtableKey, newData) {
+    // Finn objektet som matcher airtableKey
+    const objectToUpdate = listAndData.find(item => item.airtable === airtableKey);
+
+    if (objectToUpdate) {
+        // Oppdater objektets egenskaper med de nye dataene
+        Object.assign(objectToUpdate, newData);
+
+        // Returner true for å indikere at oppdateringen var vellykket
+        return true;
+    }
+
+    // Returner false hvis ingen match ble funnet
+    return false;
+}
