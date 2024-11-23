@@ -66,9 +66,6 @@ function startFollowinglistElement(data) {
         const textarea = noteContainer.querySelector(".textareanote");
         textarea.value = company.followupnote || "";
 
-        // Juster høyden til textarea basert på innhold
-        adjustTextareaHeight(textarea);
-
         textarea.addEventListener("change", function () {
             saveFollowupNote(noteContainer, company.airtable);
         });
@@ -89,6 +86,7 @@ function startFollowinglistElement(data) {
             if (clickCount === 1) {
                 // Første klikk
                 noteContainer.style.display = "block";
+                adjustTextareaHeight(textarea);
             } else if (clickCount === 2) {
                 // Andre klikk
                 noteContainer.style.display = "none"
@@ -107,8 +105,8 @@ function startFollowinglistElement(data) {
 
 // Funksjon for dynamisk høydejustering
 function adjustTextareaHeight(textarea) {
-    textarea.style.height = "auto"; // Tilbakestill høyden for nøyaktig måling
-    textarea.style.height = textarea.scrollHeight + "px"; // Sett høyden til innholdets høyde
+    textarea.style.height = "auto";
+    textarea.style.height = (textarea.scrollHeight + 2) + "px";
 }
 
 
