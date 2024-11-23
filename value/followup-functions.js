@@ -96,7 +96,15 @@ function respondfollouplist(data, id) {
      
      for(var i = 0;i<data.length;i++){
          //finne ut nestegang denne avtalen fornyes
-         let nextrenewaldate = getNextRenewalDate(data[i].followupintervall,data[i].winningdate);
+
+        let startdate = data[i].winningdate;
+        if(data[i]?.manuelrewaldate){
+            //denne har satt manuelt en dato for fornying så regn ut (12) mnd tilbake tid og sett denne datoen
+            startdate = getDateMonthsAgo(dateString, data[i].followupintervall);
+        }
+
+
+         let nextrenewaldate = getNextRenewalDate(data[i].followupintervall,startdate);
          let daysto = daysUntil(nextrenewaldate);
          
          data[i].nextrenewaldate = nextrenewaldate;
@@ -303,3 +311,25 @@ function startfollowuplist(data,load,sortname,descending){
 
 }
  
+
+function getDateMonthsAgo(dateString, monthsAgo) {
+    if (!dateString || !Number.isInteger(monthsAgo)) return null; // Returner null hvis input er ugyldig
+
+    const date = new Date(dateString);
+
+    if (isNaN(date)) return null; // Returner null hvis datoen er ugyldig
+
+    // Juster måneden med det angitte antallet måneder tilbake
+    date.setMonth(date.getMonth() - monthsAgo);
+
+    // Håndter månedens dager (f.eks., 31. mars til 28. februar)
+    if (date.getDate() !== new Date(dateString).getDate()) {
+        date.setDate(0); // Sett datoen til siste dag i forrige måned
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Legg til ledende null for måned
+    const day = String(date.getDate()).padStart(2, "0"); // Legg til ledende null for dag
+
+    return `${year}-${month}-${day}`;
+}
