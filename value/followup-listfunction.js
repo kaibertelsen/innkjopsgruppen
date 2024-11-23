@@ -116,7 +116,12 @@ function editFollowupNote(noteContainer, airtableId) {
 
     textarea.classList.add("textareanote");
     textarea.placeholder = "Legg til en kommentar";
+    textarea.style.overflow = "hidden"; // Skjuler scrollbar for jevn resizing
+    textarea.style.resize = "none"; // Hindrer manuell resizing
     textarea.focus();
+
+    // Juster høyden første gang for å matche innholdet
+    adjustTextareaHeight(textarea);
 
     // Legg textarea som første element i noteContainer
     noteContainer.prepend(textarea);
@@ -131,18 +136,22 @@ function editFollowupNote(noteContainer, airtableId) {
 
     // Eventlistener for når innholdet i textarea endres
     textarea.addEventListener("change", function () {
-        handleTextareaChange(noteContainer,airtableId);
+        handleTextareaChange(noteContainer, airtableId);
     });
 
-    // Eventlistener for sanntidsoppdatering av tekst
+    // Eventlistener for sanntidsoppdatering av tekst og høyde
     textarea.addEventListener("input", function () {
         textAreaChange(noteTextLabel, textarea);
+        adjustTextareaHeight(textarea);
     });
 }
 
-function editFollowupNoteClouse(noteContainer){
-    noteContainer.style.display = "none"
+// Funksjon for å justere høyden på textarea dynamisk
+function adjustTextareaHeight(textarea) {
+    textarea.style.height = "auto"; // Tilbakestill høyden for nøyaktig måling
+    textarea.style.height = textarea.scrollHeight + "px"; // Sett høyden til innholdet
 }
+
 
 function textAreaChange(notetextlable,textarea){
 
@@ -151,7 +160,6 @@ function textAreaChange(notetextlable,textarea){
      notetextlable.parentElement.querySelector(".savebutton").style.display = "inline-block";
 
 }
-
 
 // Funksjon som håndterer endringer i textarea
 function handleTextareaChange(noteContainer,airtableId) {
