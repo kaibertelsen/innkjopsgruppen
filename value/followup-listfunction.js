@@ -70,8 +70,8 @@ function startFollowinglistElement(data) {
 
         
         if (company.followupnote) {
-          //  noteContainer.style.display = "block";
-           //her må heller note knappen ha en annen farge
+          
+            notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b35d007835010a0b68f_note-gul.svg')";
         } else {
             noteContainer.style.display = "none";
         }
