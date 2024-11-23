@@ -111,22 +111,30 @@ function createStatusDropdown(rowElement, statusElement, company) {
     const dropdown = document.createElement("select");
     dropdown.classList.add("status-dropdown");
 
-    // Legg til alternativer
+    // Legg til alternativer med farge
     const options = [
-        { value: "REMOVE", label: "Fjern fra oppfølging" },
-        { value: "HIDE", label: "Skjul fra liste" },
-        { value: "NORMAL", label: "Normal oppfølging" }
+        { value: "REMOVE", label: "Fjern fra oppfølging", color: "red" },
+        { value: "HIDE", label: "Skjul fra liste", color: "black" },
+        { value: "NORMAL", label: "Normal oppfølging", color: "green" }
     ];
 
     options.forEach(option => {
         const opt = document.createElement("option");
         opt.value = option.value;
         opt.textContent = option.label;
+        opt.style.color = option.color; // Legg til farge basert på verdien
         dropdown.appendChild(opt);
     });
 
     // Legg dropdown til DOM rett under statusElement
     statusElement.parentElement.appendChild(dropdown);
+
+    // Juster posisjonering til høyre for statusElement
+    const statusRect = statusElement.getBoundingClientRect();
+    dropdown.style.position = "absolute";
+    dropdown.style.left = `${statusRect.right + 10}px`; // 10px avstand til høyre
+    dropdown.style.top = `${statusRect.top}px`;
+    dropdown.style.zIndex = "1000";
 
     // Håndter valg
     dropdown.addEventListener("change", () => {
@@ -145,13 +153,29 @@ function createStatusDropdown(rowElement, statusElement, company) {
 
         // Fjern dropdown etter valg
         dropdown.remove();
+        document.removeEventListener("click", handleOutsideClick); // Fjern eventlistener for klikking utenfor
     });
 
-    // Stil for dropdown (valgfritt for posisjonering)
-    dropdown.style.position = "absolute";
-    dropdown.style.zIndex = "1000";
-    dropdown.style.marginTop = "5px";
+    // Stil for dropdown
     dropdown.style.padding = "5px";
+    dropdown.style.border = "1px solid #ccc";
+    dropdown.style.borderRadius = "4px";
+    dropdown.style.backgroundColor = "#fff";
+    dropdown.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
+    dropdown.style.minWidth = "150px";
+
+    // Håndter klikking utenfor dropdown
+    function handleOutsideClick(event) {
+        if (!dropdown.contains(event.target) && event.target !== statusElement) {
+            dropdown.remove(); // Fjern dropdown
+            document.removeEventListener("click", handleOutsideClick); // Fjern eventlistener
+        }
+    }
+
+    // Legg til eventlistener for å fjerne dropdown ved klikk utenfor
+    setTimeout(() => {
+        document.addEventListener("click", handleOutsideClick);
+    }, 0); // Timeout for å unngå å fange det samme klikket som åpnet dropdown
 }
 
 
