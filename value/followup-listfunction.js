@@ -195,7 +195,7 @@ function handleDateChange(rewaldate,airtableId, newDate) {
     //Om den skal skules så kan denne fjernes visuelt
 
     //oppdatere dager til denne datoen
-    let dayslable = rewaldate.parentElement-parentElement.querySelector(".daysagain");
+    let dayslable = rewaldate.parentElement.parentElement.querySelector(".daysagain");
     dayslable.textContent = calculateDaysUntil(newDate)+" dager";
 
 }
