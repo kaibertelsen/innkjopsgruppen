@@ -158,7 +158,7 @@ function respondfollouplist(data, id) {
  
  function filterfollowupSelector(data,selectorid){
   var selector = document.getElementById(selectorid);
- 
+  data = filteredRemoveFollowup(data);
   
     if(selector.value == "missingfollowup"){
         //list alle som mangler oppfølging
@@ -184,6 +184,22 @@ function respondfollouplist(data, id) {
 
 
  }
+
+ function filteredRemoveFollowup(data) {
+    let array = [];
+    for (let company of data) {
+        if (company.followupstatus !== "REMOVE") {
+            array.push(company); // Legg til kun selskaper som ikke har "REMOVE"
+        }
+    }
+    return array;
+}
+
+
+
+
+
+
 
  function filteredHideFollowup(data, status) {
     let array = []; // Tom liste for filtrerte selskaper
