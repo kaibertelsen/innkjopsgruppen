@@ -136,10 +136,7 @@ function handleRewaldateClick(rewaldate, company) {
     dateInput.type = "date";
     dateInput.classList.add("rewaldate-input");
     dateInput.value = company.nextrenewaldate || ""; // Sett eksisterende dato, eller tom
-    dateInput.style.width = rewaldate.offsetWidth + "px"; // Sett samme bredde som rewaldate
-    dateInput.style.height = rewaldate.offsetHeight + "px"; // Sett samme høyde som rewaldate
-    dateInput.style.fontSize = window.getComputedStyle(rewaldate).fontSize; // Match font-størrelse
-
+    
     // Legg til inputfeltet i stedet for rewaldate
     rewaldate.parentElement.appendChild(dateInput);
 
