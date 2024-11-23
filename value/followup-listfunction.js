@@ -271,13 +271,13 @@ function updateFollowupStatus(rowElement,airtableId, newStatus) {
 function responseupdatefollowingUpstatus(data){
 
     let updateObject = data.fields;
-    updateObjectInArray(listanddate, updateObject.airtable, updateObject);
+    updateObjectInArray(mainfollowuplist, updateObject.airtable, updateObject);
 
 }
 
-function updateObjectInArray(listanddate, airtableKey, newData) {
+function updateObjectInArray(mainfollowuplist, airtableKey, newData) {
     // Finn objektet som matcher airtableKey
-    const objectToUpdate = listanddate.find(item => item.airtable === airtableKey);
+    const objectToUpdate = mainfollowuplist.find(item => item.airtable === airtableKey);
 
     if (objectToUpdate) {
         // Oppdater objektets egenskaper med de nye dataene
