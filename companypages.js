@@ -5,6 +5,7 @@ saveConnections(livecompanyconnection);
 
 function startupCode(){
 getConnections(airtableCompanyId);
+setTimeout(getUserData, 1000);
 }
 
 //spør etter alle koblinger på dette selskap
