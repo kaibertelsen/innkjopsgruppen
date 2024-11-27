@@ -115,7 +115,7 @@ function respondUserData(data){
         console.log("Det er første gang en logger på");
 
         //hvis guid knapp
-        //document.getElementById("demo").click();
+        document.getElementById("guidestart").click();
         
         //send melding om onboarded
         let body = {onboarded:true};
