@@ -12,8 +12,8 @@ function loadScript(url) {
 
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
-    "https://kaibertelsen.github.io/innkjopsgruppen/companypages.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/apicom.js"
+    "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/portvaluestart.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js"
 ];
 
 // Laste inn alle skriptene sekvensielt
@@ -21,7 +21,6 @@ cdnScripts.reduce((promise, script) => {
     return promise.then(() => loadScript(script));
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
-    startupCode();
 }).catch(error => {
     console.error(error);
 });
