@@ -29,12 +29,22 @@ function convertJsonStringsToObjects(jsonStrings) {
 
             // Håndter `cashflowjson`-feltet
             if (data.cashflowjson) {
-                // Splitt `cashflowjson` i separate JSON-objekter
-                data.cashflowArray = data.cashflowjson
-                    .match(/{[^}]+}/g) // Finn alle JSON-objekter i strengen
-                    .map(item => JSON.parse(item)); // Parse hvert objekt til JSON
+                if (typeof data.cashflowjson === "string") {
+                    // Reparasjon: Legg til manglende kommaer mellom JSON-objektene
+                    const repairedCashflow = data.cashflowjson.replace(/}{/g, '},{');
+
+                    // Parse til et gyldig JSON-array
+                    data.cashflowArray = JSON.parse(`[${repairedCashflow}]`);
+                } else if (Array.isArray(data.cashflowjson)) {
+                    // Hvis allerede et gyldig array, kopier direkte
+                    data.cashflowArray = data.cashflowjson;
+                } else {
+                    // Sett til tom array hvis data ikke er gyldig
+                    data.cashflowArray = [];
+                }
             } else {
-                data.cashflowArray = []; // Sett til tom array hvis `cashflowjson` er tom
+                // Hvis `cashflowjson` er tom eller ikke finnes, sett til tom array
+                data.cashflowArray = [];
             }
 
             return data;
@@ -44,6 +54,7 @@ function convertJsonStringsToObjects(jsonStrings) {
         }
     });
 }
+
 
 function calculatingPorte(objects, monthsBack = 12) {
     const now = new Date(); // Nåværende dato
@@ -85,7 +96,13 @@ function calculatingPorte(objects, monthsBack = 12) {
 }
 
 
-
+function formatToCurrency(value) {
+    if (isNaN(value)) {
+        throw new Error("Verdien må være et tall");
+    }
+    const roundedValue = Math.round(value); // Avrunder til nærmeste heltall
+    return `${roundedValue} kr`; // Legger til 'kr'
+}
 
 
 
