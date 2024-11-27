@@ -119,7 +119,7 @@ function respondUserData(data){
         
         //send melding om onboarded
         let body = {onboarded:true};
-        PATCHairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userData.airtable,JSON.stringify(body),"onboardedregistredresponse");
+        PATCHairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userData.airtableId,JSON.stringify(body),"onboardedregistredresponse");
     }
 }
 
