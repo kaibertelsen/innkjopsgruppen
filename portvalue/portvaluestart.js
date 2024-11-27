@@ -24,39 +24,66 @@ function klientresponse(data) {
 function convertJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {
         try {
-            return JSON.parse(jsonString); // Konverter JSON-streng til objekt
+            // Parse hoved JSON-streng til et objekt
+            const data = JSON.parse(jsonString);
+
+            // Håndter `cashflowjson`-feltet
+            if (data.cashflowjson) {
+                // Splitt `cashflowjson` i separate JSON-objekter
+                data.cashflowArray = data.cashflowjson
+                    .match(/{[^}]+}/g) // Finn alle JSON-objekter i strengen
+                    .map(item => JSON.parse(item)); // Parse hvert objekt til JSON
+            } else {
+                data.cashflowArray = []; // Sett til tom array hvis `cashflowjson` er tom
+            }
+
+            return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
-            return null; // Returner null hvis en streng ikke kan parses
+            return null; // Returner null hvis parsing feiler
         }
     });
 }
 
+function calculatingPorte(objects, monthsBack = 12) {
+    const now = new Date(); // Nåværende dato
+    const cutoffDate = new Date();
+    cutoffDate.setMonth(cutoffDate.getMonth() - monthsBack); // Juster cutoff-dato basert på monthsBack
 
-
-
-function calculatingPorte(objects) {
-    let totalKickback = 0; // For å summere sumvaluekickback
-    let totalValueGroup = 0; // For å summere valuegroup
+    let sumkickback = 0; // For å summere kickbackvalue innenfor tidsrammen
+    let sumvaluegroup = 0; // For å summere valuegroup-verdier
 
     objects.forEach(obj => {
-        // Summer sumvaluekickback hvis verdien finnes og er et tall
-        if (obj.sumvaluekickback && !isNaN(obj.sumvaluekickback)) {
-            totalKickback += parseFloat(obj.sumvaluekickback); // Konverter til tall og legg til
+        // Summér valuegroup hvis det finnes og er et tall
+        if (obj.valuegroup && !isNaN(obj.valuegroup)) {
+            sumvaluegroup += parseFloat(obj.valuegroup);
         }
 
-        // Summer valuegroup hvis verdien finnes og er et tall
-        if (obj.valuegroup && !isNaN(obj.valuegroup)) {
-            totalValueGroup += parseFloat(obj.valuegroup); // Konverter til tall og legg til
+        // Håndter cashflowArray
+        if (obj.cashflowArray && Array.isArray(obj.cashflowArray)) {
+            obj.cashflowArray.forEach(cashflow => {
+                if (cashflow.maindate) {
+                    const maindate = new Date(cashflow.maindate);
+
+                    // Sjekk om maindate er innenfor tidsrammen
+                    if (maindate >= cutoffDate && maindate <= now) {
+                        // Summér kickbackvalue hvis det er et tall
+                        if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
+                            sumkickback += parseFloat(cashflow.kickbackvalue);
+                        }
+                    }
+                }
+            });
         }
     });
 
     // Returner resultatene
     return {
-        totalKickback,
-        totalValueGroup
+        sumvaluegroup,
+        sumkickback
     };
 }
+
 
 
 
