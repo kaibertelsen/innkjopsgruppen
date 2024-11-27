@@ -27,23 +27,21 @@ function convertJsonStringsToObjects(jsonStrings) {
             // Parse hoved JSON-streng til et objekt
             const data = JSON.parse(jsonString);
 
-            // Håndter `cashflowjson`-feltet
+            // Reparér og håndter `cashflowjson`-feltet
             if (data.cashflowjson) {
                 if (typeof data.cashflowjson === "string") {
-                    // Reparasjon: Legg til manglende kommaer mellom JSON-objektene
+                    // Hvis cashflowjson er en streng, fiks formatet
                     const repairedCashflow = data.cashflowjson.replace(/}{/g, '},{');
-
-                    // Parse til et gyldig JSON-array
                     data.cashflowArray = JSON.parse(`[${repairedCashflow}]`);
                 } else if (Array.isArray(data.cashflowjson)) {
                     // Hvis allerede et gyldig array, kopier direkte
                     data.cashflowArray = data.cashflowjson;
                 } else {
-                    // Sett til tom array hvis data ikke er gyldig
+                    // Sett til tom array hvis data er ugyldig
                     data.cashflowArray = [];
                 }
             } else {
-                // Hvis `cashflowjson` er tom eller ikke finnes, sett til tom array
+                // Hvis `cashflowjson` ikke finnes, sett til tom array
                 data.cashflowArray = [];
             }
 
@@ -54,6 +52,7 @@ function convertJsonStringsToObjects(jsonStrings) {
         }
     });
 }
+
 
 
 function calculatingPorte(objects, monthsBack = 12) {
