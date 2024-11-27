@@ -227,6 +227,8 @@ createCompany();
 function createCompany(){
  let body = controllcompanyinputs();
     if(body){
+        //legge selskapet inn til riktig klient for portefølje bla
+        body.klient = ["rec1QGUGBMVaqxhp1"];
 
         if(companyId == ""){
         POSTairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",JSON.stringify(body),"responsecompany");
