@@ -66,7 +66,7 @@ function creatUser() {
     inputs.forEach(input => {
         const key = input.dataset.name; // Henter verdien fra data-name
         if (key) { // Hvis data-name finnes
-            const value = input.value.trim(); // Trim for å fjerne unødvendige mellomrom
+            const value = input.value;
     
             // Sjekk om feltet er tomt
             if (value === "") {
