@@ -64,10 +64,29 @@ function creatUser() {
 
     inputs.forEach(input => {
         const key = input.dataset.name; // Henter verdien fra data-name
-        if (key) { // Hvis data-name finnes, legg til i objektet
-            result[key] = input.value;
+        if (key) { // Hvis data-name finnes
+            const value = input.value.trim(); // Trim for å fjerne unødvendige mellomrom
+    
+            // Sjekk om feltet er tomt
+            if (value === "") {
+                alert(`${key} feltet er tomt, vennligst fyll ut dette feltet.`);
+                return; // Stopp videre prosessering for dette feltet
+            }
+    
+            // Hvis key er "epost", valider e-postadressen
+            if (key === "epost") {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    alert("E-postadressen er ikke gyldig, vennligst skriv inn en korrekt e-post.");
+                    return; // Stopp videre prosessering for dette feltet
+                }
+            }
+    
+            // Legg til i resultatobjektet hvis alt er OK
+            result[key] = value;
         }
     });
+    
     result.company = companyId;
         const date = new Date();
         const isoDateString = date.toISOString();
