@@ -5,8 +5,26 @@ function getKlientdata(){
 }
 
 function klientresponse(data){
-    console.log(data);
+  
+    const objects = convertJsonStringsToObjects(data.membersjson);
+    console.log(objects);
 }
+
+
+
+function convertJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map(jsonString => {
+        try {
+            return JSON.parse(jsonString); // Konverter JSON-streng til objekt
+        } catch (error) {
+            console.error("Feil ved parsing av JSON-streng:", jsonString, error);
+            return null; // Returner null hvis en streng ikke kan parses
+        }
+    });
+}
+
+
+
 
 
 
