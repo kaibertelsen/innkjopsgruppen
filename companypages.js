@@ -3,7 +3,6 @@ document.getElementById("sendconnectionbutton").addEventListener("click", functi
 saveConnections(livecompanyconnection);
 });
 
-
 function startupCode(){
 getConnections(airtableCompanyId);
 }
@@ -44,10 +43,6 @@ function markConnections(connections) {
         //console.log(`Element med supplierId ${supplierId} er koblet:`, isConnected);
     });
 }
-
- 
-
-
 
 var livecompanyconnection = [];
 function updatelivelist(elementid) {
@@ -104,4 +99,29 @@ function saveConnections(data){
 
 function retursaveConnections(data){
     console.log(data);
+}
+
+function getUserData(){
+
+    GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",myuserID,"respondUserData")
+}
+
+function respondUserData(data){
+    let userData = data.fields;
+    if(!userData.onboarded){
+        //det er første gang en logger på
+
+        console.log("Det er første gang en logger på");
+
+        //hvis guid knapp
+        document.getElementById("demo").click();
+        
+        //send melding om onboarded
+        let body = {onboarded:true};
+        PATCHairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userData.airtable,JSON.stringify(body),"onboardedregistredresponse");
+    }
+}
+
+function onboardedregistredresponse(data){
+    console.log("Onboarded er registrert");
 }

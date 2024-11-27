@@ -281,6 +281,11 @@ function ruteresponse(data,id){
     retursaveConnections(data);
   }else if (id == "responseupdatefollowingUpstatus"){
     responseupdatefollowingUpstatus(data);
+  }else if (id == "respondUserData"){
+    respondUserData(data);
+  }else if (id == "onboardedregistredresponse"){
+    onboardedregistredresponse(data);
   }
+  
 }
 
