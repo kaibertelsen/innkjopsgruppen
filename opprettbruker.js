@@ -5,12 +5,24 @@ function checkUser() {
     checkUserEmail(document.getElementById("epostinput").value);
 }
 
-function checkUserEmail(email){
-    let body =  airtablebodylistAND({epost:email});
-    Getlistairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responsecheckUserEmail");
+function checkUserEmail(email) {
+    // Regex for å validere e-postadresser
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    // Sjekk om e-postadressen er gyldig
+    if (!emailRegex.test(email)) {
+        alert("Vennligst skriv inn en gyldig e-postadresse.");
+        return; // Stopper funksjonen hvis e-posten ikke er gyldig
+    }
+
+    // Hvis e-posten er gyldig, fortsetter vi med forespørselen
+    let body = airtablebodylistAND({ epost: email });
+    Getlistairtable("app1WzN1IxEnVu3m0", "tblMhgrvy31ihKYbr", body, "responsecheckUserEmail");
+
+    // Viser animasjonen
     document.getElementById("animation").style.display = "block";
 }
+
 
 function responsecheckUserEmail(data){
     document.getElementById("animation").style.display = "none";
