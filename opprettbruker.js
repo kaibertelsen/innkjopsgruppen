@@ -61,6 +61,7 @@ document.getElementById("createUserbutton").addEventListener("click", creatUser)
 function creatUser() {
     const inputs = document.querySelectorAll('#userwrapper input'); // Henter kun input-felter under userwrapper
     const result = {};
+    let hasError = false; // Flag for å spore feil
 
     inputs.forEach(input => {
         const key = input.dataset.name; // Henter verdien fra data-name
@@ -70,6 +71,7 @@ function creatUser() {
             // Sjekk om feltet er tomt
             if (value === "") {
                 alert(`${key} feltet er tomt, vennligst fyll ut dette feltet.`);
+                hasError = true; // Sett flag til true
                 return; // Stopp videre prosessering for dette feltet
             }
     
@@ -78,6 +80,7 @@ function creatUser() {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(value)) {
                     alert("E-postadressen er ikke gyldig, vennligst skriv inn en korrekt e-post.");
+                    hasError = true; // Sett flag til true
                     return; // Stopp videre prosessering for dette feltet
                 }
             }
@@ -86,28 +89,32 @@ function creatUser() {
             result[key] = value;
         }
     });
-    
+
+    // Hvis det er feil, avbryt funksjonen
+    if (hasError) {
+        return;
+    }
+
     result.company = companyId;
-        const date = new Date();
-        const isoDateString = date.toISOString();
+    const date = new Date();
+    const isoDateString = date.toISOString();
     result.date = isoDateString;
     result.membermail = membermail;
 
     let group = findObjectByKey(globalGroups, companyGroupId, "airtableId");
 
-
-    if(group){
-        if(group?.typeterms){
+    if (group) {
+        if (group?.typeterms) {
             result.typeterms = group.typeterms;
         }
-    }else{
-        //standard vilkår
+    } else {
+        // Standard vilkår
         result.typeterms = 1;
     }
 
-
     sendUserToZapier(result);
 }
+
 
 async function sendUserToZapier(data) {
     
