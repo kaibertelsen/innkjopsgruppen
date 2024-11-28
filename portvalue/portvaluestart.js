@@ -33,33 +33,39 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     let sumkickback = 0; // For å summere kickbackvalue innenfor tidsrammen
     let sumvaluegroup = 0; // For å summere valuegroup-verdier
 
+    // Hent valgt gruppe fra select-elementet
+    const selectedGroup = document.getElementById("dashboardgroupselector").value;
+
     objects.forEach(obj => {
-        // Summér valuegroup hvis det finnes og er et tall
-        if (obj.valuegroup) {
-            const valuegroupNumber = parseFloat(obj.valuegroup); // Konverter til tall
-            if (!isNaN(valuegroupNumber)) {
-                sumvaluegroup += valuegroupNumber;
+        // Sjekk om objektet tilhører valgt gruppe, eller inkluder alt hvis "Alle" er valgt
+        if (selectedGroup === "" || obj.group === selectedGroup) {
+            // Summér valuegroup hvis det finnes og er et tall
+            if (obj.valuegroup) {
+                const valuegroupNumber = parseFloat(obj.valuegroup); // Konverter til tall
+                if (!isNaN(valuegroupNumber)) {
+                    sumvaluegroup += valuegroupNumber;
+                }
             }
-        }
 
-        // Håndter cashflowjson (eller cashflowArray hvis det brukes direkte)
-        if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
-            obj.cashflowjson.forEach(cashflow => {
-                if (cashflow.maindate) {
-                    const maindate = new Date(cashflow.maindate);
+            // Håndter cashflowjson
+            if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
+                obj.cashflowjson.forEach(cashflow => {
+                    if (cashflow.maindate) {
+                        const maindate = new Date(cashflow.maindate);
 
-                    // Sjekk om maindate er innenfor tidsrammen
-                    if (maindate >= cutoffDate && maindate <= now) {
-                        // Summér kickbackvalue hvis det er et tall
-                        if (cashflow.kickbackvalue) {
-                            const kickbackNumber = parseFloat(cashflow.kickbackvalue); // Konverter til tall
-                            if (!isNaN(kickbackNumber)) {
-                                sumkickback += kickbackNumber;
+                        // Sjekk om maindate er innenfor tidsrammen
+                        if (maindate >= cutoffDate && maindate <= now) {
+                            // Summér kickbackvalue hvis det er et tall
+                            if (cashflow.kickbackvalue) {
+                                const kickbackNumber = parseFloat(cashflow.kickbackvalue); // Konverter til tall
+                                if (!isNaN(kickbackNumber)) {
+                                    sumkickback += kickbackNumber;
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     });
 
@@ -69,6 +75,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
         sumkickback
     };
 }
+
 
 function formatToCurrency(value) {
     if (isNaN(value)) {
@@ -87,6 +94,10 @@ function loadDashboard(data){
     document.getElementById("dachboardportkickback").textContent = formatToCurrency(sumkickback);
     document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
 }
+document.getElementById("dashboardgroupselector").addEventListener("change", () => {
+    loadDashboard(calculatingPorteDashboard(objects)); 
+});
+
 
 function loadGroupSelector(groups) {
     const selector = document.getElementById("dashboardgroupselector");
