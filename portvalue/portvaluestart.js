@@ -61,7 +61,8 @@ function loadDashboardsale(data){
 }
 
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
-    loadDashboardporte(calculatingPorteDashboard(klientdata)); 
+    loadDashboardporte(calculatingPorteDashboard(klientdata));
+    loadDashboardsale(calculatingSaleDashboard(klientdata)); 
 });
 
 document.getElementById("dashboarddateselector").addEventListener("change", () => {
