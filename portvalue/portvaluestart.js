@@ -17,16 +17,12 @@ function klientresponse(data) {
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
     klientdata = objects;
-
-    console.log(getUniqueGroups(objects));
+    loadGroupSelector(getUniqueGroups(objects));
 
     loadDashboard(calculatingPorteDashboard(objects));
-
-
     // Gjør noe med objektene om nødvendig
     // Eksempel: objects.forEach(obj => console.log(obj.Name));
 }
-
 
 
 function calculatingPorteDashboard(objects, monthsBack = 12) {
@@ -83,33 +79,41 @@ function formatToCurrency(value) {
     return `${formattedValue} kr`; // Legger til 'kr'
 }
 
-
 function loadDashboard(data){
-
-
-
-let sumkickback = data.sumkickback;
-let sumvaluegroup = data.sumvaluegroup;
-let sumtotal = sumkickback+sumvaluegroup;
-
-document.getElementById("dachboardportsumtotal").textContent = formatToCurrency(sumtotal);
-document.getElementById("dachboardportkickback").textContent = formatToCurrency(sumkickback);
-document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
-
-
+    let sumkickback = data.sumkickback;
+    let sumvaluegroup = data.sumvaluegroup;
+    let sumtotal = sumkickback+sumvaluegroup;
+    document.getElementById("dachboardportsumtotal").textContent = formatToCurrency(sumtotal);
+    document.getElementById("dachboardportkickback").textContent = formatToCurrency(sumkickback);
+    document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
 }
 
+function loadGroupSelector(groups) {
+    const selector = document.getElementById("dashboardgroupselector");
 
+    // Tømmer eksisterende alternativer
+    selector.innerHTML = "";
 
-function loadGroupSelector(){
+    // Sorter gruppene alfabetisk etter groupname
+    const sortedGroups = groups.sort((a, b) =>
+        a.groupname.localeCompare(b.groupname, 'no', { sensitivity: 'base' })
+    );
 
-const selector = document.getElementById("dashboardgroupselector");
+    // Legg til "Alle"-alternativet øverst
+    const allOption = document.createElement("option");
+    allOption.value = "";
+    allOption.textContent = "Alle";
+    selector.appendChild(allOption);
 
-
-
-
-
+    // Legg til de sorterte gruppene
+    sortedGroups.forEach(group => {
+        const option = document.createElement("option");
+        option.value = group.group;
+        option.textContent = group.groupname;
+        selector.appendChild(option);
+    });
 }
+
 
 
 
