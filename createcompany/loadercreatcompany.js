@@ -11,10 +11,10 @@ function loadScript(url) {
 
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
-    "https://kaibertelsen.github.io/innkjopsgruppen/creatcompany/apicom.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/creatcompany/opprett.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/creatcompany/opprettbruker.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/creatcompany/generelfuncion.js"
+    "https://kaibertelsen.github.io/innkjopsgruppen/createcompany/apicom.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/createcompany/opprett.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/createcompany/opprettbruker.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/createcompany/generelfuncion.js"
 ];
 
 // Laste inn alle skriptene sekvensielt

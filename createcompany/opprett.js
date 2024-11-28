@@ -423,8 +423,8 @@ function setTodaysDate() {
     const formattedDate = today.toISOString().split('T')[0];
 
     // Setter dagens dato i de tre datofeltene
-    document.getElementById('startdatoinput').value = formattedDate;
-    document.getElementById('sluttdatoinput').value = formattedDate;
-    document.getElementById('fornyelsedatoinput').value = formattedDate;
+    document.getElementById('winninginput').value = formattedDate;
+    document.getElementById('rewalinput').value = formattedDate;
+    document.getElementById('invoiceinput').value = formattedDate;
 }
 
