@@ -1,4 +1,6 @@
 
+var klientdata = [];
+
 function getKlientdata(){
     let klientid = "rec1QGUGBMVaqxhp1";
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"klientresponse")
@@ -14,8 +16,8 @@ function klientresponse(data) {
     // Hent arrayen og konverter JSON-strenger til objekter
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
-
-    console.log( calculatingPorteDashboard(objects));
+    klientdata = objects;
+    loadDashboard(calculatingPorteDashboard(objects));
 
     // Gjør noe med objektene om nødvendig
     // Eksempel: objects.forEach(obj => console.log(obj.Name));
@@ -37,9 +39,6 @@ function convertJsonStringsToObjects(jsonStrings) {
         }
     });
 }
-
-
-
 
 function calculatingPorteDashboard(objects, monthsBack = 12) {
     const now = new Date(); // Nåværende dato
@@ -86,8 +85,6 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     };
 }
 
-
-
 function formatToCurrency(value) {
     if (isNaN(value)) {
         throw new Error("Verdien må være et tall");
@@ -95,6 +92,23 @@ function formatToCurrency(value) {
     const roundedValue = Math.round(value); // Avrunder til nærmeste heltall
     return `${roundedValue} kr`; // Legger til 'kr'
 }
+
+function loadDashboard(data){
+
+
+
+let sumkickback = data.sumkickback;
+let sumvaluegroup = data.sumvaluegroup;
+let sumtotal = sumkickback+sumvaluegroup;
+
+document.getElementById("dachboardportsumtotal").textContent = formatToCurrency(sumtotal);
+document.getElementById("dachboardportkickback").textContent = formatToCurrency(sumkickback);
+document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
+
+
+
+}
+
 
 
 
