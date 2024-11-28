@@ -90,8 +90,10 @@ function formatToCurrency(value) {
         throw new Error("Verdien må være et tall");
     }
     const roundedValue = Math.round(value); // Avrunder til nærmeste heltall
-    return `${roundedValue} kr`; // Legger til 'kr'
+    const formattedValue = roundedValue.toLocaleString('no-NO'); // Legger til tusenskiller i norsk format
+    return `${formattedValue} kr`; // Legger til 'kr'
 }
+
 
 function loadDashboard(data){
 
@@ -104,7 +106,6 @@ let sumtotal = sumkickback+sumvaluegroup;
 document.getElementById("dachboardportsumtotal").textContent = formatToCurrency(sumtotal);
 document.getElementById("dachboardportkickback").textContent = formatToCurrency(sumkickback);
 document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
-
 
 
 }
