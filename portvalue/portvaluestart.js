@@ -18,6 +18,7 @@ function klientresponse(data) {
     const objects = convertJsonStringsToObjects(jsonStrings);
     klientdata = objects;
     loadGroupSelector(getUniqueGroups(objects));
+    loadDateSelector();
 
     loadDashboard(calculatingPorteDashboard(objects));
     // Gjør noe med objektene om nødvendig
@@ -126,6 +127,62 @@ function loadGroupSelector(groups) {
 }
 
 
+function loadDateSelector() {
+    const selector = document.getElementById("dashboarddateselector");
+
+    // Tømmer eksisterende alternativer
+    selector.innerHTML = "";
+
+    // Finner dagens dato
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    // Beregner datointervallene
+    const options = [
+        { text: "Siste 12 mnd.", value: getDateRange(12) },
+        { text: "Siste 6 mnd.", value: getDateRange(6) },
+        { text: "Siste 3 mnd.", value: getDateRange(3) },
+        { text: "Siste 30 dager", value: getDateRange(1, "days", 30) },
+        { text: "Hittil i år", value: `${currentYear}-01-01,${formatDate(today)}` },
+        { text: "Fjordåret", value: `${currentYear - 1}-01-01,${currentYear - 1}-12-31` }
+    ];
+
+    // Legger til alternativer i selector
+    options.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option.value;
+        opt.textContent = option.text;
+        selector.appendChild(opt);
+    });
+}
+
+// Hjelpefunksjon for å beregne datointervaller
+function getDateRange(months, unit = "months", daysBack = null) {
+    const today = new Date();
+    const endDate = formatDate(today);
+
+    // Beregn startdato basert på enhet (måneder eller dager)
+    let startDate;
+    if (unit === "months") {
+        const start = new Date();
+        start.setMonth(start.getMonth() - months);
+        startDate = formatDate(start);
+    } else if (unit === "days") {
+        const start = new Date();
+        start.setDate(start.getDate() - daysBack);
+        startDate = formatDate(start);
+    }
+
+    return `${startDate},${endDate}`;
+}
+
+// Hjelpefunksjon for å formatere datoer til "YYYY-MM-DD"
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
 
 
 
