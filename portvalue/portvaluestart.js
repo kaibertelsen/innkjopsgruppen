@@ -31,8 +31,8 @@ function convertJsonStringsToObjects(jsonStrings) {
             if (data.cashflowjson) {
                 if (typeof data.cashflowjson === "string") {
                     // Hvis cashflowjson er en streng, fiks formatet
-                    const repairedCashflow = data.cashflowjson.replace(/}{/g, '},{');
-                    data.cashflowArray = JSON.parse(`[${repairedCashflow}]`);
+                    const repairedCashflow = data.cashflowjson.replace(/}{/g, '},{'); // Legg til manglende komma
+                    data.cashflowArray = JSON.parse(`[${repairedCashflow}]`); // Parse til array
                 } else if (Array.isArray(data.cashflowjson)) {
                     // Hvis allerede et gyldig array, kopier direkte
                     data.cashflowArray = data.cashflowjson;
@@ -45,6 +45,15 @@ function convertJsonStringsToObjects(jsonStrings) {
                 data.cashflowArray = [];
             }
 
+            // Valider og rens `cashflowArray`
+            data.cashflowArray = data.cashflowArray.filter(item => {
+                const isValid = item.kickbackvalue && !isNaN(parseFloat(item.kickbackvalue)) && item.maindate;
+                if (!isValid) {
+                    console.warn(`Ugyldig element fjernet fra cashflowArray på indeks ${index}:`, item);
+                }
+                return isValid;
+            });
+
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
@@ -52,6 +61,7 @@ function convertJsonStringsToObjects(jsonStrings) {
         }
     });
 }
+
 
 
 
