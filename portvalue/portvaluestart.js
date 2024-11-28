@@ -26,8 +26,6 @@ function convertJsonStringsToObjects(jsonStrings) {
         try {
             // Parse hoved JSON-streng til et objekt
             const data = JSON.parse(jsonString);
-
-            
             if (data.cashflowjson) {
                 /*
                 if (typeof data.cashflowjson === "string") {
@@ -44,18 +42,8 @@ function convertJsonStringsToObjects(jsonStrings) {
                 */
             } else {
                 // Hvis `cashflowjson` ikke finnes, sett til tom array
-                data.cashflowArray = [];
+                data.cashflowjson = [];
             }
-
-            // Valider og rens `cashflowArray`
-            data.cashflowArray = data.cashflowArray.filter(item => {
-                const isValid = item.kickbackvalue && !isNaN(parseFloat(item.kickbackvalue)) && item.maindate;
-                if (!isValid) {
-                    console.warn(`Ugyldig element fjernet fra cashflowArray på indeks ${index}:`, item);
-                }
-                return isValid;
-            });
-
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
