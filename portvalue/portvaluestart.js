@@ -26,24 +26,10 @@ function convertJsonStringsToObjects(jsonStrings) {
         try {
             // Parse hoved JSON-streng til et objekt
             const data = JSON.parse(jsonString);
-            if (data.cashflowjson) {
-                /*
-                if (typeof data.cashflowjson === "string") {
-                    // Hvis cashflowjson er en streng, fiks formatet
-                    const repairedCashflow = data.cashflowjson.replace(/}{/g, '},{'); // Legg til manglende komma
-                    data.cashflowArray = JSON.parse(`[${repairedCashflow}]`); // Parse til array
-                } else if (Array.isArray(data.cashflowjson)) {
-                    // Hvis allerede et gyldig array, kopier direkte
-                    data.cashflowArray = data.cashflowjson;
-                } else {
-                    // Sett til tom array hvis data er ugyldig
-                    data.cashflowArray = [];
-                }
-                */
-            } else {
-                // Hvis `cashflowjson` ikke finnes, sett til tom array
+            if (!data.cashflowjson) {
                 data.cashflowjson = [];
-            }
+            } 
+
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
@@ -55,7 +41,7 @@ function convertJsonStringsToObjects(jsonStrings) {
 
 
 
-function calculatingPorteDachboard(objects, monthsBack = 12) {
+function calculatingPorteDashboard(objects, monthsBack = 12) {
     const now = new Date(); // Nåværende dato
     const cutoffDate = new Date();
     cutoffDate.setMonth(cutoffDate.getMonth() - monthsBack); // Juster cutoff-dato basert på monthsBack
@@ -65,21 +51,27 @@ function calculatingPorteDachboard(objects, monthsBack = 12) {
 
     objects.forEach(obj => {
         // Summér valuegroup hvis det finnes og er et tall
-        if (obj.valuegroup && !isNaN(obj.valuegroup)) {
-            sumvaluegroup += parseFloat(obj.valuegroup);
+        if (obj.valuegroup) {
+            const valuegroupNumber = parseFloat(obj.valuegroup); // Konverter til tall
+            if (!isNaN(valuegroupNumber)) {
+                sumvaluegroup += valuegroupNumber;
+            }
         }
 
-        // Håndter cashflowArray
-        if (obj.cashflowArray && Array.isArray(obj.cashflowArray)) {
-            obj.cashflowArray.forEach(cashflow => {
+        // Håndter cashflowjson (eller cashflowArray hvis det brukes direkte)
+        if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
+            obj.cashflowjson.forEach(cashflow => {
                 if (cashflow.maindate) {
                     const maindate = new Date(cashflow.maindate);
 
                     // Sjekk om maindate er innenfor tidsrammen
                     if (maindate >= cutoffDate && maindate <= now) {
                         // Summér kickbackvalue hvis det er et tall
-                        if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
-                            sumkickback += parseFloat(cashflow.kickbackvalue);
+                        if (cashflow.kickbackvalue) {
+                            const kickbackNumber = parseFloat(cashflow.kickbackvalue); // Konverter til tall
+                            if (!isNaN(kickbackNumber)) {
+                                sumkickback += kickbackNumber;
+                            }
                         }
                     }
                 }
@@ -93,6 +85,7 @@ function calculatingPorteDachboard(objects, monthsBack = 12) {
         sumkickback
     };
 }
+
 
 
 function formatToCurrency(value) {
