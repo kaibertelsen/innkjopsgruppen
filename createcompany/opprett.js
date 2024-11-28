@@ -10,6 +10,10 @@ document.getElementById("searchinputfield").addEventListener("input", function()
     }
 });
 
+document.getElementById('backbutton').addEventListener('click', function () {
+    history.back(); // Gå tilbake i nettleserens historie
+});
+
 function searchCompany(){
 
     let searchinput = document.getElementById("searchinput").value;
