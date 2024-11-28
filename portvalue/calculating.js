@@ -64,14 +64,16 @@ function calculatingSaleDashboard(data) {
     };
 
     objects.forEach(obj => {
+        // Sjekk at valuegroup er større enn 0 og et gyldig tall
+        const valuegroupNumber = obj.valuegroup && !isNaN(obj.valuegroup) ? parseFloat(obj.valuegroup) : 0;
+        if (valuegroupNumber <= 0) return; // Hopp over objektet hvis valuegroup <= 0
+
         // Håndter winningdate
         if (obj.winningdate) {
             const winningDate = new Date(obj.winningdate);
             if (winningDate >= startDate && winningDate <= endDate) {
                 result.winning.count++;
-                if (obj.valuegroup && !isNaN(obj.valuegroup)) {
-                    result.winning.valuegroup += parseFloat(obj.valuegroup);
-                }
+                result.winning.valuegroup += valuegroupNumber;
                 if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
                     obj.cashflowjson.forEach(cashflow => {
                         if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
@@ -87,9 +89,7 @@ function calculatingSaleDashboard(data) {
             const exitDate = new Date(obj.exit);
             if (exitDate >= startDate && exitDate <= endDate) {
                 result.exit.count++;
-                if (obj.valuegroup && !isNaN(obj.valuegroup)) {
-                    result.exit.valuegroup += parseFloat(obj.valuegroup);
-                }
+                result.exit.valuegroup += valuegroupNumber;
                 if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
                     obj.cashflowjson.forEach(cashflow => {
                         if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
@@ -103,6 +103,7 @@ function calculatingSaleDashboard(data) {
 
     return result;
 }
+
 
 function filterGroupCompany(objects){
     // Hent valgt gruppe fra select-elementet
