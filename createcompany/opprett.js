@@ -85,6 +85,9 @@ function loadCompany(companyObject) {
        const postnummer = companyObject.forretningsadresse ? companyObject.forretningsadresse.postnummer : "";
        const poststed = companyObject.forretningsadresse ? companyObject.forretningsadresse.poststed : "";
        const orgnummer = companyObject.organisasjonsnummer || "";
+       const winningdate = companyObject.winningdate || "";
+       const invoicedate = companyObject.invoicedate || "";
+       const rewaldate = companyObject.manuelrewaldate || "";
    
        // Sett verdiene i input-feltene
        document.getElementById("firmanavninput").value = navn;
@@ -92,6 +95,9 @@ function loadCompany(companyObject) {
        document.getElementById("postnrinput").value = postnummer;
        document.getElementById("poststedinput").value = poststed;
        document.getElementById("orgnumberinput").value = orgnummer;
+       document.getElementById("winninginput").value = winningdate;
+       document.getElementById("invoiceinput").value = invoicedate;
+       document.getElementById("rewalinput").value = rewaldate;
    
       let body =  airtablebodylistAND({orgnr:orgnummer});
       Getlistairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",body,"companycheck");
