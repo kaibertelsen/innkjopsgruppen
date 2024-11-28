@@ -15,7 +15,7 @@ function klientresponse(data) {
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
 
-    console.log( calculatingPorte(objects));
+    console.log( calculatingPorteDachboard(objects));
 
     // Gjør noe med objektene om nødvendig
     // Eksempel: objects.forEach(obj => console.log(obj.Name));
@@ -27,8 +27,9 @@ function convertJsonStringsToObjects(jsonStrings) {
             // Parse hoved JSON-streng til et objekt
             const data = JSON.parse(jsonString);
 
-            // Reparér og håndter `cashflowjson`-feltet
+            
             if (data.cashflowjson) {
+                /*
                 if (typeof data.cashflowjson === "string") {
                     // Hvis cashflowjson er en streng, fiks formatet
                     const repairedCashflow = data.cashflowjson.replace(/}{/g, '},{'); // Legg til manglende komma
@@ -40,6 +41,7 @@ function convertJsonStringsToObjects(jsonStrings) {
                     // Sett til tom array hvis data er ugyldig
                     data.cashflowArray = [];
                 }
+                */
             } else {
                 // Hvis `cashflowjson` ikke finnes, sett til tom array
                 data.cashflowArray = [];
@@ -65,7 +67,7 @@ function convertJsonStringsToObjects(jsonStrings) {
 
 
 
-function calculatingPorte(objects, monthsBack = 12) {
+function calculatingPorteDachboard(objects, monthsBack = 12) {
     const now = new Date(); // Nåværende dato
     const cutoffDate = new Date();
     cutoffDate.setMonth(cutoffDate.getMonth() - monthsBack); // Juster cutoff-dato basert på monthsBack
