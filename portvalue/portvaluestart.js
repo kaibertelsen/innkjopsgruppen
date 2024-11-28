@@ -58,8 +58,6 @@ function loadDashboardsale(data){
 }
 
 
-
-
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
     loadDashboardporte(calculatingPorteDashboard(klientdata)); 
     
