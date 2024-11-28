@@ -116,6 +116,7 @@ function companycheck(data) {
         // Hvis selskapet allerede er registrert, vis informasjon og knapper
         const company = response[0]; // Forutsatt at vi sjekker det første objektet i listen
         setCompanyselectors(company);
+        setCompanyDates(company);
         companyId = company.airtable;
         const name = company.Name || "Navn ikke tilgjengelig";
         const orgnr = company.orgnr || "Org.nr ikke tilgjengelig";
@@ -160,7 +161,12 @@ function companycheck(data) {
 
     }
 }
-
+function setCompanyDates(data){
+    // Sett verdiene i input-feltene
+    document.getElementById("winninginput").value = data.winningdate || "";
+    document.getElementById("rewalinput").value = data.manuelrewaldate || "";
+    document.getElementById("invoiceinput").value = data.invoicedate || "";
+}
 function setCompanyselectors(data) {
     // Kartlegging av data-nøkler til select-element-ID-er
 
