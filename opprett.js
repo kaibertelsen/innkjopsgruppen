@@ -360,6 +360,7 @@ function controllcompanyinputs() {
         invoiceinput
     ];
 
+    
     let saveObject = {};
     for (let i = 0; i < fieldIds.length; i++) {
         if (fieldIds[i].value === "") { // Sjekker om feltet mangler verdi
