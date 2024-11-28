@@ -27,7 +27,6 @@ function klientresponse(data) {
     // Eksempel: objects.forEach(obj => console.log(obj.Name));
 }
 
-
 function formatToCurrency(value) {
     if (isNaN(value)) {
         throw new Error("Verdien må være et tall");
@@ -61,10 +60,12 @@ function loadDashboardsale(data){
     document.getElementById("dachboardcountstatus").textContent = symbol+countstatus+""
 }
 
-
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
     loadDashboardporte(calculatingPorteDashboard(klientdata)); 
-    
+});
+
+document.getElementById("dashboarddateselector").addEventListener("change", () => {
+    loadDashboardsale(calculatingSaleDashboard(klientdata)); 
 });
 
 function loadGroupSelector(groups) {
@@ -149,10 +150,6 @@ function formatDate(date) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
 }
-
-
-
-
 
 
 
