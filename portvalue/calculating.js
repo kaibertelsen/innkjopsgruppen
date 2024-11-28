@@ -5,6 +5,9 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
 
     let sumkickback = 0; // For å summere kickbackvalue innenfor tidsrammen
     let sumvaluegroup = 0; // For å summere valuegroup-verdier
+    let countValuegroup = 0; // For å telle antall objekter med gyldig valuegroup
+    let countKickback = 0; // For å telle antall selskaper med minst én gyldig kickback innenfor tidsrammen
+    let countUniqueCompany = 0; // For å telle unike selskaper som har valuegroup eller kickback
 
     // Hent valgt gruppe fra select-elementet
     const selectedGroup = document.getElementById("dashboardgroupselector").value;
@@ -12,15 +15,20 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     objects.forEach(obj => {
         // Sjekk om objektet tilhører valgt gruppe, eller inkluder alt hvis "Alle" er valgt
         if (selectedGroup === "" || obj.group === selectedGroup) {
-            // Summér valuegroup hvis det finnes og er et tall
+            let hasValuegroup = false; // Spor om objektet har gyldig valuegroup
+            let hasValidKickback = false; // Spor om objektet har gyldig kickback
+
+            // Summér valuegroup og tell antall hvis det finnes og er et tall
             if (obj.valuegroup) {
                 const valuegroupNumber = parseFloat(obj.valuegroup); // Konverter til tall
-                if (!isNaN(valuegroupNumber)) {
+                if (!isNaN(valuegroupNumber) && valuegroupNumber > 0) {
                     sumvaluegroup += valuegroupNumber;
+                    countValuegroup++; // Øk antall for valuegroup
+                    hasValuegroup = true; // Marker at dette objektet har en gyldig valuegroup
                 }
             }
 
-            // Håndter cashflowjson
+            // Håndter cashflowjson for kickback
             if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
                 obj.cashflowjson.forEach(cashflow => {
                     if (cashflow.maindate) {
@@ -28,26 +36,42 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
 
                         // Sjekk om maindate er innenfor tidsrammen
                         if (maindate >= cutoffDate && maindate <= now) {
-                            // Summér kickbackvalue hvis det er et tall
+                            // Summér kickbackvalue og tell antall hvis det er et tall
                             if (cashflow.kickbackvalue) {
                                 const kickbackNumber = parseFloat(cashflow.kickbackvalue); // Konverter til tall
-                                if (!isNaN(kickbackNumber)) {
+                                if (!isNaN(kickbackNumber) && kickbackNumber > 0) {
                                     sumkickback += kickbackNumber;
+                                    hasValidKickback = true; // Marker at dette objektet har en gyldig kickback
                                 }
                             }
                         }
                     }
                 });
             }
+
+            // Hvis selskapet har minst én gyldig kickback, øk countKickback én gang
+            if (hasValidKickback) {
+                countKickback++;
+            }
+
+            // Hvis selskapet har enten en gyldig valuegroup eller kickback, øk countUniqueCompany én gang
+            if (hasValuegroup || hasValidKickback) {
+                countUniqueCompany++;
+            }
         }
     });
 
     // Returner resultatene
     return {
-        sumvaluegroup,
-        sumkickback
+        sumvaluegroup, // Summen av valuegroup
+        sumkickback, // Summen av kickbackvalue
+        countValuegroup, // Antall objekter med gyldig valuegroup
+        countKickback, // Antall selskaper med minst én gyldig kickback
+        countUniqueCompany // Antall unike selskaper med valuegroup eller kickback
     };
 }
+
+
 
 function calculatingSaleDashboard(data) {
 
