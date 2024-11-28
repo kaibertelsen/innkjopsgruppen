@@ -13,6 +13,7 @@ function loadScript(url) {
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/portvaluestart.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/converters.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js"
 ];
 

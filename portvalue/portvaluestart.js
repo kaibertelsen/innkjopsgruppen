@@ -17,28 +17,17 @@ function klientresponse(data) {
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
     klientdata = objects;
+
+    console.log(getUniqueGroups(objects));
+
     loadDashboard(calculatingPorteDashboard(objects));
+
 
     // Gjør noe med objektene om nødvendig
     // Eksempel: objects.forEach(obj => console.log(obj.Name));
 }
 
-function convertJsonStringsToObjects(jsonStrings) {
-    return jsonStrings.map((jsonString, index) => {
-        try {
-            // Parse hoved JSON-streng til et objekt
-            const data = JSON.parse(jsonString);
-            if (!data.cashflowjson) {
-                data.cashflowjson = [];
-            } 
 
-            return data;
-        } catch (error) {
-            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
-            return null; // Returner null hvis parsing feiler
-        }
-    });
-}
 
 function calculatingPorteDashboard(objects, monthsBack = 12) {
     const now = new Date(); // Nåværende dato
@@ -112,7 +101,15 @@ document.getElementById("dachboardportvaluegroup").textContent = formatToCurrenc
 
 
 
+function loadGroupSelector(){
 
+const selector = document.getElementById("dashboardgroupselector");
+
+
+
+
+
+}
 
 
 
