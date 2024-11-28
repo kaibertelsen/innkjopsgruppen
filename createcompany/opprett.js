@@ -167,10 +167,7 @@ function setCompanyselectors(data) {
     const selectMap = {
         gruppe: 'group',
         radgiver: 'ownerinput',
-        valuegroup: 'valueselector',
-        winningdate: 'winninginput',
-        invoicedate:'invoiceinput',
-        rewaldate:'rewalinput'
+        valuegroup: 'valueselector'
     };
 
     // Itererer gjennom selectMap for å sette verdier i select-elementer
