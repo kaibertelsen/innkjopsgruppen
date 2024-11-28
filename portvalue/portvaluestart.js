@@ -95,7 +95,7 @@ function loadDashboard(data){
     document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
 }
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
-    loadDashboard(calculatingPorteDashboard(objects)); 
+    loadDashboard(calculatingPorteDashboard(klientdata)); 
 });
 
 
