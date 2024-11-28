@@ -3,10 +3,6 @@ var logoUrl = "";
 var membermail = ""
 var companyGroupId = "";
 
-
-document.addEventListener('DOMContentLoaded', function() {
-    getGroup();
-});
     
 MemberStack.onReady.then(function(member) {
         if (member.loggedIn){

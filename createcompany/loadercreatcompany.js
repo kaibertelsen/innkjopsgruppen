@@ -23,6 +23,7 @@ cdnScripts.reduce((promise, script) => {
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
     setTodaysDate();
+    getGroup();
 }).catch(error => {
     console.error(error);
 });
