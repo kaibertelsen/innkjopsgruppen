@@ -354,7 +354,10 @@ function controllcompanyinputs() {
         orgnumberinput,
         verdi,
         ownerinput,
-        group
+        group,
+        winninginput,
+        rewalinput,
+        invoiceinput
     ];
 
     let saveObject = {};
