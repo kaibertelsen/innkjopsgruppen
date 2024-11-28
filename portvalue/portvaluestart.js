@@ -20,61 +20,11 @@ function klientresponse(data) {
     loadGroupSelector(getUniqueGroups(objects));
     loadDateSelector();
 
-    loadDashboard(calculatingPorteDashboard(objects));
+    loadDashboardporte(calculatingPorteDashboard(objects));
+    loadDashboardsale(calculatingSaleDashboard(objects));
+
     // Gjør noe med objektene om nødvendig
     // Eksempel: objects.forEach(obj => console.log(obj.Name));
-}
-
-
-function calculatingPorteDashboard(objects, monthsBack = 12) {
-    const now = new Date(); // Nåværende dato
-    const cutoffDate = new Date();
-    cutoffDate.setMonth(cutoffDate.getMonth() - monthsBack); // Juster cutoff-dato basert på monthsBack
-
-    let sumkickback = 0; // For å summere kickbackvalue innenfor tidsrammen
-    let sumvaluegroup = 0; // For å summere valuegroup-verdier
-
-    // Hent valgt gruppe fra select-elementet
-    const selectedGroup = document.getElementById("dashboardgroupselector").value;
-
-    objects.forEach(obj => {
-        // Sjekk om objektet tilhører valgt gruppe, eller inkluder alt hvis "Alle" er valgt
-        if (selectedGroup === "" || obj.group === selectedGroup) {
-            // Summér valuegroup hvis det finnes og er et tall
-            if (obj.valuegroup) {
-                const valuegroupNumber = parseFloat(obj.valuegroup); // Konverter til tall
-                if (!isNaN(valuegroupNumber)) {
-                    sumvaluegroup += valuegroupNumber;
-                }
-            }
-
-            // Håndter cashflowjson
-            if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
-                obj.cashflowjson.forEach(cashflow => {
-                    if (cashflow.maindate) {
-                        const maindate = new Date(cashflow.maindate);
-
-                        // Sjekk om maindate er innenfor tidsrammen
-                        if (maindate >= cutoffDate && maindate <= now) {
-                            // Summér kickbackvalue hvis det er et tall
-                            if (cashflow.kickbackvalue) {
-                                const kickbackNumber = parseFloat(cashflow.kickbackvalue); // Konverter til tall
-                                if (!isNaN(kickbackNumber)) {
-                                    sumkickback += kickbackNumber;
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-    });
-
-    // Returner resultatene
-    return {
-        sumvaluegroup,
-        sumkickback
-    };
 }
 
 
@@ -87,7 +37,7 @@ function formatToCurrency(value) {
     return `${formattedValue} kr`; // Legger til 'kr'
 }
 
-function loadDashboard(data){
+function loadDashboardporte(data){
     let sumkickback = data.sumkickback;
     let sumvaluegroup = data.sumvaluegroup;
     let sumtotal = sumkickback+sumvaluegroup;
@@ -95,10 +45,25 @@ function loadDashboard(data){
     document.getElementById("dachboardportkickback").textContent = formatToCurrency(sumkickback);
     document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
 }
-document.getElementById("dashboardgroupselector").addEventListener("change", () => {
-    loadDashboard(calculatingPorteDashboard(klientdata)); 
-});
 
+function loadDashboardsale(data){
+
+    let countsale = data.winning.count;
+    let countexits = data.exit.count;
+    let countstatus = countsale-countexits;
+
+    document.getElementById("dachboardcountsale").textContent = formatToCurrency(sumtotal);
+    document.getElementById("dachboardcountexits").textContent = formatToCurrency(sumkickback);
+    document.getElementById("dachboardcountstatus").textContent = formatToCurrency(countstatus);
+}
+
+
+
+
+document.getElementById("dashboardgroupselector").addEventListener("change", () => {
+    loadDashboardporte(calculatingPorteDashboard(klientdata)); 
+    
+});
 
 function loadGroupSelector(groups) {
     const selector = document.getElementById("dashboardgroupselector");
@@ -125,7 +90,6 @@ function loadGroupSelector(groups) {
         selector.appendChild(option);
     });
 }
-
 
 function loadDateSelector() {
     const selector = document.getElementById("dashboarddateselector");

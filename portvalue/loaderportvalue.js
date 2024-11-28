@@ -14,8 +14,10 @@ function loadScript(url) {
 const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/portvaluestart.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/converters.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/calculating.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js"
 ];
+
 
 // Laste inn alle skriptene sekvensielt
 cdnScripts.reduce((promise, script) => {
