@@ -49,7 +49,10 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     };
 }
 
-function calculatingSaleDashboard(objects) {
+function calculatingSaleDashboard(data) {
+
+    let objects = filterGroupCompany(data);
+
     const selector = document.getElementById("dashboarddateselector");
     const dateRange = selector.value.split(","); // Henter tidsrammen fra selectoren
     const [startDate, endDate] = dateRange.map(date => new Date(date.trim())); // Konverterer til Date-objekter
@@ -99,4 +102,18 @@ function calculatingSaleDashboard(objects) {
     });
 
     return result;
+}
+
+function filterGroupCompany(objects){
+    // Hent valgt gruppe fra select-elementet
+    const selectedGroup = document.getElementById("dashboardgroupselector").value;
+    var array = [];
+    objects.forEach(obj => {
+        // Sjekk om objektet tilhører valgt gruppe, eller inkluder alt hvis "Alle" er valgt
+        if (selectedGroup === "" || obj.group === selectedGroup) {
+            array.push(obj);
+        }
+
+    })
+return array;
 }
