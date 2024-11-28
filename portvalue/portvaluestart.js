@@ -55,7 +55,7 @@ function loadDashboardsale(data){
     document.getElementById("dachboardcountexits").textContent = countexits+" stk."
     
     let symbol = "+";
-    if(countstatus==0){symbol= "";}else if(countstatus<0){symbol = "-"}
+    if(countstatus==0){symbol= "";}
 
     document.getElementById("dachboardcountstatus").textContent = symbol+countstatus+""
 }
