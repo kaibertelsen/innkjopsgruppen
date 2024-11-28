@@ -60,16 +60,25 @@ function loadDashboardporte(data){
 function loadDashboardsale(data){
 
     let countsale = data.winning.count;
-    let countexits = data.exit.count;
-    let countstatus = countsale-countexits;
+    let valuesale = data.winning.valuegroup+data.winning.kickback;
 
-    document.getElementById("dachboardcountsale").textContent = countsale+" stk."
+    let countexits = data.exit.count;
+    let valueexits = data.exit.valuegroup+data.exit.kickback;
+
+    let countstatus = countsale-countexits;
+    let valuestatus = valuesale-valueexits;
+
+    document.getElementById("dachboardcountsale").textContent = countsale;
+    document.getElementById("dachboardvaluesale").textContent = formatToCurrency(valuesale);
+
     document.getElementById("dachboardcountexits").textContent = countexits+" stk."
+    document.getElementById("dachboardvalueexits").textContent = formatToCurrency(valueexits);
     
     let symbol = "+";
     if(countstatus==0){symbol= "";}
 
-    document.getElementById("dachboardcountstatus").textContent = symbol+countstatus+""
+    document.getElementById("dachboardcountstatus").textContent = symbol+countstatus;
+    document.getElementById("dachboardvaluestatus").textContent = formatToCurrency(valuestatus);
 }
 
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
