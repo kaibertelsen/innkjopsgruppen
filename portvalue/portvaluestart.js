@@ -15,7 +15,7 @@ function klientresponse(data) {
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
 
-    console.log( calculatingPorteDachboard(objects));
+    console.log( calculatingPorteDashboard(objects));
 
     // Gjør noe med objektene om nødvendig
     // Eksempel: objects.forEach(obj => console.log(obj.Name));
