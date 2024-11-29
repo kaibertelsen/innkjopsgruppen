@@ -63,9 +63,15 @@ function startFollowinglistElement(data) {
             });
 
         
-        rowElement.querySelector(".winningdate").textContent = company.winningdate || "Ingen dato";
-        rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate || "-";
-        rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
+            rowElement.querySelector(".winningdate").textContent = company.winningdate 
+            ? company.winningdate.split("T")[0] 
+            : "Ingen dato";
+
+            rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate 
+            ? company.lastfollowupdate.split("T")[0] 
+            : "-";
+
+            rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
 
 
         const rewaldate = rowElement.querySelector(".rewaldate");
