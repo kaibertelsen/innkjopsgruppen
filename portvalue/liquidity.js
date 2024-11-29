@@ -72,20 +72,18 @@ function calculateMonthlyValues(data) {
             const monthIndex = date.getMonth(); // Får 0-basert måned
             const year = date.getFullYear();
 
-            // Sjekk om abonnementet fortsatt løper
-            const isRunning = !exitDate || new Date() < exitDate;
-
+            // Sjekk om verdien skal regnes med for inneværende år og tidligere år
             if (obj.valuegroup && !isNaN(obj.valuegroup)) {
                 const value = parseFloat(obj.valuegroup);
 
-                // Hvis abonnementet fortsatt løper, legg til i gjeldende år og evt. forrige år
-                if (isRunning) {
-                    if (year <= currentYear) {
-                        monthlyValues[monthIndex].valuegroup += value;
-                    }
-                    if (year < currentYear) {
-                        monthlyValues[monthIndex].valuegrouplastyear += value;
-                    }
+                // Regn med for inneværende år hvis exit er etter primaryDate eller ikke satt
+                if (year === currentYear && (!exitDate || exitDate > date)) {
+                    monthlyValues[monthIndex].valuegroup += value;
+                }
+
+                // Regn med for tidligere år hvis år er før inneværende år
+                if (year < currentYear && (!exitDate || exitDate > date)) {
+                    monthlyValues[monthIndex].valuegrouplastyear += value;
                 }
             }
         }
@@ -115,6 +113,7 @@ function calculateMonthlyValues(data) {
 
     return monthlyValues;
 }
+
 
 
 function findMaxValues(data) {
