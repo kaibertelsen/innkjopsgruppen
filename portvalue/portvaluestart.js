@@ -36,41 +36,41 @@ function formatToCurrency(value) {
 }
 
 function loadDashboardporte(data) {
-    const sumkickback = data.sumkickback;
+    const sumkickback = (data.sumkickback)/1000;
     const countKickback = data.countKickback;
-    const sumvaluegroup = data.sumvaluegroup;
+    const sumvaluegroup = (data.sumvaluegroup)/1000;
     const countValuegroup = data.countValuegroup;
 
     const countUniqueCompany = data.countUniqueCompany;
     const sumtotal = sumkickback + sumvaluegroup;
 
     // Bruk felles tellefunksjon
-    animateCounter("dachboardportsumtotal", 0, sumtotal, 1000, " kr");
-    animateCounter("dachboardportsumcount", 0, countUniqueCompany, 1000);
+    animateCounter("dachboardportsumtotal", 0, sumtotal, "", " K");
+    animateCounter("dachboardportsumcount", 0, countUniqueCompany, "");
 
-    animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, 1000, " kr");
-    animateCounter("dachboardportvaluegroupcount", 0, countValuegroup, 1000);
+    animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, "", " K");
+    animateCounter("dachboardportvaluegroupcount", 0, countValuegroup, "");
 
-    animateCounter("dachboardportkickback", 0, sumkickback, 1000, " kr");
-    animateCounter("dachboardportkickbackcount", 0, countKickback, 1000);
+    animateCounter("dachboardportkickback", 0, sumkickback, "", " K");
+    animateCounter("dachboardportkickbackcount", 0, countKickback, "");
 }
 
 function loadDashboardsale(data) {
     let countsale = data.winning.count;
-    let valuesale = data.winning.valuegroup + data.winning.kickback;
+    let valuesale = (data.winning.valuegroup + data.winning.kickback)/1000;
 
     let countexits = data.exit.count;
-    let valueexits = data.exit.valuegroup + data.exit.kickback;
+    let valueexits = (data.exit.valuegroup + data.exit.kickback)/1000;
 
     let countstatus = countsale - countexits;
     let valuestatus = valuesale - valueexits;
 
     // Bruk felles tellefunksjon for animasjon
     animateCounter("dachboardcountsale", 0, countsale, "", " stk.");
-    animateCounter("dachboardvaluesale", 0, valuesale, "", " kr");
+    animateCounter("dachboardvaluesale", 0, valuesale, "", " K");
 
     animateCounter("dachboardcountexits", 0, countexits, "", " stk.");
-    animateCounter("dachboardvalueexits", 0, valueexits, "", " kr");
+    animateCounter("dachboardvalueexits", 0, valueexits, "", " K");
 
     let symbol = "+";
     if (countstatus === 0) {
@@ -78,7 +78,7 @@ function loadDashboardsale(data) {
     }
 
     animateCounter("dachboardcountstatus", 0, countstatus, "", ` ${symbol}`);
-    animateCounter("dachboardvaluestatus", 0, valuestatus, "", " kr");
+    animateCounter("dachboardvaluestatus", 0, valuestatus, "", " K");
 }
 
 
