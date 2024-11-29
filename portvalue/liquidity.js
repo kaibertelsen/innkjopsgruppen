@@ -69,20 +69,33 @@ function calculateMonthlyValues(data) {
         const primaryDate = obj.invoicedate || obj.winningdate;
         if (primaryDate) {
             const date = new Date(primaryDate);
+            const day = date.getDate(); // Hent dag fra primaryDate
+            const month = date.getMonth(); // Hent måned fra primaryDate
+            const yearFromExit = exitDate ? exitDate.getFullYear() : null;
+
+            // Lag en justert dato basert på dag/måned fra primaryDate og år fra exitDate
+            const adjustedExitDate =
+                yearFromExit !== null
+                    ? new Date(yearFromExit, month, day)
+                    : null;
+
             const monthIndex = date.getMonth(); // Får 0-basert måned
             const year = date.getFullYear();
 
-            // Sjekk om verdien skal regnes med for inneværende år og tidligere år
+            // Sjekk om verdien skal regnes med basert på adjustedExitDate
+            const isWithinRange =
+                !exitDate || adjustedExitDate === null || adjustedExitDate <= exitDate;
+
             if (obj.valuegroup && !isNaN(obj.valuegroup)) {
                 const value = parseFloat(obj.valuegroup);
 
-                // Regn med for inneværende år hvis exit er etter primaryDate eller ikke satt
-                if (year === currentYear && (!exitDate || exitDate > date)) {
+                // Regn med for inneværende år hvis dato er innenfor range
+                if (year === currentYear && isWithinRange) {
                     monthlyValues[monthIndex].valuegroup += value;
                 }
 
-                // Regn med for tidligere år hvis år er før inneværende år
-                if (year < currentYear && (!exitDate || exitDate > date)) {
+                // Regn med for tidligere år hvis dato er innenfor range
+                if (year < currentYear && isWithinRange) {
                     monthlyValues[monthIndex].valuegrouplastyear += value;
                 }
             }
@@ -113,7 +126,6 @@ function calculateMonthlyValues(data) {
 
     return monthlyValues;
 }
-
 
 
 function findMaxValues(data) {
