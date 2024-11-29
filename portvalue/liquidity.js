@@ -192,7 +192,7 @@ function loadLiquidityOverview(data) {
 
 // Funksjon for å animere høyden
 function animateHeight(element, targetHeight) {
-    element.style.transition = "height 2s ease-in-out";
+    element.style.transition = "height 1s ease-in-out";
     element.style.height = "0px"; // Start fra 0px
     setTimeout(() => {
         element.style.height = targetHeight + "px"; // Animer til målhøyden
