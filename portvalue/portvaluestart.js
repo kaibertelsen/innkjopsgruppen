@@ -23,7 +23,7 @@ function klientresponse(data) {
     loadDashboardporte(calculatingPorteDashboard(objects));
     loadDashboardsale(calculatingSaleDashboard(objects));
 
-    console.log(calculateMonthlyValues(data));
+    console.log(calculateMonthlyValues(objects));
 }
 
 function formatToCurrency(value) {
