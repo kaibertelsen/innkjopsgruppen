@@ -186,3 +186,26 @@ function calculateMonthlyValues(data) {
 
     return monthlyValues;
 }
+
+
+function findMaxValues(data) {
+    let maxKickback = 0;
+    let maxValuegroup = 0;
+
+    data.forEach(item => {
+        if (item.kickback > maxKickback) {
+            maxKickback = item.kickback;
+        }
+        if (item.valuegroup > maxValuegroup) {
+            maxValuegroup = item.valuegroup;
+        }
+    });
+
+    const maxValue = Math.max(maxKickback, maxValuegroup); // Høyeste av kickback og valuegroup
+
+    return {
+        maxKickback,
+        maxValuegroup,
+        maxValue // Høyeste verdi totalt
+    };
+}

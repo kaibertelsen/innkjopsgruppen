@@ -23,7 +23,7 @@ function klientresponse(data) {
     loadDashboardporte(calculatingPorteDashboard(objects));
     loadDashboardsale(calculatingSaleDashboard(objects));
 
-    console.log(calculateMonthlyValues(objects));
+    loadLiquidityOverview(calculateMonthlyValues(objects))
 }
 
 function formatToCurrency(value) {
@@ -172,11 +172,45 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
-
-
 function ruteresponse(data,id){
     if(id == "klientresponse"){
         klientresponse(data);
     }
     
+}
+
+function loadLiquidityOverview(data) {
+
+    let maxkvalues = findMaxValues(data);
+    let factorHeight = maxkvalues.maxValue / 600; // Høyden på diagrammet
+
+    const list = document.getElementById("monthliquidityoverview");
+    list.replaceChildren(); // Tømmer holderen for å unngå duplisering
+
+    const elementLibrary = document.getElementById("yearelementlibrary");
+    const nodeElement = elementLibrary.querySelector('.monthwrapper');
+
+    for (let month of data) {
+
+        // Klon månedselementet
+        const monthElement = nodeElement.cloneNode(true);
+
+        // Sett tekst og høyde for valuegroup
+        monthElement.querySelector(".stolpevaluetext").textContent = (month.valuegroup / 1000).toFixed(1) + "K";
+        const first = monthElement.querySelector(".first");
+        let heightFirst = month.valuegroup / factorHeight;
+        first.style.height = heightFirst + "px"; // Sett høyden på første element
+
+        // Sett tekst og høyde for kickback
+        monthElement.querySelector(".kickbackvaluetext").textContent = (month.kickback / 1000).toFixed(1) + "K";
+        const second = monthElement.querySelector(".second");
+        let heightSecond = month.kickback / factorHeight;
+        second.style.height = heightSecond + "px"; // Sett høyden på andre element
+
+        // Sett månedstekst
+        monthElement.querySelector(".monthtext").textContent = month.monthname;
+
+        // Legg til månedselementet i listen
+        list.appendChild(monthElement);
+    }
 }
