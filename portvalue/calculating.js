@@ -140,11 +140,25 @@ function filterGroupCompany(objects){
 return array;
 }
 
-// Felles tellefunksjon for animasjon
-function animateCounter(elementId, startValue, endValue, duration, suffix = "") {
-    duration = 500;
+function animateCounter(elementId, startValue = 0, endValue, duration = 500, suffix = "") {
+    // Sjekk om duration er et gyldig tall, ellers sett til standardverdi
+    if (isNaN(duration) || duration <= 0) {
+        duration = 500; // Standardverdi hvis duration ikke er gyldig
+    }
 
     const element = typeof elementId === "string" ? document.getElementById(elementId) : elementId;
+    if (!element) {
+        console.error(`Element med id "${elementId}" finnes ikke.`);
+        return;
+    }
+
+    // Hent eksisterende tallverdi fra elementet
+    const currentText = element.textContent.replace(/[^0-9.-]+/g, ""); // Fjern suffiks og annet ikke-numerisk
+    const currentValue = parseFloat(currentText);
+
+    // Bruk eksisterende verdi som startverdi hvis den er gyldig, ellers bruk oppgitt startValue
+    startValue = !isNaN(currentValue) ? currentValue : startValue;
+
     let startTime;
 
     function updateCounter(timestamp) {
@@ -160,3 +174,4 @@ function animateCounter(elementId, startValue, endValue, duration, suffix = "") 
 
     requestAnimationFrame(updateCounter);
 }
+
