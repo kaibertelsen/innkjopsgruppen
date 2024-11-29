@@ -40,15 +40,21 @@ function clearFollowingupCompanies(data) {
 
     // Lag en ny array med filtrerte objekter
     const filteredData = data.filter(obj => {
+        if (obj.followupstatus === "REMOVE") {
+            return false; // Ekskluder selskaper med "REMOVE" i followupstatus
+        }
+
         if (obj.currentfollowupdate) {
             const followUpDate = new Date(obj.currentfollowupdate);
             return followUpDate < nineMonthsAgo; // Inkluder objekter der currentfollowupdate er før 9 måneder siden
         }
+
         return false; // Ekskluder objekter uten currentfollowupdate
     });
 
     return filteredData; // Returner den nye arrayen
 }
+
 
 
 function respondfollouplist(data, id) {
@@ -63,7 +69,6 @@ function respondfollouplist(data, id) {
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
     listanddate = clearFollowingupCompanies(objects);
-    
     
     /*
 
