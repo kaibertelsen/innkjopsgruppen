@@ -196,16 +196,20 @@ function loadLiquidityOverview(data) {
         const monthElement = nodeElement.cloneNode(true);
 
         // Sett tekst og høyde for valuegroup
-        monthElement.querySelector(".stolpevaluetext").textContent = (month.valuegroup / 1000).toFixed(1) + "K";
+        monthElement.querySelector(".stolpevaluetext").textContent = 
+            month.valuegroup ? Math.round(month.valuegroup / 1000) + "K" : "0K";
+
         const first = monthElement.querySelector(".first");
-        let heightFirst = month.valuegroup / factorHeight;
+        let heightFirst = month.valuegroup ? month.valuegroup / factorHeight : 0;
         first.style.height = heightFirst + "px"; // Sett høyden på første element
 
         // Sett tekst og høyde for kickback
-        monthElement.querySelector(".kickbackvaluetext").textContent = (month.kickback / 1000).toFixed(1) + "K";
+        const kickbackText = month.kickback ? Math.round(month.kickback / 1000) + "K" : "0K";
         const second = monthElement.querySelector(".second");
-        let heightSecond = month.kickback / factorHeight;
+        let heightSecond = month.kickback ? month.kickback / factorHeight : 0;
+
         second.style.height = heightSecond + "px"; // Sett høyden på andre element
+        monthElement.querySelector(".kickbackvaluetext").textContent = kickbackText;
 
         // Sett månedstekst
         monthElement.querySelector(".monthtext").textContent = month.monthname;
@@ -214,3 +218,4 @@ function loadLiquidityOverview(data) {
         list.appendChild(monthElement);
     }
 }
+
