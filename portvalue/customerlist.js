@@ -1,20 +1,39 @@
+document.getElementById("customerlistselector").addEventListener("change", () => {
+    listCustomer(klientdata);
+});
+
+
 
 function listCustomer(data) {
-
-    data = sortDataAlphabetically(data);
-    document.getElementById("customerrowcounter").textContent = data.length+" stk";
-
     const list = document.getElementById("customerlist");
+    const selector = document.getElementById("customerlistselector");
+
+    const selectedFilter = selector.value; // Hent valgt verdi fra selectoren
+    let filteredData = data;
+
+    // Filtrering basert på valgt verdi
+    if (selectedFilter === "valuegroup") {
+        // Filtrer kunder som har en verdi i valuegroup
+        filteredData = data.filter(company => company.valuegroup && !isNaN(parseFloat(company.valuegroup)));
+    } else if (selectedFilter === "kickback") {
+        // Filtrer kunder som har minst én kickback-verdi
+        filteredData = data.filter(company => {
+            return company.cashflowjson && company.cashflowjson.some(cashflow => {
+                return cashflow.kickbackvalue && parseFloat(cashflow.kickbackvalue) > 0;
+            });
+        });
+    }
+
     list.replaceChildren(); // Tømmer holderen for å unngå duplisering
 
     const elementLibrary = document.getElementById("customerelementlibrary");
     const nodeElement = elementLibrary.querySelector('.rowcustomer');
 
-    data.forEach((company, index) => {
+    filteredData.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
 
         // Legg til "gray"-klasse for annenhver element
-        if (index % 2 === 1) { // Oddetall (index starter fra 0)
+        if (index % 2 === 1) {
             companyElement.classList.add("gray");
         }
 
@@ -31,17 +50,17 @@ function listCustomer(data) {
             }, 0)
             : 0;
 
-        companyElement.querySelector(".kickbakvaluetext").textContent = 
+        companyElement.querySelector(".kickbakvaluetext").textContent =
             totalKickback.toLocaleString() + " kr";
 
         // Format winningdate til "YYYY-MM-DD"
-        const winningDate = company.winningdate 
-            ? company.winningdate.split("T")[0] 
+        const winningDate = company.winningdate
+            ? company.winningdate.split("T")[0]
             : "Ingen dato";
         companyElement.querySelector(".winingdatetext").textContent = winningDate;
 
         // Håndter valuegroup
-        const valuegroup = company.valuegroup 
+        const valuegroup = company.valuegroup
             ? parseFloat(company.valuegroup).toLocaleString() + " kr"
             : "0 kr";
         companyElement.querySelector(".valutextgroup").textContent = valuegroup;
@@ -50,6 +69,7 @@ function listCustomer(data) {
         list.appendChild(companyElement);
     });
 }
+
 
 function sortDataAlphabetically(data) {
     return data.sort((a, b) => {
