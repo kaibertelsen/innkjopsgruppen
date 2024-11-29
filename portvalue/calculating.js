@@ -142,6 +142,8 @@ return array;
 
 // Felles tellefunksjon for animasjon
 function animateCounter(elementId, startValue, endValue, duration, suffix = "") {
+    duration = 500;
+
     const element = typeof elementId === "string" ? document.getElementById(elementId) : elementId;
     let startTime;
 
