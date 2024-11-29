@@ -33,6 +33,23 @@ function startfollowinguplist(){
     return body;
 }
 
+function clearFollowingupCompanies(data) {
+    const now = new Date(); // Nåværende dato
+    const nineMonthsAgo = new Date();
+    nineMonthsAgo.setMonth(now.getMonth() - 9); // Beregn dato for 9 måneder siden
+
+    // Lag en ny array med filtrerte objekter
+    const filteredData = data.filter(obj => {
+        if (obj.currentfollowupdate) {
+            const followUpDate = new Date(obj.currentfollowupdate);
+            return followUpDate < nineMonthsAgo; // Inkluder objekter der currentfollowupdate er før 9 måneder siden
+        }
+        return false; // Ekskluder objekter uten currentfollowupdate
+    });
+
+    return filteredData; // Returner den nye arrayen
+}
+
 
 function respondfollouplist(data, id) {
     
@@ -45,15 +62,11 @@ function respondfollouplist(data, id) {
     // Hent arrayen og konverter JSON-strenger til objekter
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
-    
-    listanddate = objects;
+    listanddate = clearFollowingupCompanies(objects);
     
     
     /*
-    
-    
-    
-    
+
     // Renser rådata
     var cleandata = rawdatacleaner(data);
 
