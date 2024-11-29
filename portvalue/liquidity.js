@@ -1,7 +1,7 @@
 document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
     loadLiquidityOverview(calculateMonthlyValues(klientdata))
 });
-
+/*
 function loadLiquidityOverview(data) {
 
     let maxkvalues = findMaxValues(data);
@@ -41,7 +41,7 @@ function loadLiquidityOverview(data) {
         list.appendChild(monthElement);
     }
 }
-
+*/
 function calculateMonthlyValues(data) {
     const monthNames = [
         "jan", "feb", "mar", "apr", "mai", "jun",
@@ -145,3 +145,74 @@ function findMaxValues(data) {
 }
 
 
+function loadLiquidityOverview(data) {
+    let maxkvalues = findMaxValues(data);
+    let factorHeight = maxkvalues.maxValue / 600; // Høyden på diagrammet
+
+    let selectorvalue = document.getElementById("liquidityoverviewselector").value;
+    let selectorvalueshadow = selectorvalue + "lastyear";
+
+    const list = document.getElementById("monthliquidityoverview");
+    list.replaceChildren(); // Tømmer holderen for å unngå duplisering
+
+    const elementLibrary = document.getElementById("yearelementlibrary");
+    const nodeElement = elementLibrary.querySelector('.monthwrapper');
+
+    for (let month of data) {
+        // Klon månedselementet
+        const monthElement = nodeElement.cloneNode(true);
+
+        // Hent verdier
+        const firstValue = month[selectorvalue] || 0;
+        const secondValue = month[selectorvalueshadow] || 0;
+
+        // Animasjon for første element
+        const first = monthElement.querySelector(".first");
+        const firstText = monthElement.querySelector(".firsttextlable");
+        let heightFirst = firstValue / factorHeight;
+
+        animateHeight(first, heightFirst); // Animer høyde
+        animateCounter(firstText, 0, Math.round(firstValue / 1000), 2000, "K"); // Teller fra 0 til verdien
+
+        // Animasjon for andre element
+        const second = monthElement.querySelector(".second");
+        const secondText = monthElement.querySelector(".secondtextlable");
+        let heightSecond = secondValue / factorHeight;
+
+        animateHeight(second, heightSecond); // Animer høyde
+        animateCounter(secondText, 0, Math.round(secondValue / 1000), 2000, "K"); // Teller fra 0 til verdien
+
+        // Sett månedstekst
+        monthElement.querySelector(".monthtext").textContent = month.monthname;
+
+        // Legg til månedselementet i listen
+        list.appendChild(monthElement);
+    }
+}
+
+// Funksjon for å animere høyden
+function animateHeight(element, targetHeight) {
+    element.style.transition = "height 2s ease-in-out";
+    element.style.height = "0px"; // Start fra 0px
+    setTimeout(() => {
+        element.style.height = targetHeight + "px"; // Animer til målhøyden
+    }, 0);
+}
+
+// Funksjon for å animere telleverdien
+function animateCounter(element, startValue, endValue, duration, suffix = "") {
+    let startTime;
+
+    function updateCounter(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const currentValue = Math.round(startValue + (endValue - startValue) * progress);
+        element.textContent = currentValue + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}
