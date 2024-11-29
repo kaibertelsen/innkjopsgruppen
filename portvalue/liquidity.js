@@ -72,14 +72,20 @@ function calculateMonthlyValues(data) {
             const monthIndex = date.getMonth(); // Får 0-basert måned
             const year = date.getFullYear();
 
-            // Sjekk om verdien skal regnes med basert på exit
-            const isWithinRange = !exitDate || date < exitDate;
+            // Sjekk om abonnementet fortsatt løper
+            const isRunning = !exitDate || new Date() < exitDate;
 
-            if (isWithinRange && obj.valuegroup && !isNaN(obj.valuegroup)) {
-                if (year === currentYear) {
-                    monthlyValues[monthIndex].valuegroup += parseFloat(obj.valuegroup);
-                } else {
-                    monthlyValues[monthIndex].valuegrouplastyear += parseFloat(obj.valuegroup);
+            if (obj.valuegroup && !isNaN(obj.valuegroup)) {
+                const value = parseFloat(obj.valuegroup);
+
+                // Hvis abonnementet fortsatt løper, legg til i gjeldende år og evt. forrige år
+                if (isRunning) {
+                    if (year <= currentYear) {
+                        monthlyValues[monthIndex].valuegroup += value;
+                    }
+                    if (year < currentYear) {
+                        monthlyValues[monthIndex].valuegrouplastyear += value;
+                    }
                 }
             }
         }
@@ -94,10 +100,12 @@ function calculateMonthlyValues(data) {
 
                     // Legg til kickbackvalue for inneværende år eller tidligere år
                     if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
+                        const kickbackValue = parseFloat(cashflow.kickbackvalue);
+
                         if (year === currentYear) {
-                            monthlyValues[monthIndex].kickback += parseFloat(cashflow.kickbackvalue);
+                            monthlyValues[monthIndex].kickback += kickbackValue;
                         } else {
-                            monthlyValues[monthIndex].kickbacklastyear += parseFloat(cashflow.kickbackvalue);
+                            monthlyValues[monthIndex].kickbacklastyear += kickbackValue;
                         }
                     }
                 }
