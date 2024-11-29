@@ -190,13 +190,19 @@ function loadLiquidityOverview(data) {
     }
 }
 
-// Funksjon for å animere høyden
 function animateHeight(element, targetHeight) {
+    // Hent nåværende høyde
+    const currentHeight = parseFloat(getComputedStyle(element).height) || 0;
+
+    // Sett start- og målhøyde
+    element.style.height = `${currentHeight}px`; // Start fra nåværende høyde
     element.style.transition = "height 1s ease-in-out";
-    element.style.height = "0px"; // Start fra 0px
-    setTimeout(() => {
-        element.style.height = targetHeight + "px"; // Animer til målhøyden
-    }, 0);
+
+    // Animer til målhøyden
+    requestAnimationFrame(() => {
+        element.style.height = `${targetHeight}px`; // Sett ny høyde
+    });
 }
+
 
 
