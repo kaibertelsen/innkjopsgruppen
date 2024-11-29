@@ -40,20 +40,30 @@ function clearFollowingupCompanies(data) {
 
     // Lag en ny array med filtrerte objekter
     const filteredData = data.filter(obj => {
+        // Utelukk selskaper med "REMOVE" i followupstatus
         if (obj.followupstatus === "REMOVE") {
-            return false; // Ekskluder selskaper med "REMOVE" i followupstatus
+            return false;
         }
 
+        /*
+        // Utelukk selskaper uten verdi i valuegroup
+        if (!obj.valuegroup || isNaN(parseFloat(obj.valuegroup))) {
+            return false;
+        }
+        */
+        // Inkluder bare selskaper med currentfollowupdate før 9 måneder siden
         if (obj.currentfollowupdate) {
             const followUpDate = new Date(obj.currentfollowupdate);
-            return followUpDate < nineMonthsAgo; // Inkluder objekter der currentfollowupdate er før 9 måneder siden
+            return followUpDate < nineMonthsAgo;
         }
 
-        return false; // Ekskluder objekter uten currentfollowupdate
+        // Ekskluder objekter uten currentfollowupdate
+        return false;
     });
 
     return filteredData; // Returner den nye arrayen
 }
+
 
 
 
