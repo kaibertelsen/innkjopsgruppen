@@ -1,5 +1,5 @@
 function startfollowinguplist(){
-
+/*
     //alle firma som har currentfolloupdate før 9mnd fra i dag
     let datebefore = finddateBackIntime(9);
     let datefrom = "2010-01-01"
@@ -7,6 +7,14 @@ function startfollowinguplist(){
    let body = generateAirtableQuery(datefrom,datebefore,"currentfollowupdate", "nofollowup");
     Getlistairtable(baseid,"tblFySDb9qVeVVY5c",body,"respondfollouplist")  
     
+*/
+  
+        let klientid = "rec1QGUGBMVaqxhp1";
+        GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"respondfollouplist")
+   
+
+
+
     // Sjekker om `mainfollowuplist` har elementer
     if (Array.isArray(mainfollowuplist) && mainfollowuplist.length > 0) {
         startfollouplist(mainfollowuplist); // Oppdaterer oppfølgingslisten
@@ -27,6 +35,25 @@ function startfollowinguplist(){
 
 
 function respondfollouplist(data, id) {
+    
+     // Sjekk om data.fields.membersjson eksisterer og er en array
+     if (!data || !data.fields || !data.fields.membersjson || !Array.isArray(data.fields.membersjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.membersjson' som en array.");
+        return;
+    }
+
+    // Hent arrayen og konverter JSON-strenger til objekter
+    const jsonStrings = data.fields.membersjson;
+    const objects = convertJsonStringsToObjects(jsonStrings);
+    
+    listanddate = objects;
+    
+    
+    /*
+    
+    
+    
+    
     // Renser rådata
     var cleandata = rawdatacleaner(data);
 
@@ -46,6 +73,8 @@ function respondfollouplist(data, id) {
     if (loader) {
         loader.style.display = "none";
     }
+
+*/
 }
 
  function startfollouplist(listanddate){
@@ -348,4 +377,22 @@ function getDateMonthsAgo(dateString, monthsAgo) {
     const day = String(date.getDate()).padStart(2, "0"); // Legg til ledende null for dag
 
     return `${year}-${month}-${day}`;
+}
+
+
+function convertJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            // Parse hoved JSON-streng til et objekt
+            const data = JSON.parse(jsonString);
+            if (!data.cashflowjson) {
+                data.cashflowjson = [];
+            } 
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
 }
