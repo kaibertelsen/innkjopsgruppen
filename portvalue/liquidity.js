@@ -62,6 +62,9 @@ function calculateMonthlyValues(data) {
 
     // Iterer gjennom dataene
     data.forEach(obj => {
+        // Finn exit-datoen hvis den finnes
+        const exitDate = obj.exit ? new Date(obj.exit) : null;
+
         // --- Håndter valuegroup basert på Invoicedate eller winningdate ---
         const primaryDate = obj.invoicedate || obj.winningdate;
         if (primaryDate) {
@@ -69,8 +72,10 @@ function calculateMonthlyValues(data) {
             const monthIndex = date.getMonth(); // Får 0-basert måned
             const year = date.getFullYear();
 
-            // Legg til valuegroup for inneværende år eller tidligere år
-            if (obj.valuegroup && !isNaN(obj.valuegroup)) {
+            // Sjekk om verdien skal regnes med basert på exit
+            const isWithinRange = !exitDate || date < exitDate;
+
+            if (isWithinRange && obj.valuegroup && !isNaN(obj.valuegroup)) {
                 if (year === currentYear) {
                     monthlyValues[monthIndex].valuegroup += parseFloat(obj.valuegroup);
                 } else {
@@ -79,7 +84,7 @@ function calculateMonthlyValues(data) {
             }
         }
 
-        // --- Håndter kickback basert på maindate i cashflowjson ---
+        // --- Håndter kickback basert på maindate i cashflowjson (uten hensyn til exit) ---
         if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
             obj.cashflowjson.forEach(cashflow => {
                 if (cashflow.maindate) {
@@ -102,6 +107,7 @@ function calculateMonthlyValues(data) {
 
     return monthlyValues;
 }
+
 
 function findMaxValues(data) {
     let maxValue = 0;
