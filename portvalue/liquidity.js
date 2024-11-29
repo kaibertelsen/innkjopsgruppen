@@ -172,7 +172,7 @@ function loadLiquidityOverview(data) {
         let heightFirst = firstValue / factorHeight;
 
         animateHeight(first, heightFirst); // Animer høyde
-        animateCounter(firstText, 0, Math.round(firstValue / 1000), 1000, "K"); // Teller fra 0 til verdien
+        animateCounter(firstText, 0, Math.round(firstValue / 1000), 2000, "K"); // Teller fra 0 til verdien
 
         // Animasjon for andre element
         const second = monthElement.querySelector(".second");
@@ -180,7 +180,7 @@ function loadLiquidityOverview(data) {
         let heightSecond = secondValue / factorHeight;
 
         animateHeight(second, heightSecond); // Animer høyde
-        animateCounter(secondText, 0, Math.round(secondValue / 1000), 1000, "K"); // Teller fra 0 til verdien
+        animateCounter(secondText, 0, Math.round(secondValue / 1000), 2000, "K"); // Teller fra 0 til verdien
 
         // Sett månedstekst
         monthElement.querySelector(".monthtext").textContent = month.monthname;
@@ -199,20 +199,4 @@ function animateHeight(element, targetHeight) {
     }, 0);
 }
 
-// Funksjon for å animere telleverdien
-function animateCounter(element, startValue, endValue, duration, suffix = "") {
-    let startTime;
 
-    function updateCounter(timestamp) {
-        if (!startTime) startTime = timestamp;
-        const progress = Math.min((timestamp - startTime) / duration, 1);
-        const currentValue = Math.round(startValue + (endValue - startValue) * progress);
-        element.textContent = currentValue + suffix;
-
-        if (progress < 1) {
-            requestAnimationFrame(updateCounter);
-        }
-    }
-
-    requestAnimationFrame(updateCounter);
-}

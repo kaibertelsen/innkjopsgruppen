@@ -140,4 +140,21 @@ function filterGroupCompany(objects){
 return array;
 }
 
+// Felles tellefunksjon for animasjon
+function animateCounter(elementId, startValue, endValue, duration, suffix = "") {
+    const element = typeof elementId === "string" ? document.getElementById(elementId) : elementId;
+    let startTime;
 
+    function updateCounter(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const currentValue = Math.round(startValue + (endValue - startValue) * progress);
+        element.textContent = currentValue.toLocaleString() + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}

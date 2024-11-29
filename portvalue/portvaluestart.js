@@ -35,26 +35,27 @@ function formatToCurrency(value) {
     return formattedValue;
 }
 
-function loadDashboardporte(data){
-    let sumkickback = data.sumkickback;
-    let countKickback = data.countKickback;
-    let sumvaluegroup = data.sumvaluegroup;
-    let countValuegroup = data.countValuegroup;
+function loadDashboardporte(data) {
+    const sumkickback = data.sumkickback;
+    const countKickback = data.countKickback;
+    const sumvaluegroup = data.sumvaluegroup;
+    const countValuegroup = data.countValuegroup;
 
-    let countUniqueCompany = data.countUniqueCompany;
-    let sumtotal = sumkickback+sumvaluegroup;
-   
-    document.getElementById("dachboardportsumtotal").textContent = formatToCurrency(sumtotal);
-    document.getElementById("dachboardportsumcount").textContent = countUniqueCompany;
+    const countUniqueCompany = data.countUniqueCompany;
+    const sumtotal = sumkickback + sumvaluegroup;
 
-    document.getElementById("dachboardportvaluegroup").textContent = formatToCurrency(sumvaluegroup);
-    document.getElementById("dachboardportvaluegroupcount").textContent = countValuegroup;
+    // Bruk felles tellefunksjon
+    animateCounter("dachboardportsumtotal", 0, sumtotal, 2000, " kr");
+    animateCounter("dachboardportsumcount", 0, countUniqueCompany, 2000);
 
-    document.getElementById("dachboardportkickback").textContent = formatToCurrency(sumkickback);
-    document.getElementById("dachboardportkickbackcount").textContent = countKickback;
+    animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, 2000, " kr");
+    animateCounter("dachboardportvaluegroupcount", 0, countValuegroup, 2000);
 
-    
+    animateCounter("dachboardportkickback", 0, sumkickback, 2000, " kr");
+    animateCounter("dachboardportkickbackcount", 0, countKickback, 2000);
 }
+
+
 
 function loadDashboardsale(data){
 
