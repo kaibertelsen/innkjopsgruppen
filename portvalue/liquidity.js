@@ -1,47 +1,7 @@
 document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
     loadLiquidityOverview(calculateMonthlyValues(klientdata))
 });
-/*
-function loadLiquidityOverview(data) {
 
-    let maxkvalues = findMaxValues(data);
-    let factorHeight = maxkvalues.maxValue / 600; // Høyden på diagrammet
-
-    let selectorvalue = document.getElementById("liquidityoverviewselector").value;
-    let selectorvalueshadow = selectorvalue+"lastyear";
-
-    const list = document.getElementById("monthliquidityoverview");
-    list.replaceChildren(); // Tømmer holderen for å unngå duplisering
-
-    const elementLibrary = document.getElementById("yearelementlibrary");
-    const nodeElement = elementLibrary.querySelector('.monthwrapper');
-
-    for (let month of data) {
-
-        // Klon månedselementet
-        const monthElement = nodeElement.cloneNode(true);
-
-        // Sett tekst og høyde for valuegroup
-        monthElement.querySelector(".firsttextlable").textContent = month[selectorvalue] ? Math.round(month[selectorvalue] / 1000) + "K" : "0K";
-        const first = monthElement.querySelector(".first");
-        let heightFirst = month[selectorvalue] ? month[selectorvalue] / factorHeight : 0;
-        first.style.height = heightFirst + "px"; // Sett høyden på første element
-
-        // Sett tekst og høyde for kickback
-        monthElement.querySelector(".secondtextlable").textContent = month[selectorvalueshadow] ? Math.round(month[selectorvalueshadow] / 1000) + "K" : "0K";
-        const second = monthElement.querySelector(".second");
-        let heightSecond = month[selectorvalueshadow] ? month[selectorvalueshadow] / factorHeight : 0;
-        second.style.height = heightSecond + "px"; // Sett høyden på andre element
-        
-
-        // Sett månedstekst
-        monthElement.querySelector(".monthtext").textContent = month.monthname;
-
-        // Legg til månedselementet i listen
-        list.appendChild(monthElement);
-    }
-}
-*/
 function calculateMonthlyValues(object) {
 
     let data = filterGroupCompany(object);

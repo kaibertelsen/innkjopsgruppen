@@ -84,7 +84,7 @@ function loadDashboardsale(data) {
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
     loadDashboardporte(calculatingPorteDashboard(klientdata));
     loadDashboardsale(calculatingSaleDashboard(klientdata));
-    loadLiquidityOverview(calculateMonthlyValues(objects));
+    loadLiquidityOverview(calculateMonthlyValues(klientdata));
 
 });
 
