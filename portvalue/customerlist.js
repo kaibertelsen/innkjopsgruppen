@@ -29,13 +29,13 @@ function listCustomer(data) {
     const elementLibrary = document.getElementById("customerelementlibrary");
     const nodeElement = elementLibrary.querySelector('.rowcustomer');
 
-    document.getElementById("customerrowcounter").textContent = filteredData.length+" stk.";
+    document.getElementById("customerrowcounter").textContent = filteredData.length + " stk.";
 
     filteredData.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
 
-        // Legg til "gray"-klasse for annenhver element
-        if (index % 2 === 1) {
+        // Legg til "gray"-klasse for første og annenhver element
+        if (index % 2 === 0) {
             companyElement.classList.add("gray");
         }
 
@@ -71,6 +71,7 @@ function listCustomer(data) {
         list.appendChild(companyElement);
     });
 }
+
 
 
 function sortDataAlphabetically(data) {
