@@ -45,41 +45,42 @@ function loadDashboardporte(data) {
     const sumtotal = sumkickback + sumvaluegroup;
 
     // Bruk felles tellefunksjon
-    animateCounter("dachboardportsumtotal", 0, sumtotal, 2000, " kr");
-    animateCounter("dachboardportsumcount", 0, countUniqueCompany, 2000);
+    animateCounter("dachboardportsumtotal", 0, sumtotal, 1000, " kr");
+    animateCounter("dachboardportsumcount", 0, countUniqueCompany, 1000);
 
-    animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, 2000, " kr");
-    animateCounter("dachboardportvaluegroupcount", 0, countValuegroup, 2000);
+    animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, 1000, " kr");
+    animateCounter("dachboardportvaluegroupcount", 0, countValuegroup, 1000);
 
-    animateCounter("dachboardportkickback", 0, sumkickback, 2000, " kr");
-    animateCounter("dachboardportkickbackcount", 0, countKickback, 2000);
+    animateCounter("dachboardportkickback", 0, sumkickback, 1000, " kr");
+    animateCounter("dachboardportkickbackcount", 0, countKickback, 1000);
 }
 
-
-
-function loadDashboardsale(data){
-
+function loadDashboardsale(data) {
     let countsale = data.winning.count;
-    let valuesale = data.winning.valuegroup+data.winning.kickback;
+    let valuesale = data.winning.valuegroup + data.winning.kickback;
 
     let countexits = data.exit.count;
-    let valueexits = data.exit.valuegroup+data.exit.kickback;
+    let valueexits = data.exit.valuegroup + data.exit.kickback;
 
-    let countstatus = countsale-countexits;
-    let valuestatus = valuesale-valueexits;
+    let countstatus = countsale - countexits;
+    let valuestatus = valuesale - valueexits;
 
-    document.getElementById("dachboardcountsale").textContent = countsale;
-    document.getElementById("dachboardvaluesale").textContent = formatToCurrency(valuesale);
+    // Bruk felles tellefunksjon for animasjon
+    animateCounter("dachboardcountsale", 0, countsale, 1000, " stk.");
+    animateCounter("dachboardvaluesale", 0, valuesale, 1000, " kr");
 
-    document.getElementById("dachboardcountexits").textContent = countexits+" stk."
-    document.getElementById("dachboardvalueexits").textContent = formatToCurrency(valueexits);
-    
+    animateCounter("dachboardcountexits", 0, countexits, 1000, " stk.");
+    animateCounter("dachboardvalueexits", 0, valueexits, 1000, " kr");
+
     let symbol = "+";
-    if(countstatus==0){symbol= "";}
+    if (countstatus === 0) {
+        symbol = "";
+    }
 
-    document.getElementById("dachboardcountstatus").textContent = symbol+countstatus;
-    document.getElementById("dachboardvaluestatus").textContent = formatToCurrency(valuestatus);
+    animateCounter("dachboardcountstatus", 0, countstatus, 1000, ` ${symbol}`);
+    animateCounter("dachboardvaluestatus", 0, valuestatus, 1000, " kr");
 }
+
 
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
     loadDashboardporte(calculatingPorteDashboard(klientdata));
