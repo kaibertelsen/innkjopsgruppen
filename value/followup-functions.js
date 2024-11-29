@@ -68,15 +68,9 @@ function respondfollouplist(data, id) {
     // Hent arrayen og konverter JSON-strenger til objekter
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
-    listanddate = clearFollowingupCompanies(objects);
-    
-    /*
-
-    // Renser rådata
-    var cleandata = rawdatacleaner(data);
 
     // Legger til neste fornyelsesdato i arrayet
-    var listanddate = addNextRenewalDatetoarray(cleandata);
+    var listanddate = addNextRenewalDatetoarray(clearFollowingupCompanies(objects));
 
     // Sjekker om mainfollowuplist er forskjellig fra listanddate
     if (JSON.stringify(mainfollowuplist) !== JSON.stringify(listanddate)) {
@@ -92,7 +86,7 @@ function respondfollouplist(data, id) {
         loader.style.display = "none";
     }
 
-*/
+
 }
 
  function startfollouplist(listanddate){
