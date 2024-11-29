@@ -1,5 +1,7 @@
 function calculatingPorteDashboard(objects, monthsBack = 12) {
-    const now = new Date(); // Nåværende dato
+    const now = new Date(); // Nåværende dato (uten tid)
+    now.setHours(0, 0, 0, 0); // Nullstill tid for nøyaktig sammenligning
+
     const cutoffDate = new Date();
     cutoffDate.setMonth(cutoffDate.getMonth() - monthsBack); // Juster cutoff-dato basert på monthsBack
 
@@ -20,10 +22,10 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
 
             // Sjekk exit-dato
             const exitDate = obj.exit ? new Date(obj.exit) : null;
-            const isExited = exitDate && exitDate < now; // Sjekk om selskapet er avsluttet
+            const isExited = exitDate && exitDate <= now; // Sjekk om selskapet er avsluttet i dag eller tidligere
 
             // Summér valuegroup og tell antall hvis det finnes, er et tall og selskapet ikke har exit før dagens dato
-            if (!isExited && obj.valuegroup) {
+            if ((!exitDate || !isExited) && obj.valuegroup) {
                 const valuegroupNumber = parseFloat(obj.valuegroup); // Konverter til tall
                 if (!isNaN(valuegroupNumber) && valuegroupNumber > 0) {
                     sumvaluegroup += valuegroupNumber;
@@ -74,6 +76,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
         countUniqueCompany // Antall unike selskaper med valuegroup eller kickback
     };
 }
+
 
 
 function calculatingSaleDashboard(data) {
