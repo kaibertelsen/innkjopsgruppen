@@ -49,8 +49,12 @@ function calculateMonthlyValues(data) {
         monthname: monthNames[i],
         kickback: 0,
         valuegroup: 0,
+        kickbacklastyear: 0,
+        valuegrouplastyear: 0,
         monthnumber: i + 1
     }));
+
+    const currentYear = new Date().getFullYear();
 
     // Iterer gjennom dataene
     data.forEach(obj => {
@@ -58,11 +62,16 @@ function calculateMonthlyValues(data) {
         const primaryDate = obj.invoicedate || obj.winningdate;
         if (primaryDate) {
             const date = new Date(primaryDate);
-            const monthIndex = date.getMonth(); // Får 0-basert måned (0 = januar)
+            const monthIndex = date.getMonth(); // Får 0-basert måned
+            const year = date.getFullYear();
 
-            // Legg til valuegroup hvis det er et gyldig tall
+            // Legg til valuegroup for inneværende år eller tidligere år
             if (obj.valuegroup && !isNaN(obj.valuegroup)) {
-                monthlyValues[monthIndex].valuegroup += parseFloat(obj.valuegroup);
+                if (year === currentYear) {
+                    monthlyValues[monthIndex].valuegroup += parseFloat(obj.valuegroup);
+                } else {
+                    monthlyValues[monthIndex].valuegrouplastyear += parseFloat(obj.valuegroup);
+                }
             }
         }
 
@@ -72,10 +81,15 @@ function calculateMonthlyValues(data) {
                 if (cashflow.maindate) {
                     const maindate = new Date(cashflow.maindate);
                     const monthIndex = maindate.getMonth(); // Får 0-basert måned
+                    const year = maindate.getFullYear();
 
-                    // Legg til kickbackvalue hvis det er et gyldig tall
+                    // Legg til kickbackvalue for inneværende år eller tidligere år
                     if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
-                        monthlyValues[monthIndex].kickback += parseFloat(cashflow.kickbackvalue);
+                        if (year === currentYear) {
+                            monthlyValues[monthIndex].kickback += parseFloat(cashflow.kickbackvalue);
+                        } else {
+                            monthlyValues[monthIndex].kickbacklastyear += parseFloat(cashflow.kickbackvalue);
+                        }
                     }
                 }
             });
@@ -84,6 +98,7 @@ function calculateMonthlyValues(data) {
 
     return monthlyValues;
 }
+
 
 function findMaxValues(data) {
     let maxValue = 0;
