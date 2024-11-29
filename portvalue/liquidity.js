@@ -172,7 +172,7 @@ function loadLiquidityOverview(data) {
         let heightFirst = firstValue / factorHeight;
 
         animateHeight(first, heightFirst); // Animer høyde
-        animateCounter(firstText, 0, Math.round(firstValue / 1000), 1000, "K"); // Teller fra 0 til verdien
+        animateCounter(firstText, 0, Math.round(firstValue / 1000), "", "K"); // Teller fra 0 til verdien
 
         // Animasjon for andre element
         const second = monthElement.querySelector(".second");
@@ -180,7 +180,7 @@ function loadLiquidityOverview(data) {
         let heightSecond = secondValue / factorHeight;
 
         animateHeight(second, heightSecond); // Animer høyde
-        animateCounter(secondText, 0, Math.round(secondValue / 1000), 1000, "K"); // Teller fra 0 til verdien
+        animateCounter(secondText, 0, Math.round(secondValue / 1000), "", "K"); // Teller fra 0 til verdien
 
         // Sett månedstekst
         monthElement.querySelector(".monthtext").textContent = month.monthname;

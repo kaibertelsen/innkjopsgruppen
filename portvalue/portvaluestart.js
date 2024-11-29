@@ -66,19 +66,19 @@ function loadDashboardsale(data) {
     let valuestatus = valuesale - valueexits;
 
     // Bruk felles tellefunksjon for animasjon
-    animateCounter("dachboardcountsale", 0, countsale, 1000, " stk.");
-    animateCounter("dachboardvaluesale", 0, valuesale, 1000, " kr");
+    animateCounter("dachboardcountsale", 0, countsale, "", " stk.");
+    animateCounter("dachboardvaluesale", 0, valuesale, "", " kr");
 
-    animateCounter("dachboardcountexits", 0, countexits, 1000, " stk.");
-    animateCounter("dachboardvalueexits", 0, valueexits, 1000, " kr");
+    animateCounter("dachboardcountexits", 0, countexits, "", " stk.");
+    animateCounter("dachboardvalueexits", 0, valueexits, "", " kr");
 
     let symbol = "+";
     if (countstatus === 0) {
         symbol = "";
     }
 
-    animateCounter("dachboardcountstatus", 0, countstatus, 1000, ` ${symbol}`);
-    animateCounter("dachboardvaluestatus", 0, valuestatus, 1000, " kr");
+    animateCounter("dachboardcountstatus", 0, countstatus, "", ` ${symbol}`);
+    animateCounter("dachboardvaluestatus", 0, valuestatus, "", " kr");
 }
 
 
