@@ -179,43 +179,5 @@ function ruteresponse(data,id){
     
 }
 
-function loadLiquidityOverview(data) {
 
-    let maxkvalues = findMaxValues(data);
-    let factorHeight = maxkvalues.maxValue / 600; // Høyden på diagrammet
-
-    const list = document.getElementById("monthliquidityoverview");
-    list.replaceChildren(); // Tømmer holderen for å unngå duplisering
-
-    const elementLibrary = document.getElementById("yearelementlibrary");
-    const nodeElement = elementLibrary.querySelector('.monthwrapper');
-
-    for (let month of data) {
-
-        // Klon månedselementet
-        const monthElement = nodeElement.cloneNode(true);
-
-        // Sett tekst og høyde for valuegroup
-        monthElement.querySelector(".stolpevaluetext").textContent = 
-            month.valuegroup ? Math.round(month.valuegroup / 1000) + "K" : "0K";
-
-        const first = monthElement.querySelector(".first");
-        let heightFirst = month.valuegroup ? month.valuegroup / factorHeight : 0;
-        first.style.height = heightFirst + "px"; // Sett høyden på første element
-
-        // Sett tekst og høyde for kickback
-        const kickbackText = month.kickback ? Math.round(month.kickback / 1000) + "K" : "0K";
-        const second = monthElement.querySelector(".second");
-        let heightSecond = month.kickback ? month.kickback / factorHeight : 0;
-
-        second.style.height = heightSecond + "px"; // Sett høyden på andre element
-        monthElement.querySelector(".kickbackvaluetext").textContent = kickbackText;
-
-        // Sett månedstekst
-        monthElement.querySelector(".monthtext").textContent = month.monthname;
-
-        // Legg til månedselementet i listen
-        list.appendChild(monthElement);
-    }
-}
 
