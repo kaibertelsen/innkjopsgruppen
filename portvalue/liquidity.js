@@ -137,6 +137,14 @@ function loadLiquidityOverview(data) {
         animateHeight(first, heightFirst); // Animer høyde
         animateCounter(firstText, 0, Math.round(firstValue / 1000), "", "K"); // Teller fra 0 til verdien
 
+        // Mouseover for første element
+        first.addEventListener("mouseover", () => {
+            showTooltip(first, `${firstValue.toLocaleString()} kr`);
+        });
+        first.addEventListener("mouseout", () => {
+            hideTooltip(first);
+        });
+
         // Animasjon for andre element
         const second = monthElement.querySelector(".second");
         const secondText = monthElement.querySelector(".secondtextlable");
@@ -145,6 +153,14 @@ function loadLiquidityOverview(data) {
         animateHeight(second, heightSecond); // Animer høyde
         animateCounter(secondText, 0, Math.round(secondValue / 1000), "", "K"); // Teller fra 0 til verdien
 
+        // Mouseover for andre element
+        second.addEventListener("mouseover", () => {
+            showTooltip(second, `${secondValue.toLocaleString()} kr`);
+        });
+        second.addEventListener("mouseout", () => {
+            hideTooltip(second);
+        });
+
         // Sett månedstekst
         monthElement.querySelector(".monthtext").textContent = month.monthname;
 
@@ -152,6 +168,39 @@ function loadLiquidityOverview(data) {
         list.appendChild(monthElement);
     }
 }
+
+// Funksjon for å vise tooltip
+function showTooltip(element, text) {
+    let tooltip = document.createElement("div");
+    tooltip.className = "tooltip";
+    tooltip.textContent = text;
+    tooltip.style.position = "absolute";
+    tooltip.style.backgroundColor = "black";
+    tooltip.style.color = "white";
+    tooltip.style.padding = "5px";
+    tooltip.style.borderRadius = "4px";
+    tooltip.style.fontSize = "12px";
+    tooltip.style.whiteSpace = "nowrap";
+    tooltip.style.pointerEvents = "none";
+    tooltip.style.zIndex = "1000";
+
+    // Plasser tooltip i nærheten av elementet
+    const rect = element.getBoundingClientRect();
+    tooltip.style.top = `${rect.top - 25}px`;
+    tooltip.style.left = `${rect.left + rect.width / 2 - 30}px`;
+
+    document.body.appendChild(tooltip);
+    element._tooltip = tooltip; // Lagre referansen til tooltip
+}
+
+// Funksjon for å skjule tooltip
+function hideTooltip(element) {
+    if (element._tooltip) {
+        document.body.removeChild(element._tooltip);
+        element._tooltip = null; // Fjern referansen
+    }
+}
+
 
 function animateHeight(element, targetHeight) {
     // Hent nåværende høyde
