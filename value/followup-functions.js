@@ -169,26 +169,30 @@ function respondfollouplist(data, id) {
  return data;
  }
  
- function getNextRenewalDate(intervall,signedDate) {
-   // Konverterer signeringsdatoen til et Date-objekt
-   const signedDateObj = new Date(signedDate);
-   
-   // Lag en ny dato som er 12 måneder frem i tid fra signeringsdatoen
-   const renewalDate = new Date(signedDateObj);
-   renewalDate.setMonth(signedDateObj.getMonth() + intervall);
-   
-   // Hvis den beregnede fornyelsesdatoen er i fortiden, fortsett å legge til 12 måneder til den er i fremtiden
-   while (renewalDate < new Date()) {
-     renewalDate.setMonth(renewalDate.getMonth() + intervall);
-   }
-   
-   // Formatere datoen til YYYY-MM-DD
-   const year = renewalDate.getFullYear();
-   const month = String(renewalDate.getMonth() + 1).padStart(2, '0'); // Månedene er 0-indekserte, så +1
-   const day = String(renewalDate.getDate()).padStart(2, '0');
-   
-   return `${year}-${month}-${day}`;
- }
+ function getNextRenewalDate(intervall, signedDate) {
+    // Sett intervall til 12 som standard hvis det ikke er angitt eller er en tom streng
+    intervall = intervall || 12;
+
+    // Konverter signeringsdatoen til et Date-objekt
+    const signedDateObj = new Date(signedDate);
+
+    // Lag en ny dato som er 'intervall' måneder frem i tid fra signeringsdatoen
+    const renewalDate = new Date(signedDateObj);
+    renewalDate.setMonth(signedDateObj.getMonth() + intervall);
+
+    // Hvis den beregnede fornyelsesdatoen er i fortiden, fortsett å legge til 'intervall' måneder til den er i fremtiden
+    while (renewalDate < new Date()) {
+        renewalDate.setMonth(renewalDate.getMonth() + intervall);
+    }
+
+    // Formater datoen til YYYY-MM-DD
+    const year = renewalDate.getFullYear();
+    const month = String(renewalDate.getMonth() + 1).padStart(2, '0'); // Månedene er 0-indekserte, så +1
+    const day = String(renewalDate.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
  
  function daysUntil(targetDate) {
    // Hent dagens dato
