@@ -71,8 +71,6 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     };
 }
 
-
-
 function calculatingSaleDashboard(data) {
 
     let objects = filterGroupCompany(data);
@@ -128,7 +126,6 @@ function calculatingSaleDashboard(data) {
     return result;
 }
 
-
 function filterGroupCompany(objects){
     // Hent valgt gruppe fra select-elementet
     const selectedGroup = document.getElementById("dashboardgroupselector").value;
@@ -141,4 +138,51 @@ function filterGroupCompany(objects){
 
     })
 return array;
+}
+
+function calculateMonthlyValues(data) {
+    const monthNames = [
+        "jan", "feb", "mar", "apr", "mai", "jun",
+        "jul", "aug", "sep", "okt", "nov", "des"
+    ];
+
+    // Resultatobjekt som grupperer verdier per måned
+    const monthlyValues = Array.from({ length: 12 }, (_, i) => ({
+        monthname: monthNames[i],
+        kickback: 0,
+        valuegroup: 0,
+        monthnumber: i + 1
+    }));
+
+    // Iterer gjennom dataene
+    data.forEach(obj => {
+        // --- Håndter valuegroup basert på Invoicedate eller winningdate ---
+        const primaryDate = obj.invoicedate || obj.winningdate;
+        if (primaryDate) {
+            const date = new Date(primaryDate);
+            const monthIndex = date.getMonth(); // Får 0-basert måned (0 = januar)
+
+            // Legg til valuegroup hvis det er et gyldig tall
+            if (obj.valuegroup && !isNaN(obj.valuegroup)) {
+                monthlyValues[monthIndex].valuegroup += parseFloat(obj.valuegroup);
+            }
+        }
+
+        // --- Håndter kickback basert på maindate i cashflowjson ---
+        if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
+            obj.cashflowjson.forEach(cashflow => {
+                if (cashflow.maindate) {
+                    const maindate = new Date(cashflow.maindate);
+                    const monthIndex = maindate.getMonth(); // Får 0-basert måned
+
+                    // Legg til kickbackvalue hvis det er et gyldig tall
+                    if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
+                        monthlyValues[monthIndex].kickback += parseFloat(cashflow.kickbackvalue);
+                    }
+                }
+            });
+        }
+    });
+
+    return monthlyValues;
 }
