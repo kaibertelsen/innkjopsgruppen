@@ -1,3 +1,7 @@
+document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
+    loadLiquidityOverview(calculateMonthlyValues(klientdata))
+});
+
 function loadLiquidityOverview(data) {
 
     let maxkvalues = findMaxValues(data);
@@ -99,7 +103,6 @@ function calculateMonthlyValues(data) {
     return monthlyValues;
 }
 
-
 function findMaxValues(data) {
     let maxValue = 0;
     
@@ -115,3 +118,5 @@ function findMaxValues(data) {
         maxValue // Høyeste verdi totalt
     };
 }
+
+
