@@ -29,6 +29,8 @@ function listCustomer(data) {
     const elementLibrary = document.getElementById("customerelementlibrary");
     const nodeElement = elementLibrary.querySelector('.rowcustomer');
 
+    document.getElementById("customerrowcounter").textContent = filteredData.length+" stk.";
+
     filteredData.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
 
