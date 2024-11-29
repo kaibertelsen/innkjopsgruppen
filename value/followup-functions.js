@@ -72,10 +72,6 @@ function clearFollowingupCompanies(data) {
     return filteredData; // Returner den nye arrayen
 }
 
-
-
-
-
 function respondfollouplist(data, id) {
     
      // Sjekk om data.fields.membersjson eksisterer og er en array
@@ -180,7 +176,7 @@ function respondfollouplist(data, id) {
  
  function getNextRenewalDate(intervall, signedDate) {
     // Sett intervall til 12 som standard hvis det ikke er angitt eller er en tom streng
-    intervall = intervall || 12;
+    intervall = parseInt(intervall, 10) || 12;
 
     // Konverter signeringsdatoen til et Date-objekt
     const signedDateObj = new Date(signedDate);
@@ -201,6 +197,7 @@ function respondfollouplist(data, id) {
 
     return `${year}-${month}-${day}`;
 }
+
 
  
  function daysUntil(targetDate) {
