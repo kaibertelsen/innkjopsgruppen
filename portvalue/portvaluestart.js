@@ -45,13 +45,13 @@ function loadDashboardporte(data) {
     const sumtotal = sumkickback + sumvaluegroup;
 
     // Bruk felles tellefunksjon
-    animateCounter("dachboardportsumtotal", 0, sumtotal, "", " K");
+    animateCounter("dachboardportsumtotal", 0, sumtotal, "", " ");
     animateCounter("dachboardportsumcount", 0, countUniqueCompany, "");
 
-    animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, "", " K");
+    animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, "", " ");
     animateCounter("dachboardportvaluegroupcount", 0, countValuegroup, "");
 
-    animateCounter("dachboardportkickback", 0, sumkickback, "", " K");
+    animateCounter("dachboardportkickback", 0, sumkickback, "", " ");
     animateCounter("dachboardportkickbackcount", 0, countKickback, "");
 }
 
@@ -66,11 +66,11 @@ function loadDashboardsale(data) {
     let valuestatus = valuesale - valueexits;
 
     // Bruk felles tellefunksjon for animasjon
-    animateCounter("dachboardcountsale", 0, countsale, "", " stk.");
-    animateCounter("dachboardvaluesale", 0, valuesale, "", " K");
+    animateCounter("dachboardcountsale", 0, countsale, "", "");
+    animateCounter("dachboardvaluesale", 0, valuesale, "", "");
 
-    animateCounter("dachboardcountexits", 0, countexits, "", " stk.");
-    animateCounter("dachboardvalueexits", 0, valueexits, "", " K");
+    animateCounter("dachboardcountexits", 0, countexits, "", "");
+    animateCounter("dachboardvalueexits", 0, valueexits, "", "");
 
     let symbol = "+";
     if (countstatus === 0) {
@@ -78,7 +78,7 @@ function loadDashboardsale(data) {
     }
 
     animateCounter("dachboardcountstatus", 0, countstatus, "", ` ${symbol}`);
-    animateCounter("dachboardvaluestatus", 0, valuestatus, "", " K");
+    animateCounter("dachboardvaluestatus", 0, valuestatus, "", "");
 }
 
 
