@@ -45,12 +45,20 @@ function clearFollowingupCompanies(data) {
             return false;
         }
 
-        /*
-        // Utelukk selskaper uten verdi i valuegroup
+        // Inkluder selskaper med followupstatus "NORMAL" eller "HIDE", uavhengig av valuegroup
+        if (obj.followupstatus === "NORMAL" || obj.followupstatus === "HIDE") {
+            if (obj.currentfollowupdate) {
+                const followUpDate = new Date(obj.currentfollowupdate);
+                return followUpDate < nineMonthsAgo; // Inkluder hvis currentfollowupdate er før 9 måneder siden
+            }
+            return false; // Ekskluder hvis currentfollowupdate mangler
+        }
+
+        // Utelukk selskaper uten verdi i valuegroup hvis followupstatus ikke er "NORMAL" eller "HIDE"
         if (!obj.valuegroup || isNaN(parseFloat(obj.valuegroup))) {
             return false;
         }
-        */
+
         // Inkluder bare selskaper med currentfollowupdate før 9 måneder siden
         if (obj.currentfollowupdate) {
             const followUpDate = new Date(obj.currentfollowupdate);
@@ -63,6 +71,7 @@ function clearFollowingupCompanies(data) {
 
     return filteredData; // Returner den nye arrayen
 }
+
 
 
 
