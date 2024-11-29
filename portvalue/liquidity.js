@@ -42,7 +42,10 @@ function loadLiquidityOverview(data) {
     }
 }
 */
-function calculateMonthlyValues(data) {
+function calculateMonthlyValues(object) {
+
+    let data = filterGroupCompany(object);
+
     const monthNames = [
         "jan", "feb", "mar", "apr", "mai", "jun",
         "jul", "aug", "sep", "okt", "nov", "des"

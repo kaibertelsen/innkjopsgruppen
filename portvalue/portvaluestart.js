@@ -22,8 +22,8 @@ function klientresponse(data) {
 
     loadDashboardporte(calculatingPorteDashboard(objects));
     loadDashboardsale(calculatingSaleDashboard(objects));
-
-    loadLiquidityOverview(calculateMonthlyValues(objects))
+    loadLiquidityOverview(calculateMonthlyValues(objects));
+    
 }
 
 function formatToCurrency(value) {
@@ -81,10 +81,11 @@ function loadDashboardsale(data) {
     animateCounter("dachboardvaluestatus", 0, valuestatus, "", "");
 }
 
-
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
     loadDashboardporte(calculatingPorteDashboard(klientdata));
-    loadDashboardsale(calculatingSaleDashboard(klientdata)); 
+    loadDashboardsale(calculatingSaleDashboard(klientdata));
+    loadLiquidityOverview(calculateMonthlyValues(objects));
+
 });
 
 document.getElementById("dashboarddateselector").addEventListener("change", () => {
