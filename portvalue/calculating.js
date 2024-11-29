@@ -18,8 +18,12 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
             let hasValuegroup = false; // Spor om objektet har gyldig valuegroup
             let hasValidKickback = false; // Spor om objektet har gyldig kickback
 
-            // Summér valuegroup og tell antall hvis det finnes og er et tall
-            if (obj.valuegroup) {
+            // Sjekk exit-dato
+            const exitDate = obj.exit ? new Date(obj.exit) : null;
+            const isExited = exitDate && exitDate < now; // Sjekk om selskapet er avsluttet
+
+            // Summér valuegroup og tell antall hvis det finnes, er et tall og selskapet ikke har exit før dagens dato
+            if (!isExited && obj.valuegroup) {
                 const valuegroupNumber = parseFloat(obj.valuegroup); // Konverter til tall
                 if (!isNaN(valuegroupNumber) && valuegroupNumber > 0) {
                     sumvaluegroup += valuegroupNumber;
@@ -70,6 +74,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
         countUniqueCompany // Antall unike selskaper med valuegroup eller kickback
     };
 }
+
 
 function calculatingSaleDashboard(data) {
 
