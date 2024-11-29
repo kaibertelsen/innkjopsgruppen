@@ -90,7 +90,7 @@ function calculateMonthlyValues(data) {
                 const value = parseFloat(obj.valuegroup);
 
                 // Regn med for inneværende år hvis dato er innenfor range
-                if (year === currentYear && isWithinRange) {
+                if (isWithinRange) {
                     monthlyValues[monthIndex].valuegroup += value;
                 }
 
