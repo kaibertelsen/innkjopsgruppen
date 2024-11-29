@@ -23,6 +23,8 @@ function klientresponse(data) {
     loadDashboardporte(calculatingPorteDashboard(objects));
     loadDashboardsale(calculatingSaleDashboard(objects));
     loadLiquidityOverview(calculateMonthlyValues(objects));
+
+    listCustomer(objects);
     
 }
 
