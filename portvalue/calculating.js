@@ -42,7 +42,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
 
                         // Sjekk om maindate er innenfor tidsrammen
                         if (maindate >= cutoffDate && maindate <= now) {
-                            // Summér kickbackvalue og tell antall hvis det er et tall
+                            // Summér kickbackvalue og tell antall hvis det er et tall og ikke 0
                             if (cashflow.kickbackvalue) {
                                 const kickbackNumber = parseFloat(cashflow.kickbackvalue); // Konverter til tall
                                 if (!isNaN(kickbackNumber) && kickbackNumber > 0) {
@@ -76,6 +76,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
         countUniqueCompany // Antall unike selskaper med valuegroup eller kickback
     };
 }
+
 
 function calculatingSaleDashboard(data) {
 

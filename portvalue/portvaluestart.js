@@ -85,7 +85,6 @@ document.getElementById("dashboardgroupselector").addEventListener("change", () 
     loadDashboardporte(calculatingPorteDashboard(klientdata));
     loadDashboardsale(calculatingSaleDashboard(klientdata));
     loadLiquidityOverview(calculateMonthlyValues(klientdata));
-
 });
 
 document.getElementById("dashboarddateselector").addEventListener("change", () => {
