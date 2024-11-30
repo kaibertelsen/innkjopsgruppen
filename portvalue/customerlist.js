@@ -350,7 +350,6 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
     });
 }
 
-
 function triggerEditDate(cell, company, field) {
     const currentValue = cell.textContent.trim();
 
@@ -399,21 +398,62 @@ function updateCompanyData(companyId, fieldValue) {
 
     if (company) {
         // Oppdater lokalt
+        let dashboardNeedsUpdate = false; // Sporer om dashboardet trenger oppdatering
+
         for (const [field, value] of Object.entries(fieldValue)) {
             company[field] = value;
-            console.log(`Oppdatert lokalt: ${field} = ${value}`);
+
+            // Sjekk om dashboardet må oppdateres
+            if (field === "valuegroup") {
+                dashboardNeedsUpdate = true;
+            }else if (field === "gruppe"){
+                dashboardNeedsUpdate = true;
+            }
+        }
+
+        // Oppdater dashboard hvis nødvendig
+        if (dashboardNeedsUpdate) {
+            const dashboardData = calculatingPorteDashboard(klientdata);
+            loadDashboardporte(dashboardData);
         }
 
         // Oppdater på server
-        saveToServer(companyId, fieldValue);
+        saveToServer(companyId, fieldValue)
+            .then(() => console.log(`Oppdatert på server: ${JSON.stringify(fieldValue)} for ID: ${companyId}`))
+            .catch(error => console.error(`Feil ved oppdatering på server for ID ${companyId}:`, error));
     } else {
         console.error(`Selskap med ID ${companyId} ikke funnet.`);
     }
 }
 
-// Simuler lagring til server
+
 function saveToServer(companyId, fieldValue) {
-    PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(fieldValue),"respondcustomerlistupdated")
+    // Lag en kopi av fieldValue for modifikasjon
+    const updatedFieldValue = { ...fieldValue };
+
+    // Håndter spesifikke felter
+    for (const [field, value] of Object.entries(updatedFieldValue)) {
+        if (field === "group") {
+            updatedFieldValue["gruppe"] = value; // Omdøp "group" til "gruppe"
+            delete updatedFieldValue["group"]; // Fjern originalen
+        } else if (field === "groupname") {
+            delete updatedFieldValue["groupname"]; // Fjern "groupname"
+        }
+    }
+
+    // Konverter til JSON-streng for sending
+    const jsonData = JSON.stringify(updatedFieldValue);
+
+    // Simulerer lagring til server
+    PATCHairtable(
+        "app1WzN1IxEnVu3m0", // App ID
+        "tblFySDb9qVeVVY5c", // Tabell ID
+        companyId,          // Company ID
+        jsonData,           // JSON-data
+        "respondcustomerlistupdated" // Callback eller responshåndtering
+    );
+
+    console.log(`Oppdatering sendt til server for ID: ${companyId}, Data: ${jsonData}`);
 }
 
 
