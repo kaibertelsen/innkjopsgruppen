@@ -80,7 +80,36 @@ function listCustomer(data) {
         // Legg til klikkhendelser for redigering
         nameCell.addEventListener("click", () => triggerEditInput(nameCell, company, "Name"));
         orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
-        valuegroupCell.addEventListener("click", () => triggerEditDropdown(valuegroupCell, company, "valuegroup", ["12000kr", "24000kr", "36000kr", "Annet beløp"]));
+        valuegroupCell.addEventListener("click", () => {
+            const options = [
+                { text: "12.000 kr", value: 12000 },
+                { text: "24.000 kr", value: 24000 },
+                { text: "36.000 kr", value: 36000 }
+            ];
+        
+            triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
+                if (selectedOption.value === null) {
+                    // Hvis "Annet beløp" er valgt, vis et input-felt for tilpasset verdi
+                    const input = createInput("", finalValue => {
+                        const parsedValue = parseFloat(finalValue);
+                        if (!isNaN(parsedValue)) {
+                            valuegroupCell.textContent = `${parsedValue.toLocaleString()} kr`;
+                            updateCompanyData(company.airtable, "valuegroup", parsedValue);
+                        } else {
+                            valuegroupCell.textContent = "0 kr";
+                        }
+                    });
+                    valuegroupCell.textContent = ""; // Fjern eksisterende tekst
+                    valuegroupCell.parentElement.appendChild(input);
+                    input.focus();
+                } else {
+                    // Sett valgt verdi og oppdater serveren
+                    valuegroupCell.textContent = selectedOption.text;
+                    updateCompanyData(company.airtable, "valuegroup", selectedOption.value);
+                }
+            });
+        });
+        
         groupCell.addEventListener("click", () => {
             const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options).map(option => ({
                 value: option.value,
@@ -311,7 +340,6 @@ function triggerEditInput(cell, company, field) {
 }
 
 
-
 function triggerEditDropdown(cell, company, field, options, onSave) {
     const currentValue = cell.textContent.trim();
 
@@ -369,7 +397,6 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
         }
     });
 }
-
 
 
 function updateCompanyData(companyId, field, newValue) {
