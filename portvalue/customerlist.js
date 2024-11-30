@@ -264,8 +264,7 @@ function triggerEditInput(cell, company, field) {
         if (e.key === "Enter") input.blur();
     });
 
-    cell.textContent = "";
-    cell.appendChild(input);
+    cell.parentElement.appendChild(input);
     input.focus();
 }
 
