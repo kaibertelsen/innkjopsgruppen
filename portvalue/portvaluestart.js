@@ -85,6 +85,9 @@ function loadDashboardsale(data) {
 
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
 
+     //resete søkefelt
+     document.getElementById("searchcustomer").value = "";
+
     loadDashboardporte(calculatingPorteDashboard(klientdata));
     loadDashboardsale(calculatingSaleDashboard(klientdata));
     
