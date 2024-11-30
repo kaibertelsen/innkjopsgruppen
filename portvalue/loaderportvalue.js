@@ -17,8 +17,8 @@ const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/calculating.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/liquidity.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/customerlist.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/xlsexport.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js"
-
 ];
 
 

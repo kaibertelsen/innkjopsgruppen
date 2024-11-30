@@ -6,7 +6,7 @@ document.getElementById("customerlistselector").addEventListener("change", () =>
 });
 
 
-
+var activeCustomerlist = [];
 function listCustomer(data) {
     const list = document.getElementById("customerlist");
     const selector = document.getElementById("customerlistselector");
@@ -35,7 +35,7 @@ function listCustomer(data) {
     const nodeElement = elementLibrary.querySelector('.rowcustomer');
 
     document.getElementById("customerrowcounter").textContent = filteredData.length + " stk.";
-
+    activeCustomerlist = filteredData;
     filteredData.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
 
