@@ -93,10 +93,13 @@ function listCustomer(data) {
         });
 
         groupCell.addEventListener("click", () => {
-            const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options).map(option => ({
+            const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options)
+            .filter(option => option.value.trim() !== "") // Filtrer ut alternativer med tom value
+            .map(option => ({
                 value: option.value,
                 text: option.text
             }));
+        
             triggerEditDropdown(groupCell, company, "group", groupOptions, selectedOption => {
                 company.group = selectedOption.value;
                 company.groupname = selectedOption.text;
