@@ -82,9 +82,25 @@ function listCustomer(data) {
         orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
         valuegroupCell.addEventListener("click", () => triggerEditDropdown(valuegroupCell, company, "valuegroup", ["12000kr", "24000kr", "36000kr", "Annet beløp"]));
         groupCell.addEventListener("click", () => {
-            const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options).map(option => option.text);
-            triggerEditDropdown(groupCell, company, "groupname", groupOptions);
+            const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options).map(option => ({
+                value: option.value,
+                text: option.text
+            }));
+        
+            triggerEditDropdown(groupCell, company, "group", groupOptions, selectedOption => {
+                // Oppdater både group (value) og groupname (text) i company
+                company.group = selectedOption.value;
+                company.groupname = selectedOption.text;
+        
+                // Oppdater teksten i cellen til den valgte tekstverdien
+                groupCell.textContent = selectedOption.text;
+        
+                // Send oppdateringer til serveren
+                updateCompanyData(company.airtable, "group", selectedOption.value);
+                updateCompanyData(company.airtable, "groupname", selectedOption.text);
+            });
         });
+        
 
         // Legg til selskapets element i listen
         list.appendChild(companyElement);
@@ -296,7 +312,7 @@ function triggerEditInput(cell, company, field) {
 
 
 
-function triggerEditDropdown(cell, company, field, options) {
+function triggerEditDropdown(cell, company, field, options, onSave) {
     const currentValue = cell.textContent.trim();
 
     // Hindre flere dropdowns
@@ -309,9 +325,12 @@ function triggerEditDropdown(cell, company, field, options) {
 
     options.forEach(option => {
         const optionElement = document.createElement("option");
-        optionElement.value = option;
-        optionElement.textContent = option;
-        if (option === currentValue) optionElement.selected = true;
+        optionElement.value = option.value;
+        optionElement.textContent = option.text;
+
+        if (option.text === currentValue) {
+            optionElement.selected = true;
+        }
         select.appendChild(optionElement);
     });
 
@@ -324,12 +343,12 @@ function triggerEditDropdown(cell, company, field, options) {
 
     // Lagre endringer ved `blur`
     select.addEventListener("blur", () => {
-        const newValue = select.value.trim();
+        const selectedOption = options.find(opt => opt.value === select.value);
 
-        if (newValue && newValue !== currentValue) {
-            cell.textContent = newValue;
-            updateCompanyData(company.airtable, field, newValue);
+        if (selectedOption && selectedOption.text !== currentValue) {
+            onSave(selectedOption);
         } else {
+            // Hvis verdien ikke endres, gjenopprett originalen
             cell.textContent = currentValue;
         }
 
@@ -350,6 +369,7 @@ function triggerEditDropdown(cell, company, field, options) {
         }
     });
 }
+
 
 
 function updateCompanyData(companyId, field, newValue) {
