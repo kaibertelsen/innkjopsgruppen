@@ -245,28 +245,52 @@ document.getElementById("customerlist").addEventListener("click", event => {
 });
 
 function triggerEditInput(cell, company, field) {
-    const currentValue = cell.textContent;
+    const currentValue = cell.textContent.trim();
+
+    // Hindre flere input-felt
+    if (cell.querySelector("input")) return;
+
     const input = document.createElement("input");
     input.type = "text";
     input.value = currentValue;
 
+    // Skjul cellen
+    cell.style.display = "none";
+
+    // Legg til input-feltet
+    cell.parentElement.appendChild(input);
+    input.focus();
+
+    // Lagre endringer ved `blur`
     input.addEventListener("blur", () => {
         const newValue = input.value.trim();
-        if (newValue !== currentValue) {
+
+        if (newValue && newValue !== currentValue) {
             cell.textContent = newValue;
             updateCompanyData(company.airtable, field, newValue);
         } else {
+            // Hvis verdien ikke endres, gjenopprett originalen
             cell.textContent = currentValue;
         }
+
+        // Fjern input-feltet og vis cellen
+        input.remove();
+        cell.style.display = "block";
     });
 
+    // Lagre endringer ved `Enter` og avbryt ved `Escape`
     input.addEventListener("keydown", e => {
-        if (e.key === "Enter") input.blur();
+        if (e.key === "Enter") {
+            input.blur(); // Trigger `blur`-hendelsen
+        } else if (e.key === "Escape") {
+            // Avbryt redigeringen
+            input.remove();
+            cell.textContent = currentValue;
+            cell.style.display = "block";
+        }
     });
-
-    cell.parentElement.appendChild(input);
-    input.focus();
 }
+
 
 function triggerEditDropdown(cell, company, field, options) {
     const currentValue = cell.textContent;
