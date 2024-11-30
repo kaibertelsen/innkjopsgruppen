@@ -168,34 +168,6 @@ function createSelect(options, currentValue, onSave) {
 
     return select;
 }
-// Oppdater data lokalt og på serveren
-function updateCompanyData(klientdata, companyId, field, newValue) {
-    const company = klientdata.find(item => item.airtable === companyId);
-    if (company) {
-        company[field] = newValue;
-
-        console.log(`Lokalt oppdatert: ${field} = ${newValue} for ID: ${companyId}`);
-        
-        saveToServer(companyId, field, newValue)
-            .then(() => {
-                console.log(`Server oppdatert: ${field} = ${newValue} for ID: ${companyId}`);
-            })
-            .catch(error => {
-                console.error("Feil ved oppdatering på serveren:", error);
-            });
-    } else {
-        console.error("Selskap ikke funnet i lokal data:", companyId);
-    }
-}
-// Simuler lagring til server
-function saveToServer(companyId, field, newValue) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            console.log(`Simulert serveroppdatering for ID: ${companyId}, felt: ${field}, verdi: ${newValue}`);
-            resolve({ success: true });
-        }, 500);
-    });
-}
 // Klikk-hendelse for redigering
 document.getElementById("customerlist").addEventListener("click", event => {
     const target = event.target;
@@ -313,7 +285,6 @@ function triggerEditInput(cell, company, field) {
     });
 }
 
-
 function triggerEditDropdown(cell, company, field, options, onSave) {
     const currentValue = cell.textContent.trim();
 
@@ -372,8 +343,6 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
     });
 }
 
-
-
 function updateCompanyData(companyId, field, newValue) {
     const company = klientdata.find(item => item.airtable === companyId);
     if (company) {
@@ -426,5 +395,33 @@ function triggerEditDate(cell, company, field) {
     // Håndter `Enter`-tast
     input.addEventListener("keydown", e => {
         if (e.key === "Enter") input.blur();
+    });
+}
+// Oppdater data lokalt og på serveren
+function updateCompanyData(klientdata, companyId, field, newValue) {
+    const company = klientdata.find(item => item.airtable === companyId);
+    if (company) {
+        company[field] = newValue;
+
+        console.log(`Lokalt oppdatert: ${field} = ${newValue} for ID: ${companyId}`);
+        
+        saveToServer(companyId, field, newValue)
+            .then(() => {
+                console.log(`Server oppdatert: ${field} = ${newValue} for ID: ${companyId}`);
+            })
+            .catch(error => {
+                console.error("Feil ved oppdatering på serveren:", error);
+            });
+    } else {
+        console.error("Selskap ikke funnet i lokal data:", companyId);
+    }
+}
+// Simuler lagring til server
+function saveToServer(companyId, field, newValue) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(`Simulert serveroppdatering for ID: ${companyId}, felt: ${field}, verdi: ${newValue}`);
+            resolve({ success: true });
+        }, 500);
     });
 }
