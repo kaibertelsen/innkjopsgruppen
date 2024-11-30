@@ -78,39 +78,19 @@ function listCustomer(data) {
         // Legg til klikkhendelser for redigering
         nameCell.addEventListener("click", () => triggerEditInput(nameCell, company, "Name"));
         orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
-        
-        // Handle valuegroup editing
         valuegroupCell.addEventListener("click", () => {
             const options = [
                 { text: "12.000 kr", value: 12000 },
                 { text: "24.000 kr", value: 24000 },
-                { text: "36.000 kr", value: 36000 },
-                { text: "0 kr", value: 0 }
+                { text: "36.000 kr", value: 36000 }
             ];
             triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
-                if (selectedOption.value === null) {
-                    // Hvis "Annet beløp" er valgt, vis et input-felt for tilpasset verdi
-                    const input = createInput("", finalValue => {
-                        const parsedValue = parseFloat(finalValue);
-                        if (!isNaN(parsedValue)) {
-                            valuegroupCell.textContent = `${parsedValue.toLocaleString()} kr`;
-                            updateCompanyData(company.airtable, "valuegroup", parsedValue);
-                        } else {
-                            valuegroupCell.textContent = "0 kr";
-                        }
-                    });
-                    valuegroupCell.textContent = ""; // Fjern eksisterende tekst
-                    valuegroupCell.parentElement.appendChild(input);
-                    input.focus();
-                } else {
-                    // Sett valgt verdi og oppdater serveren
-                    valuegroupCell.textContent = selectedOption.text;
-                    updateCompanyData(company.airtable, "valuegroup", selectedOption.value);
-                }
+                const updatedValue = selectedOption.value;
+                valuegroupCell.textContent = `${updatedValue.toLocaleString()} kr`;
+                updateCompanyData(company.airtable, { valuegroup: updatedValue });
             });
         });
 
-        // Handle group editing
         groupCell.addEventListener("click", () => {
             const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options).map(option => ({
                 value: option.value,
@@ -120,7 +100,7 @@ function listCustomer(data) {
                 company.group = selectedOption.value;
                 company.groupname = selectedOption.text;
                 groupCell.textContent = selectedOption.text;
-                updateCompanyData(company.airtable, "group", selectedOption.value);
+                updateCompanyData(company.airtable, { group: selectedOption.value, groupname: selectedOption.text });
             });
         });
 
@@ -131,7 +111,6 @@ function listCustomer(data) {
         list.appendChild(companyElement);
     });
 }
-
 
 function sortDataAlphabetically(data) {
     return data.sort((a, b) => {
@@ -367,17 +346,6 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
     });
 }
 
-function updateCompanyData(companyId, field, newValue) {
-    const company = klientdata.find(item => item.airtable === companyId);
-    if (company) {
-        company[field] = newValue;
-
-        console.log(`Oppdatert lokalt: ${field} = ${newValue}`);
-        saveToServer(companyId, field, newValue)
-            .then(() => console.log(`Oppdatert på server: ${field} = ${newValue}`))
-            .catch(error => console.error("Feil ved oppdatering på server:", error));
-    }
-}
 
 function triggerEditDate(cell, company, field) {
     const currentValue = cell.textContent.trim();
@@ -422,11 +390,34 @@ function triggerEditDate(cell, company, field) {
     });
 }
 
+function updateCompanyData(companyId, fieldValue) {
+    const company = klientdata.find(item => item.airtable === companyId);
+
+    if (company) {
+        // Oppdater lokalt
+        for (const [field, value] of Object.entries(fieldValue)) {
+            company[field] = value;
+            console.log(`Oppdatert lokalt: ${field} = ${value}`);
+        }
+
+        // Oppdater på server
+        saveToServer(companyId, fieldValue)
+            .then(() => {
+                console.log(`Oppdatert på server:`, fieldValue);
+            })
+            .catch(error => {
+                console.error("Feil ved oppdatering på server:", error);
+            });
+    } else {
+        console.error(`Selskap med ID ${companyId} ikke funnet.`);
+    }
+}
+
 // Simuler lagring til server
-function saveToServer(companyId, field, newValue) {
+function saveToServer(companyId, fieldValue) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            console.log(`Simulert serveroppdatering for ID: ${companyId}, felt: ${field}, verdi: ${newValue}`);
+            console.log(`Simulert serveroppdatering for ID: ${companyId}, felt:`, fieldValue);
             resolve({ success: true });
         }, 500);
     });
