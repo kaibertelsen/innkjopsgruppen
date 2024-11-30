@@ -77,7 +77,6 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     };
 }
 
-
 function calculatingSaleDashboard(data) {
 
     let objects = filterGroupCompany(data);
