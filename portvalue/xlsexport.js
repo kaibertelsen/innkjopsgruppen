@@ -6,6 +6,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         groupname: "Gruppe",
         valuegroup: "Abonnement",
         winningdate: "Vunnet dato",
+        invoicedate: "Faktura dato",
         airtable:"SystemID"
     };
 
