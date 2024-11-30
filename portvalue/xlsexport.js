@@ -52,9 +52,15 @@ function prepareExportDataArray(rawDataArray,fieldMapping) {
                 // Sett tom streng for undefined eller null verdier
                 preparedData[newFieldName] = "";
             } else if (field === "winningdate" ||field === "invoicedate" ) {
-                // Formater dato til 'yyyy-mm-dd' for Excel
-                const date = new Date(value);
-                preparedData[newFieldName] = date.toISOString().split("T")[0]; // yyyy-mm-dd
+                 // Formater dato til 'yyyy-mm-dd' for Excel
+                    const date = new Date(value);
+                    if (!isNaN(date.getTime())) {
+                        // Gyldig dato
+                        preparedData[newFieldName] = date.toISOString().split("T")[0]; // yyyy-mm-dd
+                    } else {
+                        // Ugyldig dato
+                        preparedData[newFieldName] = ""; 
+                    }
             } else {
                 // Behold verdien som den er
                 preparedData[newFieldName] = value;
