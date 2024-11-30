@@ -51,7 +51,7 @@ function prepareExportDataArray(rawDataArray,fieldMapping) {
             } else if (value === undefined || value === null) {
                 // Sett tom streng for undefined eller null verdier
                 preparedData[newFieldName] = "";
-            } else if (field === "winningdate") {
+            } else if (field === "winningdate" ||field === "invoicedate" ) {
                 // Formater dato til 'yyyy-mm-dd' for Excel
                 const date = new Date(value);
                 preparedData[newFieldName] = date.toISOString().split("T")[0]; // yyyy-mm-dd
