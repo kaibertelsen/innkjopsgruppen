@@ -1,6 +1,6 @@
 document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Feltene du vil hente
-    const selectedFields = ["lastmodified", "companyorgnr", "companyname", "useremail", "companybrukernavn"];
+    const selectedFields = ["Name", "orgnr", "groupname", "winningdate", "valuegroup"];
 
     // Mapping til nye navn
     const fieldMapping = {
@@ -28,6 +28,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 
 
 function exportData(rawDataArray, selectedFields, fieldMapping, fileName) {
+    
     // Forbered dataene med omdøpte nøkler
     const preparedData = prepareExportDataArray(rawDataArray, selectedFields, fieldMapping);
 
