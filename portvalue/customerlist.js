@@ -418,9 +418,8 @@ function updateCompanyData(companyId, fieldValue) {
         }
 
         // Oppdater på server
-        saveToServer(companyId, fieldValue)
-            .then(() => console.log(`Oppdatert på server: ${JSON.stringify(fieldValue)} for ID: ${companyId}`))
-            .catch(error => console.error(`Feil ved oppdatering på server for ID ${companyId}:`, error));
+        saveToServer(companyId, fieldValue);
+  
     } else {
         console.error(`Selskap med ID ${companyId} ikke funnet.`);
     }
@@ -434,7 +433,7 @@ function saveToServer(companyId, fieldValue) {
     // Håndter spesifikke felter
     for (const [field, value] of Object.entries(updatedFieldValue)) {
         if (field === "group") {
-            updatedFieldValue["gruppe"] = value; // Omdøp "group" til "gruppe"
+            updatedFieldValue["gruppe"] = [value]; // Omdøp "group" til "gruppe"
             delete updatedFieldValue["group"]; // Fjern originalen
         } else if (field === "groupname") {
             delete updatedFieldValue["groupname"]; // Fjern "groupname"
