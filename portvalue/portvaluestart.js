@@ -92,8 +92,12 @@ document.getElementById("dashboardgroupselector").addEventListener("change", () 
     loadDashboardsale(calculatingSaleDashboard(klientdata));
     
     //hvis disse siden er åpen
+   const activeTab = getActiveTab();
+   if (activeTab === "Likviditet") {
     loadLiquidityOverview(calculateMonthlyValues(klientdata));
+    } else if (activeTab === "kundeliste") {
     listCustomer(klientdata);
+    }
     
 });
 
@@ -190,6 +194,21 @@ function ruteresponse(data,id){
     }
     
 }
+
+function getActiveTab() {
+    // Finn elementet med klassen 'w--current'
+    const activeTab = document.querySelector('.tabs-menu-2 .w--current');
+
+    // Returner dataen eller tekstinnholdet til den aktive fanen
+    if (activeTab) {
+        return activeTab.getAttribute('data-w-tab') || activeTab.textContent.trim();
+    }
+
+    return null; // Ingen aktiv fane funnet
+}
+
+
+
 
 
 

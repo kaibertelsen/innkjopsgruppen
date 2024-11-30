@@ -2,6 +2,12 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
     loadLiquidityOverview(calculateMonthlyValues(klientdata))
 });
 
+document.getElementById("liquiditytabbutton").addEventListener("click", () => {
+    loadLiquidityOverview(calculateMonthlyValues(klientdata));
+});
+
+
+
 function calculateMonthlyValues(object) {
 
     let data = filterGroupCompany(object);
