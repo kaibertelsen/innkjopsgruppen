@@ -297,7 +297,14 @@ function triggerEditInput(cell, company, field) {
 
 
 function triggerEditDropdown(cell, company, field, options) {
-    const currentValue = cell.textContent;
+    const currentValue = cell.textContent.trim();
+
+    // Hindre flere dropdowns
+    if (cell.querySelector("select")) return;
+
+    // Lagre cellens opprinnelige display-verdi
+    const originalDisplay = getComputedStyle(cell).display;
+
     const select = document.createElement("select");
 
     options.forEach(option => {
@@ -308,20 +315,42 @@ function triggerEditDropdown(cell, company, field, options) {
         select.appendChild(optionElement);
     });
 
+    // Skjul cellen
+    cell.style.display = "none";
+
+    // Legg til dropdown i foreldre-elementet
+    cell.parentElement.appendChild(select);
+    select.focus();
+
+    // Lagre endringer ved `blur`
     select.addEventListener("blur", () => {
-        const newValue = select.value;
-        if (newValue !== currentValue) {
+        const newValue = select.value.trim();
+
+        if (newValue && newValue !== currentValue) {
             cell.textContent = newValue;
             updateCompanyData(company.airtable, field, newValue);
         } else {
             cell.textContent = currentValue;
         }
+
+        // Fjern dropdown og vis cellen med den opprinnelige display-verdi
+        select.remove();
+        cell.style.display = originalDisplay;
     });
 
-    cell.textContent = "";
-    cell.appendChild(select);
-    select.focus();
+    // Håndter tastetrykk (Enter for lagring, Escape for avbryt)
+    select.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+            select.blur(); // Trigger `blur`-hendelsen
+        } else if (e.key === "Escape") {
+            // Avbryt redigeringen
+            select.remove();
+            cell.textContent = currentValue;
+            cell.style.display = originalDisplay;
+        }
+    });
 }
+
 
 function updateCompanyData(companyId, field, newValue) {
     const company = klientdata.find(item => item.airtable === companyId);
