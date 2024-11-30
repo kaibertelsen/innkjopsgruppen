@@ -4,8 +4,9 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         Name: "Navn",
         orgnr: "Org.nr",
         groupname: "Gruppe",
+        valuegroup: "Abonnement",
         winningdate: "Vunnet dato",
-        valuegroup: "Abonnement"
+        airtable:"SystemID"
     };
 
     // Hent tekstverdier fra selectorer
