@@ -16,18 +16,21 @@ function listCustomer(data) {
 
     const selectedFilter = selector.value; // Hent valgt verdi fra type kunde selectoren
 
-    // Filtrering basert på valgt verdi
+   // Filtrering basert på valgt verdi
     if (selectedFilter === "valuegroup") {
-        // Filtrer kunder som har en verdi i valuegroup
-        filteredData = data.filter(company => company.valuegroup && !isNaN(parseFloat(company.valuegroup)));
+        // Filtrer kunder som har en verdi i valuegroup som ikke er 0
+        filteredData = data.filter(company => {
+            return company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0;
+        });
     } else if (selectedFilter === "kickback") {
-        // Filtrer kunder som har minst én kickback-verdi
+        // Filtrer kunder som har minst én kickback-verdi som ikke er 0
         filteredData = data.filter(company => {
             return company.cashflowjson && company.cashflowjson.some(cashflow => {
                 return cashflow.kickbackvalue && parseFloat(cashflow.kickbackvalue) > 0;
             });
         });
     }
+
 
     list.replaceChildren(); // Tømmer holderen for å unngå duplisering
 
