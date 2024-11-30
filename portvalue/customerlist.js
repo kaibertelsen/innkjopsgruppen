@@ -250,6 +250,9 @@ function triggerEditInput(cell, company, field) {
     // Hindre flere input-felt
     if (cell.querySelector("input")) return;
 
+    // Lagre cellens opprinnelige display-verdi
+    const originalDisplay = getComputedStyle(cell).display;
+
     const input = document.createElement("input");
     input.type = "text";
     input.value = currentValue;
@@ -273,9 +276,9 @@ function triggerEditInput(cell, company, field) {
             cell.textContent = currentValue;
         }
 
-        // Fjern input-feltet og vis cellen
+        // Fjern input-feltet og vis cellen med den opprinnelige display-verdi
         input.remove();
-        cell.style.display = "block";
+        cell.style.display = originalDisplay;
     });
 
     // Lagre endringer ved `Enter` og avbryt ved `Escape`
@@ -286,10 +289,11 @@ function triggerEditInput(cell, company, field) {
             // Avbryt redigeringen
             input.remove();
             cell.textContent = currentValue;
-            cell.style.display = "block";
+            cell.style.display = originalDisplay;
         }
     });
 }
+
 
 
 function triggerEditDropdown(cell, company, field, options) {
