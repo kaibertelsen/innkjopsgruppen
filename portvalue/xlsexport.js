@@ -8,9 +8,6 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         valuegroup: "Abonnement"
     };
 
-    // Hent nøkkelnavnene i fieldMapping som selectedFields
-    const selectedFields = Object.keys(fieldMapping);
-
     // Hent tekstverdier fra selectorer
     const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
     const customerListSelector = document.getElementById("customerlistselector");
@@ -22,22 +19,24 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
 
     // Eksporter til Excel
-    exportData(activeCustomerlist, selectedFields, fieldMapping, filename);
+    exportData(activeCustomerlist, fieldMapping, filename);
 });
 
 
 
 
-function exportData(rawDataArray, selectedFields, fieldMapping, fileName) {
+function exportData(rawDataArray,fieldMapping, fileName) {
     
     // Forbered dataene med omdøpte nøkler
-    const preparedData = prepareExportDataArray(rawDataArray, selectedFields, fieldMapping);
+    const preparedData = prepareExportDataArray(rawDataArray, fieldMapping);
 
     // Eksporter til Excel
     exportXLS(preparedData, fileName);
 }
 
-function prepareExportDataArray(rawDataArray, selectedFields, fieldMapping) {
+function prepareExportDataArray(rawDataArray,fieldMapping) {
+     // Hent nøkkelnavnene i fieldMapping som selectedFields
+     const selectedFields = Object.keys(fieldMapping);
     return rawDataArray.map(rawData => {
         const preparedData = {};
         selectedFields.forEach(field => {
