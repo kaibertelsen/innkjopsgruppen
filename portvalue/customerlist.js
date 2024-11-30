@@ -87,3 +87,22 @@ function sortDataAlphabetically(data) {
     });
 }
 
+
+// Legg til en event listener på søkefeltet
+document.getElementById("searchcustomer").addEventListener("input", function () {
+    const searchQuery = this.value.toLowerCase(); // Hent søketekst og gjør den til små bokstaver
+    filterCustomerList(searchQuery); // Kall filterfunksjonen med søketeksten
+});
+
+// Filterfunksjon
+function filterCustomerList(searchQuery) {
+    const filteredData = klientdata.filter(company => {
+        // Filtrer basert på om søketeksten finnes i firmaets navn eller organisasjonsnummer
+        const nameMatch = company.Name && company.Name.toLowerCase().includes(searchQuery);
+        const orgnrMatch = company.orgnr && company.orgnr.toLowerCase().includes(searchQuery);
+        return nameMatch || orgnrMatch;
+    });
+
+    // Oppdater kundelisten basert på det filtrerte resultatet
+    listCustomer(filteredData);
+}
