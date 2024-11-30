@@ -268,7 +268,9 @@ function triggerEditInput(cell, company, field) {
 
         if (newValue && newValue !== currentValue) {
             cell.textContent = newValue;
-            updateCompanyData(company.airtable, field, newValue);
+            let savedata = {};
+            savedata[field] = newValue;
+            updateCompanyData(company.airtable, savedata);
         } else {
             // Hvis verdien ikke endres, gjenopprett originalen
             cell.textContent = currentValue;
@@ -376,7 +378,9 @@ function triggerEditDate(cell, company, field) {
 
         if (newValue && newValue !== currentValue) {
             cell.textContent = newValue;
-            updateCompanyData(company.airtable, field, newValue);
+            let savedata = {};
+            savedata[field] = newValue;
+            updateCompanyData(company.airtable, savedata);
         } else {
             // Hvis verdien ikke endres, gjenopprett originalen
             cell.textContent = currentValue;
