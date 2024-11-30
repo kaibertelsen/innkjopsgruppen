@@ -52,6 +52,7 @@ function listCustomer(data) {
         const groupCell = companyElement.querySelector(".groupname");
         const kickbackCell = companyElement.querySelector(".kickbakvaluetext");
         const winningDateCell = companyElement.querySelector(".winingdatetext");
+        const invoiceDateCell = companyElement.querySelector(".invoicedatetext");
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
 
         nameCell.textContent = company.Name || "Ingen navn";
@@ -69,6 +70,11 @@ function listCustomer(data) {
             ? company.winningdate.split("T")[0]
             : "Ingen dato";
         winningDateCell.textContent = winningDate;
+
+        const invoiceDate = company.invoicedate
+        ? company.invoicedate.split("T")[0]
+        : "Ingen dato";
+        invoiceDateCell.textContent = invoiceDate;
 
         const valuegroup = company.valuegroup
             ? `${parseFloat(company.valuegroup).toLocaleString()} kr`
@@ -110,6 +116,10 @@ function listCustomer(data) {
 
         winningDateCell.addEventListener("click", () => {
             triggerEditDate(winningDateCell, company, "winningdate");
+        });
+
+        invoiceDateCell.addEventListener("click", () => {
+            triggerEditDate(invoiceDateCell, company, "invoicedate");
         });
 
         list.appendChild(companyElement);
@@ -429,7 +439,6 @@ function updateCompanyData(companyId, fieldValue) {
     }
 }
 
-
 function saveToServer(companyId, fieldValue) {
     // Lag en kopi av fieldValue for modifikasjon
     const updatedFieldValue = { ...fieldValue };
@@ -458,7 +467,6 @@ function saveToServer(companyId, fieldValue) {
 
     console.log(`Oppdatering sendt til server for ID: ${companyId}, Data: ${jsonData}`);
 }
-
 
 function respondcustomerlistupdated(data){
     console.log(data);
