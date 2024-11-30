@@ -78,15 +78,39 @@ function listCustomer(data) {
         // Legg til klikkhendelser for redigering
         nameCell.addEventListener("click", () => triggerEditInput(nameCell, company, "Name"));
         orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
+        
+        // Handle valuegroup editing
         valuegroupCell.addEventListener("click", () => {
             const options = [
                 { text: "12.000 kr", value: 12000 },
                 { text: "24.000 kr", value: 24000 },
-                { text: "36.000 kr", value: 36000 }
+                { text: "36.000 kr", value: 36000 },
+                { text: "Annet beløp", value: null }
             ];
-            triggerEditDropdown(valuegroupCell, company, "valuegroup", options);
+            triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
+                if (selectedOption.value === null) {
+                    // Hvis "Annet beløp" er valgt, vis et input-felt for tilpasset verdi
+                    const input = createInput("", finalValue => {
+                        const parsedValue = parseFloat(finalValue);
+                        if (!isNaN(parsedValue)) {
+                            valuegroupCell.textContent = `${parsedValue.toLocaleString()} kr`;
+                            updateCompanyData(company.airtable, "valuegroup", parsedValue);
+                        } else {
+                            valuegroupCell.textContent = "0 kr";
+                        }
+                    });
+                    valuegroupCell.textContent = ""; // Fjern eksisterende tekst
+                    valuegroupCell.parentElement.appendChild(input);
+                    input.focus();
+                } else {
+                    // Sett valgt verdi og oppdater serveren
+                    valuegroupCell.textContent = selectedOption.text;
+                    updateCompanyData(company.airtable, "valuegroup", selectedOption.value);
+                }
+            });
         });
 
+        // Handle group editing
         groupCell.addEventListener("click", () => {
             const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options).map(option => ({
                 value: option.value,
@@ -97,7 +121,6 @@ function listCustomer(data) {
                 company.groupname = selectedOption.text;
                 groupCell.textContent = selectedOption.text;
                 updateCompanyData(company.airtable, "group", selectedOption.value);
-                updateCompanyData(company.airtable, "groupname", selectedOption.text);
             });
         });
 
@@ -108,6 +131,7 @@ function listCustomer(data) {
         list.appendChild(companyElement);
     });
 }
+
 
 function sortDataAlphabetically(data) {
     return data.sort((a, b) => {
@@ -397,25 +421,7 @@ function triggerEditDate(cell, company, field) {
         if (e.key === "Enter") input.blur();
     });
 }
-// Oppdater data lokalt og på serveren
-function updateCompanyData(klientdata, companyId, field, newValue) {
-    const company = klientdata.find(item => item.airtable === companyId);
-    if (company) {
-        company[field] = newValue;
 
-        console.log(`Lokalt oppdatert: ${field} = ${newValue} for ID: ${companyId}`);
-        
-        saveToServer(companyId, field, newValue)
-            .then(() => {
-                console.log(`Server oppdatert: ${field} = ${newValue} for ID: ${companyId}`);
-            })
-            .catch(error => {
-                console.error("Feil ved oppdatering på serveren:", error);
-            });
-    } else {
-        console.error("Selskap ikke funnet i lokal data:", companyId);
-    }
-}
 // Simuler lagring til server
 function saveToServer(companyId, field, newValue) {
     return new Promise((resolve, reject) => {
