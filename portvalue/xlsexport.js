@@ -1,7 +1,4 @@
 document.getElementById("xlsexportbutton").addEventListener("click", () => {
-    // Feltene du vil hente
-    const selectedFields = ["Name", "orgnr", "groupname", "winningdate", "valuegroup"];
-
     // Mapping til nye navn
     const fieldMapping = {
         Name: "Navn",
@@ -10,6 +7,9 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         winningdate: "Vunnet dato",
         valuegroup: "Abonnement"
     };
+
+    // Hent nøkkelnavnene i fieldMapping som selectedFields
+    const selectedFields = Object.keys(fieldMapping);
 
     // Hent tekstverdier fra selectorer
     const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
@@ -24,6 +24,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Eksporter til Excel
     exportData(activeCustomerlist, selectedFields, fieldMapping, filename);
 });
+
 
 
 
