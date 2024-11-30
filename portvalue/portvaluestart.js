@@ -191,6 +191,8 @@ function formatDate(date) {
 function ruteresponse(data,id){
     if(id == "klientresponse"){
         klientresponse(data);
+    }else if(id == "respondcustomerlistupdated"){
+        respondcustomerlistupdated(data);
     }
     
 }

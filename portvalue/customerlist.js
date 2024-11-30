@@ -405,13 +405,7 @@ function updateCompanyData(companyId, fieldValue) {
         }
 
         // Oppdater på server
-        saveToServer(companyId, fieldValue)
-            .then(() => {
-                console.log(`Oppdatert på server:`, fieldValue);
-            })
-            .catch(error => {
-                console.error("Feil ved oppdatering på server:", error);
-            });
+        saveToServer(companyId, fieldValue);
     } else {
         console.error(`Selskap med ID ${companyId} ikke funnet.`);
     }
@@ -419,10 +413,10 @@ function updateCompanyData(companyId, fieldValue) {
 
 // Simuler lagring til server
 function saveToServer(companyId, fieldValue) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            console.log(`Simulert serveroppdatering for ID: ${companyId}, felt:`, fieldValue);
-            resolve({ success: true });
-        }, 500);
-    });
+    PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",companyId,JSON.stringify(fieldValue),"respondcustomerlistupdated")
+}
+
+
+function respondcustomerlistupdated(data){
+    console.log(data);
 }
