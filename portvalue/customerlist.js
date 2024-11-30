@@ -82,7 +82,8 @@ function listCustomer(data) {
             const options = [
                 { text: "12.000 kr", value: 12000 },
                 { text: "24.000 kr", value: 24000 },
-                { text: "36.000 kr", value: 36000 }
+                { text: "36.000 kr", value: 36000 },
+                { text: "0 kr", value: 0 }
             ];
             triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
                 const updatedValue = selectedOption.value;
