@@ -117,8 +117,8 @@ function findMaxValues(data) {
 function loadLiquidityOverview(data) {
     let maxkvalues = findMaxValues(data);
 
-    let elementhight = document.getElementById("monthliquidityoverview").offsetHeight; // Høyden på diagrammet
-    let factorHeight = maxkvalues.maxValue / elementhight; 
+   
+    let factorHeight = maxkvalues.maxValue / 400;
 
     let selectorvalue = document.getElementById("liquidityoverviewselector").value;
     let selectorvalueshadow = selectorvalue + "lastyear";
