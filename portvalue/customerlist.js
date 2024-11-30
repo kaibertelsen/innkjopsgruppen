@@ -15,12 +15,10 @@ function listCustomer(data) {
     const selectedFilter = selector.value;
 
     if (selectedFilter === "valuegroup") {
-        // Filtrer kunder med en verdi i valuegroup som ikke er 0
         filteredData = data.filter(company => 
             company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0
         );
     } else if (selectedFilter === "kickback") {
-        // Filtrer kunder med minst én kickback-verdi som ikke er 0
         filteredData = data.filter(company =>
             company.cashflowjson && company.cashflowjson.some(cashflow => 
                 cashflow.kickbackvalue && parseFloat(cashflow.kickbackvalue) > 0
@@ -86,55 +84,31 @@ function listCustomer(data) {
                 { text: "24.000 kr", value: 24000 },
                 { text: "36.000 kr", value: 36000 }
             ];
-        
-            triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
-                if (selectedOption.value === null) {
-                    // Hvis "Annet beløp" er valgt, vis et input-felt for tilpasset verdi
-                    const input = createInput("", finalValue => {
-                        const parsedValue = parseFloat(finalValue);
-                        if (!isNaN(parsedValue)) {
-                            valuegroupCell.textContent = `${parsedValue.toLocaleString()} kr`;
-                            updateCompanyData(company.airtable, "valuegroup", parsedValue);
-                        } else {
-                            valuegroupCell.textContent = "0 kr";
-                        }
-                    });
-                    valuegroupCell.textContent = ""; // Fjern eksisterende tekst
-                    valuegroupCell.parentElement.appendChild(input);
-                    input.focus();
-                } else {
-                    // Sett valgt verdi og oppdater serveren
-                    valuegroupCell.textContent = selectedOption.text;
-                    updateCompanyData(company.airtable, "valuegroup", selectedOption.value);
-                }
-            });
+            triggerEditDropdown(valuegroupCell, company, "valuegroup", options);
         });
-        
+
         groupCell.addEventListener("click", () => {
             const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options).map(option => ({
                 value: option.value,
                 text: option.text
             }));
-        
             triggerEditDropdown(groupCell, company, "group", groupOptions, selectedOption => {
-                // Oppdater både group (value) og groupname (text) i company
                 company.group = selectedOption.value;
                 company.groupname = selectedOption.text;
-        
-                // Oppdater teksten i cellen til den valgte tekstverdien
                 groupCell.textContent = selectedOption.text;
-        
-                // Send oppdateringer til serveren
                 updateCompanyData(company.airtable, "group", selectedOption.value);
                 updateCompanyData(company.airtable, "groupname", selectedOption.text);
             });
         });
-        
 
-        // Legg til selskapets element i listen
+        winningDateCell.addEventListener("click", () => {
+            triggerEditDate(winningDateCell, company, "winningdate");
+        });
+
         list.appendChild(companyElement);
     });
 }
+
 function sortDataAlphabetically(data) {
     return data.sort((a, b) => {
         const nameA = a.Name?.toLowerCase() || ""; // Konverter til små bokstaver, fallback til tom streng
@@ -371,7 +345,7 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
 
     // Lagre endringer ved `blur`
     select.addEventListener("blur", () => {
-        const selectedOption = options.find(opt => opt.value === select.value);
+        const selectedOption = options.find(opt => opt.value.toString() === select.value);
 
         if (selectedOption && selectedOption.text !== currentValue) {
             onSave(selectedOption);
@@ -399,6 +373,7 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
 }
 
 
+
 function updateCompanyData(companyId, field, newValue) {
     const company = klientdata.find(item => item.airtable === companyId);
     if (company) {
@@ -411,3 +386,45 @@ function updateCompanyData(companyId, field, newValue) {
     }
 }
 
+function triggerEditDate(cell, company, field) {
+    const currentValue = cell.textContent.trim();
+
+    // Forhindre flere input-felt
+    if (cell.querySelector("input")) return;
+
+    const input = document.createElement("input");
+    input.type = "date";
+    input.value = currentValue !== "Ingen dato" ? currentValue : "";
+
+    // Lagre den opprinnelige display-verdi for å gjenopprette
+    const originalDisplay = getComputedStyle(cell).display;
+
+    // Skjul cellen
+    cell.style.display = "none";
+
+    // Legg til input-feltet
+    cell.parentElement.appendChild(input);
+    input.focus();
+
+    // Lagre endringer ved `blur`
+    input.addEventListener("blur", () => {
+        const newValue = input.value.trim();
+
+        if (newValue && newValue !== currentValue) {
+            cell.textContent = newValue;
+            updateCompanyData(company.airtable, field, newValue);
+        } else {
+            // Hvis verdien ikke endres, gjenopprett originalen
+            cell.textContent = currentValue;
+        }
+
+        // Fjern input-feltet og vis cellen
+        input.remove();
+        cell.style.display = originalDisplay;
+    });
+
+    // Håndter `Enter`-tast
+    input.addEventListener("keydown", e => {
+        if (e.key === "Enter") input.blur();
+    });
+}
