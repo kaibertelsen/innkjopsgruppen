@@ -84,9 +84,14 @@ function loadDashboardsale(data) {
 }
 
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
+
     loadDashboardporte(calculatingPorteDashboard(klientdata));
     loadDashboardsale(calculatingSaleDashboard(klientdata));
+    
+    //hvis disse siden er åpen
     loadLiquidityOverview(calculateMonthlyValues(klientdata));
+    listCustomer(klientdata);
+    
 });
 
 document.getElementById("dashboarddateselector").addEventListener("change", () => {

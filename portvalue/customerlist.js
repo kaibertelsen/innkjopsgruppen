@@ -7,9 +7,11 @@ document.getElementById("customerlistselector").addEventListener("change", () =>
 function listCustomer(data) {
     const list = document.getElementById("customerlist");
     const selector = document.getElementById("customerlistselector");
-
-    const selectedFilter = selector.value; // Hent valgt verdi fra selectoren
+    data = filterGroupCompany(data);
+    //filtrere på valgt kundegruppe
     let filteredData = data;
+
+    const selectedFilter = selector.value; // Hent valgt verdi fra type kunde selectoren
 
     // Filtrering basert på valgt verdi
     if (selectedFilter === "valuegroup") {
