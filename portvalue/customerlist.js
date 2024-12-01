@@ -432,6 +432,8 @@ function updateCompanyData(companyId, fieldValue) {
                 dashboardNeedsUpdate = true;
             }else if (field === "gruppe"){
                 dashboardNeedsUpdate = true;
+            }else if (field === "exit"){
+                dashboardNeedsUpdate = true;
             }
         }
 
