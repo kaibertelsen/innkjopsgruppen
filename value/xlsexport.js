@@ -1,12 +1,11 @@
 document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Mapping til nye navn
     const fieldMapping = {
-        Name: "Navn",
-        orgnr: "Org.nr",
-        groupname: "Gruppe",
-        valuegroup: "Abonnement",
-        winningdate: "Vunnet dato",
-        invoicedate: "Faktura dato",
+        customer: "Navn",
+        value: "Handel",
+        kickbackvalue: "Kickback",
+        bistandvalue: "Bistand",
+        analysevalue: "Analyse",
         airtable:"SystemID"
     };
 
