@@ -52,6 +52,7 @@ function listCustomer(data) {
         const groupCell = companyElement.querySelector(".groupname");
         const kickbackCell = companyElement.querySelector(".kickbakvaluetext");
         const winningDateCell = companyElement.querySelector(".winingdatetext");
+        const exitDateCell = companyElement.querySelector(".exitdatetext");
         const invoiceDateCell = companyElement.querySelector(".invoicedatetext");
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
 
@@ -75,6 +76,11 @@ function listCustomer(data) {
         ? company.invoicedate.split("T")[0]
         : "Ingen dato";
         invoiceDateCell.textContent = invoiceDate;
+
+        const exitDate = company.exit
+        ? company.invoicedate.split("T")[0]
+        : "Ingen dato";
+        exitDateCell.textContent = exitDate;
 
         const valuegroup = company.valuegroup
             ? `${parseFloat(company.valuegroup).toLocaleString()} kr`
@@ -120,6 +126,10 @@ function listCustomer(data) {
 
         invoiceDateCell.addEventListener("click", () => {
             triggerEditDate(invoiceDateCell, company, "invoicedate");
+        });
+
+        exitDateCell.addEventListener("click", () => {
+            triggerEditDate(exitDateCell, company, "exit");
         });
 
         list.appendChild(companyElement);
