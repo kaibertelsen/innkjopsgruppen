@@ -10,18 +10,11 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         airtable:"SystemID"
     };
 
-    // Hent tekstverdier fra selectorer
-    const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
-    const customerListSelector = document.getElementById("customerlistselector");
-
-    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
-    const customerListText = customerListSelector.options[customerListSelector.selectedIndex].text || "Alle";
-
     // Generer filnavn
-    let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
+    let filename = `Handelsregistreringer`;
 
     // Eksporter til Excel
-    exportData(activeCustomerlist, fieldMapping, filename);
+    exportData(listarray, fieldMapping, filename);
 });
 
 function exportData(rawDataArray,fieldMapping, fileName) {

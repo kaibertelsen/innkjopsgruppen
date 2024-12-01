@@ -207,9 +207,6 @@ function handleDateChange(rewaldate,airtableId, newDate) {
 }
 
 
-
-
-
 function createStatusDropdown(rowElement, statusElement, company) {
     // Sjekk om dropdown allerede finnes
     let dropdown = rowElement.querySelector(".status-dropdown");
@@ -336,8 +333,6 @@ function handleCompanyClick(name, airtableId) {
     document.getElementById("besparelsebutton").click();
 }
 
-
-
 // Funksjon for å oppdatere oppfølgingsstatus
 function updateFollowupStatus(rowElement,airtableId, newStatus) {
  
@@ -401,7 +396,6 @@ function calculateDaysUntil(dateString) {
 
     return daysDifference;
 }
-
 
 function formatDate(dateString) {
     if (!dateString) return null; // Returner null hvis datoen er tom
