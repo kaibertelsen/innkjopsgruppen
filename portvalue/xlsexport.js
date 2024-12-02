@@ -49,7 +49,7 @@ function prepareExportDataArray(rawDataArray,fieldMapping) {
             } else if (value === undefined || value === null) {
                 // Sett tom streng for undefined eller null verdier
                 preparedData[newFieldName] = "";
-            } else if (field === "winningdate" ||field === "invoicedate" ) {
+            } else if (field === "winningdate" ||field === "invoicedate" ||field === "exit") {
                  // Formater dato til 'yyyy-mm-dd' for Excel
                     const date = new Date(value);
                     if (!isNaN(date.getTime())) {
