@@ -102,6 +102,7 @@ function calculatingSaleDashboard(data) {
             if (winningDate >= startDate && winningDate <= endDate) {
                 result.winning.count++;
                 result.winning.valuegroup += valuegroupNumber;
+                /* //skal ikke summere kickback på salg
                 if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
                     obj.cashflowjson.forEach(cashflow => {
                         if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
@@ -109,6 +110,8 @@ function calculatingSaleDashboard(data) {
                         }
                     });
                 }
+                */
+
             }
         }
 
@@ -118,6 +121,7 @@ function calculatingSaleDashboard(data) {
             if (exitDate >= startDate && exitDate <= endDate) {
                 result.exit.count++;
                 result.exit.valuegroup += valuegroupNumber;
+               /*
                 if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
                     obj.cashflowjson.forEach(cashflow => {
                         if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
@@ -125,6 +129,7 @@ function calculatingSaleDashboard(data) {
                         }
                     });
                 }
+                */
             }
         }
     });
