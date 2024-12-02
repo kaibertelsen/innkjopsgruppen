@@ -90,12 +90,14 @@ function listCustomer(data) {
         // Legg til klikkhendelser for redigering
         nameCell.addEventListener("click", () => triggerEditInput(nameCell, company, "Name"));
         orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
+        /*
         valuegroupCell.addEventListener("click", () => {
             const options = [
                 { text: "12.000 kr", value: 12000 },
                 { text: "24.000 kr", value: 24000 },
                 { text: "36.000 kr", value: 36000 },
-                { text: "0 kr", value: 0 }
+                { text: "0 kr", value: 0 },
+                {text:"Annet beløp",value:""}
             ];
             triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
                 const updatedValue = selectedOption.value;
@@ -103,6 +105,74 @@ function listCustomer(data) {
                 updateCompanyData(company.airtable, { valuegroup: updatedValue });
             });
         });
+        */
+
+        valuegroupCell.addEventListener("click", () => {
+            const options = [
+                { text: "12.000 kr", value: 12000 },
+                { text: "24.000 kr", value: 24000 },
+                { text: "36.000 kr", value: 36000 },
+                { text: "0 kr", value: 0 },
+                { text: "Annet beløp", value: "" }
+            ];
+        
+            triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
+                if (selectedOption.value === "") {
+                    // Fjern eksisterende tekst i cellen
+                    valuegroupCell.textContent = "";
+        
+                    // Opprett et input-felt for numerisk verdi
+                    const input = document.createElement("input");
+                    input.type = "number";
+                    input.placeholder = "Skriv inn beløp";
+                    input.style.width = "100%";
+                    valuegroupCell.appendChild(input);
+        
+                    // Fokus på input-feltet
+                    input.focus();
+        
+                    // Håndter lagring av verdi ved `blur` eller `Enter`
+                    input.addEventListener("blur", () => saveCustomValue(input.value));
+                    input.addEventListener("keydown", e => {
+                        if (e.key === "Enter") saveCustomValue(input.value);
+                    });
+        
+                    function saveCustomValue(customValue) {
+                        const parsedValue = parseFloat(customValue);
+                        if (!isNaN(parsedValue)) {
+                            valuegroupCell.textContent = `${parsedValue.toLocaleString()} kr`;
+                            updateCompanyData(company.airtable, { valuegroup: parsedValue });
+                        } else {
+                            valuegroupCell.textContent = "0 kr";
+                        }
+                    }
+                } else {
+                    // Oppdater cellen med valgt verdi
+                    const updatedValue = selectedOption.value;
+                    valuegroupCell.textContent = `${updatedValue.toLocaleString()} kr`;
+                    updateCompanyData(company.airtable, { valuegroup: updatedValue });
+                }
+            });
+        });
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         groupCell.addEventListener("click", () => {
             const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options)
