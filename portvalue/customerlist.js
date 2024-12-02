@@ -473,7 +473,12 @@ function triggerEditDate(cell, company, field) {
 
     // Håndter fjerning av dato
     removeButton.addEventListener("click", () => {
-        saveDate(""); // Send tom verdi til serveren
+        let savedata = {};
+        savedata[field] = null; // Sett til null hvis tom verdi
+
+        updateCompanyData(company.airtable, savedata);
+        cell.textContent = "Ingen dato"; // Oppdater tekst
+        cleanup();
     });
 
     // Sett fokus på input-feltet
