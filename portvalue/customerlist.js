@@ -275,7 +275,7 @@ document.getElementById("customerlist").addEventListener("click", event => {
 });
 
 function triggerEditInput(cell, company, field) {
-    const currentValue = cell.textContent.trim();
+    let currentValue = cell.textContent.trim();
 
     // Hindre flere input-felt
     if (cell.querySelector("input")) return;
@@ -283,9 +283,16 @@ function triggerEditInput(cell, company, field) {
     // Lagre cellens opprinnelige display-verdi
     const originalDisplay = getComputedStyle(cell).display;
 
+    // Opprett input-felt
     const input = document.createElement("input");
-    input.type = "text";
-    input.value = currentValue;
+    if (field === "valuegroup") {
+        input.type = "number";
+        currentValue = parseFloat(currentValue.replace(/[^0-9.-]/g, "")) || 0; // Fjern kr og formater kun tall
+        input.value = currentValue;
+    } else {
+        input.type = "text";
+        input.value = currentValue;
+    }
 
     // Skjul cellen
     cell.style.display = "none";
@@ -296,16 +303,26 @@ function triggerEditInput(cell, company, field) {
 
     // Lagre endringer ved `blur`
     input.addEventListener("blur", () => {
-        const newValue = input.value.trim();
+        let newValue = input.value.trim();
 
         if (newValue && newValue !== currentValue) {
-            cell.textContent = newValue;
             let savedata = {};
-            savedata[field] = newValue;
+            if (field === "valuegroup") {
+                newValue = parseFloat(newValue) || 0; // Konverter til tallverdi
+                cell.textContent = `${newValue.toLocaleString()} kr`;
+                savedata[field] = newValue;
+            } else {
+                cell.textContent = newValue;
+                savedata[field] = newValue;
+            }
             updateCompanyData(company.airtable, savedata);
         } else {
             // Hvis verdien ikke endres, gjenopprett originalen
-            cell.textContent = currentValue;
+            if (field === "valuegroup") {
+                cell.textContent = `${parseFloat(currentValue).toLocaleString()} kr`;
+            } else {
+                cell.textContent = currentValue;
+            }
         }
 
         // Fjern input-feltet og vis cellen med den opprinnelige display-verdi
@@ -320,11 +337,16 @@ function triggerEditInput(cell, company, field) {
         } else if (e.key === "Escape") {
             // Avbryt redigeringen
             input.remove();
-            cell.textContent = currentValue;
+            if (field === "valuegroup") {
+                cell.textContent = `${parseFloat(currentValue).toLocaleString()} kr`;
+            } else {
+                cell.textContent = currentValue;
+            }
             cell.style.display = originalDisplay;
         }
     });
 }
+
 
 function triggerEditDropdown(cell, company, field, options, onSave) {
     const currentValue = cell.textContent.trim();
