@@ -105,6 +105,9 @@ function loadDashboardsale(data) {
 
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
 
+    const selector = document.getElementById("dashboardgroupselector");
+    const selectedText = selector.options[selector.selectedIndex].text;
+    document.getElementById("groupnameheader").textContent = selectedText;
      //resete søkefelt
      document.getElementById("searchcustomer").value = "";
 
