@@ -134,12 +134,15 @@ function listCustomer(data) {
                     input.focus();
         
                     // Håndter lagring av verdi ved `blur` eller `Enter`
-                    input.addEventListener("blur", () => saveCustomValue(input.value));
+                    input.addEventListener("blur", handleSave);
                     input.addEventListener("keydown", e => {
-                        if (e.key === "Enter") saveCustomValue(input.value);
+                        if (e.key === "Enter") {
+                            handleSave();
+                        }
                     });
         
-                    function saveCustomValue(customValue) {
+                    function handleSave() {
+                        const customValue = input.value.trim();
                         const parsedValue = parseFloat(customValue);
                         if (!isNaN(parsedValue)) {
                             valuegroupCell.textContent = `${parsedValue.toLocaleString()} kr`;
@@ -157,6 +160,7 @@ function listCustomer(data) {
                 }
             });
         });
+        
         
         
 
