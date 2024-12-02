@@ -289,10 +289,12 @@ function triggerEditInput(cell, company, field) {
         input.type = "number";
         currentValue = parseFloat(currentValue.replace(/[^0-9.-]/g, "")) || 0; // Fjern kr og formater kun tall
         input.value = currentValue;
+        høyrestill teksten i feltet
     } else {
         input.type = "text";
         input.value = currentValue;
     }
+
 
     // Skjul cellen
     cell.style.display = "none";
@@ -346,7 +348,6 @@ function triggerEditInput(cell, company, field) {
         }
     });
 }
-
 
 function triggerEditDropdown(cell, company, field, options, onSave) {
     const currentValue = cell.textContent.trim();
@@ -410,23 +411,30 @@ function triggerEditDate(cell, company, field) {
     const currentValue = cell.textContent.trim();
 
     // Forhindre flere input-felt
-    if (cell.querySelector("input")) return;
+    if (cell.querySelector("input") || cell.querySelector("button")) return;
 
+    // Lagre cellens opprinnelige display-verdi
+    const originalDisplay = getComputedStyle(cell).display;
+
+    // Opprett input-felt
     const input = document.createElement("input");
     input.type = "date";
     input.value = currentValue !== "Ingen dato" ? currentValue : "";
 
-    // Lagre den opprinnelige display-verdi for å gjenopprette
-    const originalDisplay = getComputedStyle(cell).display;
+    // Opprett fjern-knapp
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Fjern dato";
+    removeButton.style.marginLeft = "10px";
 
     // Skjul cellen
     cell.style.display = "none";
 
-    // Legg til input-feltet
-    cell.parentElement.appendChild(input);
-    input.focus();
+    // Legg til input-feltet og knapp i foreldre-elementet
+    const parent = cell.parentElement;
+    parent.appendChild(input);
+    parent.appendChild(removeButton);
 
-    // Lagre endringer ved `blur`
+    // Håndter lagring ved `blur`
     input.addEventListener("blur", () => {
         const newValue = input.value.trim();
 
@@ -440,8 +448,9 @@ function triggerEditDate(cell, company, field) {
             cell.textContent = currentValue;
         }
 
-        // Fjern input-feltet og vis cellen
+        // Fjern input-feltet og knapp, vis cellen
         input.remove();
+        removeButton.remove();
         cell.style.display = originalDisplay;
     });
 
@@ -449,7 +458,21 @@ function triggerEditDate(cell, company, field) {
     input.addEventListener("keydown", e => {
         if (e.key === "Enter") input.blur();
     });
+
+    // Håndter fjerning av dato
+    removeButton.addEventListener("click", () => {
+        cell.textContent = "Ingen dato";
+        let savedata = {};
+        savedata[field] = ""; // Lagre tom verdi
+        updateCompanyData(company.airtable, savedata);
+
+        // Fjern input-feltet og knapp, vis cellen
+        input.remove();
+        removeButton.remove();
+        cell.style.display = originalDisplay;
+    });
 }
+
 
 function updateCompanyData(companyId, fieldValue) {
     const company = klientdata.find(item => item.airtable === companyId);
