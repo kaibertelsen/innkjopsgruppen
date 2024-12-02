@@ -58,21 +58,33 @@ function loadDashboardporte(data) {
 }
 
 function loadDashboardsale(data) {
+
+    let counttotal = data.total.count;
+    
     let countsale = data.winning.count;
     let valuesale = (data.winning.valuegroup + data.winning.kickback)/1000;
+    let procentsale = (countsale/counttotal)*100;
 
     let countexits = data.exit.count;
     let valueexits = (data.exit.valuegroup + data.exit.kickback)/1000;
+    let procentexits = (countexits/counttotal)*100;
 
     let countstatus = countsale - countexits;
     let valuestatus = valuesale - valueexits;
+    let procentstatus = (countstatus/counttotal)*100;
 
     // Bruk felles tellefunksjon for animasjon
     animateCounter("dachboardcountsale", 0, countsale, "", "");
     animateCounter("dachboardvaluesale", 0, valuesale, "", "");
+    animateCounter("dachboardprocentsale", 0, procentsale, "", "");
+    
 
     animateCounter("dachboardcountexits", 0, countexits, "", "");
     animateCounter("dachboardvalueexits", 0, valueexits, "", "");
+    animateCounter("dachboardprocentexits", 0, procentstatus, "", "");
+    
+
+
 
     let symbol = "+";
     if (countstatus === 0) {
@@ -81,6 +93,8 @@ function loadDashboardsale(data) {
 
     animateCounter("dachboardcountstatus", 0, countstatus, "", ` ${symbol}`);
     animateCounter("dachboardvaluestatus", 0, valuestatus, "", "");
+    animateCounter("dachboardprocentstatus", 0, procentstatus, "", "");
+    
 }
 
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {

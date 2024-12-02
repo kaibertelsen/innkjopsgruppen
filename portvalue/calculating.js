@@ -88,14 +88,16 @@ function calculatingSaleDashboard(data) {
     // Resultatobjekt for å lagre summeringene
     const result = {
         winning: { count: 0, valuegroup: 0, kickback: 0 },
-        exit: { count: 0, valuegroup: 0, kickback: 0 }
+        exit: { count: 0, valuegroup: 0, kickback: 0 },
+        total:{ count: 0, valuegroup: 0, kickback: 0 }
     };
 
     objects.forEach(obj => {
         // Sjekk at valuegroup er større enn 0 og et gyldig tall
         const valuegroupNumber = obj.valuegroup && !isNaN(obj.valuegroup) ? parseFloat(obj.valuegroup) : 0;
         if (valuegroupNumber <= 0) return; // Hopp over objektet hvis valuegroup <= 0
-
+        result.total.count++;
+        result.total.valuegroup += valuegroupNumber;
         // Håndter winningdate
         if (obj.winningdate) {
             const winningDate = new Date(obj.winningdate);
