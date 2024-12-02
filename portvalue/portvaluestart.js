@@ -40,8 +40,11 @@ function formatToCurrency(value) {
 function loadDashboardporte(data) {
     const sumkickback = (data.sumkickback)/1000;
     const countKickback = data.countKickback;
+    let snittkickback = sumkickback/countKickback;
+
     const sumvaluegroup = (data.sumvaluegroup)/1000;
     const countValuegroup = data.countValuegroup;
+    let snittValue = sumvaluegroup/countValuegroup;
 
     const countUniqueCompany = data.countUniqueCompany;
     const sumtotal = sumkickback + sumvaluegroup;
@@ -52,9 +55,12 @@ function loadDashboardporte(data) {
 
     animateCounter("dachboardportvaluegroup", 0, sumvaluegroup, "", " ");
     animateCounter("dachboardportvaluegroupcount", 0, countValuegroup, "");
-
+    animateCounter("dachboardportvaluegroupsnitt", 0, snittValue, "");
+    
     animateCounter("dachboardportkickback", 0, sumkickback, "", " ");
     animateCounter("dachboardportkickbackcount", 0, countKickback, "");
+    animateCounter("dachboardportkickbacksnitt", 0, snittkickback, "");
+    
 }
 
 function loadDashboardsale(data) {
