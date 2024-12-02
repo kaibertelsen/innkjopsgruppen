@@ -81,7 +81,7 @@ function loadDashboardsale(data) {
 
     animateCounter("dachboardcountexits", 0, countexits, "", "");
     animateCounter("dachboardvalueexits", 0, valueexits, "", "");
-    animateCounter("dachboardprocentexits", 0, procentstatus, "", "");
+    animateCounter("dachboardprocentexits", 0, procentexits, "", "");
     
 
 
