@@ -348,7 +348,6 @@ function triggerEditInput(cell, company, field) {
     });
 }
 
-
 function triggerEditDropdown(cell, company, field, options, onSave) {
     const currentValue = cell.textContent.trim();
 
@@ -410,71 +409,80 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
 function triggerEditDate(cell, company, field) {
     const currentValue = cell.textContent.trim();
 
-    // Forhindre flere input-felt
+    // Forhindre flere input-felt eller knapper
     if (cell.querySelector("input") || cell.querySelector("button")) return;
 
     // Lagre cellens opprinnelige display-verdi
     const originalDisplay = getComputedStyle(cell).display;
 
-    // Opprett input-felt
+    // Opprett input-felt for dato
     const input = document.createElement("input");
     input.type = "date";
     input.value = currentValue !== "Ingen dato" ? currentValue : "";
 
-    // Opprett fjern-knapp
+    // Opprett knapp for å fjerne dato
     const removeButton = document.createElement("button");
     removeButton.textContent = "Fjern dato";
     removeButton.style.marginLeft = "10px";
+    removeButton.style.cursor = "pointer";
 
     // Skjul cellen
     cell.style.display = "none";
 
-    // Legg til input-feltet og knapp i foreldre-elementet
+    // Legg til input-felt og knapp
     const parent = cell.parentElement;
     parent.appendChild(input);
     parent.appendChild(removeButton);
 
-    // Håndter lagring ved `blur`
-    input.addEventListener("blur", () => {
-        const newValue = input.value.trim();
+    // Funksjon for å lagre endringer
+    const saveDate = newValue => {
+        let savedata = {};
+        savedata[field] = newValue || null; // Sett til null hvis tom verdi
 
-        if (newValue && newValue !== currentValue) {
-            cell.textContent = newValue;
-            let savedata = {};
-            savedata[field] = newValue;
-            updateCompanyData(company.airtable, savedata);
-        } else {
-            // Hvis verdien ikke endres, gjenopprett originalen
-            cell.textContent = currentValue;
-        }
+        updateCompanyData(company.airtable, savedata).then(() => {
+            cell.textContent = newValue ? newValue : "Ingen dato"; // Oppdater tekst
+            cleanup();
+        });
+    };
 
-        // Fjern input-feltet og knapp, vis cellen
+    // Funksjon for å fjerne elementene
+    const cleanup = () => {
         input.remove();
         removeButton.remove();
         cell.style.display = originalDisplay;
+    };
+
+    // Håndter lagring ved `blur`
+    input.addEventListener("blur", () => {
+        const newValue = input.value.trim();
+        if (newValue !== currentValue) {
+            saveDate(newValue);
+        } else {
+            // Gjenopprett originalen hvis ingen endring
+            cell.textContent = currentValue;
+            cleanup();
+        }
     });
 
     // Håndter `Enter`-tast
     input.addEventListener("keydown", e => {
-        if (e.key === "Enter") input.blur();
+        if (e.key === "Enter") {
+            input.blur(); // Trigger `blur`-hendelsen
+        }
     });
 
     // Håndter fjerning av dato
     removeButton.addEventListener("click", () => {
-        cell.textContent = "Ingen dato";
-        let savedata = {};
-        savedata[field] = ""; // Lagre tom verdi
-        updateCompanyData(company.airtable, savedata);
-
-        // Fjern input-feltet og knapp, vis cellen
-        input.remove();
-        removeButton.remove();
-        cell.style.display = originalDisplay;
+        saveDate(""); // Send tom verdi til serveren
     });
+
+    // Sett fokus på input-feltet
+    input.focus();
 }
 
 
 function updateCompanyData(companyId, fieldValue) {
+
     const company = klientdata.find(item => item.airtable === companyId);
 
     if (company) {
