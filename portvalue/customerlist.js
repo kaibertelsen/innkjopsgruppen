@@ -439,10 +439,10 @@ function triggerEditDate(cell, company, field) {
         let savedata = {};
         savedata[field] = newValue || null; // Sett til null hvis tom verdi
 
-        updateCompanyData(company.airtable, savedata).then(() => {
-            cell.textContent = newValue ? newValue : "Ingen dato"; // Oppdater tekst
-            cleanup();
-        });
+        updateCompanyData(company.airtable, savedata);
+        cell.textContent = newValue ? newValue : "Ingen dato"; // Oppdater tekst
+        cleanup();
+        
     };
 
     // Funksjon for å fjerne elementene
