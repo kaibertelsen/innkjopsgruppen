@@ -65,7 +65,7 @@ function listCustomer(data) {
             return sum + (isNaN(value) ? 0 : value);
         }, 0) || 0;
 
-        kickbackCell.textContent = `${totalKickback.toLocaleString()} kr`;
+        kickbackCell.textContent = `${Math.round(totalKickback).toLocaleString()} kr`;
 
         const winningDate = company.winningdate
             ? company.winningdate.split("T")[0]
