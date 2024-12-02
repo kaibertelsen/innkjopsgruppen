@@ -434,6 +434,8 @@ function triggerEditDate(cell, company, field) {
     parent.appendChild(input);
     parent.appendChild(removeButton);
 
+    let preventBlur = false; // Variabel for å forhindre blur ved knappetrykk
+
     // Funksjon for å lagre endringer
     const saveDate = newValue => {
         let savedata = {};
@@ -442,7 +444,6 @@ function triggerEditDate(cell, company, field) {
         updateCompanyData(company.airtable, savedata);
         cell.textContent = newValue ? newValue : "Ingen dato"; // Oppdater tekst
         cleanup();
-        
     };
 
     // Funksjon for å fjerne elementene
@@ -454,6 +455,7 @@ function triggerEditDate(cell, company, field) {
 
     // Håndter lagring ved `blur`
     input.addEventListener("blur", () => {
+        if (preventBlur) return; // Unngå `blur` hvis preventBlur er satt
         const newValue = input.value.trim();
         if (newValue !== currentValue) {
             saveDate(newValue);
@@ -472,10 +474,13 @@ function triggerEditDate(cell, company, field) {
     });
 
     // Håndter fjerning av dato
+    removeButton.addEventListener("mousedown", () => {
+        preventBlur = true; // Hindre `blur` fra input-feltet
+    });
+
     removeButton.addEventListener("click", () => {
         let savedata = {};
-        savedata[field] = null; // Sett til null hvis tom verdi
-
+        savedata[field] = null; // Sett til null for å fjerne dato
         updateCompanyData(company.airtable, savedata);
         cell.textContent = "Ingen dato"; // Oppdater tekst
         cleanup();
@@ -484,6 +489,7 @@ function triggerEditDate(cell, company, field) {
     // Sett fokus på input-feltet
     input.focus();
 }
+
 
 
 function updateCompanyData(companyId, fieldValue) {
