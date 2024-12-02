@@ -436,11 +436,23 @@ function triggerEditDate(cell, company, field) {
 
     let preventBlur = false; // Variabel for å forhindre blur ved knappetrykk
 
+    // Håndter fjerning av dato
+    removeButton.addEventListener("mousedown", () => {
+        preventBlur = true; // Hindre `blur` fra input-feltet
+    });
+
+    removeButton.addEventListener("click", () => {
+        let savedata = {};
+        savedata[field] = null; // Sett til null for å fjerne dato
+        updateCompanyData(company.airtable, savedata);
+        cell.textContent = "Ingen dato"; // Oppdater tekst
+        cleanup();
+    });
+
     // Funksjon for å lagre endringer
     const saveDate = newValue => {
         let savedata = {};
         savedata[field] = newValue || null; // Sett til null hvis tom verdi
-
         updateCompanyData(company.airtable, savedata);
         cell.textContent = newValue ? newValue : "Ingen dato"; // Oppdater tekst
         cleanup();
@@ -455,15 +467,22 @@ function triggerEditDate(cell, company, field) {
 
     // Håndter lagring ved `blur`
     input.addEventListener("blur", () => {
-        if (preventBlur) return; // Unngå `blur` hvis preventBlur er satt
-        const newValue = input.value.trim();
-        if (newValue !== currentValue) {
-            saveDate(newValue);
-        } else {
-            // Gjenopprett originalen hvis ingen endring
-            cell.textContent = currentValue;
-            cleanup();
-        }
+        setTimeout(() => {
+            // Forsikre oss om at knappens `click` kjøres først
+            if (preventBlur) {
+                preventBlur = false;
+                return;
+            }
+
+            const newValue = input.value.trim();
+            if (newValue !== currentValue) {
+                saveDate(newValue);
+            } else {
+                // Gjenopprett originalen hvis ingen endring
+                cell.textContent = currentValue;
+                cleanup();
+            }
+        }, 100); // Kort forsinkelse for å prioritere knappens hendelse
     });
 
     // Håndter `Enter`-tast
@@ -473,24 +492,9 @@ function triggerEditDate(cell, company, field) {
         }
     });
 
-    // Håndter fjerning av dato
-    removeButton.addEventListener("mousedown", () => {
-        preventBlur = true; // Hindre `blur` fra input-feltet
-    });
-
-    removeButton.addEventListener("click", () => {
-        let savedata = {};
-        savedata[field] = null; // Sett til null for å fjerne dato
-        updateCompanyData(company.airtable, savedata);
-        cell.textContent = "Ingen dato"; // Oppdater tekst
-        cleanup();
-    });
-
     // Sett fokus på input-feltet
     input.focus();
 }
-
-
 
 function updateCompanyData(companyId, fieldValue) {
 
