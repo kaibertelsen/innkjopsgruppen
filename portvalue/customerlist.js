@@ -118,7 +118,7 @@ function listCustomer(data) {
         
             triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
                 if (selectedOption.value === "") {
-                    // Fjern eksisterende tekst i cellen
+                    // Fjern dropdown umiddelbart
                     valuegroupCell.textContent = "";
         
                     // Opprett et input-felt for numerisk verdi
@@ -126,6 +126,8 @@ function listCustomer(data) {
                     input.type = "number";
                     input.placeholder = "Skriv inn beløp";
                     input.style.width = "100%";
+                    input.style.boxSizing = "border-box";
+        
                     valuegroupCell.appendChild(input);
         
                     // Fokus på input-feltet
@@ -145,6 +147,7 @@ function listCustomer(data) {
                         } else {
                             valuegroupCell.textContent = "0 kr";
                         }
+                        input.remove(); // Fjern input-feltet etter lagring
                     }
                 } else {
                     // Oppdater cellen med valgt verdi
@@ -154,6 +157,7 @@ function listCustomer(data) {
                 }
             });
         });
+        
         
 
 
