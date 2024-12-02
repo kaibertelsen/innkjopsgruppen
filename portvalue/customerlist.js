@@ -287,14 +287,13 @@ function triggerEditInput(cell, company, field) {
     const input = document.createElement("input");
     if (field === "valuegroup") {
         input.type = "number";
-        currentValue = parseFloat(currentValue.replace(/[^0-9.-]/g, "")) || 0; // Fjern kr og formater kun tall
+        currentValue = parseFloat(currentValue.replace(/[^0-9.-]/g, "")) || 0; // Fjern "kr" og formater kun tall
         input.value = currentValue;
-        høyrestill teksten i feltet
+        input.style.textAlign = "right"; // Høyrestill teksten
     } else {
         input.type = "text";
         input.value = currentValue;
     }
-
 
     // Skjul cellen
     cell.style.display = "none";
@@ -348,6 +347,7 @@ function triggerEditInput(cell, company, field) {
         }
     });
 }
+
 
 function triggerEditDropdown(cell, company, field, options, onSave) {
     const currentValue = cell.textContent.trim();
