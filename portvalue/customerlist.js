@@ -207,6 +207,8 @@ function createSelect(options, currentValue, onSave) {
 
     return select;
 }
+
+/*
 // Klikk-hendelse for redigering
 document.getElementById("customerlist").addEventListener("click", event => {
     const target = event.target;
@@ -273,6 +275,7 @@ document.getElementById("customerlist").addEventListener("click", event => {
         select.focus();
     }
 });
+*/
 
 function triggerEditInput(cell, company, field) {
     let currentValue = cell.textContent.trim();
