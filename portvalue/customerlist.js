@@ -24,6 +24,11 @@ function listCustomer(data) {
                 cashflow.kickbackvalue && parseFloat(cashflow.kickbackvalue) > 0
             )
         );
+    }else if (selectedFilter === "exit") {
+           // Filtrer kunder med dato i "exit" feltet
+        filteredData = data.filter(company => 
+        company.exit && !isNaN(Date.parse(company.exit))
+    );
     }
 
     // Tømmer listen før oppdatering
