@@ -156,7 +156,7 @@ function listCustomer(data) {
     });
 
     const valuetext = document.getElementById("customerrowvalue");
-    if(selectedFilter === "exit" || selectedFilter === "valuegroup"){
+    if(selectedFilter === "exit"){
         valuetext.textContent = `${valuecounter/1000} K. Abonnements verdi`;
         valuetext.style.display = "inline-block"; 
     }else{
