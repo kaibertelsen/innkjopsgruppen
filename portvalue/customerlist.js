@@ -39,7 +39,7 @@ function listCustomer(data) {
 
     document.getElementById("customerrowcounter").textContent = `${filteredData.length} stk.`;
     activeCustomerlist = filteredData;
-
+    let valuecounter = 0;
     filteredData.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
 
@@ -91,6 +91,9 @@ function listCustomer(data) {
             ? `${parseFloat(company.valuegroup).toLocaleString()} kr`
             : "0 kr";
         valuegroupCell.textContent = valuegroup;
+
+        valuecounter +=  Number(company.valuegroup);
+        
 
         // Legg til klikkhendelser for redigering
         nameCell.addEventListener("click", () => triggerEditInput(nameCell, company, "Name"));
@@ -151,6 +154,16 @@ function listCustomer(data) {
 
         list.appendChild(companyElement);
     });
+
+    const valuetext = document.getElementById("customerrowvalue");
+    if(selectedFilter === "exit" || selectedFilter === "valuegroup"){
+        valuetext.textContent = `${valuecounter} K. Abonnement`;
+        valuetext.style.display = "inline-block"; 
+    }else{
+        valuetext.style.display = "none"; 
+    }
+    
+    
 }
 
 function sortDataAlphabetically(data) {
