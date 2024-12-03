@@ -83,7 +83,7 @@ function listCustomer(data) {
         invoiceDateCell.textContent = invoiceDate;
 
         const exitDate = company.exit
-        ? company.invoicedate.split("T")[0]
+        ? company.exit.split("T")[0]
         : "Ingen dato";
         exitDateCell.textContent = exitDate;
 
