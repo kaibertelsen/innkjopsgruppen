@@ -188,3 +188,33 @@ function animateCounter(elementId, startValue = 0, endValue, duration = 500, suf
     requestAnimationFrame(updateCounter);
 }
 
+function addSummedKeys(data) {
+    const today = new Date(); // Dagens dato
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(today.getFullYear() - 1); // Dato for 12 måneder siden
+
+    return data.map(company => {
+        // Summerer verdiene i cashflowjson innenfor 12 måneder tilbake
+        let totalKickback = 0;
+        let totalValue = 0;
+
+        if (Array.isArray(company.cashflowjson)) {
+            company.cashflowjson.forEach(cashflow => {
+                const transactionDate = new Date(cashflow.maindate);
+                if (transactionDate >= oneYearAgo && transactionDate <= today) {
+                    totalKickback += parseFloat(cashflow.kickbackvalue || 0);
+                    totalValue += parseFloat(cashflow.value || 0);
+                }
+            });
+        }
+
+        // Returnerer et nytt objekt med de nye nøklene lagt til
+        return {
+            ...company,
+            kickback: totalKickback,
+            value: totalValue
+        };
+    });
+}
+
+

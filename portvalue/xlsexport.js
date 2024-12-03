@@ -5,6 +5,8 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         orgnr: "Org.nr",
         groupname: "Gruppe",
         valuegroup: "Abonnement",
+        value:"Handel siste 12 mnd.",
+        kickback:"Kickback siste 12 mnd.",
         winningdate: "Vunnet dato",
         invoicedate: "Faktura dato",
         exit: "Oppsigelses dato",
@@ -20,9 +22,10 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 
     // Generer filnavn
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
-
+// Eksempelbruk
+     const updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet ditt
     // Eksporter til Excel
-    exportData(activeCustomerlist, fieldMapping, filename);
+    exportData(updatedexportData, fieldMapping, filename);
 });
 
 function exportData(rawDataArray,fieldMapping, fileName) {

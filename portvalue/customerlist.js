@@ -116,13 +116,6 @@ function listCustomer(data) {
         });
         */
 
-    
-        
-    
-
-
-
-
 
         groupCell.addEventListener("click", () => {
             const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options)
