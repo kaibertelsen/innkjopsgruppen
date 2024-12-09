@@ -109,10 +109,15 @@ function startFollowinglistElement(data) {
         if (abonnementvalue > 0 && abonnementvalue <= savings) {
             // Kunden har spart mer enn abonnementverdi, og abonnementverdi er ikke 0
             savingsicon.style.display = "block";
+        
+            // Legg til en `title`-attributt for mus-over
+            savingsicon.title = `Besparelse: ${Math.floor(savings)} Kr`;
         } else {
             // Kunden har ikke spart nok, eller abonnementverdi er 0
             savingsicon.style.display = "none";
+            savingsicon.removeAttribute("title"); // Fjern `title` hvis ikonet skjules
         }
+        
         
         
 
