@@ -84,39 +84,63 @@ function startFollowinglistElement(data) {
 
 
 
+        // Beregn besparelser for de siste 12 månedene
         let abonnementvalue = parseFloat(company.valuegroup) || 0; // Sikrer at dette alltid er et tall
         let savings = 0;
-        
+
         // Beregn datoen for 12 måneder siden
         const twelveMonthsAgo = new Date();
         twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
-        
+
         // Beregn totale besparelser for de siste 12 månedene
         for (let cashflow of company.cashflowjson || []) {
             const maindate = new Date(cashflow.maindate);
             if (maindate >= twelveMonthsAgo) {
                 // Bare ta med verdier innenfor de siste 12 månedene
-                const cut = parseFloat(cashflow.cut) || 0; 
+                const cut = parseFloat(cashflow.cut) || 0;
                 const bistand = parseFloat(cashflow.bistand) || 0;
                 const analyse = parseFloat(cashflow.analyse) || 0;
                 savings += cut + bistand + analyse;
             }
         }
-        
+
         // Oppdater visning av savingsikon
         const savingsicon = rowElement.querySelector(".oversavings");
-        
+
         if (abonnementvalue > 0 && abonnementvalue <= savings) {
             // Kunden har spart mer enn abonnementverdi, og abonnementverdi er ikke 0
             savingsicon.style.display = "block";
-        
-            // Legg til en `title`-attributt for mus-over
-            savingsicon.title = `Besparelse: ${Math.floor(savings)} Kr`;
+
+            // Legg til tooltip-funksjonalitet
+            savingsicon.addEventListener("mouseover", function () {
+                let tooltip = document.createElement("div");
+                tooltip.className = "custom-tooltip";
+                tooltip.textContent = `Besparelse: ${Math.floor(savings)} Kr`;
+                tooltip.style.position = "absolute";
+                tooltip.style.backgroundColor = "#333";
+                tooltip.style.color = "#fff";
+                tooltip.style.padding = "5px";
+                tooltip.style.borderRadius = "5px";
+                tooltip.style.fontSize = "12px";
+                tooltip.style.whiteSpace = "nowrap";
+                tooltip.style.zIndex = "1000";
+
+                // Plasser tooltip i forhold til ikonet
+                const rect = savingsicon.getBoundingClientRect();
+                tooltip.style.top = `${rect.top - 30}px`; // Plasser over ikonet
+                tooltip.style.left = `${rect.left + rect.width / 2}px`; // Midtstill over ikonet
+
+                document.body.appendChild(tooltip);
+
+                savingsicon.addEventListener("mouseleave", function () {
+                    tooltip.remove(); // Fjern tooltip når musen forlater ikonet
+                });
+            });
         } else {
             // Kunden har ikke spart nok, eller abonnementverdi er 0
             savingsicon.style.display = "none";
-            savingsicon.removeAttribute("title"); // Fjern `title` hvis ikonet skjules
         }
+
         
         
         
