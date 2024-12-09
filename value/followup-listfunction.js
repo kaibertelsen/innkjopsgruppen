@@ -87,12 +87,20 @@ function startFollowinglistElement(data) {
         let abonnementvalue = parseFloat(company.valuegroup) || 0; // Sikrer at dette alltid er et tall
         let savings = 0;
         
-        // Beregn totale besparelser
+        // Beregn datoen for 12 måneder siden
+        const twelveMonthsAgo = new Date();
+        twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
+        
+        // Beregn totale besparelser for de siste 12 månedene
         for (let cashflow of company.cashflowjson || []) {
-            const cut = parseFloat(cashflow.cut) || 0; 
-            const bistand = parseFloat(cashflow.bistand) || 0;
-            const analyse = parseFloat(cashflow.analyse) || 0;
-            savings += cut + bistand + analyse;
+            const maindate = new Date(cashflow.maindate);
+            if (maindate >= twelveMonthsAgo) {
+                // Bare ta med verdier innenfor de siste 12 månedene
+                const cut = parseFloat(cashflow.cut) || 0; 
+                const bistand = parseFloat(cashflow.bistand) || 0;
+                const analyse = parseFloat(cashflow.analyse) || 0;
+                savings += cut + bistand + analyse;
+            }
         }
         
         // Oppdater visning av savingsikon
@@ -105,6 +113,7 @@ function startFollowinglistElement(data) {
             // Kunden har ikke spart nok, eller abonnementverdi er 0
             savingsicon.style.display = "none";
         }
+        
         
 
         // Håndterer notat-knappen
