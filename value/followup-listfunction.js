@@ -83,6 +83,30 @@ function startFollowinglistElement(data) {
         });
 
 
+
+        let abonnementvalue = parseFloat(company.valuegroup) || 0; // Sikrer at dette alltid er et tall
+        let savings = 0;
+        
+        // Beregn totale besparelser
+        for (let cashflow of company.cashflowjson || []) {
+            const cut = parseFloat(cashflow.cut) || 0; 
+            const bistand = parseFloat(cashflow.bistand) || 0;
+            const analyse = parseFloat(cashflow.analyse) || 0;
+            savings += cut + bistand + analyse;
+        }
+        
+        // Oppdater visning av savingsikon
+        const savingsicon = rowElement.querySelector(".oversavings");
+        
+        if (abonnementvalue > 0 && abonnementvalue <= savings) {
+            // Kunden har spart mer enn abonnementverdi, og abonnementverdi er ikke 0
+            savingsicon.style.display = "block";
+        } else {
+            // Kunden har ikke spart nok, eller abonnementverdi er 0
+            savingsicon.style.display = "none";
+        }
+        
+
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
         const noteContainer = rowElement.querySelector(".noteholder");
