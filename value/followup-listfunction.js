@@ -113,6 +113,11 @@ function startFollowinglistElement(data) {
 
             // Legg til tooltip-funksjonalitet
             savingsicon.addEventListener("mouseover", function () {
+                // Sjekk om tooltip allerede eksisterer
+                let existingTooltip = savingsicon.parentElement.querySelector(".custom-tooltip");
+                if (existingTooltip) return;
+
+                // Opprett tooltip
                 let tooltip = document.createElement("div");
                 tooltip.className = "custom-tooltip";
                 tooltip.textContent = `Besparelse: ${Math.floor(savings)} Kr`;
@@ -125,21 +130,23 @@ function startFollowinglistElement(data) {
                 tooltip.style.whiteSpace = "nowrap";
                 tooltip.style.zIndex = "1000";
 
-                // Plasser tooltip i forhold til ikonet
-                const rect = savingsicon.getBoundingClientRect();
-                tooltip.style.top = `${rect.top - 30}px`; // Plasser over ikonet
-                tooltip.style.left = `${rect.left + rect.width / 2}px`; // Midtstill over ikonet
+                // Plasser tooltip i forhold til parent-elementet
+                const parentRect = savingsicon.parentElement.getBoundingClientRect();
+                const iconRect = savingsicon.getBoundingClientRect();
+                tooltip.style.top = `${iconRect.bottom - parentRect.top + 5}px`; // Plasser under ikonet
+                tooltip.style.left = `${iconRect.left - parentRect.left}px`; // Juster horisontalt i forhold til ikonet
 
                 savingsicon.parentElement.appendChild(tooltip);
 
                 savingsicon.addEventListener("mouseleave", function () {
-                    savingsicon.remove(); // Fjern tooltip når musen forlater ikonet
+                    tooltip.remove(); // Fjern tooltip når musen forlater ikonet
                 });
             });
         } else {
             // Kunden har ikke spart nok, eller abonnementverdi er 0
             savingsicon.style.display = "none";
         }
+
 
         
         
