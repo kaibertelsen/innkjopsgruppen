@@ -130,10 +130,10 @@ function startFollowinglistElement(data) {
                 tooltip.style.top = `${rect.top - 30}px`; // Plasser over ikonet
                 tooltip.style.left = `${rect.left + rect.width / 2}px`; // Midtstill over ikonet
 
-                document.body.appendChild(tooltip);
+                savingsicon.parentElement.appendChild(tooltip);
 
                 savingsicon.addEventListener("mouseleave", function () {
-                    tooltip.remove(); // Fjern tooltip når musen forlater ikonet
+                    savingsicon.remove(); // Fjern tooltip når musen forlater ikonet
                 });
             });
         } else {
