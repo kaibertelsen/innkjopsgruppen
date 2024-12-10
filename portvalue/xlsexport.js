@@ -33,34 +33,35 @@ document.getElementById("exportsumportecompanys").addEventListener("click", () =
     // Hent tekstverdier fra selectorer
     const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
     const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
-    let name = dashboardGroupText+"Dashboard-Sum Portefølje";
+    let name = "Dashboard-Sum Portefølje-"+dashboardGroupText;
     exportDashBoard(sumPorteCompanys,name);
 });
 
 document.getElementById("exportabonnementcompanys").addEventListener("click", () => {
     const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
     const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
-    let name = dashboardGroupText+"Dashboard-Abonnement";
+    let name = "Dashboard-Abonnement-"+dashboardGroupText;
     exportDashBoard(sumAbonnementCompanys,name);
 });
 
 document.getElementById("exportsumkickbackcompanys").addEventListener("click", () => {
     const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
     const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
-    let name = dashboardGroupText+"Dashboard-Kickbak-Handel";
+    let name = "Dashboard-Kickbak-Handel-"+dashboardGroupText;
     exportDashBoard(sumKickbackCompanys,name);
 });
 
 document.getElementById("exportsalesCompany").addEventListener("click", () => {
     const dashboardGroupSelector = document.getElementById("dashboarddateselector");
     const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "";
-    let name = dashboardGroupText+"Salg";
+    let name = "Dashboard-Salg-"+dashboardGroupText;
     exportDashBoardSaleexit(salesCompany,name);
 });
 
 document.getElementById("exportexitcompany").addEventListener("click", () => {
+    const dashboardGroupSelector = document.getElementById("dashboarddateselector");
     const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
-    let name = dashboardGroupText+"Oppsigelser";
+    let name = "Dashboard-Oppsigelser-"+dashboardGroupText;
     exportDashBoardSaleexit(exitCompany,name);
 });
 
