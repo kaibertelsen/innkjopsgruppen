@@ -11,6 +11,11 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     let countKickback = 0; // For å telle antall selskaper med minst én gyldig kickback innenfor tidsrammen
     let countUniqueCompany = 0; // For å telle unike selskaper som har valuegroup eller kickback
 
+
+    //dette for seinere å kunne eksportere de ulike grupperingene
+    sumPorteCompanys = [];
+    sumAbonnementCompanys = [];
+    sumKickbackCompanys = []
     // Hent valgt gruppe fra select-elementet
     const selectedGroup = document.getElementById("dashboardgroupselector").value;
 
@@ -33,7 +38,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
                     hasValuegroup = true; // Marker at dette objektet har en gyldig valuegroup
                 }
             }
-
+            let thisCompanyKickback = 0;
             // Håndter cashflowjson for kickback
             if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
                 obj.cashflowjson.forEach(cashflow => {
@@ -47,21 +52,32 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
                                 const kickbackNumber = parseFloat(cashflow.kickbackvalue); // Konverter til tall
                                 if (!isNaN(kickbackNumber) && kickbackNumber > 0) {
                                     sumkickback += kickbackNumber;
+
+                                    thisCompanyKickback += kickbackNumber;
                                     hasValidKickback = true; // Marker at dette objektet har en gyldig kickback
+                                    
                                 }
                             }
                         }
                     }
                 });
             }
+            //ha for seinere eksport
+            obj.sumkickback = thisCompanyKickback;
 
             // Hvis selskapet har minst én gyldig kickback, øk countKickback én gang
             if (hasValidKickback) {
                 countKickback++;
+                //legg selskapet inn i exportarray
+                sumKickbackCompanys.push(obj);
             }
 
+            if(hasValuegroup){
+                sumAbonnementCompanys.push(obj);
+            }
             // Hvis selskapet har enten en gyldig valuegroup eller kickback, øk countUniqueCompany én gang
             if (hasValuegroup || hasValidKickback) {
+                sumPorteCompanys.push(obj);
                 countUniqueCompany++;
             }
         }

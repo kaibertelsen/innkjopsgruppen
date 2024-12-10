@@ -1,5 +1,8 @@
 
 var klientdata = [];
+var sumPorteCompanys = [];
+var sumAbonnementCompanys = [];
+var sumKickbackCompanys = []
 
 function getKlientdata(){
     let klientid = "rec1QGUGBMVaqxhp1";
@@ -60,6 +63,10 @@ function loadDashboardporte(data) {
     animateCounter("dachboardportkickback", 0, sumkickback, "", " ");
     animateCounter("dachboardportkickbackcount", 0, countKickback, "");
     animateCounter("dachboardportkickbacksnitt", 0, snittkickback, "");
+
+
+
+    
     
 }
 

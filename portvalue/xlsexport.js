@@ -28,6 +28,44 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     exportData(updatedexportData, fieldMapping, filename);
 });
 
+
+document.getElementById("exportsumportecompanys").addEventListener("click", () => {
+    exportDashBoard(sumPorteCompanys,"Dashboard-Sum Portefølje");
+});
+
+document.getElementById("exportabonnementcompanys").addEventListener("click", () => {
+    exportDashBoard(sumAbonnementCompanys,"Dashboard-Abonnement");
+});
+
+document.getElementById("exportsumkickbackcompanys").addEventListener("click", () => {
+    exportDashBoard(sumKickbackCompanys,"Dashboard-Kickbak-Handel");
+});
+
+
+function exportDashBoard(companys,name){
+    // Mapping
+    const fieldMapping = {
+        Name: "Navn",
+        orgnr: "Org.nr",
+        groupname: "Gruppe",
+        valuegroup: "Abonnement",
+        value:"Handel",
+        sumkickback:"Kickback",
+        winningdate: "Vunnet dato",
+        invoicedate: "Faktura dato",
+        exit: "Oppsigelses dato",
+        airtable:"SystemID"
+    };
+
+    // Generer filnavn
+    let filename = name;
+
+    // Eksporter til Excel
+    exportData(companys, fieldMapping, filename);
+}
+
+
+
 function exportData(rawDataArray,fieldMapping, fileName) {
     
     // Forbered dataene med omdøpte nøkler
