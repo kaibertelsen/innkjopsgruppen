@@ -30,17 +30,61 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 
 
 document.getElementById("exportsumportecompanys").addEventListener("click", () => {
-    exportDashBoard(sumPorteCompanys,"Dashboard-Sum Portefølje");
+    // Hent tekstverdier fra selectorer
+    const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
+    let name = dashboardGroupText+"Dashboard-Sum Portefølje";
+    exportDashBoard(sumPorteCompanys,name);
 });
 
 document.getElementById("exportabonnementcompanys").addEventListener("click", () => {
-    exportDashBoard(sumAbonnementCompanys,"Dashboard-Abonnement");
+    const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
+    let name = dashboardGroupText+"Dashboard-Abonnement";
+    exportDashBoard(sumAbonnementCompanys,name);
 });
 
 document.getElementById("exportsumkickbackcompanys").addEventListener("click", () => {
-    exportDashBoard(sumKickbackCompanys,"Dashboard-Kickbak-Handel");
+    const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
+    let name = dashboardGroupText+"Dashboard-Kickbak-Handel";
+    exportDashBoard(sumKickbackCompanys,name);
 });
 
+document.getElementById("exportsalesCompany").addEventListener("click", () => {
+    const dashboardGroupSelector = document.getElementById("dashboarddateselector");
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "";
+    let name = dashboardGroupText+"Salg";
+    exportDashBoardSaleexit(salesCompany,name);
+});
+
+document.getElementById("exportexitcompany").addEventListener("click", () => {
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
+    let name = dashboardGroupText+"Oppsigelser";
+    exportDashBoardSaleexit(exitCompany,name);
+});
+
+function exportDashBoardSaleexit(companys,name){
+    // Mapping
+    const fieldMapping = {
+        Name: "Navn",
+        orgnr: "Org.nr",
+        groupname: "Gruppe",
+        valuegroup: "Abonnement",
+        value:"Handel",
+        kickback:"Kickback",
+        winningdate: "Vunnet dato",
+        invoicedate: "Faktura dato",
+        exit: "Oppsigelses dato",
+        airtable:"SystemID"
+    };
+
+    // Generer filnavn
+    let filename = name;
+    const updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet ditt
+    // Eksporter til Excel
+    exportData(updatedexportData, fieldMapping, filename);
+}
 
 function exportDashBoard(companys,name){
     // Mapping
@@ -63,8 +107,6 @@ function exportDashBoard(companys,name){
     // Eksporter til Excel
     exportData(companys, fieldMapping, filename);
 }
-
-
 
 function exportData(rawDataArray,fieldMapping, fileName) {
     

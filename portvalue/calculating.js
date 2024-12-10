@@ -97,6 +97,10 @@ function calculatingSaleDashboard(data) {
 
     let objects = filterGroupCompany(data);
 
+    salesCompany = [];
+    exitCompany = [];
+    
+
     const selector = document.getElementById("dashboarddateselector");
     const dateRange = selector.value.split(","); // Henter tidsrammen fra selectoren
     const [startDate, endDate] = dateRange.map(date => new Date(date.trim())); // Konverterer til Date-objekter
@@ -129,7 +133,7 @@ function calculatingSaleDashboard(data) {
                     });
                 }
                 */
-
+                salesCompany.push(obj);
             }
         }
 
@@ -148,6 +152,7 @@ function calculatingSaleDashboard(data) {
                     });
                 }
                 */
+               exitCompany.push(obj);
             }
         }
     });
