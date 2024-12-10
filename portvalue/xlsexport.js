@@ -82,7 +82,7 @@ function exportDashBoardSaleexit(companys,name){
 
     // Generer filnavn
     let filename = name;
-    const updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet ditt
+    const updatedexportData = addSummedKeys(companys); // originalArray er arrayet ditt
     // Eksporter til Excel
     exportData(updatedexportData, fieldMapping, filename);
 }
