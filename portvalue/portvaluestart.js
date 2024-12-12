@@ -107,9 +107,9 @@ function loadDashboardsale(data) {
         symbol = "";
     }
 
-    animateCounter("dachboardcountstatus", 0, countstatus, "", ` ${symbol}`);
-    animateCounter("dachboardvaluestatus", 0, valuestatus, "", "");
-    animateCounter("dachboardprocentstatus", 0, procentstatus, "", "");
+    //animateCounter("dachboardcountstatus", 0, countstatus, "", ` ${symbol}`);
+    //animateCounter("dachboardvaluestatus", 0, valuestatus, "", "");
+    //animateCounter("dachboardprocentstatus", 0, procentstatus, "", "");
     
 }
 
