@@ -71,7 +71,12 @@ function listCustomer(data) {
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
-        typeCell.textContent = company.type || "Kunde";
+        typeCell.textContent = company.type === "supplier" 
+        ? "Leverandør" 
+        : company.type === "customer" 
+        ? "Kunde" 
+        : "Kunde";
+
 
         const totalKickback = company.cashflowjson?.reduce((sum, cashflow) => {
             const value = parseFloat(cashflow.kickbackvalue || 0);
@@ -145,7 +150,7 @@ function listCustomer(data) {
             const groupOptions = [
                         {
                         text:"Kunde",
-                        value:"customer"
+                        value:"ustomer"
                         },
                         {
                         text:"Leverandør",
