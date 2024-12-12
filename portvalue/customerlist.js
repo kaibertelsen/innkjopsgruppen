@@ -248,75 +248,6 @@ function createSelect(options, currentValue, onSave) {
     return select;
 }
 
-/*
-// Klikk-hendelse for redigering
-document.getElementById("customerlist").addEventListener("click", event => {
-    const target = event.target;
-    const companyElement = target.closest(".rowcustomer");
-    const companyId = companyElement.dataset.id; // Anta at hver rad har en data-id med airtable ID
-    const company = klientdata.find(item => item.airtable === companyId);
-
-    if (!company) return;
-
-    if (target.classList.contains("orgnummer")) {
-        const currentValue = target.textContent;
-        const input = createInput(currentValue, newValue => {
-            target.textContent = newValue;
-            updateCompanyData(klientdata, companyId, "orgnr", newValue);
-        });
-        target.textContent = "";
-        target.appendChild(input);
-        input.focus();
-    }
-
-    if (target.classList.contains("companynametext")) {
-        const currentValue = target.textContent;
-        const input = createInput(currentValue, newValue => {
-            target.textContent = newValue;
-            updateCompanyData(klientdata, companyId, "Name", newValue);
-        });
-        target.textContent = "";
-        target.appendChild(input);
-        input.focus();
-    }
-
-    if (target.classList.contains("valutextgroup")) {
-        const options = ["12000kr", "24000kr", "36000kr", "Annet beløp"];
-        const currentValue = target.textContent;
-        const select = createSelect(options, currentValue, newValue => {
-            if (newValue === "Annet beløp") {
-                const input = createInput("", finalValue => {
-                    target.textContent = finalValue + " kr";
-                    updateCompanyData(klientdata, companyId, "valuegroup", finalValue);
-                });
-                target.textContent = "";
-                target.appendChild(input);
-                input.focus();
-            } else {
-                target.textContent = newValue;
-                updateCompanyData(klientdata, companyId, "valuegroup", parseFloat(newValue));
-            }
-        });
-        target.textContent = "";
-        target.appendChild(select);
-        select.focus();
-    }
-
-    if (target.classList.contains("groupname")) {
-        const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
-        const options = Array.from(dashboardGroupSelector.options).map(option => option.textContent);
-        const currentValue = target.textContent;
-        const select = createSelect(options, currentValue, newValue => {
-            target.textContent = newValue;
-            updateCompanyData(klientdata, companyId, "groupname", newValue);
-        });
-        target.textContent = "";
-        target.appendChild(select);
-        select.focus();
-    }
-});
-*/
-
 function triggerEditInput(cell, company, field) {
     let currentValue = cell.textContent.trim();
 
@@ -556,6 +487,8 @@ function updateCompanyData(companyId, fieldValue) {
             }else if (field === "gruppe"){
                 dashboardNeedsUpdate = true;
             }else if (field === "exit"){
+                dashboardNeedsUpdate = true;
+            }else if (field === "type"){
                 dashboardNeedsUpdate = true;
             }
         }
