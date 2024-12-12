@@ -155,7 +155,7 @@ function listCustomer(data) {
         
             triggerEditDropdown(typeCell, company, "type", groupOptions, selectedOption => {
                 company.type = selectedOption.value;
-                groupCell.textContent = selectedOption.text;
+                typeCell.textContent = selectedOption.text;
                 updateCompanyData(company.airtable, { type: selectedOption.value });
             });
         });
