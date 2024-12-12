@@ -4,6 +4,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         Name: "Navn",
         orgnr: "Org.nr",
         groupname: "Gruppe",
+        type:"Type",
         valuegroup: "Abonnement",
         value:"Handel",
         kickback:"Kickback",
