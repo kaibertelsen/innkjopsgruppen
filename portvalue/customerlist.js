@@ -29,7 +29,13 @@ function listCustomer(data) {
         filteredData = data.filter(company => 
         company.exit && !isNaN(Date.parse(company.exit))
     );
-    }
+    }else if (selectedFilter === "supplier") {
+       // Filtrer alle kunder som har "supplier" i feltet "type"
+       filteredData = data.filter(company => 
+        company.type === "supplier"
+        );
+
+        }
 
     // Tømmer listen før oppdatering
     list.replaceChildren();
