@@ -13,6 +13,7 @@ const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/value/followup-functions.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/value/followup-listfunction.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/value/xlsexport.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/value/downloadcompanylist.js",
     "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js"
 ];
 

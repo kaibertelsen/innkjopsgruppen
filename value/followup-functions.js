@@ -1,16 +1,10 @@
-function startfollowinguplist(){
+
 /*
-    //alle firma som har currentfolloupdate før 9mnd fra i dag
-    let datebefore = finddateBackIntime(9);
-    let datefrom = "2010-01-01"
-    
-   let body = generateAirtableQuery(datefrom,datebefore,"currentfollowupdate", "nofollowup");
-    Getlistairtable(baseid,"tblFySDb9qVeVVY5c",body,"respondfollouplist")  
-    
-*/
-  
+function startfollowinguplist(){
+
+
         let klientid = "rec1QGUGBMVaqxhp1";
-        GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"respondfollouplist")
+        GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"respondfollouplist");
    
 
 
@@ -20,7 +14,7 @@ function startfollowinguplist(){
         startfollouplist(mainfollowuplist); // Oppdaterer oppfølgingslisten
     }
  }
- 
+ */
  function generateAirtableQuery(fromdate, todate, dateField, statusField) {
     let formula = `AND(IS_AFTER({${dateField}}, '${fromdate}'), IS_BEFORE({${dateField}}, '${todate}'), NOT({${statusField}} = 1))`;
 
@@ -71,7 +65,7 @@ function clearFollowingupCompanies(data) {
 
     return filteredData; // Returner den nye arrayen
 }
-
+/*
 function respondfollouplist(data, id) {
     
      // Sjekk om data.fields.membersjson eksisterer og er en array
@@ -103,8 +97,35 @@ function respondfollouplist(data, id) {
 
 
 }
+*/
 
- function startfollouplist(listanddate){
+function prepareStartFolloupList(objects){
+    // Legger til neste fornyelsesdato i arrayet
+    var listanddate = addNextRenewalDatetoarray(clearFollowingupCompanies(objects));
+
+    // Sjekker om mainfollowuplist er forskjellig fra listanddate
+    if (JSON.stringify(mainfollowuplist) !== JSON.stringify(listanddate)) {
+        startfollouplist(listanddate); // Starter oppdatering av oppfølgingslisten
+    }
+
+    // Oppdaterer mainfollowuplist
+    mainfollowuplist = listanddate;
+
+    // Skjuler loader hvis den finnes
+    const loader = document.getElementById("followingloader");
+    if (loader) {
+        loader.style.display = "none";
+    }
+
+}
+
+
+
+
+
+
+
+function startfollouplist(listanddate){
 
     let activeList= filterfollowupSelector(listanddate,"followupselector");
 
@@ -391,7 +412,6 @@ function startfollowuplist(data,load,sortname,descending){
 
 }
  
-
 function getDateMonthsAgo(dateString, monthsAgo) {
     if (!dateString || !Number.isInteger(monthsAgo)) return null; // Returner null hvis input er ugyldig
 
@@ -413,7 +433,6 @@ function getDateMonthsAgo(dateString, monthsAgo) {
 
     return `${year}-${month}-${day}`;
 }
-
 
 function convertJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {
