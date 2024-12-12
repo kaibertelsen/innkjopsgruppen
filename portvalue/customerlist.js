@@ -55,6 +55,7 @@ function listCustomer(data) {
         const nameCell = companyElement.querySelector(".companynametext");
         const orgnrCell = companyElement.querySelector(".orgnummer");
         const groupCell = companyElement.querySelector(".groupname");
+        const typeCell = companyElement.querySelector(".type");
         const kickbackCell = companyElement.querySelector(".kickbakvaluetext");
         const winningDateCell = companyElement.querySelector(".winingdatetext");
         const exitDateCell = companyElement.querySelector(".exitdatetext");
@@ -64,6 +65,7 @@ function listCustomer(data) {
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
+        typeCell.textContent = company.type || "Kunde";
 
         const totalKickback = company.cashflowjson?.reduce((sum, cashflow) => {
             const value = parseFloat(cashflow.kickbackvalue || 0);
