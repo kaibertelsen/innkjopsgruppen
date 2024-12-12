@@ -145,7 +145,7 @@ function listCustomer(data) {
             const groupOptions = [
                         {
                         text:"Kunde",
-                        value:"kunde"
+                        value:"customer"
                         },
                         {
                         text:"Leverandør",
