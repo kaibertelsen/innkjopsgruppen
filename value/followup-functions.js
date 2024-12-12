@@ -121,10 +121,6 @@ function prepareStartFolloupList(objects){
 
 
 
-
-
-
-
 function startfollouplist(listanddate){
 
     let activeList= filterfollowupSelector(listanddate,"followupselector");

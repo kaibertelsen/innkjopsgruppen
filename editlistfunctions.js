@@ -1,209 +1,206 @@
-document.getElementById("customerlistselector").addEventListener("change", () => {
-
-    //resete søkefelt
-    document.getElementById("searchcustomer").value = "";
-    listCustomer(klientdata);
-});
-var activeCustomerlist = [];
-
-function listCustomer(data) {
-    const list = document.getElementById("customerlist");
-    const selector = document.getElementById("customerlistselector");
-    data = filterGroupCompany(data);
-
-    // Filtrer basert på valgt kundegruppe
-    let filteredData = data;
-    const selectedFilter = selector.value;
-
-    if (selectedFilter === "valuegroup") {
-        filteredData = data.filter(company => 
-            company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0
-        );
-    } else if (selectedFilter === "kickback") {
-        filteredData = data.filter(company =>
-            company.cashflowjson && company.cashflowjson.some(cashflow => 
-                cashflow.kickbackvalue && parseFloat(cashflow.kickbackvalue) > 0
-            )
-        );
-    }else if (selectedFilter === "exit") {
-           // Filtrer kunder med dato i "exit" feltet
-        filteredData = data.filter(company => 
-        company.exit && !isNaN(Date.parse(company.exit))
-    );
-    }else if (selectedFilter === "supplier") {
-       // Filtrer alle kunder som har "supplier" i feltet "type"
-       filteredData = data.filter(company => 
-        company.type === "supplier"
-        );
-
-        }
-
-    // Tømmer listen før oppdatering
+function startFollowinglistElement(data) {
+    listarray = data;
+    const list = document.getElementById("elementfollowinguplist");
     list.replaceChildren();
 
-    const elementLibrary = document.getElementById("customerelementlibrary");
-    const nodeElement = elementLibrary.querySelector('.rowcustomer');
+    const elementLibrary = document.getElementById("elementholderfollowup");
+    const nodeElement = elementLibrary.querySelector('.rowelementmanuel');
 
-    document.getElementById("customerrowcounter").textContent = `${filteredData.length} stk.`;
-    activeCustomerlist = filteredData;
-    let valuecounter = 0;
-    filteredData.forEach((company, index) => {
-        const companyElement = nodeElement.cloneNode(true);
+    if (!nodeElement) {
+        console.error("Malen '.rowelementmanuel' ble ikke funnet.");
+        return;
+    }
 
-        // Legg til "gray"-klasse for første og annenhver element
-        if (index % 2 === 0) {
-            companyElement.classList.add("gray");
+    data.sort((a, b) => {
+        const dateA = new Date(a.nextrenewaldate);
+        const dateB = new Date(b.nextrenewaldate);
+        return dateA - dateB;
+    });
+
+    const fragment = document.createDocumentFragment();
+    document.getElementById("counterfollowingup").textContent = data.length+" stk.";
+    
+
+    data.forEach((company, index) => {
+        const rowElement = nodeElement.cloneNode(true);
+        rowElement.classList.add("rowlistelement");
+        rowElement.id = "row"+"elementfollowinguplist"+company.airtable;
+        if (index % 2 === 1) {
+            rowElement.classList.add("pair");
         }
 
-        // Legg til unik ID for selskapet
-        companyElement.setAttribute("data-id", company.airtable);
+        const companyNameLabel = rowElement.querySelector(".companynamelable");
+        companyNameLabel.textContent = company.Name || "Ukjent";
+        companyNameLabel.style.cursor = "pointer";
+        companyNameLabel.addEventListener("click", () => {
+            handleCompanyClick(company.Name, company.airtable);
+        });
 
-        // Fyll inn verdiene fra `company`-objektet
-        const nameCell = companyElement.querySelector(".companynametext");
-        const orgnrCell = companyElement.querySelector(".orgnummer");
-        const groupCell = companyElement.querySelector(".groupname");
-        const typeCell = companyElement.querySelector(".type");
-        const kickbackCell = companyElement.querySelector(".kickbakvaluetext");
-        const winningDateCell = companyElement.querySelector(".winingdatetext");
-        const exitDateCell = companyElement.querySelector(".exitdatetext");
-        const invoiceDateCell = companyElement.querySelector(".invoicedatetext");
-        const valuegroupCell = companyElement.querySelector(".valutextgroup");
+       // Håndterer klikk på "status"-elementet
+            const statusElement = rowElement.querySelector(".statusfollowingup");
+            statusElement.textContent = company.followupstatus || "Skal følges opp";
+            if(company?.followupstatus){
+                statusElement.dataset.value = company.followupstatus
+                if(company.followupstatus == "HIDE"){
+                    statusElement.textContent = "Skjules fra listen";
+                    statusElement.style.color = "black";
+                }else if (company.followupstatus == "REMOVE"){
+                    statusElement.textContent = "Fjernes fra listen";
+                    statusElement.style.color = "red";
+                }else if (company.followupstatus == "NORMAL"){
+                    statusElement.textContent = "Skal følges opp";
+                    statusElement.style.color = "green";
+                    }
+            }else{
+                statusElement.dataset.value = "NORMAL"
+                statusElement.style.color = "green";
+                statusElement.textContent = "Skal følges opp";
+            }
+            statusElement.style.cursor = "pointer";
 
-        nameCell.textContent = company.Name || "Ingen navn";
-        orgnrCell.textContent = company.orgnr || "Ingen org.nr";
-        groupCell.textContent = company.groupname || "Ingen gruppe";
-        typeCell.textContent = company.type === "supplier" 
-        ? "Leverandør" 
-        : company.type === "customer" 
-        ? "Kunde" 
-        : "Kunde";
+            statusElement.addEventListener("click", () => {
+                createStatusDropdown(rowElement, statusElement, company);
+            });
 
-
-        const totalKickback = company.cashflowjson?.reduce((sum, cashflow) => {
-            const value = parseFloat(cashflow.kickbackvalue || 0);
-            return sum + (isNaN(value) ? 0 : value);
-        }, 0) || 0;
-
-        kickbackCell.textContent = `${Math.round(totalKickback).toLocaleString()} kr`;
-
-        const winningDate = company.winningdate
-            ? company.winningdate.split("T")[0]
+        
+            rowElement.querySelector(".winningdate").textContent = company.winningdate 
+            ? company.winningdate.split("T")[0] 
             : "Ingen dato";
-        winningDateCell.textContent = winningDate;
 
-        const invoiceDate = company.invoicedate
-        ? company.invoicedate.split("T")[0]
-        : "Ingen dato";
-        invoiceDateCell.textContent = invoiceDate;
+            rowElement.querySelector(".lastfollowingup").textContent = company.lastfollowupdate 
+            ? company.lastfollowupdate.split("T")[0] 
+            : "-";
 
-        const exitDate = company.exit
-        ? company.exit.split("T")[0]
-        : "Ingen dato";
-        exitDateCell.textContent = exitDate;
+            rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
 
-        const valuegroup = company.valuegroup
-            ? `${parseFloat(company.valuegroup).toLocaleString()} kr`
-            : "0 kr";
-        valuegroupCell.textContent = valuegroup;
 
-        valuecounter +=  Number(company.valuegroup);
+        const rewaldate = rowElement.querySelector(".rewaldate");
+        rewaldate.textContent = company.nextrenewaldate || "Ingen fornyelsesdato";
+        rewaldate.style.cursor = "pointer";
+
+        rewaldate.addEventListener("click", () => {
+            handleRewaldateClick(rewaldate, company);
+        });
+
+
+
+        // Beregn besparelser for de siste 12 månedene
+        let abonnementvalue = parseFloat(company.valuegroup) || 0; // Sikrer at dette alltid er et tall
+        let savings = 0;
+
+        // Beregn datoen for 12 måneder siden
+        const twelveMonthsAgo = new Date();
+        twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
+
+        // Beregn totale besparelser for de siste 12 månedene
+        for (let cashflow of company.cashflowjson || []) {
+            const maindate = new Date(cashflow.maindate);
+            if (maindate >= twelveMonthsAgo) {
+                // Bare ta med verdier innenfor de siste 12 månedene
+                const cut = parseFloat(cashflow.cut) || 0;
+                const bistand = parseFloat(cashflow.bistand) || 0;
+                const analyse = parseFloat(cashflow.analyse) || 0;
+                savings += cut + bistand + analyse;
+            }
+        }
+
+        // Oppdater visning av savingsikon
+        const savingsicon = rowElement.querySelector(".oversavings");
+
+        if (abonnementvalue > 0 && abonnementvalue <= savings) {
+            // Kunden har spart mer enn abonnementverdi, og abonnementverdi er ikke 0
+            savingsicon.style.display = "block";
+
+            // Legg til tooltip-funksjonalitet
+            savingsicon.addEventListener("mouseover", function () {
+                // Sjekk om tooltip allerede eksisterer
+                let existingTooltip = savingsicon.parentElement.querySelector(".custom-tooltip");
+                if (existingTooltip) return;
+
+                // Opprett tooltip
+                let tooltip = document.createElement("div");
+                tooltip.className = "custom-tooltip";
+                tooltip.textContent = `Besparelse: ${Math.floor(savings)} Kr`;
+                tooltip.style.position = "absolute";
+                tooltip.style.backgroundColor = "#333";
+                tooltip.style.color = "#fff";
+                tooltip.style.padding = "5px";
+                tooltip.style.borderRadius = "5px";
+                tooltip.style.fontSize = "12px";
+                tooltip.style.whiteSpace = "nowrap";
+                tooltip.style.zIndex = "1000";
+
+                // Plasser tooltip i forhold til parent-elementet
+                const parentRect = savingsicon.parentElement.getBoundingClientRect();
+                const iconRect = savingsicon.getBoundingClientRect();
+                tooltip.style.top = `${iconRect.bottom - parentRect.top + 5}px`; // Plasser under ikonet
+                tooltip.style.left = `${iconRect.left - parentRect.left}px`; // Juster horisontalt i forhold til ikonet
+
+                savingsicon.parentElement.appendChild(tooltip);
+
+                savingsicon.addEventListener("mouseleave", function () {
+                    tooltip.remove(); // Fjern tooltip når musen forlater ikonet
+                });
+            });
+        } else {
+            // Kunden har ikke spart nok, eller abonnementverdi er 0
+            savingsicon.style.display = "none";
+        }
+
+
+        
+        
         
 
-        // Legg til klikkhendelser for redigering
-        nameCell.addEventListener("click", () => triggerEditInput(nameCell, company, "Name"));
-        orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
-        valuegroupCell.addEventListener("click", () => triggerEditInput(valuegroupCell, company, "valuegroup"));
-        /*
-        valuegroupCell.addEventListener("click", () => {
-            const options = [
-                { text: "12.000 kr", value: 12000 },
-                { text: "24.000 kr", value: 24000 },
-                { text: "36.000 kr", value: 36000 },
-                { text: "0 kr", value: 0 },
-                {text:"Annet beløp",value:""}
-            ];
-            triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
-                const updatedValue = selectedOption.value;
-                valuegroupCell.textContent = `${updatedValue.toLocaleString()} kr`;
-                updateCompanyData(company.airtable, { valuegroup: updatedValue });
-            });
+        // Håndterer notat-knappen
+        const notebutton = rowElement.querySelector(".notebutton");
+        const noteContainer = rowElement.querySelector(".noteholder");
+        noteContainer.style.display = "none";
+
+        const savebutton = rowElement.querySelector(".savebutton");
+        savebutton.style.display = "none";
+        savebutton.addEventListener("click", () => {
+            saveFollowupNote(noteContainer, company.airtable);
         });
-        */
 
+        const textarea = noteContainer.querySelector(".textareanote");
+        textarea.value = company.followupnote || "";
 
-        groupCell.addEventListener("click", () => {
-            const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options)
-            .filter(option => option.value.trim() !== "") // Filtrer ut alternativer med tom value
-            .map(option => ({
-                value: option.value,
-                text: option.text
-            }));
+        textarea.addEventListener("change", function () {
+            saveFollowupNote(noteContainer, company.airtable);
+        });
+    
+        textarea.addEventListener("input", function () {
+            savebutton.style.display = "inline-block";
+        });
+    
         
-            triggerEditDropdown(groupCell, company, "group", groupOptions, selectedOption => {
-                company.group = selectedOption.value;
-                company.groupname = selectedOption.text;
-                groupCell.textContent = selectedOption.text;
-                updateCompanyData(company.airtable, { group: selectedOption.value, groupname: selectedOption.text });
-            });
-        });
-
-        typeCell.addEventListener("click", () => {
-            const groupOptions = [
-                        {
-                        text:"Kunde",
-                        value:"customer"
-                        },
-                        {
-                        text:"Leverandør",
-                        value:"supplier"
-                        }
-                        ];
-        
-            triggerEditDropdown(typeCell, company, "type", groupOptions, selectedOption => {
-                company.type = selectedOption.value;
-                typeCell.textContent = selectedOption.text;
-                updateCompanyData(company.airtable, { type: selectedOption.value });
-            });
+        if (company.followupnote) {
+            notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b35d007835010a0b68f_note-gul.svg')";
+        }
+       
+        let clickCount = 0; // Teller for klikk
+        notebutton.addEventListener("click", () => {
+            clickCount++;
+            
+            if (clickCount === 1) {
+                // Første klikk
+                noteContainer.style.display = "block";
+                adjustTextareaHeight(textarea);
+            } else if (clickCount === 2) {
+                // Andre klikk
+                noteContainer.style.display = "none"
+                clickCount = 0;
+            }
         });
 
 
-
-        winningDateCell.addEventListener("click", () => {
-            triggerEditDate(winningDateCell, company, "winningdate");
-        });
-
-        invoiceDateCell.addEventListener("click", () => {
-            triggerEditDate(invoiceDateCell, company, "invoicedate");
-        });
-
-        exitDateCell.addEventListener("click", () => {
-            triggerEditDate(exitDateCell, company, "exit");
-        });
-
-        list.appendChild(companyElement);
+        fragment.appendChild(rowElement);
     });
 
-    const valuetext = document.getElementById("customerrowvalue");
-    if(selectedFilter === "exit"){
-        valuetext.textContent = `${valuecounter/1000} K. Abonnements verdi`;
-        valuetext.style.display = "inline-block"; 
-    }else{
-        valuetext.style.display = "none"; 
-    }
-    
-    
+    list.appendChild(fragment);
 }
 
-function sortDataAlphabetically(data) {
-    return data.sort((a, b) => {
-        const nameA = a.Name?.toLowerCase() || ""; // Konverter til små bokstaver, fallback til tom streng
-        const nameB = b.Name?.toLowerCase() || ""; // Konverter til små bokstaver, fallback til tom streng
-
-        if (nameA < nameB) return -1; // A før B
-        if (nameA > nameB) return 1;  // B før A
-        return 0; // Lik verdi
-    });
-}
 // Legg til en event listener på søkefeltet
 document.getElementById("searchcustomer").addEventListener("input", function () {
     const searchQuery = this.value.toLowerCase(); // Hent søketekst og gjør den til små bokstaver
