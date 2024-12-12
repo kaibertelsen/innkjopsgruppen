@@ -135,6 +135,27 @@ function listCustomer(data) {
             });
         });
 
+        typeCell.addEventListener("click", () => {
+            const groupOptions = [
+                        {
+                        text:"Kunde",
+                        value:"kunde"
+                        },
+                        {
+                        text:"Leverandør",
+                        value:"supplier"
+                        }
+                        ];
+        
+            triggerEditDropdown(typeCell, company, "type", groupOptions, selectedOption => {
+                company.type = selectedOption.value;
+                groupCell.textContent = selectedOption.text;
+                updateCompanyData(company.airtable, { type: selectedOption.value });
+            });
+        });
+
+
+
         winningDateCell.addEventListener("click", () => {
             triggerEditDate(winningDateCell, company, "winningdate");
         });
