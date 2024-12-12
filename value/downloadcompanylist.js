@@ -15,7 +15,7 @@ function respondAllCompanyes(data){
         const jsonStrings = data.fields.membersjson;
         const objects = convertJsonStringsToObjects(jsonStrings);
 
-        buffercompanydata = data;
-        loadcompany(data);
-        
+        buffercompanydata = objects;
+        loadcompany(objects);
+
 }
