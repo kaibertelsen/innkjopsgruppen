@@ -69,9 +69,16 @@ function loadDashboardporte(data) {
     animateCounter("dachboardportkickbacksnitt", 0, snittkickback, "");
 
 
-
-
+    //supplier
     
+    let countSupplier = data.countSupplierCompany;
+    let sumSupplier = data.sumSupplierCompany/1000;
+    let snittSupplier = (sumSupplier/countSupplier)/1000;
+
+    animateCounter("dachboardportvaluesupplier", 0, sumSupplier, "", " ");
+    animateCounter("dachboardportvaluesuppliercount", 0, countSupplier, "", " ");
+    animateCounter("dachboardportprocentsupplier", 0, snittSupplier, "", " ");
+
 }
 
 function loadDashboardsale(data) {
