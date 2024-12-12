@@ -11,11 +11,14 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
     let countKickback = 0; // For å telle antall selskaper med minst én gyldig kickback innenfor tidsrammen
     let countUniqueCompany = 0; // For å telle unike selskaper som har valuegroup eller kickback
 
+    let countSupplierCompany = 0;
+    let sumSupplierCompany = 0;
 
     //dette for seinere å kunne eksportere de ulike grupperingene
     sumPorteCompanys = [];
     sumAbonnementCompanys = [];
-    sumKickbackCompanys = []
+    sumKickbackCompanys = [];
+    sumSupplierCompanys = [];
     // Hent valgt gruppe fra select-elementet
     const selectedGroup = document.getElementById("dashboardgroupselector").value;
 
@@ -24,6 +27,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
         if (selectedGroup === "" || obj.group === selectedGroup) {
             let hasValuegroup = false; // Spor om objektet har gyldig valuegroup
             let hasValidKickback = false; // Spor om objektet har gyldig kickback
+            let isSupplier = false; // Spor om selskapet er supplier
 
             // Sjekk exit-dato
             const exitDate = obj.exit ? new Date(obj.exit) : null;
@@ -36,6 +40,13 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
                     sumvaluegroup += valuegroupNumber;
                     countValuegroup++; // Øk antall for valuegroup
                     hasValuegroup = true; // Marker at dette objektet har en gyldig valuegroup
+
+                    //hvis det er en supplierkunde
+                    if(obj.type === "supplier"){
+                        sumSupplierCompany += valuegroupNumber;
+                        countSupplierCompany++
+                        isSupplier = true;
+                    }
                 }
             }
             let thisCompanyKickback = 0;
@@ -80,6 +91,12 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
                 sumPorteCompanys.push(obj);
                 countUniqueCompany++;
             }
+
+            //hvis selskaper er en supplier
+            if(isSupplier){
+            sumSupplierCompanys.push(obj);
+            }
+
         }
     });
 
@@ -89,7 +106,9 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
         sumkickback, // Summen av kickbackvalue
         countValuegroup, // Antall objekter med gyldig valuegroup
         countKickback, // Antall selskaper med minst én gyldig kickback
-        countUniqueCompany // Antall unike selskaper med valuegroup eller kickback
+        countUniqueCompany, // Antall unike selskaper med valuegroup eller kickback
+        countSupplierCompany,
+        sumSupplierCompany
     };
 }
 

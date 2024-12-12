@@ -3,6 +3,7 @@ var klientdata = [];
 var sumPorteCompanys = [];
 var sumAbonnementCompanys = [];
 var sumKickbackCompanys = []
+var sumSupplierCompanys = [];
 
 var salesCompany = [];
 var exitCompany = [];

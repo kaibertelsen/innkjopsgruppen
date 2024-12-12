@@ -65,12 +65,24 @@ document.getElementById("exportexitcompany").addEventListener("click", () => {
     exportDashBoardSaleexit(exitCompany,name);
 });
 
+
+document.getElementById("exportsupplierCompany").addEventListener("click", () => {
+    const dashboardGroupSelector = document.getElementById("dashboarddateselector");
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
+    let name = "Dashboard-Leverandør kunder-"+dashboardGroupText;
+    exportDashBoardSaleexit(sumSupplierCompanys,name);
+});
+
+
+
+
 function exportDashBoardSaleexit(companys,name){
     // Mapping
     const fieldMapping = {
         Name: "Navn",
         orgnr: "Org.nr",
         groupname: "Gruppe",
+        type:"Type",
         valuegroup: "Abonnement",
         value:"Handel",
         kickback:"Kickback",
