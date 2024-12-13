@@ -73,9 +73,7 @@ function loadDashboardporte(data) {
     
     let countSupplier = data.countSupplierCompany;
     let sumSupplier = data.sumSupplierCompany/1000;
-    let snittSupplier = (sumSupplier > 0 && countSupplier > 0) 
-    ? (sumSupplier / countSupplier) / 1000 
-    : 0;
+    let snittSupplier = (sumSupplier / countSupplier) / 1000;
 
     animateCounter("dachboardportvaluesupplier", 0, sumSupplier, "", " ");
     animateCounter("dachboardportvaluesuppliercount", 0, countSupplier, "", " ");
