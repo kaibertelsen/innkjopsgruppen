@@ -503,6 +503,8 @@ function updateCompanyData(companyId, fieldValue) {
         if (dashboardNeedsUpdate) {
             const dashboardData = calculatingPorteDashboard(klientdata);
             loadDashboardporte(dashboardData);
+            const salsboardData = calculatingSaleDashboard(klientdata);
+            loadDashboardsale(salsboardData);
         }
 
         // Oppdater på server
