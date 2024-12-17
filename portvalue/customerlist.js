@@ -73,7 +73,7 @@ function listCustomer(data) {
         //summere opp besparelse
        let besparelse = 0;
         for(let cashflow of  company.cashflowjson){
-            besparelse += Number(cashflow.analyse)+Number(cashflow.bistand)+Number(cashflow.analyse);
+            besparelse += Number(cashflow.analyse)+Number(cashflow.bistand)+Number(cashflow.cut);
         }
 
         besparelseCell.textContent = `${parseFloat(besparelse).toLocaleString()} kr`
