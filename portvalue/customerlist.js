@@ -75,8 +75,8 @@ function listCustomer(data) {
         for(let cashflow of  company.cashflowjson){
             besparelse += Number(cashflow.analyse)+Number(cashflow.bistand)+Number(cashflow.analyse);
         }
-        
-        besparelseCell.textContent = besparelse;
+
+        besparelseCell.textContent = `${parseFloat(besparelse).toLocaleString()} kr`
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
