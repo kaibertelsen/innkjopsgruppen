@@ -68,7 +68,15 @@ function listCustomer(data) {
         const exitDateCell = companyElement.querySelector(".exitdatetext");
         const invoiceDateCell = companyElement.querySelector(".invoicedatetext");
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
+        const besparelseCell = companyElement.querySelector(".besparelse");
 
+        //summere opp besparelse
+       let besparelse = 0;
+        for(let cashflow of  company.cashflowjson){
+            besparelse += Number(cashflow.analyse)+Number(cashflow.bistand)+Number(cashflow.analyse);
+        }
+        
+        besparelseCell.textContent = besparelse;
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
