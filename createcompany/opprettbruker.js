@@ -107,6 +107,7 @@ function creatUser() {
         if (group?.typeterms) {
             result.typeterms = group.typeterms;
         }
+        result.groupId = group.airtable;
     } else {
         // Standard vilkår
         result.typeterms = 1;
