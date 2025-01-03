@@ -282,6 +282,7 @@ async function POSTairtableMulti(baseId, tableId, body) {
 async function multisave(data, baseid, tabelid, returid) {
   const batchSize = 10;
   let sendpacks = 0;
+  const totalBatches = Math.ceil(data.length / batchSize); // Beregn totalt antall batcher
   const allResponses = []; // Array for å samle alle responsdata
 
   // Funksjon for å sende en batch til Airtable
@@ -292,9 +293,21 @@ async function multisave(data, baseid, tabelid, returid) {
           sendpacks++;
           console.log(`Batch ${sendpacks} sendt.`);
           allResponses.push(response); // Legg til responsen for denne batchen
+
+          // Oppdater tekst-elementet med fremdrift
+          const progress = Math.floor((sendpacks / totalBatches) * 100);
+          updateProgressText(progress);
       } catch (error) {
           console.error("Feil ved sending av batch:", error);
           throw error; // Stop prosesseringen hvis en batch feiler
+      }
+  };
+
+  // Funksjon for å oppdatere tekst-elementet
+  const updateProgressText = (progress) => {
+      const progressElement = document.getElementById("progress-text"); // Sett inn ID-en til tekst-elementet
+      if (progressElement) {
+          progressElement.textContent = `Fremdrift: ${progress}%`;
       }
   };
 
@@ -317,6 +330,7 @@ async function multisave(data, baseid, tabelid, returid) {
       apireturn({ success: false, error: error.message, id: returid });
   }
 }
+
 
 function convertMultiResponseData(data) {
   return data.flatMap(samling => samling.map(item => item.fields));

@@ -91,11 +91,10 @@ function updatelivelist(elementid) {
     }
 
 }
-
+var multiSaveCount = 0;
 function saveConnections(data){
-
+    multiSaveCount = data.length;
     multisave(data,"app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb","retursaveConnections")
-
 }
 
 function retursaveConnections(data){
