@@ -119,8 +119,6 @@ function prepareStartFolloupList(objects){
 
 }
 
-
-
 function startfollouplist(listanddate){
 
     let activeList= filterfollowupSelector(listanddate,"followupselector");
@@ -132,9 +130,9 @@ function startfollouplist(listanddate){
         startfollowuplist(activeList,true,"nextrenewaldate",false);
     }
 
- }
+}
  
- function loadfollowingupselector(){
+function loadfollowingupselector(){
   
   //  11 mnd en mnd frem
   //10 mnd to mnd frem
@@ -166,9 +164,9 @@ function startfollouplist(listanddate){
                      ];
       
   loadselector(document.getElementById("followupselector"),options);
- }
+}
 
- function addNextRenewalDatetoarray(data){
+function addNextRenewalDatetoarray(data){
      
      for(var i = 0;i<data.length;i++){
          //finne ut nestegang denne avtalen fornyes
@@ -192,9 +190,9 @@ function startfollouplist(listanddate){
          
      }
  return data;
- }
+}
  
- function getNextRenewalDate(intervall, signedDate) {
+function getNextRenewalDate(intervall, signedDate) {
     // Sett intervall til 12 som standard hvis det ikke er angitt eller er en tom streng
     intervall = parseInt(intervall, 10) || 12;
 
@@ -218,9 +216,7 @@ function startfollouplist(listanddate){
     return `${year}-${month}-${day}`;
 }
 
-
- 
- function daysUntil(targetDate) {
+function daysUntil(targetDate) {
    // Hent dagens dato
    const today = new Date();
    
@@ -235,7 +231,7 @@ function startfollouplist(listanddate){
    const differenceInDays = Math.ceil(differenceInMilliseconds / millisecondsPerDay);
    
    return differenceInDays;
- }
+}
  
  function filterfollowupSelector(data,selectorid){
   var selector = document.getElementById(selectorid);
@@ -277,11 +273,6 @@ function startfollouplist(listanddate){
 }
 
 
-
-
-
-
-
  function filteredHideFollowup(data, status) {
     let array = []; // Tom liste for filtrerte selskaper
 
@@ -301,9 +292,6 @@ function startfollouplist(listanddate){
 
     return array; // Returner den filtrerte listen
 }
-
-
-
 
 
  function isDateAfter(date1, date2) {
