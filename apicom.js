@@ -374,7 +374,27 @@ function ruteresponse(data,id){
     respondUserData(data);
   }else if (id == "onboardedregistredresponse"){
     onboardedregistredresponse(data);
+  }else if(id=="respondsupplierlist"){
+    respondsupplierlist(data,id); 
+  }else if(id=="respondpresetlist"){
+    respondpresetlist(data,id);
+  }else if(id=="respondcolumlist"){
+    respondcolumlist(data,id);
+  }else if(id=="postpresetrespond"){
+    postpresetrespond(data,id);
+  }else if(id=="respondcompanylist"){
+    respondcompanylist(data,id);
+  }else if(id=="respondBuffer"){
+    respondBuffer(data,id);
+  }else if(id=="returnsaveimport"){
+    returnsaveimport(data,id);
+  }else if(id=="returnsavevalue"){
+    returnsavevalue(data,id);
+  }else if(id=="respondfilenamecontroll"){
+    respondfilenamecontroll(data,id);
+  }else if(id=="returNewMultiImport"){
+    returNewMultiImport(data);
   }
   
-}
 
+}
