@@ -69,6 +69,8 @@ function returnsaveimport(data,id){
 function returNewMultiImport(data){
     console.log(data);
 
+    document.getElementById("missingonimportwrapper").style.display = "block";
+    document.getElementById("loadergiffprosess").style.display = "none";
 
 }
 
