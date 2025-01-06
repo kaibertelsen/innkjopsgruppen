@@ -70,6 +70,7 @@ function returNewMultiImport(data){
     console.log(data);
 
     document.getElementById("missingonimportwrapper").style.display = "block";
+    document.getElementById("uploadmore").style.display = "inline-block";
     document.getElementById("loadergiffprosess").style.display = "none";
 
 }
