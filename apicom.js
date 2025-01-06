@@ -305,7 +305,7 @@ async function multisave(data, baseid, tabelid, returid) {
 
   // Funksjon for å oppdatere tekst-elementet
   const updateProgressText = (progress) => {
-      const progressElement = document.getElementById("progress-text"); // Sett inn ID-en til tekst-elementet
+      const progressElement = document.getElementById("precentimport"); // Sett inn ID-en til tekst-elementet
       if (progressElement) {
           progressElement.textContent = `Fremdrift: ${progress}%`;
       }
