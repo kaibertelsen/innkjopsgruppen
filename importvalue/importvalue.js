@@ -26,6 +26,9 @@ function returnsaveimport(data,id){
     for(var i = 0;i<foundCompany.length;i++){
         saveObject.push(makesaveObject(foundCompany[i],importid));
     }
+
+
+    multisave(dasaveObjectta, baseid, "tbly9xd4ho0Z9Mvlv", "returNewMultiImport");
   /*
     const records = saveObject
 
@@ -59,6 +62,13 @@ function returnsaveimport(data,id){
 */
     document.getElementById("importstatuswrapper").style.display = "block";
     document.getElementById("aftercontrollelement").style.display = "none";
+
+}
+
+
+function returNewMultiImport(data){
+    console.log(data);
+
 
 }
 
