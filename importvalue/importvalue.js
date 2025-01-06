@@ -28,7 +28,7 @@ function returnsaveimport(data,id){
     }
 
 
-    multisave(dasaveObjectta, baseid, "tbly9xd4ho0Z9Mvlv", "returNewMultiImport");
+    multisave(saveObject, baseid, "tbly9xd4ho0Z9Mvlv", "returNewMultiImport");
   /*
     const records = saveObject
 
