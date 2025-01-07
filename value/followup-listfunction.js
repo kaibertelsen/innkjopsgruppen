@@ -109,9 +109,9 @@ function startFollowinglistElement(data) {
 
         if (abonnementvalue > 0 && abonnementvalue <= savings) {
          // Kunden har spart mer enn abonnementverdi, og abonnementverdi er ikke 0
-         savingsicon.src = "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6756b41315622c2bd537c129_savings.png";
+         
         }else{
-            savingsicon.src = "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6756b4135d78374d1ff30fd4_no-savings.png";
+            savingsicon.classList.add("red");
         }
 
             savingsicon.style.display = "block";
