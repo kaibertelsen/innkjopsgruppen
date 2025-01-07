@@ -109,7 +109,11 @@ function startFollowinglistElement(data) {
 
         if (abonnementvalue > 0 && abonnementvalue <= savings) {
             // Kunden har spart mer enn abonnementverdi, og abonnementverdi er ikke 0
-            savingsicon.style.display = "block";
+            savingsicon.src = "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6756b41315622c2bd537c129_savings.png";
+        }else{
+            savingsicon.src = "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6756b4135d78374d1ff30fd4_no-savings.png";
+        }
+        savingsicon.style.display = "block";
 
             // Legg til tooltip-funksjonalitet
             savingsicon.addEventListener("mouseover", function () {
@@ -142,14 +146,6 @@ function startFollowinglistElement(data) {
                     tooltip.remove(); // Fjern tooltip når musen forlater ikonet
                 });
             });
-        } else {
-            // Kunden har ikke spart nok, eller abonnementverdi er 0
-            savingsicon.style.display = "none";
-        }
-
-
-        
-        
         
 
         // Håndterer notat-knappen
