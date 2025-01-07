@@ -27,9 +27,15 @@ function listCustomer(data) {
         );
     }else if (selectedFilter === "exit") {
            // Filtrer kunder med dato i "exit" feltet
-        filteredData = data.filter(company => 
-        company.exit && !isNaN(Date.parse(company.exit))
-    );
+           //der denne datoen passert skal også kunden fjernes
+           const currentDate = new Date();
+
+           filteredData = data.filter(company => 
+               company.exit && 
+               !isNaN(Date.parse(company.exit)) && 
+               new Date(company.exit) > currentDate
+           );
+    
     }else if (selectedFilter === "supplier") {
        // Filtrer alle kunder som har "supplier" i feltet "type"
        filteredData = data.filter(company => 
