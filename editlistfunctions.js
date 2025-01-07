@@ -113,6 +113,7 @@ function startFollowinglistElement(data) {
         }else{
             savingsicon.src = "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6756b4135d78374d1ff30fd4_no-savings.png";
         }
+        
         savingsicon.style.display = "block";
 
             // Legg til tooltip-funksjonalitet
