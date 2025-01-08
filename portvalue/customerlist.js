@@ -58,31 +58,32 @@ function listCustomer(data) {
         );
 
     }else if (selectedFilter === "duplicate") {
-        const map = new Map();
+       // Opprett en Map for å spore duplikater basert på normaliserte navn og orgnr
+            const map = new Map();
 
-        // Trinn 1: Normaliser data og grupper basert på navn og orgnr
-        data.forEach(company => {
-            const normalizedName = company.name.trim().toLowerCase();
-            const normalizedOrgnr = company.orgnr.trim();
+            // Trinn 1: Normaliser og grupper selskaper basert på `Name` og `orgnr`
+            data.forEach(company => {
+                const normalizedName = company.Name.trim().toLowerCase(); // Normaliser navn
+                const normalizedOrgnr = company.orgnr.trim(); // Trim orgnr
 
-            const key = `${normalizedName}-${normalizedOrgnr}`;
-            if (!map.has(key)) {
-                map.set(key, []);
-            }
-            map.get(key).push(company);
-        });
+                // Bruk kombinert nøkkel for navn og orgnr
+                const key = `${normalizedName}-${normalizedOrgnr}`;
+                if (!map.has(key)) {
+                    map.set(key, []);
+                }
+                map.get(key).push(company); // Legg til selskapet i gruppen
+            });
 
-        // Trinn 2: Filtrer selskaper som har duplikater
-           filteredData = data.filter(company => {
-            const normalizedName = company.name.trim().toLowerCase();
-            const normalizedOrgnr = company.orgnr.trim();
+            // Trinn 2: Filtrer selskaper med duplikater
+            filteredData = data.filter(company => {
+                const normalizedName = company.Name.trim().toLowerCase();
+                const normalizedOrgnr = company.orgnr.trim();
 
-            const key = `${normalizedName}-${normalizedOrgnr}`;
-            return map.get(key).length > 1; // Behold bare selskaper med duplikater
-        });
+                const key = `${normalizedName}-${normalizedOrgnr}`;
+                return map.get(key).length > 1; // Inkluder bare selskaper som har duplikater
+            });
 
-        console.log(filteredData);
-
+            console.log(filteredData);
      }
 
 
