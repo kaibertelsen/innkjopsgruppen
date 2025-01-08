@@ -23,6 +23,10 @@ function convertJsonStringsToObjects(jsonStrings) {
                 data.cashflowjson = [];
             } 
 
+            if (!data.bruker) {
+                data.bruker = [];
+            } 
+
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
