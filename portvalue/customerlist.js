@@ -241,7 +241,7 @@ function listCustomer(data) {
             });
         }else{
             deletebutton.classList.add("warning");
-            alert("Dette er handel eller abn. kunde og kan ikke slettes!");
+            //alert("Dette er handel eller abn. kunde og kan ikke slettes!");
         }
 
      
