@@ -25,7 +25,22 @@ function listCustomer(data) {
                 cashflow.kickbackvalue && parseFloat(cashflow.kickbackvalue) > 0
             )
         );
-    }else if (selectedFilter === "exit") {
+    } else if (selectedFilter === "zero") {
+        filteredData = data.filter(company => {
+            // Filtrer kunder med valuegroup lik 0
+            const isValueGroupZero = company.valuegroup === "0";
+        
+            // Beregn samlet verdi av cashflowjson og sjekk om det er 0
+            const totalCashflowValue = company.cashflowjson.reduce((sum, cashflow) => {
+                return sum + parseFloat(cashflow.value || "0");
+            }, 0);
+            const isCashflowZero = totalCashflowValue === 0;
+        
+            // Returner true hvis begge kriteriene er oppfylt
+            return isValueGroupZero && isCashflowZero;
+        });
+        
+    } else if (selectedFilter === "exit") {
            // Filtrer kunder med dato i "exit" feltet
            //der denne datoen passert skal også kunden fjernes
            const currentDate = new Date();
@@ -42,7 +57,11 @@ function listCustomer(data) {
         company.type === "supplier"
         );
 
-        }
+    }
+
+
+
+    
 
     // Tømmer listen før oppdatering
     list.replaceChildren();
@@ -235,11 +254,13 @@ function sortDataAlphabetically(data) {
         return 0; // Lik verdi
     });
 }
+
 // Legg til en event listener på søkefeltet
 document.getElementById("searchcustomer").addEventListener("input", function () {
     const searchQuery = this.value.toLowerCase(); // Hent søketekst og gjør den til små bokstaver
     filterCustomerList(searchQuery); // Kall filterfunksjonen med søketeksten
 });
+
 // Filterfunksjon
 function filterCustomerList(searchQuery) {
     const filteredData = klientdata.filter(company => {
@@ -252,6 +273,7 @@ function filterCustomerList(searchQuery) {
     // Oppdater kundelisten basert på det filtrerte resultatet
     listCustomer(filteredData);
 }
+
 // Opprett et input-felt for redigering av tekst
 function createInput(currentValue, onSave) {
     const input = document.createElement("input");
@@ -265,6 +287,7 @@ function createInput(currentValue, onSave) {
 
     return input;
 }
+
 // Opprett en dropdown (select) for redigering av valg
 function createSelect(options, currentValue, onSave) {
     const select = document.createElement("select");
@@ -603,3 +626,8 @@ function companyDeletedResponse(data){
         console.log(`Selskapet med Airtable-ID ${data.airtable} ble ikke funnet i klientdata.`);
     }
 }
+
+
+
+
+
