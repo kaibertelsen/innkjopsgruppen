@@ -253,42 +253,54 @@ function listCustomer(data) {
             userwrapper.style.display = "none";
             const usercount = companyElement.querySelector(".usercount");
 
-            // Fjern eventuell gammel tooltip
-            let tooltip = companyElement.querySelector(".tooltip");
-            if (tooltip) {
-                tooltip.remove();
-            }
-
             // Sjekk om det er brukere tilknyttet selskapet
             if (company.bruker.length > 0) {
                 // Vis brukerikon og antall brukere
                 userwrapper.style.display = "block";
                 usercount.textContent = company.bruker.length;
 
-                // Opprett tooltip
-                tooltip = document.createElement("div");
-                tooltip.className = "tooltip";
-                tooltip.style.display = "none"; // Skjult som standard
+                // Legg til tooltip-funksjonalitet
+                userwrapper.addEventListener("mouseover", function () {
+                    // Sjekk om tooltip allerede eksisterer
+                    let existingTooltip = userwrapper.parentElement.querySelector(".custom-tooltip");
+                    if (existingTooltip) return;
 
-                // Fyll tooltip med navn og e-post
-                company.bruker.forEach(bruker => {
-                    const userInfo = document.createElement("div");
-                    userInfo.textContent = `${bruker.navn} - ${bruker.epost}`;
-                    tooltip.appendChild(userInfo);
-                });
+                    // Opprett tooltip
+                    let tooltip = document.createElement("div");
+                    tooltip.className = "custom-tooltip";
 
-                // Legg tooltip til i DOM
-                companyElement.appendChild(tooltip);
+                    // Fyll tooltip med navn og e-post
+                    company.bruker.forEach(bruker => {
+                        const userInfo = document.createElement("div");
+                        userInfo.textContent = `${bruker.navn} - ${bruker.epost}`;
+                        tooltip.appendChild(userInfo);
+                    });
 
-                // Legg til hendelser for visning av tooltip
-                userwrapper.addEventListener("mouseenter", () => {
-                    tooltip.style.display = "block";
-                });
+                    // Tooltip-styling
+                    tooltip.style.position = "absolute";
+                    tooltip.style.backgroundColor = "#333";
+                    tooltip.style.color = "#fff";
+                    tooltip.style.padding = "5px";
+                    tooltip.style.borderRadius = "5px";
+                    tooltip.style.fontSize = "12px";
+                    tooltip.style.whiteSpace = "nowrap";
+                    tooltip.style.zIndex = "1000";
 
-                userwrapper.addEventListener("mouseleave", () => {
-                    tooltip.style.display = "none";
+                    // Plasser tooltip i forhold til parent-elementet
+                    const parentRect = userwrapper.parentElement.getBoundingClientRect();
+                    const iconRect = userwrapper.getBoundingClientRect();
+                    tooltip.style.top = `${iconRect.bottom - parentRect.top + 5}px`; // Plasser under ikonet
+                    tooltip.style.left = `${iconRect.left - parentRect.left}px`; // Juster horisontalt i forhold til ikonet
+
+                    userwrapper.parentElement.appendChild(tooltip);
+
+                    // Fjern tooltip når musen forlater ikonet
+                    userwrapper.addEventListener("mouseleave", function () {
+                        tooltip.remove();
+                    });
                 });
             }
+
 
      
         
