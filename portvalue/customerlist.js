@@ -285,14 +285,20 @@ function listCustomer(data) {
                     tooltip.style.fontSize = "12px";
                     tooltip.style.whiteSpace = "nowrap";
                     tooltip.style.zIndex = "1000";
+                    tooltip.style.visibility = "hidden"; // Skjul for å plassere riktig
+
+                    // Legg tooltip midlertidig til DOM for beregning
+                    userwrapper.parentElement.appendChild(tooltip);
 
                     // Hent bredde og høyde for tooltip
                     const tooltipRect = tooltip.getBoundingClientRect();
                     const iconRect = userwrapper.getBoundingClientRect();
 
-                    // Plasser tooltip i forhold til userwrapper
-                    tooltip.style.top = `${iconRect.bottom + 5}px`; // Plasser under ikonet
-                    tooltip.style.left = `${iconRect.left + (iconRect.width / 2) - (tooltipRect.width / 2)}px`; // Juster horisontalt for å sentrere
+                    // Plasser tooltip i samme høyde og 5px til venstre
+                    tooltip.style.top = `${iconRect.top - tooltipRect.top}px`; // Samme høyde som userwrapper
+                    tooltip.style.left = `${iconRect.left - tooltipRect.width - 5}px`; // 5px til venstre
+
+                    tooltip.style.visibility = "visible"; // Gjør synlig etter plassering
 
                     // Fjern tooltip når musen forlater ikonet
                     userwrapper.addEventListener("mouseleave", function () {
@@ -300,6 +306,7 @@ function listCustomer(data) {
                     });
                 });
             }
+
 
 
      
