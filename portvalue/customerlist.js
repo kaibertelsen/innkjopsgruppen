@@ -248,16 +248,48 @@ function listCustomer(data) {
         
         }
 
-        //bruker icon
-        const userwrapper = companyElement.querySelector(".usericonwrapper");
-        userwrapper.style.display = "none";
-        const usercount = companyElement.querySelector(".usercount");
+        // Bruker icon
+            const userwrapper = companyElement.querySelector(".usericonwrapper");
+            userwrapper.style.display = "none";
+            const usercount = companyElement.querySelector(".usercount");
 
-        if(company.bruker.length > 0){
-            //det er brukere tilknyttet dette selskapet
-            userwrapper.style.display = "block";
-            usercount.textContent = company.bruker.length;
-        }
+            // Fjern eventuell gammel tooltip
+            let tooltip = companyElement.querySelector(".tooltip");
+            if (tooltip) {
+                tooltip.remove();
+            }
+
+            // Sjekk om det er brukere tilknyttet selskapet
+            if (company.bruker.length > 0) {
+                // Vis brukerikon og antall brukere
+                userwrapper.style.display = "block";
+                usercount.textContent = company.bruker.length;
+
+                // Opprett tooltip
+                tooltip = document.createElement("div");
+                tooltip.className = "tooltip";
+                tooltip.style.display = "none"; // Skjult som standard
+
+                // Fyll tooltip med navn og e-post
+                company.bruker.forEach(bruker => {
+                    const userInfo = document.createElement("div");
+                    userInfo.textContent = `${bruker.navn} - ${bruker.epost}`;
+                    tooltip.appendChild(userInfo);
+                });
+
+                // Legg tooltip til i DOM
+                companyElement.appendChild(tooltip);
+
+                // Legg til hendelser for visning av tooltip
+                userwrapper.addEventListener("mouseenter", () => {
+                    tooltip.style.display = "block";
+                });
+
+                userwrapper.addEventListener("mouseleave", () => {
+                    tooltip.style.display = "none";
+                });
+            }
+
      
         
 
