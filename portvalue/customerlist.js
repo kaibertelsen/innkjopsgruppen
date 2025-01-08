@@ -286,13 +286,13 @@ function listCustomer(data) {
                     tooltip.style.whiteSpace = "nowrap";
                     tooltip.style.zIndex = "1000";
 
-                    // Plasser tooltip i forhold til parent-elementet
-                    const parentRect = userwrapper.parentElement.getBoundingClientRect();
+                    // Hent bredde og høyde for tooltip
+                    const tooltipRect = tooltip.getBoundingClientRect();
                     const iconRect = userwrapper.getBoundingClientRect();
-                    tooltip.style.top = `${iconRect.bottom - parentRect.top + 5}px`; // Plasser under ikonet
-                    tooltip.style.left = `${iconRect.left - parentRect.left}px`; // Juster horisontalt i forhold til ikonet
 
-                    userwrapper.parentElement.appendChild(tooltip);
+                    // Plasser tooltip i forhold til userwrapper
+                    tooltip.style.top = `${iconRect.bottom + 5}px`; // Plasser under ikonet
+                    tooltip.style.left = `${iconRect.left + (iconRect.width / 2) - (tooltipRect.width / 2)}px`; // Juster horisontalt for å sentrere
 
                     // Fjern tooltip når musen forlater ikonet
                     userwrapper.addEventListener("mouseleave", function () {
