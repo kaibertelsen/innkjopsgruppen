@@ -73,7 +73,7 @@ function listCustomer(data) {
         });
 
         // Trinn 2: Filtrer selskaper som har duplikater
-        const filteredData = data.filter(company => {
+           filteredData = data.filter(company => {
             const normalizedName = company.name.trim().toLowerCase();
             const normalizedOrgnr = company.orgnr.trim();
 
