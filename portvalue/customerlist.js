@@ -593,7 +593,7 @@ function deleteCompany(company,companyElement){
 
 function companyDeletedResponse(data){
     // Finn indeksen til selskapet som skal slettes i klientdata
-    const index = klientdata.findIndex(company => company.airtable === data.airtable);
+    const index = klientdata.findIndex(company => company.airtable === data.id);
 
     // Hvis selskapet finnes i arrayet, fjern det
     if (index !== -1) {
