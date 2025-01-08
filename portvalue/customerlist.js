@@ -285,6 +285,7 @@ function listCustomer(data) {
                     tooltip.style.fontSize = "12px";
                     tooltip.style.whiteSpace = "nowrap";
                     tooltip.style.zIndex = "1000";
+                    tooltip.style.textAlign = "right"; // Høyrestill teksten
                     tooltip.style.visibility = "hidden"; // Skjul for å plassere riktig
 
                     // Legg tooltip midlertidig til DOM for beregning
