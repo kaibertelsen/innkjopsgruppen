@@ -296,7 +296,7 @@ function listCustomer(data) {
 
                     // Plasser tooltip i samme høyde og 5px til venstre
                     tooltip.style.top = `${0}px`; // Samme høyde som userwrapper
-                    tooltip.style.left = `${0 - tooltipRect.width - 10}px`; // 5px til venstre
+                    tooltip.style.right = `${tooltipRect.width + iconRect.width + 10}px`; // 5px til venstre
 
                     tooltip.style.visibility = "visible"; // Gjør synlig etter plassering
 
