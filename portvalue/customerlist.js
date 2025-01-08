@@ -292,11 +292,11 @@ function listCustomer(data) {
 
                     // Hent bredde og høyde for tooltip
                     const tooltipRect = tooltip.getBoundingClientRect();
-                    const iconRect = userwrapper.getBoundingClientRect();
+                    const iconRect = userwrapper.parentElement.getBoundingClientRect();
 
                     // Plasser tooltip i samme høyde og 5px til venstre
                     tooltip.style.top = `${iconRect.top}px`; // Samme høyde som userwrapper
-                    tooltip.style.left = `${iconRect.left - tooltipRect.width - 5}px`; // 5px til venstre
+                    tooltip.style.left = `${iconRect.left - tooltipRect.width - 10}px`; // 5px til venstre
 
                     tooltip.style.visibility = "visible"; // Gjør synlig etter plassering
 
