@@ -214,8 +214,22 @@ function listCustomer(data) {
             triggerEditDate(exitDateCell, company, "exit");
         });
 
-        //delete company button
+        //delete company button 
         const deletebutton = companyElement.querySelector(".deletecompanybutton");
+
+            //hvis det er 0 i handel og 0 i abonnement så set en varning på legg til en klasse "warning"
+            const isValueGroupZero = company.valuegroup === "0";       
+            // Beregn samlet verdi av cashflowjson og sjekk om det er 0
+            const totalCashflowValue = company.cashflowjson.reduce((sum, cashflow) => {
+                return sum + parseFloat(cashflow.value || "0");
+            }, 0);
+
+            const isCashflowZero = totalCashflowValue === 0;
+
+        if(isValueGroupZero && isCashflowZero){
+            deletebutton.classList.add("warning");
+        }
+
         deletebutton.addEventListener("click", () => {
             const confirmation = confirm("Er du sikker på at du vil slette dette selskapet fra portalen?");
             
