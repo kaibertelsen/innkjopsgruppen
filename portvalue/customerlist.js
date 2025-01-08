@@ -227,6 +227,8 @@ function listCustomer(data) {
             const isCashflowZero = totalCashflowValue === 0;
 
         if(isValueGroupZero && isCashflowZero){
+            
+        }else{
             deletebutton.classList.add("warning");
             message = "Der er handel eller abonnementskunde! vil du slette dette selskapet fra portalen likevell?";
         }
