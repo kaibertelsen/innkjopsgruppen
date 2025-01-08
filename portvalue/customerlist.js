@@ -195,6 +195,22 @@ function listCustomer(data) {
             triggerEditDate(exitDateCell, company, "exit");
         });
 
+        //delete company button
+        const deletebutton = companyElement.querySelector(".deletecompanybutton");
+        deletebutton.addEventListener("click", () => {
+            const confirmation = confirm("Er du sikker på at du vil slette dette selskapet fra portalen?");
+            
+            if (confirmation) {
+                // Hvis brukeren klikker "Ja"
+                console.log("Selskapet er slettet!");
+                // Her kan du legge til funksjonaliteten for å slette selskapet fra portalen
+            } else {
+                // Hvis brukeren klikker "Nei"
+                console.log("Sletting avbrutt.");
+            }
+        });
+        
+
         list.appendChild(companyElement);
     });
 
