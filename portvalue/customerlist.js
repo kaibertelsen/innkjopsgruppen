@@ -253,7 +253,7 @@ function listCustomer(data) {
             userwrapper.style.display = "none";
             const usercount = companyElement.querySelector(".usercount");
 
-            // Sjekk om det er brukere tilknyttet selskapet
+        // Sjekk om det er brukere tilknyttet selskapet
             if (company.bruker.length > 0) {
                 // Vis brukerikon og antall brukere
                 userwrapper.style.display = "block";
