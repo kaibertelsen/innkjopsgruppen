@@ -234,8 +234,10 @@ function ruteresponse(data,id){
         klientresponse(data);
     }else if(id == "respondcustomerlistupdated"){
         respondcustomerlistupdated(data);
+    }else if(id == "companyDeletedResponse"){
+        companyDeletedResponse(data);
     }
-    
+
 }
 
 function getActiveTab() {

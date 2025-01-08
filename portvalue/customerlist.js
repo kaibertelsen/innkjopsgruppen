@@ -202,8 +202,8 @@ function listCustomer(data) {
             
             if (confirmation) {
                 // Hvis brukeren klikker "Ja"
-                console.log("Selskapet er slettet!");
-                // Her kan du legge til funksjonaliteten for å slette selskapet fra portalen
+                deleteCompany(company,companyElement);
+
             } else {
                 // Hvis brukeren klikker "Nei"
                 console.log("Sletting avbrutt.");
@@ -575,4 +575,31 @@ function saveToServer(companyId, fieldValue) {
 
 function respondcustomerlistupdated(data){
     console.log(data);
+}
+
+function deleteCompany(company,companyElement){
+
+    DELETEairtable(
+        "app1WzN1IxEnVu3m0", // App ID
+        "tblFySDb9qVeVVY5c", // Tabell ID
+        company.airtable,
+        "companyDeletedResponse"
+    );
+
+    // Fjern companyElement fra DOM-en
+    companyElement.remove();
+
+}
+
+function companyDeletedResponse(data){
+    // Finn indeksen til selskapet som skal slettes i klientdata
+    const index = klientdata.findIndex(company => company.airtable === data.airtable);
+
+    // Hvis selskapet finnes i arrayet, fjern det
+    if (index !== -1) {
+        klientdata.splice(index, 1);
+        console.log(`Selskapet med Airtable-ID ${data.airtable} er fjernet fra klientdata.`);
+    } else {
+        console.log(`Selskapet med Airtable-ID ${data.airtable} ble ikke funnet i klientdata.`);
+    }
 }

@@ -64,8 +64,12 @@ async function DELETEairtable(baseId,tableId,itemId,id){
     let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&rowId=${itemId}&token=${token}`, {
           method: "DELETE"
         });
-        let data = await response.json();
-        apireturn (data,id);
+        if (!response.ok) {
+          throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+          }else {
+          let data = await response.json();
+          apireturn({success: true, data: data, id: id});
+          }
 }
 
 async function PATCHairtable(baseId,tableId,itemId,body,id){
