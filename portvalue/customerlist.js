@@ -248,6 +248,16 @@ function listCustomer(data) {
         
         }
 
+        //bruker icon
+        const userwrapper = companyElement.querySelector(".usericonwrapper");
+        userwrapper.style.display = "none";
+        const usercount = companyElement.querySelector(".usercount");
+
+        if(company.bruker.length > 0){
+            //det er brukere tilknyttet dette selskapet
+            userwrapper.style.display = "block";
+            usercount.textContent = company.bruker.length;
+        }
      
         
 
