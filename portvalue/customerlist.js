@@ -230,7 +230,7 @@ function listCustomer(data) {
             
         }else{
             deletebutton.classList.add("warning");
-            message = "Det er handel eller abonnements kunde! Vil du likevell slette dette selskapet fra portalen?";
+            message = "Det er handel eller abn. kunde! Vil du likevell slette dette selskapet fra portalen?";
         }
 
         deletebutton.addEventListener("click", () => {
