@@ -241,9 +241,17 @@ function listCustomer(data) {
                 }
             });
         }else{
-            //deletebutton.classList.add("warning");
             deletebutton.addEventListener("click", () => {
-                alert("Dette er handel eller abn. kunde og kan ikke slettes!");
+                const confirmation = confirm("Selskapet har handel eller abn. verdi! Er du sikker på at du vil slette dette selskapet fra portalen?");
+                
+                if (confirmation) {
+                    // Hvis brukeren klikker "Ja"
+                    deleteCompany(company,companyElement);
+    
+                } else {
+                    // Hvis brukeren klikker "Nei"
+                    console.log("Sletting avbrutt.");
+                }
             });
         
         }
