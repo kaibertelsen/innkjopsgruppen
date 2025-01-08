@@ -216,7 +216,7 @@ function listCustomer(data) {
 
         //delete company button 
         const deletebutton = companyElement.querySelector(".deletecompanybutton");
-
+        let message = "Er du sikker på at du vil slette dette selskapet fra portalen?";
             //hvis det er 0 i handel og 0 i abonnement så set en varning på legg til en klasse "warning"
             const isValueGroupZero = company.valuegroup === "0";       
             // Beregn samlet verdi av cashflowjson og sjekk om det er 0
@@ -228,10 +228,11 @@ function listCustomer(data) {
 
         if(isValueGroupZero && isCashflowZero){
             deletebutton.classList.add("warning");
+            message = "Der er handel eller abonnementskunde! vil du slette dette selskapet fra portalen likevell?";
         }
 
         deletebutton.addEventListener("click", () => {
-            const confirmation = confirm("Er du sikker på at du vil slette dette selskapet fra portalen?");
+            const confirmation = confirm(message);
             
             if (confirmation) {
                 // Hvis brukeren klikker "Ja"
