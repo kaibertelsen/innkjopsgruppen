@@ -57,7 +57,33 @@ function listCustomer(data) {
         company.type === "supplier"
         );
 
-    }
+    }else if (selectedFilter === "duplicate") {
+        const map = new Map();
+
+        // Trinn 1: Normaliser data og grupper basert på navn og orgnr
+        data.forEach(company => {
+            const normalizedName = company.name.trim().toLowerCase();
+            const normalizedOrgnr = company.orgnr.trim();
+
+            const key = `${normalizedName}-${normalizedOrgnr}`;
+            if (!map.has(key)) {
+                map.set(key, []);
+            }
+            map.get(key).push(company);
+        });
+
+        // Trinn 2: Filtrer selskaper som har duplikater
+        const filteredData = data.filter(company => {
+            const normalizedName = company.name.trim().toLowerCase();
+            const normalizedOrgnr = company.orgnr.trim();
+
+            const key = `${normalizedName}-${normalizedOrgnr}`;
+            return map.get(key).length > 1; // Behold bare selskaper med duplikater
+        });
+
+        console.log(filteredData);
+
+     }
 
 
 
