@@ -15,6 +15,8 @@ function listCustomer(data) {
     let filteredData = data;
     const selectedFilter = selector.value;
 
+    let isInDuplicateMode = false;
+
     if (selectedFilter === "valuegroup") {
         filteredData = data.filter(company => 
             company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0
@@ -84,6 +86,7 @@ function listCustomer(data) {
             });
 
             console.log(filteredData);
+            isInDuplicateMode = true;
      }
 
 
@@ -241,47 +244,99 @@ function listCustomer(data) {
             triggerEditDate(exitDateCell, company, "exit");
         });
 
-        //delete company button 
         const deletebutton = companyElement.querySelector(".deletecompanybutton");
+        const duplicatebutton = companyElement.querySelector(".duplicatecompanybutton");
+
+        if (isInDuplicateMode) {
+            // Sett elementet til duplikatmodus
+            deletebutton.style.display = "none";
+            duplicatebutton.style.display = "block";
+            companyElement.id = company.airtable + "dmode";
         
-            //hvis det er 0 i handel og 0 i abonnement så set en varning på legg til en klasse "warning"
-            const isValueGroupZero = ["0", 0, ""].includes(company.valuegroup);
-    
-            // Beregn samlet verdi av cashflowjson og sjekk om det er 0
-            const totalCashflowValue = company.cashflowjson.reduce((sum, cashflow) => {
-                return sum + parseFloat(cashflow.value || "0");
-            }, 0);
+            duplicatebutton.addEventListener("click", () => {
+                // Merk companyElement med blå border
+                companyElement.style.border = "2px solid blue";
+        
+                // Finn duplikat i klientdata-arrayen
+                const duplicateCompany = clientData.find(client => {
+                const normalize = str => (str || "").toLowerCase().trim();
+                return (
+                    normalize(client.Name) === normalize(company.Name) &&
+                    normalize(client.orgnr) === normalize(company.orgnr) &&
+                    client.airtable !== company.airtable // Sikrer at det er en annen instans
+                );
+                });
 
-            const isCashflowZero = totalCashflowValue === 0;
-
-        if(isValueGroupZero && isCashflowZero){
-            deletebutton.addEventListener("click", () => {
-                const confirmation = confirm("Er du sikker på at du vil slette dette selskapet fra portalen?");
-                
-                if (confirmation) {
-                    // Hvis brukeren klikker "Ja"
-                    deleteCompany(company,companyElement);
-    
+        
+                if (duplicateCompany) {
+                    // Merk duplikatens element med blå border
+                    const duplicateElement = document.getElementById(duplicateCompany.airtable+"dmode");
+                    if (duplicateElement) {
+                        duplicateElement.style.border = "2px solid blue";
+                    }
+        
+                    // Vis en bekreftelsesmelding
+                    const confirmMerge = confirm(
+                        `Ønsker du å slå sammen selskapet ${company.Name} (${company.orgnr}) med ${duplicateCompany.Name} (${duplicateCompany.orgnr})?`
+                    );
+        
+                    if (confirmMerge) {
+                        // Kjør merge-funksjonen hvis brukeren bekrefter
+                        try {
+                            mergeCompanies(company, duplicateCompany);
+                            alert("Selskapene ble slått sammen!");
+                        } catch (error) {
+                            console.error("Feil under sammenslåing:", error);
+                            alert("Det oppstod en feil under sammenslåing av selskapene.");
+                        }
+                    }
                 } else {
-                    // Hvis brukeren klikker "Nei"
-                    console.log("Sletting avbrutt.");
+                    alert("Ingen duplikat funnet for dette selskapet.");
                 }
             });
-        }else{
-            deletebutton.addEventListener("click", () => {
-                const confirmation = confirm("Selskapet har handel eller abn. verdi! Er du sikker på at du vil slette dette selskapet fra portalen?");
-                
-                if (confirmation) {
-                    // Hvis brukeren klikker "Ja"
-                    deleteCompany(company,companyElement);
-    
-                } else {
-                    // Hvis brukeren klikker "Nei"
-                    console.log("Sletting avbrutt.");
-                }
-            });
-        
         }
+        else{
+            //delete company button 
+            
+                //hvis det er 0 i handel og 0 i abonnement så set en varning på legg til en klasse "warning"
+                const isValueGroupZero = ["0", 0, ""].includes(company.valuegroup);
+                // Beregn samlet verdi av cashflowjson og sjekk om det er 0
+                const totalCashflowValue = company.cashflowjson.reduce((sum, cashflow) => {
+                    return sum + parseFloat(cashflow.value || "0");
+                }, 0);
+                const isCashflowZero = totalCashflowValue === 0;
+            if(isValueGroupZero && isCashflowZero){
+                deletebutton.addEventListener("click", () => {
+                    const confirmation = confirm("Er du sikker på at du vil slette dette selskapet fra portalen?");
+                    
+                    if (confirmation) {
+                        // Hvis brukeren klikker "Ja"
+                        deleteCompany(company,companyElement);
+        
+                    } else {
+                        // Hvis brukeren klikker "Nei"
+                        console.log("Sletting avbrutt.");
+                    }
+                });
+            }else{
+                deletebutton.addEventListener("click", () => {
+                    const confirmation = confirm("Selskapet har handel eller abn. verdi! Er du sikker på at du vil slette dette selskapet fra portalen?");
+                    
+                    if (confirmation) {
+                        // Hvis brukeren klikker "Ja"
+                        deleteCompany(company,companyElement);
+        
+                    } else {
+                        // Hvis brukeren klikker "Nei"
+                        console.log("Sletting avbrutt.");
+                    }
+                });
+            
+            }
+    }
+
+
+
 
         // Bruker icon
             const userwrapper = companyElement.querySelector(".usericonwrapper");
@@ -745,7 +800,12 @@ function companyDeletedResponse(data){
     }
 }
 
+function mergeCompanies(company, duplicateCompany){
 
+
+console.log("Sammenslåingen starter");
+
+}
 
 
 
