@@ -815,7 +815,7 @@ function mergeCompanies(company, duplicateCompany) {
     let mainCompany, secondaryCompany;
 
     if (company.cashflowjson.length > 0 && duplicateCompany.cashflowjson.length > 0) {
-        alert("Begge selskapene har cashflowjson. Vennligst vurder hvilken som skal være hovedselskapet før du fortsetter.");
+        alert("Begge selskapene har cashflowjson.Sammenslåingen må da gjøres manuelt.");
         return; // Avslutt funksjonen
     }
 

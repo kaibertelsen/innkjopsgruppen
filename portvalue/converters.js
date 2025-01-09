@@ -25,6 +25,10 @@ function convertJsonStringsToObjects(jsonStrings) {
 
             if (!data.bruker) {
                 data.bruker = [];
+            }
+
+            if (!data.invitasjon) {
+                data.invitasjon = [];
             } 
 
             return data;
