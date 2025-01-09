@@ -829,8 +829,7 @@ function mergeCompanies(company, duplicateCompany) {
         mainCompany = company.invitasjon.length >= duplicateCompany.invitasjon.length ? company : duplicateCompany;
         secondaryCompany = mainCompany === company ? duplicateCompany : company;
     } else {
-        // Hvis ingen kriterier stemmer, sett `company` som main som fallback
-        mainCompany = company;
+        mainCompany = company; // Fallback
         secondaryCompany = duplicateCompany;
     }
 
@@ -875,19 +874,21 @@ function mergeCompanies(company, duplicateCompany) {
         console.log("Sekundærselskapet er slettet fra klientdata.");
     }
 
-    // Ekstraher brukernes airtable-ID-er
+    // Ekstraher brukernes og invitasjonenes airtable-ID-er
     const brukerIds = mainCompany.bruker.map(user => user.airtable);
+    const invitasjonIds = mainCompany.invitasjon.map(invitation => invitation.airtable);
 
     // Lag et objekt for lagring
     const saveObject = {
         bruker: brukerIds,
+        invitasjon: invitasjonIds,
         valuegroup: mainCompany.valuegroup,
     };
 
     //send til server oppdatering av main company
+    console.log("Save object:", saveObject);
 
     //send en slettemelding til server på secondcompany
-    console.log("Save object:", saveObject);
 
     // Fjern secondaryCompany-elementet fra DOM
     const secondaryElement = document.getElementById(secondaryCompany.airtable + "dmode");
@@ -928,6 +929,7 @@ function mergeCompanies(company, duplicateCompany) {
     alert(reportMessage.trim());
     console.log(reportMessage.trim());
 }
+
 
 
 
