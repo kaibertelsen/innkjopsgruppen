@@ -812,8 +812,17 @@ function mergeCompanies(company, duplicateCompany) {
     console.log("Sammenslåingen starter");
 
     // Identifiser hovedselskapet basert på cashflowjson
-    const mainCompany = company.cashflowjson.length > 0 ? company : duplicateCompany;
-    const secondaryCompany = mainCompany === company ? duplicateCompany : company;
+    let mainCompany, secondaryCompany;
+
+    if (company.cashflowjson.length > 0 || duplicateCompany.cashflowjson.length > 0) {
+        // Velg selskapet med cashflowjson som hovedselskap
+        mainCompany = company.cashflowjson.length > 0 ? company : duplicateCompany;
+        secondaryCompany = mainCompany === company ? duplicateCompany : company;
+    } else {
+        // Hvis ingen har cashflowjson, velg selskapet med flest brukere
+        mainCompany = company.bruker.length >= duplicateCompany.bruker.length ? company : duplicateCompany;
+        secondaryCompany = mainCompany === company ? duplicateCompany : company;
+    }
 
     console.log(`Hovedselskap: ${mainCompany.Name}, Orgnr: ${mainCompany.orgnr}`);
     console.log(`Sekundærselskap: ${secondaryCompany.Name}, Orgnr: ${secondaryCompany.orgnr}`);
@@ -838,8 +847,10 @@ function mergeCompanies(company, duplicateCompany) {
 
     console.log("Save object:", saveObject);
 
+    // Her kan du legge til koden for å lagre oppdateringene, f.eks. til en database eller et API-kall.
     console.log("Sammenslåingen er ferdig!");
 }
+
 
 
 
