@@ -831,14 +831,18 @@ function mergeCompanies(company, duplicateCompany) {
     console.log(`Sekundærselskap: ${secondaryCompany.Name}, Orgnr: ${secondaryCompany.orgnr}`);
 
     // Flytt brukere fra sekundærselskap til hovedselskap
+    let usersTransferred = [];
     if (secondaryCompany.bruker && secondaryCompany.bruker.length > 0) {
+        usersTransferred = [...secondaryCompany.bruker];
         mainCompany.bruker = [...mainCompany.bruker, ...secondaryCompany.bruker];
         console.log(`Brukere flyttet til hovedselskapet: ${secondaryCompany.bruker.length}`);
     }
 
     // Oppdater valuegroup hvis hovedselskapets valuegroup er 0 eller mangler
+    let valuegroupTransferred = false;
     if (!mainCompany.valuegroup || mainCompany.valuegroup === "0") {
         mainCompany.valuegroup = secondaryCompany.valuegroup || "0";
+        valuegroupTransferred = true;
         console.log(`Hovedselskapets valuegroup oppdatert til: ${mainCompany.valuegroup}`);
     }
 
@@ -885,14 +889,26 @@ function mergeCompanies(company, duplicateCompany) {
         }, 1000); // 1 sekunds animasjon
     }
 
-    //oppdater dashboard
+    // Oppdater dashboard
     const dashboardData = calculatingPorteDashboard(klientdata);
     loadDashboardporte(dashboardData);
     const salsboardData = calculatingSaleDashboard(klientdata);
     loadDashboardsale(salsboardData);
 
-    console.log("Sammenslåingen er ferdig!");
+    // Lag en rapport
+    const userCount = usersTransferred.length;
+    const valuegroupInfo = valuegroupTransferred ? "Valuegroup er overført." : "Ingen endring i valuegroup.";
+    const reportMessage = `
+        Sammenslåing fullført!
+        Brukere overført: ${userCount}
+        ${valuegroupInfo}
+        Sekundærselskap: ${secondaryCompany.Name} (${secondaryCompany.orgnr})
+        Hovedselskap: ${mainCompany.Name} (${mainCompany.orgnr})
+    `;
+    alert(reportMessage.trim());
+    console.log(reportMessage.trim());
 }
+
 
 
 
