@@ -929,7 +929,7 @@ function mergeCompanies(company, duplicateCompany) {
     // Lag en rapport
     const userCount = usersTransferred.length;
     const invitationCount = invitationsTransferred.length;
-    const valuegroupInfo = valuegroupTransferred ? "Valuegroup er overført." : "Ingen endring i valuegroup.";
+    const valuegroupInfo = valuegroupTransferred ? "Abn. verdi er overført." : "Ingen endring i Abn. verdi.";
     const reportMessage = `
         Sammenslåing fullført!
         Brukere overført: ${userCount}
