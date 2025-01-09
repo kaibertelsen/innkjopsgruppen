@@ -902,9 +902,9 @@ function mergeCompanies(company, duplicateCompany) {
     }
 
     // Ekstraher brukernes og invitasjonenes airtable-ID-er
-    const brukerIds = mainCompany.bruker.map(user => user.airtable);
-    const invitasjonIds = mainCompany.invitasjon.map(invitation => invitation.airtable);
-    
+    let brukerIds = mainCompany.bruker.map(user => user.airtable);
+    let invitasjonIds = mainCompany.invitasjon.map(invitation => invitation.airtable);
+
     // Fjern duplikater ved å bruke Set
     brukerIds = [...new Set(brukerIds)];
     invitasjonIds = [...new Set(invitasjonIds)];
