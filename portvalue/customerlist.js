@@ -259,43 +259,48 @@ function listCustomer(data) {
         
                 // Finn duplikat i klientdata-arrayen
                 const duplicateCompany = klientdata.find(client => {
-                const normalize = str => (str || "").toLowerCase().trim();
-                return (
-                    normalize(client.Name) === normalize(company.Name) &&
-                    normalize(client.orgnr) === normalize(company.orgnr) &&
-                    client.airtable !== company.airtable // Sikrer at det er en annen instans
-                );
+                    const normalize = str => (str || "").toLowerCase().trim();
+                    return (
+                        normalize(client.Name) === normalize(company.Name) &&
+                        normalize(client.orgnr) === normalize(company.orgnr) &&
+                        client.airtable !== company.airtable // Sikrer at det er en annen instans
+                    );
                 });
-
         
+                let duplicateElement = null;
                 if (duplicateCompany) {
                     // Merk duplikatens element med blå border
-                    const duplicateElement = document.getElementById(duplicateCompany.airtable+"dmode");
+                    duplicateElement = document.getElementById(duplicateCompany.airtable + "dmode");
                     if (duplicateElement) {
                         duplicateElement.style.border = "2px solid blue";
                     }
+                }
         
-                    // Vis en bekreftelsesmelding
-                    const confirmMerge = confirm(
-                        `Ønsker du å slå sammen selskapet ${company.Name} (${company.orgnr}) med ${duplicateCompany.Name} (${duplicateCompany.orgnr})?`
-                    );
+                // Vis bekreftelsesdialog
+                const confirmMerge = confirm(
+                    duplicateCompany
+                        ? `Ønsker du å slå sammen selskapet ${company.Name} (${company.orgnr}) med ${duplicateCompany.Name} (${duplicateCompany.orgnr})?`
+                        : "Ingen duplikat funnet for dette selskapet."
+                );
         
-                    if (confirmMerge) {
-                        // Kjør merge-funksjonen hvis brukeren bekrefter
-                        try {
-                            mergeCompanies(company, duplicateCompany);
-                            alert("Selskapene ble slått sammen!");
-                        } catch (error) {
-                            console.error("Feil under sammenslåing:", error);
-                            alert("Det oppstod en feil under sammenslåing av selskapene.");
-                        }
+                if (confirmMerge && duplicateCompany) {
+                    // Kjør merge-funksjonen hvis brukeren bekrefter
+                    try {
+                        mergeCompanies(company, duplicateCompany);
+                        alert("Selskapene ble slått sammen!");
+                    } catch (error) {
+                        console.error("Feil under sammenslåing:", error);
+                        alert("Det oppstod en feil under sammenslåing av selskapene.");
                     }
                 } else {
-                    alert("Ingen duplikat funnet for dette selskapet.");
+                    // Fjern merkingen hvis brukeren avbryter eller ingen duplikat finnes
+                    companyElement.style.border = "";
+                    if (duplicateElement) {
+                        duplicateElement.style.border = "";
+                    }
                 }
             });
-        }
-        else{
+        } else{
             //delete company button 
             
                 //hvis det er 0 i handel og 0 i abonnement så set en varning på legg til en klasse "warning"
