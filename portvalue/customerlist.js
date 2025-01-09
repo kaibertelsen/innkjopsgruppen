@@ -815,16 +815,23 @@ function mergeCompanies(company, duplicateCompany) {
     let mainCompany, secondaryCompany;
 
     if (company.cashflowjson.length > 0 && duplicateCompany.cashflowjson.length > 0) {
-        alert("Begge selskapene har cashflowjson.Sammenslåingen må da gjøres manuelt.");
+        alert("Begge selskapene har cashflowjson. Sammenslåingen må da gjøres manuelt.");
         return; // Avslutt funksjonen
     }
 
     if (company.cashflowjson.length > 0 || duplicateCompany.cashflowjson.length > 0) {
         mainCompany = company.cashflowjson.length > 0 ? company : duplicateCompany;
         secondaryCompany = mainCompany === company ? duplicateCompany : company;
-    } else {
+    } else if (company.bruker.length > 0 || duplicateCompany.bruker.length > 0) {
         mainCompany = company.bruker.length >= duplicateCompany.bruker.length ? company : duplicateCompany;
         secondaryCompany = mainCompany === company ? duplicateCompany : company;
+    } else if (company.invitasjon.length > 0 || duplicateCompany.invitasjon.length > 0) {
+        mainCompany = company.invitasjon.length >= duplicateCompany.invitasjon.length ? company : duplicateCompany;
+        secondaryCompany = mainCompany === company ? duplicateCompany : company;
+    } else {
+        // Hvis ingen kriterier stemmer, sett `company` som main som fallback
+        mainCompany = company;
+        secondaryCompany = duplicateCompany;
     }
 
     console.log(`Hovedselskap: ${mainCompany.Name}, Orgnr: ${mainCompany.orgnr}`);
@@ -836,6 +843,14 @@ function mergeCompanies(company, duplicateCompany) {
         usersTransferred = [...secondaryCompany.bruker];
         mainCompany.bruker = [...mainCompany.bruker, ...secondaryCompany.bruker];
         console.log(`Brukere flyttet til hovedselskapet: ${secondaryCompany.bruker.length}`);
+    }
+
+    // Flytt invitasjoner fra sekundærselskap til hovedselskap
+    let invitationsTransferred = [];
+    if (secondaryCompany.invitasjon && secondaryCompany.invitasjon.length > 0) {
+        invitationsTransferred = [...secondaryCompany.invitasjon];
+        mainCompany.invitasjon = [...mainCompany.invitasjon, ...secondaryCompany.invitasjon];
+        console.log(`Invitasjoner flyttet til hovedselskapet: ${secondaryCompany.invitasjon.length}`);
     }
 
     // Oppdater valuegroup hvis hovedselskapets valuegroup er 0 eller mangler
@@ -869,6 +884,9 @@ function mergeCompanies(company, duplicateCompany) {
         valuegroup: mainCompany.valuegroup,
     };
 
+    //send til server oppdatering av main company
+
+    //send en slettemelding til server på secondcompany
     console.log("Save object:", saveObject);
 
     // Fjern secondaryCompany-elementet fra DOM
@@ -897,10 +915,12 @@ function mergeCompanies(company, duplicateCompany) {
 
     // Lag en rapport
     const userCount = usersTransferred.length;
+    const invitationCount = invitationsTransferred.length;
     const valuegroupInfo = valuegroupTransferred ? "Valuegroup er overført." : "Ingen endring i valuegroup.";
     const reportMessage = `
         Sammenslåing fullført!
         Brukere overført: ${userCount}
+        Invitasjoner overført: ${invitationCount}
         ${valuegroupInfo}
         Sekundærselskap: ${secondaryCompany.Name} (${secondaryCompany.orgnr})
         Hovedselskap: ${mainCompany.Name} (${mainCompany.orgnr})
@@ -908,6 +928,9 @@ function mergeCompanies(company, duplicateCompany) {
     alert(reportMessage.trim());
     console.log(reportMessage.trim());
 }
+
+
+
 
 
 
