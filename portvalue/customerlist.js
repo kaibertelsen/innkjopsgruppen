@@ -287,11 +287,12 @@ function listCustomer(data) {
                         // Kjør merge-funksjonen hvis brukeren bekrefter
                         try {
                             mergeCompanies(company, duplicateCompany);
-                            alert("Selskapene ble slått sammen!");
                         } catch (error) {
                             console.error("Feil under sammenslåing:", error);
                             alert("Det oppstod en feil under sammenslåing av selskapene.");
                         }
+                        companyElement.style.border = "";
+                        duplicateElement.style.border = "";      
                     } else {
                         // Fjern merkingen hvis brukeren avbryter eller ingen duplikat finnes
                         companyElement.style.border = "";
@@ -807,12 +808,39 @@ function companyDeletedResponse(data){
     }
 }
 
-function mergeCompanies(company, duplicateCompany){
+function mergeCompanies(company, duplicateCompany) {
+    console.log("Sammenslåingen starter");
 
+    // Identifiser hovedselskapet basert på cashflowjson
+    const mainCompany = company.cashflowjson.length > 0 ? company : duplicateCompany;
+    const secondaryCompany = mainCompany === company ? duplicateCompany : company;
 
-console.log("Sammenslåingen starter");
+    console.log(`Hovedselskap: ${mainCompany.Name}, Orgnr: ${mainCompany.orgnr}`);
+    console.log(`Sekundærselskap: ${secondaryCompany.Name}, Orgnr: ${secondaryCompany.orgnr}`);
 
+    // Flytt brukere fra sekundærselskap til hovedselskap
+    if (secondaryCompany.bruker && secondaryCompany.bruker.length > 0) {
+        mainCompany.bruker = [...mainCompany.bruker, ...secondaryCompany.bruker];
+        console.log(`Brukere flyttet til hovedselskapet: ${secondaryCompany.bruker.length}`);
+    }
+
+    // Oppdater valuegroup hvis hovedselskapets valuegroup er 0 eller mangler
+    if (!mainCompany.valuegroup || mainCompany.valuegroup === "0") {
+        mainCompany.valuegroup = secondaryCompany.valuegroup || "0";
+        console.log(`Hovedselskapets valuegroup oppdatert til: ${mainCompany.valuegroup}`);
+    }
+
+    // Lag et objekt for lagring
+    const saveObject = {
+        bruker: mainCompany.bruker,
+        valuegroup: mainCompany.valuegroup,
+    };
+
+    console.log("Save object:", saveObject);
+
+    console.log("Sammenslåingen er ferdig!");
 }
+
 
 
 
