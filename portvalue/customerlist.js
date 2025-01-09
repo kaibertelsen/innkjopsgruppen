@@ -839,9 +839,12 @@ function mergeCompanies(company, duplicateCompany) {
         console.log(`Hovedselskapets valuegroup oppdatert til: ${mainCompany.valuegroup}`);
     }
 
+    // Ekstraher brukernes airtable-ID-er
+    const brukerIds = mainCompany.bruker.map(user => user.airtable);
+
     // Lag et objekt for lagring
     const saveObject = {
-        bruker: mainCompany.bruker,
+        bruker: brukerIds,
         valuegroup: mainCompany.valuegroup,
     };
 
@@ -849,7 +852,15 @@ function mergeCompanies(company, duplicateCompany) {
 
     // Her kan du legge til koden for å lagre oppdateringene, f.eks. til en database eller et API-kall.
     console.log("Sammenslåingen er ferdig!");
+
+    // Fjern secondaryCompany-elementet fra DOM
+    const secondaryElement = document.getElementById(secondaryCompany.airtable + "dmode");
+    if (secondaryElement) {
+        secondaryElement.remove();
+        console.log("Sekundærselskapet er fjernet fra listen.");
+    }
 }
+
 
 
 
