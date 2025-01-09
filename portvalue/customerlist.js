@@ -802,9 +802,7 @@ function companyDeletedResponse(data){
     // Hvis selskapet finnes i arrayet, fjern det
     if (index !== -1) {
         klientdata.splice(index, 1);
-        console.log(`Selskapet med Airtable-ID ${data.airtable} er fjernet fra klientdata.`);
     } else {
-        console.log(`Selskapet med Airtable-ID ${data.airtable} ble ikke funnet i klientdata.`);
     }
 }
 
@@ -867,12 +865,13 @@ function mergeCompanies(company, duplicateCompany) {
         console.log("Hovedselskapet er oppdatert i klientdata.");
     }
 
-    // Slett `secondaryCompany` fra `klientdata`
-    const secondaryIndex = klientdata.findIndex(client => client.airtable === secondaryCompany.airtable);
-    if (secondaryIndex !== -1) {
-        klientdata.splice(secondaryIndex, 1);
-        console.log("Sekundærselskapet er slettet fra klientdata.");
-    }
+      // Slett `secondaryCompany` fra `klientdata`
+      const secondaryIndex = klientdata.findIndex(client => client.airtable === secondaryCompany.airtable);
+      if (secondaryIndex !== -1) {
+          klientdata.splice(secondaryIndex, 1);
+          console.log("Sekundærselskapet er slettet fra klientdata.");
+      }
+  
 
     // Ekstraher brukernes og invitasjonenes airtable-ID-er
     const brukerIds = mainCompany.bruker.map(user => user.airtable);
@@ -882,13 +881,26 @@ function mergeCompanies(company, duplicateCompany) {
     const saveObject = {
         bruker: brukerIds,
         invitasjon: invitasjonIds,
-        valuegroup: mainCompany.valuegroup,
+        valuegroup: Number(mainCompany.valuegroup)
     };
 
     //send til server oppdatering av main company
-    console.log("Save object:", saveObject);
+    const jsonData = JSON.stringify(saveObject);
+    PATCHairtable(
+        "app1WzN1IxEnVu3m0", // App ID
+        "tblFySDb9qVeVVY5c", // Tabell ID
+        mainCompany.airtable,     // Company ID
+        jsonData,           // JSON-data
+        "respondcustomerlistupdated" // Callback eller responshåndtering
+    );
 
     //send en slettemelding til server på secondcompany
+    DELETEairtable(
+        "app1WzN1IxEnVu3m0", // App ID
+        "tblFySDb9qVeVVY5c", // Tabell ID
+        secondaryCompany.airtable,
+        "companyDeletedResponse"
+    );
 
     // Fjern secondaryCompany-elementet fra DOM
     const secondaryElement = document.getElementById(secondaryCompany.airtable + "dmode");
