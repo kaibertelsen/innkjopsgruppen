@@ -814,12 +814,15 @@ function mergeCompanies(company, duplicateCompany) {
     // Identifiser hovedselskapet basert på cashflowjson
     let mainCompany, secondaryCompany;
 
+    if (company.cashflowjson.length > 0 && duplicateCompany.cashflowjson.length > 0) {
+        alert("Begge selskapene har cashflowjson. Vennligst vurder hvilken som skal være hovedselskapet før du fortsetter.");
+        return; // Avslutt funksjonen
+    }
+
     if (company.cashflowjson.length > 0 || duplicateCompany.cashflowjson.length > 0) {
-        // Velg selskapet med cashflowjson som hovedselskap
         mainCompany = company.cashflowjson.length > 0 ? company : duplicateCompany;
         secondaryCompany = mainCompany === company ? duplicateCompany : company;
     } else {
-        // Hvis ingen har cashflowjson, velg selskapet med flest brukere
         mainCompany = company.bruker.length >= duplicateCompany.bruker.length ? company : duplicateCompany;
         secondaryCompany = mainCompany === company ? duplicateCompany : company;
     }
@@ -839,6 +842,20 @@ function mergeCompanies(company, duplicateCompany) {
         console.log(`Hovedselskapets valuegroup oppdatert til: ${mainCompany.valuegroup}`);
     }
 
+    // Oppdater `mainCompany` i `klientdata`
+    const mainIndex = klientdata.findIndex(client => client.airtable === mainCompany.airtable);
+    if (mainIndex !== -1) {
+        klientdata[mainIndex] = mainCompany;
+        console.log("Hovedselskapet er oppdatert i klientdata.");
+    }
+
+    // Slett `secondaryCompany` fra `klientdata`
+    const secondaryIndex = klientdata.findIndex(client => client.airtable === secondaryCompany.airtable);
+    if (secondaryIndex !== -1) {
+        klientdata.splice(secondaryIndex, 1);
+        console.log("Sekundærselskapet er slettet fra klientdata.");
+    }
+
     // Ekstraher brukernes airtable-ID-er
     const brukerIds = mainCompany.bruker.map(user => user.airtable);
 
@@ -850,16 +867,33 @@ function mergeCompanies(company, duplicateCompany) {
 
     console.log("Save object:", saveObject);
 
-    // Her kan du legge til koden for å lagre oppdateringene, f.eks. til en database eller et API-kall.
-    console.log("Sammenslåingen er ferdig!");
-
     // Fjern secondaryCompany-elementet fra DOM
     const secondaryElement = document.getElementById(secondaryCompany.airtable + "dmode");
     if (secondaryElement) {
         secondaryElement.remove();
         console.log("Sekundærselskapet er fjernet fra listen.");
     }
+
+    // Fjern mainCompanyElement med en fade-out animasjon
+    const mainElement = document.getElementById(mainCompany.airtable + "dmode");
+    if (mainElement) {
+        mainElement.style.transition = "opacity 1s";
+        mainElement.style.opacity = "0";
+        setTimeout(() => {
+            mainElement.remove();
+            console.log("Hovedselskapet er fjernet fra listen med en fade-out animasjon.");
+        }, 1000); // 1 sekunds animasjon
+    }
+
+    //oppdater dashboard
+    const dashboardData = calculatingPorteDashboard(klientdata);
+    loadDashboardporte(dashboardData);
+    const salsboardData = calculatingSaleDashboard(klientdata);
+    loadDashboardsale(salsboardData);
+
+    console.log("Sammenslåingen er ferdig!");
 }
+
 
 
 
