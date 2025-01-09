@@ -850,6 +850,14 @@ function mergeCompanies(company, duplicateCompany) {
         console.log(`Invitasjoner flyttet til hovedselskapet: ${secondaryCompany.invitasjon.length}`);
     }
 
+    // Oppdater orgnr hvis hovedselskapet mangler det
+    let orgnrTransferred = false;
+    if (!mainCompany.orgnr || mainCompany.orgnr.trim() === "") {
+        mainCompany.orgnr = secondaryCompany.orgnr || "";
+        orgnrTransferred = true;
+        console.log(`Hovedselskapets orgnr oppdatert til: ${mainCompany.orgnr}`);
+    }
+
     // Oppdater valuegroup hvis hovedselskapets valuegroup er 0 eller mangler
     let valuegroupTransferred = false;
     if (!mainCompany.valuegroup || mainCompany.valuegroup === "0") {
@@ -865,13 +873,12 @@ function mergeCompanies(company, duplicateCompany) {
         console.log("Hovedselskapet er oppdatert i klientdata.");
     }
 
-      // Slett `secondaryCompany` fra `klientdata`
-      const secondaryIndex = klientdata.findIndex(client => client.airtable === secondaryCompany.airtable);
-      if (secondaryIndex !== -1) {
-          klientdata.splice(secondaryIndex, 1);
-          console.log("Sekundærselskapet er slettet fra klientdata.");
-      }
-  
+    // Slett `secondaryCompany` fra `klientdata`
+    const secondaryIndex = klientdata.findIndex(client => client.airtable === secondaryCompany.airtable);
+    if (secondaryIndex !== -1) {
+        klientdata.splice(secondaryIndex, 1);
+        console.log("Sekundærselskapet er slettet fra klientdata.");
+    }
 
     // Ekstraher brukernes og invitasjonenes airtable-ID-er
     const brukerIds = mainCompany.bruker.map(user => user.airtable);
@@ -881,10 +888,11 @@ function mergeCompanies(company, duplicateCompany) {
     const saveObject = {
         bruker: brukerIds,
         invitasjon: invitasjonIds,
+        orgnr: mainCompany.orgnr,
         valuegroup: Number(mainCompany.valuegroup)
     };
 
-    //send til server oppdatering av main company
+    // Send til server oppdatering av main company
     const jsonData = JSON.stringify(saveObject);
     PATCHairtable(
         "app1WzN1IxEnVu3m0", // App ID
@@ -894,7 +902,7 @@ function mergeCompanies(company, duplicateCompany) {
         "respondcustomerlistupdated" // Callback eller responshåndtering
     );
 
-    //send en slettemelding til server på secondcompany
+    // Send en slettemelding til server på secondaryCompany
     DELETEairtable(
         "app1WzN1IxEnVu3m0", // App ID
         "tblFySDb9qVeVVY5c", // Tabell ID
@@ -930,17 +938,21 @@ function mergeCompanies(company, duplicateCompany) {
     const userCount = usersTransferred.length;
     const invitationCount = invitationsTransferred.length;
     const valuegroupInfo = valuegroupTransferred ? "Abn. verdi er overført." : "Ingen endring i Abn. verdi.";
+    const orgnrInfo = orgnrTransferred ? "Org.nr er overført." : "Ingen endring i Org.nr.";
     const reportMessage = `
         Sammenslåing fullført!
         Brukere overført: ${userCount}
         Invitasjoner overført: ${invitationCount}
         ${valuegroupInfo}
+        ${orgnrInfo}
         Sekundærselskap: ${secondaryCompany.Name} (${secondaryCompany.orgnr})
         Hovedselskap: ${mainCompany.Name} (${mainCompany.orgnr})
     `;
     alert(reportMessage.trim());
     console.log(reportMessage.trim());
 }
+
+
 
 
 
