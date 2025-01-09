@@ -258,7 +258,7 @@ function listCustomer(data) {
                 companyElement.style.border = "2px solid blue";
         
                 // Finn duplikat i klientdata-arrayen
-                const duplicateCompany = clientData.find(client => {
+                const duplicateCompany = klientdata.find(client => {
                 const normalize = str => (str || "").toLowerCase().trim();
                 return (
                     normalize(client.Name) === normalize(company.Name) &&
