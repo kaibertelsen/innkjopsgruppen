@@ -246,7 +246,6 @@ function listCustomer(data) {
 
         const deletebutton = companyElement.querySelector(".deletecompanybutton");
         const duplicatebutton = companyElement.querySelector(".duplicatecompanybutton");
-
         if (isInDuplicateMode) {
             // Sett elementet til duplikatmodus
             deletebutton.style.display = "none";
@@ -276,31 +275,34 @@ function listCustomer(data) {
                     }
                 }
         
-                // Vis bekreftelsesdialog
-                const confirmMerge = confirm(
-                    duplicateCompany
-                        ? `Ønsker du å slå sammen selskapet ${company.Name} (${company.orgnr}) med ${duplicateCompany.Name} (${duplicateCompany.orgnr})?`
-                        : "Ingen duplikat funnet for dette selskapet."
-                );
+                // Legg til en liten forsinkelse før confirm vises
+                setTimeout(() => {
+                    const confirmMerge = confirm(
+                        duplicateCompany
+                            ? `Ønsker du å slå sammen selskapet ${company.Name} (${company.orgnr}) med ${duplicateCompany.Name} (${duplicateCompany.orgnr})?`
+                            : "Ingen duplikat funnet for dette selskapet."
+                    );
         
-                if (confirmMerge && duplicateCompany) {
-                    // Kjør merge-funksjonen hvis brukeren bekrefter
-                    try {
-                        mergeCompanies(company, duplicateCompany);
-                        alert("Selskapene ble slått sammen!");
-                    } catch (error) {
-                        console.error("Feil under sammenslåing:", error);
-                        alert("Det oppstod en feil under sammenslåing av selskapene.");
+                    if (confirmMerge && duplicateCompany) {
+                        // Kjør merge-funksjonen hvis brukeren bekrefter
+                        try {
+                            mergeCompanies(company, duplicateCompany);
+                            alert("Selskapene ble slått sammen!");
+                        } catch (error) {
+                            console.error("Feil under sammenslåing:", error);
+                            alert("Det oppstod en feil under sammenslåing av selskapene.");
+                        }
+                    } else {
+                        // Fjern merkingen hvis brukeren avbryter eller ingen duplikat finnes
+                        companyElement.style.border = "";
+                        if (duplicateElement) {
+                            duplicateElement.style.border = "";
+                        }
                     }
-                } else {
-                    // Fjern merkingen hvis brukeren avbryter eller ingen duplikat finnes
-                    companyElement.style.border = "";
-                    if (duplicateElement) {
-                        duplicateElement.style.border = "";
-                    }
-                }
+                }, 200); // 200ms forsinkelse
             });
-        } else{
+        }
+        else{
             //delete company button 
             
                 //hvis det er 0 i handel og 0 i abonnement så set en varning på legg til en klasse "warning"
