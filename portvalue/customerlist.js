@@ -267,14 +267,19 @@ function listCustomer(data) {
                 companyElement.style.border = "2px solid blue";
         
                 // Finn duplikat i klientdata-arrayen
+               // Finn duplikat i klientdata-arrayen
                 const duplicateCompany = klientdata.find(client => {
                     const normalize = str => (str || "").toLowerCase().trim();
+
+                    const sameName = normalize(client.Name) === normalize(company.Name);
+                    const sameOrgnr = normalize(client.orgnr) === normalize(company.orgnr);
+
                     return (
-                        normalize(client.Name) === normalize(company.Name) &&
-                        normalize(client.orgnr) === normalize(company.orgnr) &&
+                        (sameName || sameOrgnr) && // Sjekk om enten navn eller orgnr matcher
                         client.airtable !== company.airtable // Sikrer at det er en annen instans
                     );
                 });
+
         
                 let duplicateElement = null;
                 if (duplicateCompany) {
