@@ -60,34 +60,44 @@ function listCustomer(data) {
         );
 
     }else if (selectedFilter === "duplicate") {
-       // Opprett en Map for å spore duplikater basert på normaliserte navn og orgnr
-            const map = new Map();
-
-            // Trinn 1: Normaliser og grupper selskaper basert på `Name` og `orgnr`
-            data.forEach(company => {
-                const normalizedName = company.Name.trim().toLowerCase(); // Normaliser navn
-                const normalizedOrgnr = company.orgnr.trim(); // Trim orgnr
-
-                // Bruk kombinert nøkkel for navn og orgnr
-                const key = `${normalizedName}-${normalizedOrgnr}`;
-                if (!map.has(key)) {
-                    map.set(key, []);
-                }
-                map.get(key).push(company); // Legg til selskapet i gruppen
-            });
-
-            // Trinn 2: Filtrer selskaper med duplikater
-            filteredData = data.filter(company => {
-                const normalizedName = company.Name.trim().toLowerCase();
-                const normalizedOrgnr = company.orgnr.trim();
-
-                const key = `${normalizedName}-${normalizedOrgnr}`;
-                return map.get(key).length > 1; // Inkluder bare selskaper som har duplikater
-            });
-
-            console.log(filteredData);
-            isInDuplicateMode = true;
-     }
+        // Opprett to Maps for å spore duplikater basert på normaliserte navn og orgnr
+        const nameMap = new Map();
+        const orgnrMap = new Map();
+    
+        // Trinn 1: Normaliser og grupper selskaper basert på `Name` og `orgnr`
+        data.forEach(company => {
+            const normalizedName = company.Name.trim().toLowerCase(); // Normaliser navn
+            const normalizedOrgnr = company.orgnr.trim(); // Trim orgnr
+    
+            // Spor selskaper basert på navn
+            if (!nameMap.has(normalizedName)) {
+                nameMap.set(normalizedName, []);
+            }
+            nameMap.get(normalizedName).push(company);
+    
+            // Spor selskaper basert på orgnr
+            if (!orgnrMap.has(normalizedOrgnr)) {
+                orgnrMap.set(normalizedOrgnr, []);
+            }
+            orgnrMap.get(normalizedOrgnr).push(company);
+        });
+    
+        // Trinn 2: Filtrer selskaper med duplikater (navn, orgnr eller begge deler)
+        filteredData = data.filter(company => {
+            const normalizedName = company.Name.trim().toLowerCase();
+            const normalizedOrgnr = company.orgnr.trim();
+    
+            const hasDuplicateName = nameMap.get(normalizedName).length > 1;
+            const hasDuplicateOrgnr = orgnrMap.get(normalizedOrgnr).length > 1;
+    
+            // Inkluder selskaper som har duplikater basert på enten navn eller orgnr
+            return hasDuplicateName || hasDuplicateOrgnr;
+        });
+    
+        console.log(filteredData);
+        isInDuplicateMode = true;
+    }
+    
 
 
 
