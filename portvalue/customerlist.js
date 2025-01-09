@@ -75,11 +75,13 @@ function listCustomer(data) {
             }
             nameMap.get(normalizedName).push(company);
     
-            // Spor selskaper basert på orgnr
-            if (!orgnrMap.has(normalizedOrgnr)) {
-                orgnrMap.set(normalizedOrgnr, []);
+            // Spor selskaper basert på orgnr (hopp over tomme orgnr)
+            if (normalizedOrgnr !== "") {
+                if (!orgnrMap.has(normalizedOrgnr)) {
+                    orgnrMap.set(normalizedOrgnr, []);
+                }
+                orgnrMap.get(normalizedOrgnr).push(company);
             }
-            orgnrMap.get(normalizedOrgnr).push(company);
         });
     
         // Trinn 2: Filtrer selskaper med duplikater (navn, orgnr eller begge deler)
@@ -88,7 +90,7 @@ function listCustomer(data) {
             const normalizedOrgnr = company.orgnr.trim();
     
             const hasDuplicateName = nameMap.get(normalizedName).length > 1;
-            const hasDuplicateOrgnr = orgnrMap.get(normalizedOrgnr).length > 1;
+            const hasDuplicateOrgnr = normalizedOrgnr !== "" && orgnrMap.get(normalizedOrgnr)?.length > 1;
     
             // Inkluder selskaper som har duplikater basert på enten navn eller orgnr
             return hasDuplicateName || hasDuplicateOrgnr;
@@ -97,6 +99,7 @@ function listCustomer(data) {
         console.log(filteredData);
         isInDuplicateMode = true;
     }
+    
     
 
 
@@ -267,20 +270,23 @@ function listCustomer(data) {
                 companyElement.style.border = "2px solid blue";
         
                 // Finn duplikat i klientdata-arrayen
-               // Finn duplikat i klientdata-arrayen
                 const duplicateCompany = klientdata.find(client => {
                     const normalize = str => (str || "").toLowerCase().trim();
 
                     const sameName = normalize(client.Name) === normalize(company.Name);
-                    const sameOrgnr = normalize(client.orgnr) === normalize(company.orgnr);
+
+                    // Sjekk at organisasjonsnummer ikke er tomt
+                    const sameOrgnr =
+                        normalize(client.orgnr) === normalize(company.orgnr) &&
+                        normalize(client.orgnr) !== "" &&
+                        normalize(company.orgnr) !== "";
 
                     return (
-                        (sameName || sameOrgnr) && // Sjekk om enten navn eller orgnr matcher
+                        (sameName || sameOrgnr) && // Sjekk om enten navn eller gyldig orgnr matcher
                         client.airtable !== company.airtable // Sikrer at det er en annen instans
                     );
                 });
 
-        
                 let duplicateElement = null;
                 if (duplicateCompany) {
                     // Merk duplikatens element med blå border
