@@ -16,7 +16,7 @@ function userObjectResponse(data) {
     if (userObject?.companyslug) {
         // Redirect to the company-specific page
         let address = `https://portal.innkjops-gruppen.no/firma/${userObject.companyslug[0]}`;
-       // window.location.href = address;
+        window.location.href = address;
     } else {
         // Handle the case where companyslug doesn't exist
         console.log("Company slug not found. Taking fallback action.");
