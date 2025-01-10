@@ -15,7 +15,7 @@ function userObjectResponse(data) {
     let userObject = data.fields;
     if (userObject?.companyslug) {
         // Redirect to the company-specific page
-        let address = `https://portal.innkjops-gruppen.no/firma/${userObject.companyslug}`;
+        let address = `https://portal.innkjops-gruppen.no/firma/${userObject.companyslug[0]}`;
        // window.location.href = address;
     } else {
         // Handle the case where companyslug doesn't exist
