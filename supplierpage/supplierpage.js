@@ -1,5 +1,5 @@
 function getconnections(supplierid){
-   let body = airtablebodylistAND({supplierid:supplierid,company:0});
+   let body = airtablebodylistAND({supplierid:supplierid});
     Getlistairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"respondconnections");
 }
  var GlobalConnections = [];
