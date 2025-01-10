@@ -977,16 +977,3 @@ function mergeCompanies(company, duplicateCompany) {
     console.log(reportMessage.trim());
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
