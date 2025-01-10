@@ -6,8 +6,13 @@ function getconnections(supplierid){
 function respondconnections(data){
 
     var cleandata = rawdatacleaner(data);
-    GlobalConnections = cleandata;
-    startConnectionList(cleandata);
+
+    const cleanedList = cleandata.filter(company => 
+        company.company && company.company.length > 0
+    );
+    
+    GlobalConnections = cleanedList;
+    startConnectionList(cleanedList);
     
 }
 
@@ -124,3 +129,6 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Eksporter til Excel
     exportData(GlobalConnections, selectedFields, fieldMapping, filename);
 });
+
+
+
