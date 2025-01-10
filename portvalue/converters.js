@@ -31,6 +31,11 @@ function convertJsonStringsToObjects(jsonStrings) {
                 data.invitasjon = [];
             } 
 
+            if (!data.connections) {
+                data.connections = [];
+            } 
+
+
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
