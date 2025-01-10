@@ -1,12 +1,12 @@
 
 
-function startRutingUser(member){
+function startRutingUser(){
 if(memberObject){
 //hente user object
         GETairtable(
         "app1WzN1IxEnVu3m0",
         "tblMhgrvy31ihKYbr",
-        member.airtableid,
+        memberObject.airtableid,
         "userObjectResponse"
         );
     }
