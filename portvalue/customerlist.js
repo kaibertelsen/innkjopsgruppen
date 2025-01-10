@@ -871,6 +871,14 @@ function mergeCompanies(company, duplicateCompany) {
         console.log(`Invitasjoner flyttet til hovedselskapet: ${secondaryCompany.invitasjon.length}`);
     }
 
+    // Flytt koblinger fra sekundærselskap til hovedselskap
+    let connectionsTransferred = [];
+    if (secondaryCompany.connection && secondaryCompany.connection.length > 0) {
+        connectionsTransferred = [...secondaryCompany.connection];
+        mainCompany.connection = [...mainCompany.connection, ...secondaryCompany.connection];
+        console.log(`Koblinger flyttet til hovedselskapet: ${secondaryCompany.connection.length}`);
+    }
+
     // Oppdater orgnr hvis hovedselskapet mangler det
     let orgnrTransferred = false;
     if (!mainCompany.orgnr || mainCompany.orgnr.trim() === "") {
@@ -962,12 +970,14 @@ function mergeCompanies(company, duplicateCompany) {
     // Lag en rapport
     const userCount = usersTransferred.length;
     const invitationCount = invitationsTransferred.length;
+    const connectionCount = connectionsTransferred.length;
     const valuegroupInfo = valuegroupTransferred ? "Abn. verdi er overført." : "Ingen endring i Abn. verdi.";
     const orgnrInfo = orgnrTransferred ? "Org.nr er overført." : "Ingen endring i Org.nr.";
     const reportMessage = `
         Sammenslåing fullført!
         Brukere overført: ${userCount}
         Invitasjoner overført: ${invitationCount}
+        Koblinger overført: ${connectionCount}
         ${valuegroupInfo}
         ${orgnrInfo}
         Sekundærselskap: ${secondaryCompany.Name} (${secondaryCompany.orgnr})
