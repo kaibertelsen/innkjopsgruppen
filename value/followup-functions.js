@@ -272,7 +272,6 @@ function daysUntil(targetDate) {
     return array;
 }
 
-
  function filteredHideFollowup(data, status) {
     let array = []; // Tom liste for filtrerte selskaper
 
@@ -293,7 +292,6 @@ function daysUntil(targetDate) {
     return array; // Returner den filtrerte listen
 }
 
-
  function isDateAfter(date1, date2) {
    // Konverterer strengene til Date-objekter
    const d1 = new Date(date1);
@@ -302,7 +300,6 @@ function daysUntil(targetDate) {
    // Sammenlign datoene
    return d1 > d2;
  }
- 
  
  function followingupclick(rowelement){
  let dataitemid = rowelement.dataset.id;
@@ -324,6 +321,7 @@ function daysUntil(targetDate) {
  POSTairtable(baseid,"tblpPJVCiLyce6ygN",JSON.stringify(body),"responseFollowingup"); 
  
  }
+ 
  function responseFollowingup(data,id){
  
  console.log(data);
