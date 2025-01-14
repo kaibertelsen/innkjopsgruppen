@@ -1,3 +1,35 @@
+function getKlientdata(){
+    let klientid = "rec1QGUGBMVaqxhp1";
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"klientresponse")
+}
+
+function klientresponse(data) {
+    // Sjekk om data.fields.membersjson eksisterer og er en array
+    if (!data || !data.fields || !data.fields.membersjson || !Array.isArray(data.fields.membersjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.membersjson' som en array.");
+        return;
+    }
+
+    // Hent arrayen og konverter JSON-strenger til objekter
+    const jsonStrings = data.fields.membersjson;
+    const objects = convertJsonStringsToObjects(jsonStrings);
+    klientdata = objects;
+    loadGroupSelector(getUniqueGroups(objects));
+    loadDateSelector();
+
+    loadDashboardporte(calculatingPorteDashboard(objects));
+    loadDashboardsale(calculatingSaleDashboard(objects));
+    loadLiquidityOverview(calculateMonthlyValues(objects));
+
+    listCustomer(objects);
+    
+}
+
+
+
+
+
+
 
 function responddaschboard(data,id){
     //lager array av cash

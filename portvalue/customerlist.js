@@ -349,8 +349,8 @@ function listCustomer(data) {
                 });
             }else{
                 deletebutton.addEventListener("click", () => {
-                    const confirmation = confirm("Selskapet har handel eller abn. verdi! Er du sikker på at du vil slette dette selskapet fra portalen?");
-                    
+                    alert("Selskapet har handel eller abn. verdi! Er du sikker på at du vil slette dette selskapet fra portalen?");
+                    /*
                     if (confirmation) {
                         // Hvis brukeren klikker "Ja"
                         deleteCompany(company,companyElement);
@@ -359,6 +359,7 @@ function listCustomer(data) {
                         // Hvis brukeren klikker "Nei"
                         console.log("Sletting avbrutt.");
                     }
+                    */
                 });
             
             }
