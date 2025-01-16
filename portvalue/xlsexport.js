@@ -85,6 +85,9 @@ function exportDashBoardSaleexit(companys,name){
     const fieldMapping = {
         Name: "Navn",
         orgnr: "Org.nr",
+        adresse:"Adresse",
+        postnr:"Postnummer",
+        poststed:"Poststed",
         groupname: "Gruppe",
         type:"Type",
         valuegroup: "Abonnement",
@@ -108,6 +111,9 @@ function exportDashBoard(companys,name){
     const fieldMapping = {
         Name: "Navn",
         orgnr: "Org.nr",
+        adresse:"Adresse",
+        postnr:"Postnummer",
+        poststed:"Poststed",
         groupname: "Gruppe",
         valuegroup: "Abonnement",
         value:"Handel",
