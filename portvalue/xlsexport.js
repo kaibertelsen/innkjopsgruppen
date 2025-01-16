@@ -3,6 +3,9 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     const fieldMapping = {
         Name: "Navn",
         orgnr: "Org.nr",
+        adresse:"Adresse",
+        postnr:"Postnummer",
+        poststed:"Poststed",
         groupname: "Gruppe",
         type:"Type",
         valuegroup: "Abonnement",
