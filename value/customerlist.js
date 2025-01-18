@@ -48,4 +48,13 @@ function startvaluelist(data, load, sortname, descending) {
     });
 }
 
+// Legg til søkefunksjon
+const searchField = document.getElementById("dropdownval");
+document.getElementById("dropdownval").addEventListener("input", () => {
+    const searchValue = searchField.value.toLowerCase(); // Konverter til små bokstaver for case-insensitivt søk
+    const filteredData = originalData.filter(company =>
+        company.customer.toLowerCase().includes(searchValue)
+    );
+    startvaluelist(filteredData, true); // Sender det filtrerte datasettet til funksjonen
+});
 
