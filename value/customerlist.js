@@ -1,6 +1,6 @@
 function startvaluelist(data,load,sortname,descending){
 
-
+    listarray = data;
     const list = document.getElementById("valuelist");
     list.replaceChildren();
 
@@ -11,6 +11,14 @@ function startvaluelist(data,load,sortname,descending){
     
     data.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
+        
+    // Legg til klassen "second" på annenhver element
+    if (index % 2 !== 0) {
+        companyElement.classList.add("second");
+    }
+
+
+
         list.appendChild(companyElement);
 
         const name = companyElement.querySelector(".customname");
