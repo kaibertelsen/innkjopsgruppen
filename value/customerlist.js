@@ -16,6 +16,14 @@ function startvaluelist(data, load, sortname, descending) {
 
     document.getElementById("valucustomcounter").textContent = `${data.length} stk.`;
 
+    // Opprett en formatter for NOK valuta
+    const formatter = new Intl.NumberFormat('no-NO', {
+        style: 'currency',
+        currency: 'NOK',
+        minimumFractionDigits: 0, // Ingen desimaler
+        maximumFractionDigits: 0,
+    });
+
     data.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
 
@@ -30,13 +38,14 @@ function startvaluelist(data, load, sortname, descending) {
         name.textContent = company.customer;
 
         const value = companyElement.querySelector(".customvalue");
-        value.textContent = company.value;
+        value.textContent = formatter.format(company.value);
 
         const cut = companyElement.querySelector(".customcut");
-        cut.textContent = company.cutvalue;
+        cut.textContent = formatter.format(company.cutvalue);
 
         const kickback = companyElement.querySelector(".cutsomkickback");
-        kickback.textContent = company.kickbackvalue;
+        kickback.textContent = formatter.format(company.kickbackvalue);
     });
 }
+
 
