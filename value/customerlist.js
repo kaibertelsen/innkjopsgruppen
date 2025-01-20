@@ -206,6 +206,12 @@ function loadCustomerGroup(data) {
     // Sorter arrayen alfabetisk basert på gruppenavn
     uniqueGroupArray.sort((a, b) => a.name.localeCompare(b.name));
 
+    // Legg til "Velg gruppe"-option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = ""; // Tom verdi
+    defaultOption.textContent = "Velg gruppe"; // Tekst som vises
+    dropdownMenu.appendChild(defaultOption);
+
     // Lag options basert på unike grupper
     uniqueGroupArray.forEach(group => {
         var option = document.createElement("option");
@@ -217,5 +223,6 @@ function loadCustomerGroup(data) {
     // Logg arrayen for debugging
     console.log(uniqueGroupArray);
 }
+
 
 
