@@ -43,7 +43,7 @@ function startvaluelist(data, load, sortname, descending) {
     const elementLibrary = document.getElementById("libraryelements");
     const nodeElement = elementLibrary.querySelector('.customerrow');
   
-    document.getElementById("valucustomcounter").textContent = `${data.length} stk.`;
+    document.getElementById("valucustomcounter").textContent = `${data.length} stk. Kunder`;
   
     // Opprett en formatter for NOK valuta
     const formatter = new Intl.NumberFormat('no-NO', {
