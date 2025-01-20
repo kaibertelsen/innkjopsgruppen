@@ -33,8 +33,8 @@ function startvaluelist(data, load, sortname, descending) {
 
         list.appendChild(companyElement);
 
-        const name = companyElement.querySelector(".Name");
-        name.textContent = company.customer;
+        const name = companyElement.querySelector(".customname");
+        name.textContent = company.Name;
 
 
         // Summer value, cut og kickbackvalue
