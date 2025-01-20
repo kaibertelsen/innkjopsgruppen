@@ -1,5 +1,9 @@
 function startvaluelist(data, load, sortname, descending) {
-    listarray = data;
+    if(load){
+        listarray = data;
+    }else{
+    }
+    
 
     // Sorter data alfabetisk basert på "customer"-nøkkelen
     data.sort((a, b) => {
@@ -51,10 +55,46 @@ function startvaluelist(data, load, sortname, descending) {
 // Legg til søkefunksjon
 const searchField = document.getElementById("dropdownval");
 document.getElementById("dropdownval").addEventListener("input", () => {
-    const searchValue = searchField.value.toLowerCase(); // Konverter til små bokstaver for case-insensitivt søk
-    const filteredData = originalData.filter(company =>
-        company.customer.toLowerCase().includes(searchValue)
-    );
     startvaluelist(filteredData, true); // Sender det filtrerte datasettet til funksjonen
 });
+
+
+function updateOpenlistPage(pages){
+
+    if(pages){
+    
+    }else{
+        
+        if (document.getElementById('besparelsebutton').classList.contains('w--current')){
+        pages = "besparelsebutton";
+        }else if(document.getElementById('startsupplierbutton').classList.contains('w--current')){
+        pages = "startsupplierbutton";
+        }else if(document.getElementById('startcustomerbutton').classList.contains('w--current')){
+        pages =  "startcustomerbutton";
+        }
+    }
+    
+    
+    if(pages == "besparelsebutton"){
+        if(companydatalines.length>0){
+       mainrootcompanylist(companydatalines);
+        }
+    }else if (pages == "startsupplierbutton") {
+      if(supplierlistbuffer.length>0){
+        
+          let deepCopyArray = JSON.parse(JSON.stringify(cashflowdatoarray));
+         //hvis supplierarray in loaded
+         var mergedarray = mergerowInArray("supplier",["value","cutvalue","kickbackvalue"],deepCopyArray);
+         //slå sammen cash end supplier
+         var combinearray = combineArrays("name","supplier",["value","cutvalue","kickbackvalue"],supplierlistbuffer,mergedarray);
+         startlist(combinearray,true,"kickbackvalue",false);
+        }
+    }else if(pages == "startcustomerbutton"){
+         if(klientdata.length>0){
+        // list alle kunder som har cachflow
+
+
+        }
+    }
+}
 
