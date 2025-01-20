@@ -158,7 +158,44 @@ function updateOpenlistPage(pages){
             // Filtrer ut kunder som har cashflow
             companyListbuffer = buffercompanydata.filter(company => company.cashflowjson.length > 0);
             startvaluelist(companyListbuffer, true, "", "");
+
+            loadCustomerGroup(companyListbuffer);
+
+
+            
         }
     }
 }
 
+function loadCustomerGroup(data) {
+    var dropdownMenu = document.getElementById("customergroupselector");
+    dropdownMenu.innerHTML = ''; // Tømmer dropdown-menyen
+
+    // Opprett et sett for å holde styr på unike grupper
+    const uniqueGroups = new Map();
+
+    // Fyll settet med unike groupname og airtable kombinasjoner
+    data.forEach(item => {
+        if (!uniqueGroups.has(item.group)) {
+            uniqueGroups.set(item.group, { name: item.groupname, airtable: item.group });
+        }
+    });
+
+    // Konverter settet til en array
+    const uniqueGroupArray = Array.from(uniqueGroups.values());
+
+    // Lag dropdown-elementer basert på unike grupper
+    uniqueGroupArray.forEach(group => {
+        var a = document.createElement("a");
+        a.href = "#";
+        a.textContent = group.name; // Vis gruppenavnet
+        a.dataset.id = group.airtable; // Lagre airtable-ID som data-attributt
+        a.onclick = function() {
+            handleItemClick(group.airtable, group.name); // Kall funksjonen ved klikk
+        };
+        dropdownMenu.appendChild(a);
+    });
+
+    // Logg arrayen for debugging
+    console.log(uniqueGroupArray);
+}
