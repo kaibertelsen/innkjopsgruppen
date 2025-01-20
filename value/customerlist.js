@@ -1,4 +1,5 @@
 function startvaluelist(data, load, sortname, descending) {
+    listarray = [];
     // Sjekk verdien i tekstfeltet
     let searchField = document.getElementById("dropdownval");
     let searchValue = searchField ? searchField.value.toLowerCase() : ""; // Søkestreng fra tekstfeltet
@@ -53,12 +54,9 @@ function startvaluelist(data, load, sortname, descending) {
         maximumFractionDigits: 0,
     });
   
-let sum = {
-            value:0,
-            cut:0,
-            kickback:0
-            };
+    let sum = {value:0,cut:0,kickback:0};
 
+    listarray = data;
 
     data.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
@@ -169,18 +167,15 @@ function updateOpenlistPage(pages){
          var combinearray = combineArrays("name","supplier",["value","cutvalue","kickbackvalue"],supplierlistbuffer,mergedarray);
          startlist(combinearray,true,"kickbackvalue",false);
         }
-    }else if(pages == "startcustomerbutton"){
-         if(buffercompanydata.length>0){
+    }
+
+    if(buffercompanydata.length>0){
             // Filtrer ut kunder som har cashflow
             companyListbuffer = buffercompanydata.filter(company => company.cashflowjson.length > 0);
             startvaluelist(companyListbuffer, true, "", "");
-
-            loadCustomerGroup(companyListbuffer);
-
-
-            
-        }
+            loadCustomerGroup(companyListbuffer);   
     }
+
 }
 
 function loadCustomerGroup(data) {
