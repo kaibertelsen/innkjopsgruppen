@@ -36,18 +36,22 @@ function startvaluelist(data, load, sortname, descending) {
         const name = companyElement.querySelector(".customname");
         name.textContent = company.Name;
 
-
-        // Summer value, cut og kickbackvalue
-        const totals = data.cashflowjson.reduce(
-            (acc, item) => {
-                acc.value += parseFloat(item.value || 0);
-                acc.cut += parseFloat(item.cut || 0);
-                acc.kickback += parseFloat(item.kickbackvalue || 0);
-                return acc;
-            },
-            { value: 0, cut: 0, kickback: 0 }
-        );
-
+        let totals = {};
+     // Sjekk at cashflowjson eksisterer og er en array
+        if (Array.isArray(data.cashflowjson)) {
+            // Summer value, cut og kickbackvalue
+                totals = data.cashflowjson.reduce(
+                (acc, item) => {
+                    acc.value += parseFloat(item.value || 0);
+                    acc.cut += parseFloat(item.cut || 0);
+                    acc.kickback += parseFloat(item.kickbackvalue || 0);
+                    return acc;
+                },
+                { value: 0, cut: 0, kickback: 0 }
+            );
+        } else {
+            console.error("cashflowjson is not a valid array.");
+        }
 
         const value = companyElement.querySelector(".customvalue");
         value.textContent = formatter.format(totals.value);
