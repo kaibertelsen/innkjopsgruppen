@@ -87,6 +87,8 @@ function startvaluelist(data, load, sortname, descending) {
                     acc.value += parseFloat(item.value || 0);
                     acc.cut += parseFloat(item.cut || 0);
                     acc.kickback += parseFloat(item.kickbackvalue || 0);
+                    acc.bistand += parseFloat(item.bistand || 0);
+                    acc.analyse += parseFloat(item.analyse || 0);
                 
                     sum.value += parseFloat(item.value || 0);
                     sum.cut += parseFloat(item.cut || 0);
