@@ -5,6 +5,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         value: "Handel",
         kickbackvalue: "Kickback",
         bistand: "Bistand",
+        cut:"Besparelse",
         analyse: "Analyse",
         airtable:"SystemID"
     };

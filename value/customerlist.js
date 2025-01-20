@@ -113,8 +113,8 @@ function startvaluelist(data, load, sortname, descending) {
         company.value = totals.value;
         company.kickbackvalue = totals.kickback;
         company.cut = totals.cut;
-        company.bistandvalue = totals.bistand;
-        company.analysevalue = totals.analyse
+        company.bistand = totals.bistand;
+        company.analyse = totals.analyse
        
     });
 
