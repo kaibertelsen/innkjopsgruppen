@@ -1,10 +1,5 @@
 function startvaluelist(data, load, sortname, descending) {
-    if(load){
-        listarray = data;
-    }else{
-    }
     
-
     // Sorter data alfabetisk basert på "customer"-nøkkelen
     data.sort((a, b) => {
         if (a.customer < b.customer) return descending ? 1 : -1;
@@ -38,19 +33,44 @@ function startvaluelist(data, load, sortname, descending) {
 
         list.appendChild(companyElement);
 
-        const name = companyElement.querySelector(".customname");
+        const name = companyElement.querySelector(".Name");
         name.textContent = company.customer;
 
+
+        // Summer value, cut og kickbackvalue
+        const totals = data.cashflowjson.reduce(
+            (acc, item) => {
+                acc.value += parseFloat(item.value || 0);
+                acc.cut += parseFloat(item.cut || 0);
+                acc.kickback += parseFloat(item.kickbackvalue || 0);
+                return acc;
+            },
+            { value: 0, cut: 0, kickback: 0 }
+        );
+
+
         const value = companyElement.querySelector(".customvalue");
-        value.textContent = formatter.format(company.value);
+        value.textContent = formatter.format(totals.value);
 
         const cut = companyElement.querySelector(".customcut");
-        cut.textContent = formatter.format(company.cutvalue);
+        cut.textContent = formatter.format(totals.cut);
 
         const kickback = companyElement.querySelector(".cutsomkickback");
-        kickback.textContent = formatter.format(company.kickbackvalue);
+        kickback.textContent = formatter.format(totals.kickback);
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Legg til søkefunksjon
 const searchField = document.getElementById("dropdownval");
@@ -92,9 +112,8 @@ function updateOpenlistPage(pages){
     }else if(pages == "startcustomerbutton"){
          if(buffercompanydata.length>0){
             // Filtrer ut kunder som har cashflow
-            const customersWithCashflow = buffercompanydata.filter(company => company.cashflowjson.length > 0);
-            startvaluelist(customersWithCashflow, true, "", "");
-
+            companyListbuffer = buffercompanydata.filter(company => company.cashflowjson.length > 0);
+            startvaluelist(companyListbuffer, true, "", "");
         }
     }
 }
