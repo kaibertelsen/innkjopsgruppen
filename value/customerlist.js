@@ -90,7 +90,7 @@ function updateOpenlistPage(pages){
          startlist(combinearray,true,"kickbackvalue",false);
         }
     }else if(pages == "startcustomerbutton"){
-         if(klientdata.length>0){
+         if(buffercompanydata.length>0){
         // list alle kunder som har cachflow
 
 
