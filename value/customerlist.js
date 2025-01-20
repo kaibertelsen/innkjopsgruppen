@@ -85,14 +85,21 @@ function startvaluelist(data, load, sortname, descending) {
         const kickback = companyElement.querySelector(".cutsomkickback");
         kickback.textContent = formatter.format(totals.kickback);
     });
-  }
+}
   
-
 // Legg til søkefunksjon
-const searchField = document.getElementById("dropdownval");
 document.getElementById("dropdownval").addEventListener("input", () => {
     startvaluelist(companyListbuffer, true); // Sender det filtrerte datasettet til funksjonen
 });
+
+document.getElementById("startDate").addEventListener("input", () => {
+    startvaluelist(companyListbuffer, true); // Sender det filtrerte datasettet til funksjonen
+});
+
+document.getElementById("endDate").addEventListener("input", () => {
+    startvaluelist(companyListbuffer, true); // Sender det filtrerte datasettet til funksjonen
+});
+
 
 
 function updateOpenlistPage(pages){
