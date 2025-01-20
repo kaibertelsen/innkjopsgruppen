@@ -1,5 +1,15 @@
 function startvaluelist(data, load, sortname, descending) {
-    
+  // Sjekk verdien i tekstfeltet
+  let searchField = document.getElementById("dropdownval");
+  let searchValue = searchField ? searchField.value.toLowerCase() : ""; // Søkestreng fra tekstfeltet
+
+  // Filtrer data basert på søkestrengen
+  if (searchValue) {
+      data = data.filter(company => 
+          company.Name.toLowerCase().includes(searchValue)
+      );
+  }
+
     // Sorter data alfabetisk basert på "customer"-nøkkelen
     data.sort((a, b) => {
         if (a.customer < b.customer) return descending ? 1 : -1;
@@ -64,22 +74,10 @@ function startvaluelist(data, load, sortname, descending) {
     });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 // Legg til søkefunksjon
 const searchField = document.getElementById("dropdownval");
 document.getElementById("dropdownval").addEventListener("input", () => {
-    startvaluelist(filteredData, true); // Sender det filtrerte datasettet til funksjonen
+    startvaluelist(companyListbuffer, true); // Sender det filtrerte datasettet til funksjonen
 });
 
 
@@ -97,7 +95,6 @@ function updateOpenlistPage(pages){
         pages =  "startcustomerbutton";
         }
     }
-    
     
     if(pages == "besparelsebutton"){
         if(companydatalines.length>0){
