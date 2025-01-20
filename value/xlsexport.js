@@ -4,8 +4,8 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         customer: "Navn",
         value: "Handel",
         kickbackvalue: "Kickback",
-        bistandvalue: "Bistand",
-        analysevalue: "Analyse",
+        bistand: "Bistand",
+        analyse: "Analyse",
         airtable:"SystemID"
     };
 
