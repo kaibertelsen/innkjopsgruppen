@@ -40,6 +40,13 @@ function startvaluelist(data, load, sortname, descending) {
         maximumFractionDigits: 0,
     });
   
+let sum = {
+            value:0,
+            cut:0,
+            kickback:0
+            };
+
+
     data.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
   
@@ -69,6 +76,11 @@ function startvaluelist(data, load, sortname, descending) {
                     acc.value += parseFloat(item.value || 0);
                     acc.cut += parseFloat(item.cut || 0);
                     acc.kickback += parseFloat(item.kickbackvalue || 0);
+
+                    sum.value += parseFloat(item.value || 0);
+                    sum.cut += parseFloat(item.cut || 0);
+                    sum.kickback += parseFloat(item.kickbackvalue || 0);
+
                 }
                 return acc;
             }, totals);
@@ -85,6 +97,16 @@ function startvaluelist(data, load, sortname, descending) {
         const kickback = companyElement.querySelector(".cutsomkickback");
         kickback.textContent = formatter.format(totals.kickback);
     });
+
+    //oppdatere sum
+    const ValueElement = document.getElementById("sumValue");
+    ValueElement.textContent = formatter.format(sum.value);
+
+    const CutElement = document.getElementById("sumCut");
+    CutElement.textContent = formatter.format(sum.cut);
+
+    const KickbackElement = document.getElementById("sumKickback");
+    KickbackElement.textContent = formatter.format(sum.kickback);
 }
   
 // Legg til søkefunksjon
