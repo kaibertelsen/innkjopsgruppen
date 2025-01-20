@@ -71,7 +71,7 @@ function startvaluelist(data, load, sortname, descending) {
         const name = companyElement.querySelector(".customname");
         name.textContent = company.Name;
   
-        let totals = { value: 0, cut: 0, kickback: 0 };
+        let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
   
         // Sjekk at cashflowjson eksisterer og er en array
         if (Array.isArray(company.cashflowjson)) {
@@ -87,11 +87,12 @@ function startvaluelist(data, load, sortname, descending) {
                     acc.value += parseFloat(item.value || 0);
                     acc.cut += parseFloat(item.cut || 0);
                     acc.kickback += parseFloat(item.kickbackvalue || 0);
-
+                
                     sum.value += parseFloat(item.value || 0);
                     sum.cut += parseFloat(item.cut || 0);
                     sum.kickback += parseFloat(item.kickbackvalue || 0);
-
+                    sum.analyse += parseFloat(item.analyse || 0);
+                    sum.bistand += parseFloat(item.bistand || 0);
                 }
                 return acc;
             }, totals);
@@ -107,6 +108,14 @@ function startvaluelist(data, load, sortname, descending) {
   
         const kickback = companyElement.querySelector(".cutsomkickback");
         kickback.textContent = formatter.format(totals.kickback);
+
+        //legge til for bruk ved exsport
+        company.value = totals.value;
+        company.kickbackvalue = totals.kickback;
+        company.cut = totals.cut;
+        company.bistandvalue = totals.bistand;
+        company.analysevalue = totals.analyse
+       
     });
 
     //oppdatere sum
