@@ -171,18 +171,24 @@ function loadCustomerGroup(data) {
     var dropdownMenu = document.getElementById("customergroupselector");
     dropdownMenu.innerHTML = ''; // Tømmer eksisterende options
 
-    // Opprett et sett for å holde styr på unike grupper
+    // Opprett et Map for å holde styr på unike grupper
     const uniqueGroups = new Map();
 
     // Fyll settet med unike groupname og airtable kombinasjoner
     data.forEach(item => {
-        if (!uniqueGroups.has(item.group)) {
-            uniqueGroups.set(item.group, { name: item.groupname, airtable: item.group });
+        const groupName = item.groupname || "Ingen Grupper"; // Standard tekst for tomme grupper
+        const airtableId = item.group || "none"; // Standard ID for tomme grupper
+
+        if (!uniqueGroups.has(airtableId)) {
+            uniqueGroups.set(airtableId, { name: groupName, airtable: airtableId });
         }
     });
 
     // Konverter settet til en array
     const uniqueGroupArray = Array.from(uniqueGroups.values());
+
+    // Sorter arrayen alfabetisk basert på gruppenavn
+    uniqueGroupArray.sort((a, b) => a.name.localeCompare(b.name));
 
     // Lag options basert på unike grupper
     uniqueGroupArray.forEach(group => {
@@ -195,4 +201,5 @@ function loadCustomerGroup(data) {
     // Logg arrayen for debugging
     console.log(uniqueGroupArray);
 }
+
 
