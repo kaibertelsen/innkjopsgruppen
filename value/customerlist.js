@@ -38,9 +38,9 @@ function startvaluelist(data, load, sortname, descending) {
 
         let totals = {};
      // Sjekk at cashflowjson eksisterer og er en array
-        if (Array.isArray(data.cashflowjson)) {
+        if (Array.isArray(company.cashflowjson)) {
             // Summer value, cut og kickbackvalue
-                totals = data.cashflowjson.reduce(
+                totals = company.cashflowjson.reduce(
                 (acc, item) => {
                     acc.value += parseFloat(item.value || 0);
                     acc.cut += parseFloat(item.cut || 0);
