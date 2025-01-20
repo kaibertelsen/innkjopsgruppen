@@ -2,36 +2,49 @@ function startvaluelist(data, load, sortname, descending) {
     // Sjekk verdien i tekstfeltet
     let searchField = document.getElementById("dropdownval");
     let searchValue = searchField ? searchField.value.toLowerCase() : ""; // Søkestreng fra tekstfeltet
-  
+
     // Filtrer data basert på søkestrengen
     if (searchValue) {
-        data = data.filter(company => 
+        data = data.filter(company =>
             company.Name.toLowerCase().includes(searchValue)
         );
     }
-  
+
+    // Filtrer data basert på valgt gruppe i customergroupselector
+    const groupSelector = document.getElementById("customergroupselector");
+    const selectedGroup = groupSelector ? groupSelector.value : ""; // Hent valgt verdi (airtable-ID)
+
+    if (selectedGroup === "none") {
+        // Hvis "none" er valgt, vis kun selskaper med tom group
+        data = data.filter(company => !company.group || company.group === "");
+    } else if (selectedGroup) {
+        // Hvis en gruppe er valgt (ikke tom eller "none"), vis kun selskaper i den gruppen
+        data = data.filter(company => company.group === selectedGroup);
+    }
+    // Hvis selectedGroup er tom, filtreres ingenting vekk
+
     // Sjekk datofeltene
     const startDateField = document.getElementById("startDate");
     const endDateField = document.getElementById("endDate");
-  
+
     const startDate = startDateField && startDateField.value ? new Date(startDateField.value) : null;
     const endDate = endDateField && endDateField.value ? new Date(endDateField.value) : null;
-  
+
     // Sorter data alfabetisk basert på "customer"-nøkkelen
     data.sort((a, b) => {
         if (a.customer < b.customer) return descending ? 1 : -1;
         if (a.customer > b.customer) return descending ? -1 : 1;
         return 0;
     });
-  
+
     const list = document.getElementById("valuelist");
     list.replaceChildren();
-  
+
     const elementLibrary = document.getElementById("libraryelements");
     const nodeElement = elementLibrary.querySelector('.customerrow');
-  
+
     document.getElementById("valucustomcounter").textContent = `${data.length} stk.`;
-  
+
     // Opprett en formatter for NOK valuta
     const formatter = new Intl.NumberFormat('no-NO', {
         style: 'currency',
@@ -39,35 +52,34 @@ function startvaluelist(data, load, sortname, descending) {
         minimumFractionDigits: 0, // Ingen desimaler
         maximumFractionDigits: 0,
     });
-  
-let sum = {
-            value:0,
-            cut:0,
-            kickback:0
-            };
 
+    let sum = {
+        value: 0,
+        cut: 0,
+        kickback: 0
+    };
 
     data.forEach((company, index) => {
         const companyElement = nodeElement.cloneNode(true);
-  
+
         // Legg til klassen "second" på annenhver element
         if (index % 2 !== 0) {
             companyElement.classList.add("second");
         }
-  
+
         list.appendChild(companyElement);
-  
+
         const name = companyElement.querySelector(".customname");
         name.textContent = company.Name;
-  
+
         let totals = { value: 0, cut: 0, kickback: 0 };
-  
+
         // Sjekk at cashflowjson eksisterer og er en array
         if (Array.isArray(company.cashflowjson)) {
             // Summer value, cut og kickbackvalue innenfor datoene
             totals = company.cashflowjson.reduce((acc, item) => {
                 const mainDate = new Date(item.maindate);
-  
+
                 // Sjekk om maindate er innenfor startDate og endDate
                 if (
                     (!startDate || mainDate >= startDate) &&
@@ -80,34 +92,27 @@ let sum = {
                     sum.value += parseFloat(item.value || 0);
                     sum.cut += parseFloat(item.cut || 0);
                     sum.kickback += parseFloat(item.kickbackvalue || 0);
-
                 }
                 return acc;
             }, totals);
         } else {
             console.error("cashflowjson is not a valid array.");
         }
-  
+
         const value = companyElement.querySelector(".customvalue");
         value.textContent = formatter.format(totals.value);
-  
+
         const cut = companyElement.querySelector(".customcut");
         cut.textContent = formatter.format(totals.cut);
-  
+
         const kickback = companyElement.querySelector(".cutsomkickback");
         kickback.textContent = formatter.format(totals.kickback);
     });
 
-    //oppdatere sum
+    // Oppdatere sum
     const ValueElement = document.getElementById("sumValue");
-    ValueElement.textContent = formatter.format(sum.value);
+    ValueElement.textContent = formatter.format
 
-    const CutElement = document.getElementById("sumCut");
-    CutElement.textContent = formatter.format(sum.cut);
-
-    const KickbackElement = document.getElementById("sumKickback");
-    KickbackElement.textContent = formatter.format(sum.kickback);
-}
   
 // Legg til søkefunksjon
 document.getElementById("dropdownval").addEventListener("input", () => {
@@ -122,6 +127,9 @@ document.getElementById("endDate").addEventListener("input", () => {
     startvaluelist(companyListbuffer, true); // Sender det filtrerte datasettet til funksjonen
 });
 
+document.getElementById("customergroupselector").addEventListener("change", function() {
+    startvaluelist(companyListbuffer, true); // Sender det filtrerte datasettet til funksjonen
+});
 
 
 function updateOpenlistPage(pages){
