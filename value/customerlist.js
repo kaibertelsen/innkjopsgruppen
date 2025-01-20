@@ -91,8 +91,9 @@ function updateOpenlistPage(pages){
         }
     }else if(pages == "startcustomerbutton"){
          if(buffercompanydata.length>0){
-        // list alle kunder som har cachflow
-
+            // Filtrer ut kunder som har cashflow
+            const customersWithCashflow = buffercompanydata.filter(company => company.cashflowjson.length > 0);
+            startvaluelist(customersWithCashflow, true, "", "");
 
         }
     }
