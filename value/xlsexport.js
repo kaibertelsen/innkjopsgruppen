@@ -1,7 +1,7 @@
 document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Mapping til nye navn
     const fieldMapping = {
-        customer: "Navn",
+        Name: "Navn",
         value: "Handel",
         kickbackvalue: "Kickback",
         bistand: "Bistand",
