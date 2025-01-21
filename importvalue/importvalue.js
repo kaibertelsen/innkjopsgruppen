@@ -100,17 +100,17 @@ function controllcompany(data,row,rooting,irow){
     var companyobject
     if(orgnrindex == ""){
         //orgnummer er ikke rootet
-        companyobject = findObjectCName("Name",row[nameindex],Allcompanylist);
+        companyobject = findObjectCName("Name",row[nameindex],data);
     }else{
         //orgnummer er rutet søk 
-        companyobject = findObjectOrgnr("orgnr",row[orgnrindex],Allcompanylist);
+        companyobject = findObjectOrgnr("orgnr",row[orgnrindex],data);
     }
 
      
      if(!companyobject){
          //02 - finner ikke firma med orgnr i firmalisten prøv med firmanavn
          if(nameindex != ""){
-       companyobject = findObjectCName("Name",row[nameindex],Allcompanylist);   
+       companyobject = findObjectCName("Name",row[nameindex],data);   
          }
      }
 
