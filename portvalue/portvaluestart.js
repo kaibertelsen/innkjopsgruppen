@@ -194,6 +194,19 @@ function loadDateSelector() {
     const today = new Date();
     const currentYear = today.getFullYear();
 
+    // Hjelpefunksjoner
+    const formatDate = date => date.toISOString().split("T")[0]; // Formater dato som YYYY-MM-DD
+
+    const getDateRange = (months, unit = "months", days = 0) => {
+        const startDate = new Date(today);
+        if (unit === "months") {
+            startDate.setMonth(startDate.getMonth() - months);
+        } else if (unit === "days") {
+            startDate.setDate(startDate.getDate() - days);
+        }
+        return `${formatDate(startDate)},${formatDate(today)}`;
+    };
+
     // Beregner datointervallene
     const options = [
         { text: "Siste 12 mnd.", value: getDateRange(12) },
@@ -201,7 +214,7 @@ function loadDateSelector() {
         { text: "Siste 3 mnd.", value: getDateRange(3) },
         { text: "Siste 30 dager", value: getDateRange(1, "days", 30) },
         { text: "Hittil i år", value: `${currentYear}-01-01,${formatDate(today)}` },
-        { text: "Fjordåret", value: `${currentYear - 1}-01-01,${currentYear - 1}-12-31` }
+        { text: `I Året ${currentYear - 1}`, value: `${currentYear - 1}-01-01,${currentYear - 1}-12-31` }
     ];
 
     // Legger til alternativer i selector
@@ -212,6 +225,7 @@ function loadDateSelector() {
         selector.appendChild(opt);
     });
 }
+
 
 // Hjelpefunksjon for å beregne datointervaller
 function getDateRange(months, unit = "months", daysBack = null) {
