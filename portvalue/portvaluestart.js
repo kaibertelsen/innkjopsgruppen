@@ -221,7 +221,7 @@ function loadDateSelector(selector) {
         { text: "Siste 3 mnd.", value: getDateRange(3) },
         { text: "Siste 30 dager", value: getDateRange(1, "days", 30) },
         { text: "Hittil i år", value: `${currentYear}-01-01,${formatDate(today)}` },
-        { text: `I Året ${currentYear - 1}`, value: `${currentYear - 1}-01-01,${currentYear - 1}-12-31` }
+        { text: `Året ${currentYear - 1}`, value: `${currentYear - 1}-01-01,${currentYear - 1}-12-31` }
     ];
 
     // Legger til alternativer i selector
