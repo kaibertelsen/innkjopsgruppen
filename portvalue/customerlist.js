@@ -1,7 +1,7 @@
 document.getElementById("customerlistselector").addEventListener("change", () => {
 
     //resete søkefelt
-    document.getElementById("searchcustomer").value = "";
+   // document.getElementById("searchcustomer").value = "";
     listCustomer(klientdata);
 });
 var activeCustomerlist = [];
