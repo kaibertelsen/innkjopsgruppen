@@ -24,7 +24,7 @@ function klientresponse(data) {
     const jsonStrings = data.fields.membersjson;
     const objects = convertJsonStringsToObjects(jsonStrings);
     klientdata = objects;
-    loadGroupSelector(getUniqueGroups(objects));
+    loaddSelectors(getUniqueGroups(objects))
     loadDateSelector();
 
     loadDashboardporte(calculatingPorteDashboard(objects));
@@ -150,14 +150,19 @@ document.getElementById("dashboarddateselector").addEventListener("change", () =
     loadDashboardsale(calculatingSaleDashboard(klientdata)); 
 });
 
-function loadGroupSelector(groups) {
+function loaddSelectors(groups){
     const selector = document.getElementById("dashboardgroupselector");
     const listSelector = document.getElementById("customerGroupselector");
-    
+
+    loadGroupSelector(groups,selector);
+    loadGroupSelector(groups,listSelector);
+
+
+}
+function loadGroupSelector(groups,selector) {
 
     // Tømmer eksisterende alternativer
     selector.innerHTML = "";
-    listSelector.innerHTML = "";
 
     // Sorter gruppene alfabetisk etter groupname
     const sortedGroups = groups.sort((a, b) =>
@@ -169,7 +174,6 @@ function loadGroupSelector(groups) {
     allOption.value = "";
     allOption.textContent = "Alle";
     selector.appendChild(allOption);
-    listSelector.appendChild(allOption);
 
     // Legg til de sorterte gruppene
     sortedGroups.forEach(group => {
@@ -177,7 +181,6 @@ function loadGroupSelector(groups) {
         option.value = group.group;
         option.textContent = group.groupname;
         selector.appendChild(option);
-        listSelector.appendChild(option);
     });
 }
 
