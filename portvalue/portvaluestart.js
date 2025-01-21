@@ -142,6 +142,10 @@ document.getElementById("dashboardgroupselector").addEventListener("change", () 
     
 });
 
+document.getElementById("customerGroupselector").addEventListener("change", () => {
+    listCustomer(klientdata);
+});
+
 document.getElementById("dashboarddateselector").addEventListener("change", () => {
     loadDashboardsale(calculatingSaleDashboard(klientdata)); 
 });
