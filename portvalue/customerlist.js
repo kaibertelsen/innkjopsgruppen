@@ -190,6 +190,7 @@ function listCustomer(data) {
         : "Kunde";
 
         kickbackCell.textContent = `${Math.round(totals.kickback).toLocaleString()} kr`;
+        altnameCell.textContent = company.altname || "-"  ;
 
         const winningDate = company.winningdate
             ? company.winningdate.split("T")[0]
