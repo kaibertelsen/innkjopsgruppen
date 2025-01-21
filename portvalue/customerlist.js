@@ -292,7 +292,7 @@ function listCustomer(data) {
         moreinfoButton.addEventListener("click", () => {
             if (moreinfoDiv.style.height === "0px" || !moreinfoDiv.style.height) {
                 // Vis elementet med animasjon
-                moreinfoDiv.style.height = `${moreinfoDiv.scrollHeight}px`; // Sett høyden til innholdets høyde
+                moreinfoDiv.style.height = `60px`; // Sett høyden til innholdets høyde
                 moreinfoDiv.style.overflow = "hidden"; // Skjul eventuell scroll
             } else {
                 // Skjul elementet med animasjon
