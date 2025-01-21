@@ -17,6 +17,18 @@ function listCustomer(data) {
     const selector = document.getElementById("customerlistselector");
     data = filterGroupCustomerlistCompany(data);
 
+    // Sjekk verdien i tekstfeltet
+    let searchField = document.getElementById("searchcustomer");
+    let searchValue = searchField ? searchField.value.toLowerCase() : ""; // Søkestreng fra tekstfeltet
+
+    // Filtrer data basert på søkestrengen
+    if (searchValue) {
+        data = data.filter(company => 
+            company.Name.toLowerCase().includes(searchValue)
+        );
+    }
+
+
     // Filtrer basert på valgt kundegruppe
     let filteredData = data;
     const selectedFilter = selector.value;

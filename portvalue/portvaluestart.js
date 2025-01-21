@@ -159,6 +159,7 @@ function loaddSelectors(groups){
 
 
 }
+
 function loadGroupSelector(groups,selector) {
 
     // Tømmer eksisterende alternativer
@@ -183,6 +184,7 @@ function loadGroupSelector(groups,selector) {
         selector.appendChild(option);
     });
 }
+
 function loadSelectorDates(){
 
     const selector = document.getElementById("dashboarddateselector");
@@ -192,6 +194,7 @@ function loadSelectorDates(){
     loadDateSelector(listSelector);
 
 }
+
 function loadDateSelector(selector) {
     
     // Tømmer eksisterende alternativer
@@ -232,7 +235,6 @@ function loadDateSelector(selector) {
         selector.appendChild(opt);
     });
 }
-
 
 // Hjelpefunksjon for å beregne datointervaller
 function getDateRange(months, unit = "months", daysBack = null) {

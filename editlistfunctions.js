@@ -200,8 +200,9 @@ function startFollowinglistElement(data) {
 
 // Legg til en event listener på søkefeltet
 document.getElementById("searchcustomer").addEventListener("input", function () {
-    const searchQuery = this.value.toLowerCase(); // Hent søketekst og gjør den til små bokstaver
-    filterCustomerList(searchQuery); // Kall filterfunksjonen med søketeksten
+   // const searchQuery = this.value.toLowerCase(); // Hent søketekst og gjør den til små bokstaver
+   // filterCustomerList(searchQuery); // Kall filterfunksjonen med søketeksten
+   listCustomer(klientdata);
 });
 // Filterfunksjon
 function filterCustomerList(searchQuery) {
