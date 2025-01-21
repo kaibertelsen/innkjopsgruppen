@@ -75,7 +75,6 @@ function returNewMultiImport(data){
 
 }
 
-
 function makesaveObject(data,importid){
         //lage save object
         var fields = {supplier:[suplierid],customer:[data.airtable],customernr:data.kundenr,import:[importid],value:data.value,tracking:"webimporter",rowindex:data.rowindex,note:data.note,dachboard:["recfJZ0PCPOrWcBLq"],type:"handel"};
@@ -90,7 +89,6 @@ function makesaveObject(data,importid){
         
         return fields
 }
-
 
 function controllcompany(data,row,rooting,irow){
 
@@ -154,7 +152,7 @@ function controllcompany(data,row,rooting,irow){
           //marker rad
           rowElement.classList.add("find");
           
-          let airtable = companyobject.airtableId;
+          let airtable = companyobject.airtable;
           var cobject = {name:name,quantity:qantity,kundenr:kundenr,orgnr:orgnr,airtable:airtable,note:note,value:value,rowindex:irow};
           
           foundCompany.push(cobject);
