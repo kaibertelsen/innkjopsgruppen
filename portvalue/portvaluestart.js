@@ -152,7 +152,7 @@ document.getElementById("dashboarddateselector").addEventListener("change", () =
 
 function loadGroupSelector(groups) {
     const selector = document.getElementById("dashboardgroupselector");
-    const listSelector = document.getElementById("filterGroupCustomerlistCompany");
+    const listSelector = document.getElementById("customerGroupselector");
     
 
     // Tømmer eksisterende alternativer
