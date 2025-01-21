@@ -197,7 +197,7 @@ function findObjectCName(property,value,array){
     if(Array.isArray(array)){
         for (var i = 0;i<array.length;i++){
             let value1 = onlycnameFromvariable(array[i][property]);
-            let valueAlt = onlycnameFromvariable(array[i][altname]);
+            let valueAlt = onlycnameFromvariable(array[i]["altname"]);
             let value2 = onlycnameFromvariable(value);
             if(value1 == ""||value2 == ""){
             //det mangler info på en eller begge verdier
