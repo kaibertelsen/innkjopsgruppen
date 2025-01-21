@@ -33,7 +33,7 @@ function startFollowinglistElement(data) {
         companyNameLabel.textContent = company.Name || "Ukjent";
         companyNameLabel.style.cursor = "pointer";
         companyNameLabel.addEventListener("click", () => {
-            history = "followupList";
+            historylog = "followupList";
             handleCompanyClick(company.Name, company.airtable);
         });
 

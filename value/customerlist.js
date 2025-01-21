@@ -1,4 +1,4 @@
-var history;
+var historylog;
 
 
 
@@ -76,7 +76,7 @@ function startvaluelist(data, load, sortname, descending) {
         const name = companyElement.querySelector(".customname");
         name.textContent = company.Name;
         name.addEventListener("click", () => {
-            history = "customerList";
+            historylog = "customerList";
             handleCompanyClick(company.Name, company.airtable);
         });
 
@@ -160,9 +160,9 @@ document.getElementById("customergroupselector").addEventListener("change", func
 
 document.getElementById('backbuttonCustomer').onclick = function() {
     //sjekke historikken
-    if(history == "customerList"){
+    if(historylog == "customerList"){
         document.getElementById("startcustomerbutton").click();
-    }else if (history == "followupList"){
+    }else if (historylog == "followupList"){
         document.getElementById("followupbutton").click();
     }
 };
