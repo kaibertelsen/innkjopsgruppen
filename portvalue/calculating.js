@@ -193,6 +193,27 @@ function filterGroupCompany(objects){
 return array;
 }
 
+function filterGroupCustomerlistCompany(objects){
+    // Hent valgt gruppe fra select-elementet
+    const selectedGroup = document.getElementById("customerGroupselector").value;
+    var array = [];
+    objects.forEach(obj => {
+        // Sjekk om objektet tilhører valgt gruppe, eller inkluder alt hvis "Alle" er valgt
+        if (selectedGroup === "" || obj.group === selectedGroup) {
+            array.push(obj);
+        }
+
+    })
+return array;
+}
+
+
+
+
+
+
+
+
 function animateCounter(elementId, startValue = 0, endValue, duration = 500, suffix = "") {
     // Sjekk om duration er et gyldig tall, ellers sett til standardverdi
     if (isNaN(duration) || duration <= 0) {

@@ -9,7 +9,7 @@ var activeCustomerlist = [];
 function listCustomer(data) {
     const list = document.getElementById("customerlist");
     const selector = document.getElementById("customerlistselector");
-    data = filterGroupCompany(data);
+    data = filterGroupCustomerlistCompany(data);
 
     // Filtrer basert på valgt kundegruppe
     let filteredData = data;

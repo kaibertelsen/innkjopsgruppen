@@ -148,9 +148,12 @@ document.getElementById("dashboarddateselector").addEventListener("change", () =
 
 function loadGroupSelector(groups) {
     const selector = document.getElementById("dashboardgroupselector");
+    const listSelector = document.getElementById("filterGroupCustomerlistCompany");
+    
 
     // Tømmer eksisterende alternativer
     selector.innerHTML = "";
+    listSelector.innerHTML = "";
 
     // Sorter gruppene alfabetisk etter groupname
     const sortedGroups = groups.sort((a, b) =>
@@ -162,6 +165,7 @@ function loadGroupSelector(groups) {
     allOption.value = "";
     allOption.textContent = "Alle";
     selector.appendChild(allOption);
+    listSelector.appendChild(allOption);
 
     // Legg til de sorterte gruppene
     sortedGroups.forEach(group => {
@@ -169,6 +173,7 @@ function loadGroupSelector(groups) {
         option.value = group.group;
         option.textContent = group.groupname;
         selector.appendChild(option);
+        listSelector.appendChild(option);
     });
 }
 
