@@ -90,3 +90,103 @@ function makesaveObject(data,importid){
         
         return fields
 }
+
+
+function controllcompany(data,row,rooting,irow){
+
+    let orgnrindex = findObjectProperty("index",1,rooting).fileindex;
+    let nameindex = findObjectProperty("index",2,rooting).fileindex;
+    
+    var companyobject
+    if(orgnrindex == ""){
+        //orgnummer er ikke rootet
+        companyobject = findObjectCName("Name",row[nameindex],Allcompanylist);
+    }else{
+        //orgnummer er rutet søk 
+        companyobject = findObjectOrgnr("orgnr",row[orgnrindex],Allcompanylist);
+    }
+
+     
+     if(!companyobject){
+         //02 - finner ikke firma med orgnr i firmalisten prøv med firmanavn
+         if(nameindex != ""){
+       companyobject = findObjectCName("Name",row[nameindex],Allcompanylist);   
+         }
+     }
+
+      let noteindex = findObjectProperty("index",3,rooting).fileindex;
+      let customernrindex = findObjectProperty("index",0,rooting).fileindex;
+      let valueindex = findObjectProperty("index",4,rooting).fileindex;
+      let quantityindex = findObjectProperty("index",5,rooting).fileindex;
+      
+      let name = "";
+      let note = "";
+      let orgnr = "";
+      let kundenr = "";
+      let qantity = "";
+
+      if(nameindex != ""){
+      name = row[nameindex];  
+      }
+      if(noteindex != ""){
+      note = row[noteindex];  
+      }
+     
+      if(orgnrindex != ""){
+      orgnr = row[orgnrindex];
+      }
+      
+      if(customernrindex != ""){
+      kundenr = String(row[customernrindex]);
+      }
+      
+      if(quantityindex != ""){
+         qantity =  row[quantityindex];
+      }
+      
+      let value = row[valueindex];
+      
+      const rowElement = document.getElementById("row"+irow); 
+      
+     if(companyobject){
+     // firma funnet - legg til firma i rootinglisten
+          
+          //marker rad
+          rowElement.classList.add("find");
+          
+          let airtable = companyobject.airtableId;
+          var cobject = {name:name,quantity:qantity,kundenr:kundenr,orgnr:orgnr,airtable:airtable,note:note,value:value,rowindex:irow};
+          
+          foundCompany.push(cobject);
+         
+        // Legg til value
+                  if (!isNaN(value) && value !== null && value !== "") {
+                      foundvalue = Number(foundvalue) + Number(value);
+                          } else {
+                      foundvalue = Number(foundvalue) + 0;
+                          }
+
+         
+         if (!(qantity == NaN)) {
+         foundquantityvalue = Number(foundquantityvalue)+Number(qantity);
+         }
+         
+      return true;
+     }else{
+          //fjerner markering på rad
+          rowElement.classList.remove("find");
+         var cobject = {"name":name,"kundenr":kundenr,"orgnr":orgnr,"note":note,"value":value,rowindex:irow};
+         missingComapny.push(cobject);
+         if (!isNaN(value) && value !== null && value !== "") {
+                  missingvalue = Number(missingvalue) + Number(value);
+                      } else {
+                      missingvalue = Number(missingvalue) + 0; // Legg til 0 hvis `value` ikke er et nummer
+                      }
+
+          return false;
+     }
+     
+
+ 
+ 
+}
