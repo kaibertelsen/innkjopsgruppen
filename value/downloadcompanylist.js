@@ -18,4 +18,7 @@ function respondAllCompanyes(data){
         buffercompanydata = objects;
         loadcompany(objects);
 
+        loadfollowingupselector();
+        prepareStartFolloupList(objects);
+
 }
