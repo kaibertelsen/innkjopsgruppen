@@ -25,7 +25,7 @@ function klientresponse(data) {
     const objects = convertJsonStringsToObjects(jsonStrings);
     klientdata = objects;
     loaddSelectors(getUniqueGroups(objects))
-    loadDateSelector();
+    loadSelectorDates();
 
     loadDashboardporte(calculatingPorteDashboard(objects));
     loadDashboardsale(calculatingSaleDashboard(objects));
@@ -183,10 +183,17 @@ function loadGroupSelector(groups,selector) {
         selector.appendChild(option);
     });
 }
+function loadSelectorDates(){
 
-function loadDateSelector() {
     const selector = document.getElementById("dashboarddateselector");
+    loadDateSelector(selector);
 
+    const listSelector = document.getElementById("listdateselector");
+    loadDateSelector(listSelector);
+
+}
+function loadDateSelector(selector) {
+    
     // Tømmer eksisterende alternativer
     selector.innerHTML = "";
 
