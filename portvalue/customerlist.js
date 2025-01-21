@@ -6,6 +6,12 @@ document.getElementById("customerlistselector").addEventListener("change", () =>
 });
 var activeCustomerlist = [];
 
+document.getElementById("listdateselector").addEventListener("change", () => {
+
+    listCustomer(klientdata);
+});
+
+
 function listCustomer(data) {
     const list = document.getElementById("customerlist");
     const selector = document.getElementById("customerlistselector");
