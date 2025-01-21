@@ -402,7 +402,7 @@ function listCustomer(data) {
                 });
             }else{
                 deletebutton.addEventListener("click", () => {
-                    alert("Selskapet har handel eller abn. verdi! Er du sikker på at du vil slette dette selskapet fra portalen?");
+                    alert("Selskapet har handel, og kan ikke slettes!");
                     /*
                     if (confirmation) {
                         // Hvis brukeren klikker "Ja"
