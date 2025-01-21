@@ -190,3 +190,27 @@ function controllcompany(data,row,rooting,irow){
  
  
 }
+
+function findObjectCName(property,value,array){
+
+    //key,navn fra xls, alle selskapene
+    if(Array.isArray(array)){
+        for (var i = 0;i<array.length;i++){
+            let value1 = onlycnameFromvariable(array[i][property]);
+            let valueAlt = onlycnameFromvariable(array[i][altname]);
+            let value2 = onlycnameFromvariable(value);
+            if(value1 == ""||value2 == ""){
+            //det mangler info på en eller begge verdier
+            }else if(value1 == value2){
+            return array[i];
+            }else if(valueAlt){
+                //inneholder alternativ name
+                if(valueAlt == value2){
+                return array[i]; 
+                }
+            }
+        }
+        return false;
+     }   
+    return false;
+    }
