@@ -294,10 +294,12 @@ function listCustomer(data) {
                 // Vis elementet med animasjon
                 moreinfoDiv.style.height = `60px`; // Sett høyden til innholdets høyde
                 moreinfoDiv.style.overflow = "hidden"; // Skjul eventuell scroll
+                moreinfoButton.classList.add("open");
             } else {
                 // Skjul elementet med animasjon
                 moreinfoDiv.style.height = "0px";
                 moreinfoDiv.style.overflow = "hidden"; // Sikre at innhold skjules
+                moreinfoButton.classList.remove("open");
             }
         });
         
