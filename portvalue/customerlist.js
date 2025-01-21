@@ -152,6 +152,7 @@ function listCustomer(data) {
         const invoiceDateCell = companyElement.querySelector(".invoicedatetext");
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
         const besparelseCell = companyElement.querySelector(".besparelse");
+        const altnameCell = companyElement.querySelector(".altname");
 
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
         // Sjekk at cashflowjson eksisterer og er en array
@@ -217,6 +218,7 @@ function listCustomer(data) {
         nameCell.addEventListener("click", () => triggerEditInput(nameCell, company, "Name"));
         orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
         valuegroupCell.addEventListener("click", () => triggerEditInput(valuegroupCell, company, "valuegroup"));
+        altnameCell.addEventListener("click", () => triggerEditInput(altnameCell, company, "altname"));
         /*
         valuegroupCell.addEventListener("click", () => {
             const options = [
@@ -283,6 +285,28 @@ function listCustomer(data) {
         exitDateCell.addEventListener("click", () => {
             triggerEditDate(exitDateCell, company, "exit");
         });
+
+        const moreinfoDiv = companyElement.querySelector(".moreinfowrapper");
+        const moreinfoButton = companyElement.querySelector(".moreinfo");
+        
+        moreinfoButton.addEventListener("click", () => {
+            if (moreinfoDiv.style.height === "0px" || !moreinfoDiv.style.height) {
+                // Vis elementet med animasjon
+                moreinfoDiv.style.height = `${moreinfoDiv.scrollHeight}px`; // Sett høyden til innholdets høyde
+                moreinfoDiv.style.overflow = "hidden"; // Skjul eventuell scroll
+            } else {
+                // Skjul elementet med animasjon
+                moreinfoDiv.style.height = "0px";
+                moreinfoDiv.style.overflow = "hidden"; // Sikre at innhold skjules
+            }
+        });
+        
+        // Initial CSS-styling
+        moreinfoDiv.style.transition = "height 0.3s ease"; // Legg til animasjon
+        moreinfoDiv.style.height = "0px"; // Start med skjult element
+        moreinfoDiv.style.overflow = "hidden";
+
+
 
         const deletebutton = companyElement.querySelector(".deletecompanybutton");
         const duplicatebutton = companyElement.querySelector(".duplicatecompanybutton");
