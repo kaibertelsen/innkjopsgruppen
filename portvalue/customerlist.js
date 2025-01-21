@@ -99,13 +99,10 @@ function listCustomer(data) {
         console.log(filteredData);
         isInDuplicateMode = true;
     }
+    const dateSelector = document.getElementById("listdateselector");
+    let selectedValue = dateSelector.value;
+    let [startDate, endDate] = selectedValue.split(",").map(date => new Date(date.trim()));
     
-    
-
-
-
-    
-
     // Tømmer listen før oppdatering
     list.replaceChildren();
 
@@ -138,13 +135,31 @@ function listCustomer(data) {
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
         const besparelseCell = companyElement.querySelector(".besparelse");
 
-        //summere opp besparelse
-       let besparelse = 0;
-        for(let cashflow of  company.cashflowjson){
-            besparelse += Number(cashflow.analyse)+Number(cashflow.bistand)+Number(cashflow.cut);
+        let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
+        // Sjekk at cashflowjson eksisterer og er en array
+        if (Array.isArray(company.cashflowjson)) {
+            // Summer value, cut og kickbackvalue innenfor datoene
+            totals = company.cashflowjson.reduce((acc, item) => {
+                const mainDate = new Date(item.maindate);
+  
+                // Sjekk om maindate er innenfor startDate og endDate
+                if (
+                    (!startDate || mainDate >= startDate) &&
+                    (!endDate || mainDate <= endDate)
+                ) {
+                    acc.value += parseFloat(item.value || 0);
+                    acc.cut += parseFloat(item.cut || 0);
+                    acc.kickback += parseFloat(item.kickbackvalue || 0);
+                    acc.bistand += parseFloat(item.bistand || 0);
+                    acc.analyse += parseFloat(item.analyse || 0);
+                }
+                return acc;
+            }, totals);
+        } else {
+            console.error("cashflowjson is not a valid array.");
         }
 
-        besparelseCell.textContent = Math.round(besparelse) + "kr";
+        besparelseCell.textContent = Math.round(totals.cut+totals.bistand+totals.analyse) + "kr";
 
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
@@ -155,13 +170,7 @@ function listCustomer(data) {
         ? "Kunde" 
         : "Kunde";
 
-
-        const totalKickback = company.cashflowjson?.reduce((sum, cashflow) => {
-            const value = parseFloat(cashflow.kickbackvalue || 0);
-            return sum + (isNaN(value) ? 0 : value);
-        }, 0) || 0;
-
-        kickbackCell.textContent = `${Math.round(totalKickback).toLocaleString()} kr`;
+        kickbackCell.textContent = `${Math.round(totals.kickback).toLocaleString()} kr`;
 
         const winningDate = company.winningdate
             ? company.winningdate.split("T")[0]

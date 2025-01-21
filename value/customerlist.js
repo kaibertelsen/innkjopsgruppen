@@ -82,7 +82,6 @@ function startvaluelist(data, load, sortname, descending) {
 
   
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
-  
         // Sjekk at cashflowjson eksisterer og er en array
         if (Array.isArray(company.cashflowjson)) {
             // Summer value, cut og kickbackvalue innenfor datoene
