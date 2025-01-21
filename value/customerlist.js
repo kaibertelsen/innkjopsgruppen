@@ -1,3 +1,8 @@
+var history;
+
+
+
+
 function startvaluelist(data, load, sortname, descending) {
     listarray = [];
     // Sjekk verdien i tekstfeltet
@@ -70,6 +75,11 @@ function startvaluelist(data, load, sortname, descending) {
   
         const name = companyElement.querySelector(".customname");
         name.textContent = company.Name;
+        name.addEventListener("click", () => {
+            history = "customerList";
+            handleCompanyClick(company.Name, company.airtable);
+        });
+
   
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
   
@@ -147,6 +157,18 @@ document.getElementById("endDate").addEventListener("input", () => {
 document.getElementById("customergroupselector").addEventListener("change", function() {
     startvaluelist(companyListbuffer, true); // Sender det filtrerte datasettet til funksjonen
 });
+
+document.getElementById('backbuttonCustomer').onclick = function() {
+    //sjekke historikken
+    if(history == "customerList"){
+        document.getElementById("startcustomerbutton").click();
+    }else if (history == "followupList"){
+        document.getElementById("followupbutton").click();
+    }
+};
+
+
+
 
 
 function updateOpenlistPage(pages){

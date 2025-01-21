@@ -33,6 +33,7 @@ function startFollowinglistElement(data) {
         companyNameLabel.textContent = company.Name || "Ukjent";
         companyNameLabel.style.cursor = "pointer";
         companyNameLabel.addEventListener("click", () => {
+            history = "followupList";
             handleCompanyClick(company.Name, company.airtable);
         });
 
@@ -402,7 +403,13 @@ function responseupdateFollowingUpNote(data) {
 function handleCompanyClick(name, airtableId) {
     companySelected(airtableId, name);
     document.getElementById("besparelsebutton").click();
+    //synligjør en tilbakeknapp 
+    document.getElementById("backbuttonCustomer").style.display = "inline-block";
 }
+
+document.getElementById('besparelsebutton').onclick = function() {
+    document.getElementById("backbuttonCustomer").style.display = "none";
+};
 
 // Funksjon for å oppdatere oppfølgingsstatus
 function updateFollowupStatus(rowElement,airtableId, newStatus) {
