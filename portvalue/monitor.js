@@ -11,7 +11,7 @@ function startAutoUpdate() {
 //10 * 60 * 1000
     // Sett opp et intervall som kjører funksjonen hvert 10. minutt (10 * 60 * 1000 ms)
     setInterval(() => {
-        updateKlientdata();
+        downloadKlient();
     }, 5000);
 }
 
