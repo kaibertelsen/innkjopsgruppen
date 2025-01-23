@@ -5,6 +5,17 @@ function updateKlientdata(){
 }
 */
 
+function startAutoUpdate() {
+    // Kjør updateKlientdata() umiddelbart
+    updateKlientdata();
+//10 * 60 * 1000
+    // Sett opp et intervall som kjører funksjonen hvert 10. minutt (10 * 60 * 1000 ms)
+    setInterval(() => {
+        updateKlientdata();
+    }, 5000);
+}
+
+
 function downloadKlient(){
     let shareId = getTokenFromURL("shareId");
     let shareKey = getTokenFromURL("shareKey");
@@ -38,29 +49,27 @@ function updateklientresponse(data) {
     //loadLiquidityOverview(calculateMonthlyValues(objects));
     //listCustomer(objects);
 
-        // Oppdater tidspunkt på tekstelementet "updatedTime"
-        const updatedTimeElement = document.getElementById("updatedTime");
-        if (updatedTimeElement) {
-            const now = new Date();
-            const options = { hour: '2-digit', minute: '2-digit', month: 'short', year: 'numeric' };
-            const formattedTime = now.toLocaleTimeString('no-NO', options).replace(/\./g, '').replace(':', ':'); // Juster formatering
-            const formattedDate = `${formattedTime} - ${now.toLocaleDateString('no-NO', { month: 'short', year: 'numeric' }).replace('.', '')}`;
-            updatedTimeElement.textContent = formattedDate;
-        } else {
-            console.warn("Elementet med ID 'updatedTime' ble ikke funnet.");
-        }
+    // Oppdater tidspunkt på tekstelementet "updatedTime"
+    const updatedTimeElement = document.getElementById("updatedTime");
+    if (updatedTimeElement) {
+        const now = new Date();
+        const options = { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit', // Inkluderer sekunder
+            month: 'short', 
+            year: 'numeric' 
+        };
+        const formattedTime = now.toLocaleTimeString('no-NO', options).replace(/\./g, '').replace(':', ':'); // Juster formatering
+        updatedTimeElement.textContent = formattedTime;
+    } else {
+        console.warn("Elementet med ID 'updatedTime' ble ikke funnet.");
+    }
+
     
 }
-/*
-function startAutoUpdate() {
-    // Kjør updateKlientdata() umiddelbart
-    updateKlientdata();
 
-    // Sett opp et intervall som kjører funksjonen hvert 10. minutt (10 * 60 * 1000 ms)
-    setInterval(() => {
-        updateKlientdata();
-    }, 10 * 60 * 1000);
-}
-*/
+
+
 
 
