@@ -113,6 +113,28 @@ async function getRecordWithShareKeyButton(shareId,shareKey,id){
       }
 }
 
+async function POSTairtablepublicLink(body,id) {
+  let token = MemberStack.getToken();
+   let response = await fetch(`https://expoapi-zeta.vercel.app/api/share?token=${token}`, {
+    method: "POST",
+    body: body,
+    headers: {
+ 'Content-Type': 'application/json'
+  }
+  });
+  
+  if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+  }else{
+    let data = await response.json();
+        apireturn({success: true, data: data, id: id});
+  }
+
+}
+
+
+
+
 function apireturn(response){
   if(response.success){
    ruteresponse(response.data,response.id);

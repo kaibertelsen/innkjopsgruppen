@@ -18,6 +18,7 @@ const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/liquidity.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/customerlist.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/xlsexport.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/portvalue/genererPublicLink.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js",
     "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js"
 ];

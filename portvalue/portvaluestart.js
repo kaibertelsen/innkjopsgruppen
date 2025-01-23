@@ -273,7 +273,10 @@ function ruteresponse(data,id){
         companyDeletedResponse(data);
     }else if(id == "updateklientresponse"){
         updateklientresponse(data);
+    }else if(id == "responPostpublicLink"){
+        responPostpublicLink(data);
     }
+    
 
 }
 
