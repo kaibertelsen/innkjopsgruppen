@@ -35,19 +35,13 @@ function responPostpublicLink(data,id){
       // Sett href-attributtet til ønsket URL
       link.href = "https://portal.innkjops-gruppen.no/portvaluemonitor?"+"shareKey="+data.shareKey+"&shareId="+data.shareId;
       
-      /*
+      
       // Sett linkens tekstinnhold
-      let companytext = document.getElementById("customernametext").innerHTML;
-      link.textContent = "Link til "+companytext+"!";
+      link.textContent = "Link til monitor";
       
       // Gjør linken til en ny fane ved å sette target-attributtet til '_blank'
       link.target = '_blank';
       
       // Legg til linken i dokumentet, f.eks. i en div med id 'linkContainer'
-      document.getElementById('linkwrapper').appendChild(link);
-      
-      //legg til linken i form
-      document.getElementById('inputlink').value = link.href;
-      */
-    
+      document.getElementById('generatpubliclinkbutton').parentElement.appendChild(link);
 }
