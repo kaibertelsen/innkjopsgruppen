@@ -6,7 +6,7 @@ function updateKlientdata(){
 */
 
 function downloadKlient(){
-    let shareId = getTokenFromURL("shareId");
+    let shareId = "recFvGtz2aJrXSzUa";
     let shareKey = getTokenFromURL("shareKey");
     getRecordWithShareKeyButton(shareId,shareKey,"updateklientresponse");
 }
