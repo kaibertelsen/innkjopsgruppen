@@ -271,6 +271,8 @@ function ruteresponse(data,id){
         respondcustomerlistupdated(data);
     }else if(id == "companyDeletedResponse"){
         companyDeletedResponse(data);
+    }else if(id == "updateklientresponse"){
+        updateklientresponse(data);
     }
 
 }

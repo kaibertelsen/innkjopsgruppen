@@ -100,6 +100,18 @@ async function GETairtable(baseId,tableId,itemId,id){
         
 }
 
+async function getRecordWithShareKeyButton(shareId,shareKey,id){
+  let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?shareId=${shareId}&shareKey=${shareKey}`);
+  
+      if (!response.ok) {
+         if(response.status == 401){
+         alert("Linken har utløpt. \nKontakt Kundesenter for å få ny link.")
+         }
+      }else{
+        let data = await response.json();
+        apireturn({success: true, data: data, id: id});
+      }
+}
 
 function apireturn(response){
   if(response.success){
