@@ -2,7 +2,7 @@ function genetatepublicLink(){
     let companytext = "IG link til Monitor";
     let expirationdate = finddateforwardIntime(1);
     let body = {
-            query: "baseId=app1WzN1IxEnVu3m0&tableId=tblFySDb9qVeVVY5c&rowId="+companyId,
+            query: "baseId=app1WzN1IxEnVu3m0&tableId=tbldZL68MyLNBRjQC&rowId=rec1QGUGBMVaqxhp1",
             note: companytext,
             expirationDate: expirationdate
           }
