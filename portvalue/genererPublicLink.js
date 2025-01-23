@@ -28,6 +28,13 @@ function finddateforwardIntime(mnd) {
 
 function responPostpublicLink(data,id){
 
+   // Fjern eventuell gammel link hvis den finnes
+   const existingLink = document.getElementById('customerlink');
+   if (existingLink) {
+       existingLink.remove();
+   }
+
+
       // Opprett et nytt anker-element
       const link = document.createElement('a');
       link.id = "customerlink";
