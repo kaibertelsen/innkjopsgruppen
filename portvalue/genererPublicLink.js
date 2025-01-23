@@ -37,10 +37,12 @@ function responPostpublicLink(data,id){
       
       
       // Sett linkens tekstinnhold
-      link.textContent = "Link til monitor";
+      link.textContent = "Gå til monitor";
       
       // Gjør linken til en ny fane ved å sette target-attributtet til '_blank'
       link.target = '_blank';
+      // Legg til inline-stil for å gjøre linken svart
+      link.style.color = 'black';
       
       // Legg til linken i dokumentet, f.eks. i en div med id 'linkContainer'
       document.getElementById('generatpubliclinkbutton').parentElement.appendChild(link);
