@@ -121,11 +121,6 @@ function loadDashboardsale(data) {
     
 }
 
-document.getElementById('generatpubliclinkbutton').onclick = function() {
-    genetatepublicLink();
-};
-
-
 document.getElementById("dashboardgroupselector").addEventListener("change", () => {
 
     const selector = document.getElementById("dashboardgroupselector");
