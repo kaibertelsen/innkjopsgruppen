@@ -89,12 +89,14 @@ function listdachboardtopp(data){
     listtopp(sortArrayValue(supplierarray),"toppsupplierlist",1);
     
     var customerarray = makeArrayFrom(data,"customer");
-    listtopp(sortArrayValue(customerarray),"toppcustomerlist",3);
+    listtopp(sortArrayKickback(customerarray),"toppcustomerlist",3);
     
     var supplierkickbak = makeArrayFrom(data,"supplier");
     listtopp(sortArrayKickback(supplierkickbak),"toppkickbacklist",2);
     
 }
+
+
 
 function daschboardDataToArray(data){
     
