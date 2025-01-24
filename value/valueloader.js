@@ -16,6 +16,7 @@ const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/value/downloadcompanylist.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/value/dachboard-function.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/value/customerlist.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/value/customerEdit.js",
     "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js"
 ];
 
