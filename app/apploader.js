@@ -19,6 +19,14 @@ cdnScripts.reduce((promise, script) => {
     return promise.then(() => loadScript(script));
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
+    MemberStack.onReady.then(function(member) {
+        if (member.loggedIn){
+        startUp(member.airtableid);
+     
+        }else{
+        window.location.replace("https://portal.innkjops-gruppen.no/login");
+        }
+    });
 }).catch(error => {
     console.error(error);
 });

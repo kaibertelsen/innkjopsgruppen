@@ -1,12 +1,22 @@
-function startUp(){
-//hente user object
+var companys = [];
 
-// loade alle leverandører JSON på klient
+function startUp(userid){
+    GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse")
+}
+
+function userResponse(data) {
+    // Sjekk om data.fields.membersjson eksisterer og er en array
+    if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.membersjson' som en array.");
+    }
+//converter data
+   const jsonStrings = data.fields.companyjson;
+   companys = convertJsonStringsToObjects(jsonStrings);
 
 //loade companyselector og velge startup selskap
 
+    
 }
-
 function companyChange(companyId){
 // filtrer ut alle leverandører som inneholder en av gruppene som selskapet er i
 
@@ -25,17 +35,39 @@ function companyChange(companyId){
 
 
 function ruteresponse(data,id){
-    if(id == "klientresponse"){
-        klientresponse(data);
-    }else if(id == "respondcustomerlistupdated"){
-        respondcustomerlistupdated(data);
-    }else if(id == "companyDeletedResponse"){
-        companyDeletedResponse(data);
-    }else if(id == "updateklientresponse"){
-        updateklientresponse(data);
-    }else if(id == "responPostpublicLink"){
-        responPostpublicLink(data);
+    if(id == "userResponse"){
+        userResponse(data);
     }
     
+}
 
+
+
+MemberStack.onReady.then(function(member) {
+    if (member.loggedIn){
+    startUp(member.airtableid);
+ 
+    }else{
+    window.location.replace("https://portal.innkjops-gruppen.no/login");
+    }
+
+});
+
+
+
+function convertJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            // Parse hoved JSON-streng til et objekt
+            const data = JSON.parse(jsonString);
+            if (!data.connections) {
+                data.connections = [];
+            } 
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
 }
