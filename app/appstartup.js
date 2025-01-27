@@ -3,7 +3,7 @@ var suppliers = [];
 
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
-    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",userid,"supplierResponse");
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
 function supplierResponse(data){
 // Sjekk om data.fields.companyjson eksisterer og er en array
@@ -16,7 +16,6 @@ function supplierResponse(data){
     suppliers = convertJsonStringsToObjects(jsonStrings);
 
 }
-
 
 
 function userResponse(data) {
