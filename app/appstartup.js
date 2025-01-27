@@ -5,29 +5,45 @@ function startUp(userid){
 }
 
 function userResponse(data) {
-    // Sjekk om data.fields.membersjson eksisterer og er en array
+    // Sjekk om data.fields.companyjson eksisterer og er en array
     if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
-        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.membersjson' som en array.");
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
+        return; // Avbryt hvis data ikke er gyldig
     }
-    //converter data
+
+    // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.companyjson;
-    companys = convertJsonStringsToObjects(jsonStrings);
+    const companys = convertJsonStringsToObjects(jsonStrings);
 
-    //loade companyselector og velge startup selskap
+    // Hent selector fra DOM
     const selector = document.getElementById("companySelector");
-    loadSelector(selector,companys);
+    if (!selector) {
+        console.error("Selector med ID 'companySelector' finnes ikke i DOM.");
+        return;
+    }
 
-    // Sjekker om favorittselskap eksisterer og velger det
+    // Last data inn i selector
+    loadSelector(selector, companys);
+
+    // Sjekk om favorittselskap eksisterer og velg det, ellers velg første selskap
     if (data.fields?.companystart) {
-    const favoriteCompanyId = data.fields.companystart;
-    const optionToSelect = [...selector.options].find(
-      option => option.value === favoriteCompanyId
-    );
+        const favoriteCompanyId = data.fields.companystart;
+        const optionToSelect = [...selector.options].find(
+            option => option.value === favoriteCompanyId
+        );
 
         if (optionToSelect) {
-        companySelector.value = favoriteCompanyId; // Velger alternativet
+            selector.value = favoriteCompanyId; // Velger favorittselskapet
+        } else {
+            console.warn(`Favorittselskapet med ID '${favoriteCompanyId}' finnes ikke i listen.`);
         }
-    
+    } else {
+        // Velg det første selskapet i listen dersom ingen favorittselskap er angitt
+        if (companys.length > 0) {
+            selector.value = companys[0]?.airtable; // Sett første element som valgt
+        } else {
+            console.warn("Ingen selskaper tilgjengelige i listen.");
+        }
     }
 }
 
