@@ -27,7 +27,7 @@ function userResponse(data) {
 
     // Sjekk om favorittselskap eksisterer og velg det, ellers velg første selskap
     if (data.fields?.companystart) {
-        const favoriteCompanyId = data.fields.companystart;
+        const favoriteCompanyId = data.fields.companystart[0];
         const optionToSelect = [...selector.options].find(
             option => option.value === favoriteCompanyId
         );
