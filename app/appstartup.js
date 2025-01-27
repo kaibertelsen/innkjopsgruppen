@@ -33,27 +33,12 @@ function companyChange(companyId){
 }
 
 
-
 function ruteresponse(data,id){
     if(id == "userResponse"){
         userResponse(data);
     }
     
 }
-
-
-
-MemberStack.onReady.then(function(member) {
-    if (member.loggedIn){
-    startUp(member.airtableid);
- 
-    }else{
-    window.location.replace("https://portal.innkjops-gruppen.no/login");
-    }
-
-});
-
-
 
 function convertJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {
