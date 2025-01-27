@@ -96,8 +96,6 @@ function listdachboardtopp(data){
     
 }
 
-
-
 function daschboardDataToArray(data){
     
     var valuearray = data.fields.valuecashflow;
