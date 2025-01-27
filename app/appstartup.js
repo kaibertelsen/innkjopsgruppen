@@ -9,14 +9,40 @@ function userResponse(data) {
     if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.membersjson' som en array.");
     }
-//converter data
-   const jsonStrings = data.fields.companyjson;
-   companys = convertJsonStringsToObjects(jsonStrings);
+    //converter data
+    const jsonStrings = data.fields.companyjson;
+    companys = convertJsonStringsToObjects(jsonStrings);
 
-//loade companyselector og velge startup selskap
+    //loade companyselector og velge startup selskap
+    const selector = document.getElementById("companySelector");
+    loadSelector(selector,companys);
 
+    // Sjekker om favorittselskap eksisterer og velger det
+    if (data.fields?.companystart) {
+    const favoriteCompanyId = data.fields.companystart;
+    const optionToSelect = [...selector.options].find(
+      option => option.value === favoriteCompanyId
+    );
+
+        if (optionToSelect) {
+        companySelector.value = favoriteCompanyId; // Velger alternativet
+        }
     
+    }
 }
+
+
+function loadSelector(selector,data){
+        // Dynamisk lasting av data i select-feltet
+        data.forEach(item => {
+          const option = document.createElement("option"); // Lager et option-element
+          option.value = item.airtable; // Setter verdien til airtable-ID-en
+          option.textContent = item.Name; // Setter tekstinnholdet til Name
+          companySelector.appendChild(option); // Legger til option i select-feltet
+        });
+}
+
+
 function companyChange(companyId){
 // filtrer ut alle leverandører som inneholder en av gruppene som selskapet er i
 
@@ -43,11 +69,24 @@ function ruteresponse(data,id){
 function convertJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {
         try {
-            // Parse hoved JSON-streng til et objekt
-            const data = JSON.parse(jsonString);
-            if (!data.connections) {
-                data.connections = [];
-            } 
+           
+           // Parse hoved JSON-streng til et objekt
+           const data = JSON.parse(jsonString);
+           if (!data.cashflowjson) {
+               data.cashflowjson = [];
+           } 
+
+           if (!data.bruker) {
+               data.bruker = [];
+           }
+
+           if (!data.invitasjon) {
+               data.invitasjon = [];
+           }
+
+           if (!data.connections) {
+               data.connections = [];
+           } 
 
             return data;
         } catch (error) {
