@@ -12,7 +12,7 @@ function supplierResponse(data){
         return; // Avbryt hvis data ikke er gyldig
     }
  // Konverter JSON-strenger til objekter
- const jsonStrings = data.fields.companyjson;
+ const jsonStrings = data.fields.supplierjson;
     suppliers = convertJsonStringsToObjects(jsonStrings);
 
 }
