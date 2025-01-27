@@ -1,8 +1,23 @@
 var companys = [];
+var suppliers = [];
 
 function startUp(userid){
-    GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse")
+    GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",userid,"supplierResponse");
 }
+function supplierResponse(){
+// Sjekk om data.fields.companyjson eksisterer og er en array
+    if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
+        return; // Avbryt hvis data ikke er gyldig
+    }
+ // Konverter JSON-strenger til objekter
+ const jsonStrings = data.fields.companyjson;
+    suppliers = convertJsonStringsToObjects(jsonStrings);
+
+}
+
+
 
 function userResponse(data) {
     // Sjekk om data.fields.companyjson eksisterer og er en array
@@ -13,7 +28,7 @@ function userResponse(data) {
 
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.companyjson;
-    const companys = convertJsonStringsToObjects(jsonStrings);
+    companys = convertJsonStringsToObjects(jsonStrings);
 
     // Hent selector fra DOM
     const selector = document.getElementById("companySelector");
@@ -100,8 +115,10 @@ function companyChange(companyId){
 function ruteresponse(data,id){
     if(id == "userResponse"){
         userResponse(data);
+    }else if(id == "supplierResponse"){
+        supplierResponse(data);
     }
-    
+
 }
 
 function convertJsonStringsToObjects(jsonStrings) {
