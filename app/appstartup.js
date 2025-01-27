@@ -49,6 +49,7 @@ function userResponse(data) {
 
 
 function loadSelector(selector,data){
+        selector.innerHTML = ''; 
         // Dynamisk lasting av data i select-feltet
         data.forEach(item => {
           const option = document.createElement("option"); // Lager et option-element
