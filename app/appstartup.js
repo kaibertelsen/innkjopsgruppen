@@ -11,9 +11,9 @@ function supplierResponse(data){
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
         return; // Avbryt hvis data ikke er gyldig
     }
- // Konverter JSON-strenger til objekter
- const jsonStrings = data.fields.supplierjson;
-    suppliers = convertJsonStringsToObjects(jsonStrings);
+    // Konverter JSON-strenger til objekter
+    const jsonStrings = data.fields.supplierjson;
+    suppliers = convertSuppliersJsonStringsToObjects(jsonStrings)
 
 }
 
@@ -149,3 +149,24 @@ function convertJsonStringsToObjects(jsonStrings) {
         }
     });
 }
+
+function convertSuppliersJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+           
+           // Parse hoved JSON-streng til et objekt
+           const data = JSON.parse(jsonString);
+           if (!data.group) {
+               data.group = [];
+           } 
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
+}
+
+
+
+
