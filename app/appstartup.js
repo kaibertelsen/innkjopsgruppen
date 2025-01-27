@@ -70,6 +70,18 @@ document.getElementById("companySelector").addEventListener("change", function (
 
 function companyChange(companyId){
     console.log("list på bakgrunn av dette selskapet"+companyId);
+
+
+ const selectedCompany = companys.find(company => company.airtable === companyId);
+
+    // Sjekk om selskapet ble funnet
+    if (selectedCompany) {
+        console.log("Selskap funnet:", selectedCompany);
+    } else {
+        console.error("Ingen selskap funnet med ID:", companyId);
+    }
+
+
 // filtrer ut alle leverandører som inneholder en av gruppene som selskapet er i
 
 //list leverandørene
