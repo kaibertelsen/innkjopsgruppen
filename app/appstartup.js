@@ -3,20 +3,7 @@ var suppliers = [];
 
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
-    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
-function supplierResponse(data){
-// Sjekk om data.fields.companyjson eksisterer og er en array
-    if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
-        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
-        return; // Avbryt hvis data ikke er gyldig
-    }
-    // Konverter JSON-strenger til objekter
-    const jsonStrings = data.fields.supplierjson;
-    suppliers = convertSuppliersJsonStringsToObjects(jsonStrings)
-
-}
-
 
 function userResponse(data) {
     // Sjekk om data.fields.companyjson eksisterer og er en array
@@ -48,7 +35,6 @@ function userResponse(data) {
 
         if (optionToSelect) {
             selector.value = favoriteCompanyId; // Velger favorittselskapet
-            companyChange(favoriteCompanyId);
         } else {
             console.warn(`Favorittselskapet med ID '${favoriteCompanyId}' finnes ikke i listen.`);
         }
@@ -56,11 +42,16 @@ function userResponse(data) {
         // Velg det første selskapet i listen dersom ingen favorittselskap er angitt
         if (companys.length > 0) {
             selector.value = companys[0].airtable; // Sett første element som valgt
-            companyChange(companys[0].airtable);
         } else {
             console.warn("Ingen selskaper tilgjengelige i listen.");
         }
     }
+
+
+    //hente leverandører
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
+
+
 }
 
 function loadSelector(selector,data){
@@ -81,6 +72,24 @@ document.getElementById("companySelector").addEventListener("change", function (
     const selectedText = selector.options[selector.selectedIndex].text; // Navn
     companyChange(selectedValue);
 });
+
+function supplierResponse(data){
+    // Sjekk om data.fields.companyjson eksisterer og er en array
+        if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
+            console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
+            return; // Avbryt hvis data ikke er gyldig
+        }
+        // Konverter JSON-strenger til objekter
+        const jsonStrings = data.fields.supplierjson;
+        suppliers = convertSuppliersJsonStringsToObjects(jsonStrings);
+        suppliersReady();
+    
+}
+
+function suppliersReady(){
+    const selector = document.getElementById("companySelector");
+    companyChange(selector.value);
+}
 
 function companyChange(companyId){
     console.log("list på bakgrunn av dette selskapet"+companyId);
