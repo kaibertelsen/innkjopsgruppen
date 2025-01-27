@@ -34,13 +34,15 @@ function userResponse(data) {
 
         if (optionToSelect) {
             selector.value = favoriteCompanyId; // Velger favorittselskapet
+            companyChange(favoriteCompanyId);
         } else {
             console.warn(`Favorittselskapet med ID '${favoriteCompanyId}' finnes ikke i listen.`);
         }
     } else {
         // Velg det første selskapet i listen dersom ingen favorittselskap er angitt
         if (companys.length > 0) {
-            selector.value = companys[0]?.airtable; // Sett første element som valgt
+            selector.value = companys[0].airtable; // Sett første element som valgt
+            companyChange(companys[0].airtable);
         } else {
             console.warn("Ingen selskaper tilgjengelige i listen.");
         }
@@ -60,12 +62,14 @@ function loadSelector(selector,data){
 
 document.getElementById("companySelector").addEventListener("change", function () {
     // Hent verdien og teksten til det valgte alternativet
+    const selector = document.getElementById("companySelector");
     const selectedValue = selector.value; // ID (airtable)
     const selectedText = selector.options[selector.selectedIndex].text; // Navn
     companyChange(selectedValue);
 });
 
 function companyChange(companyId){
+    console.log("list på bakgrunn av dette selskapet"+companyId);
 // filtrer ut alle leverandører som inneholder en av gruppene som selskapet er i
 
 //list leverandørene
