@@ -5,7 +5,7 @@ function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",userid,"supplierResponse");
 }
-function supplierResponse(){
+function supplierResponse(data){
 // Sjekk om data.fields.companyjson eksisterer og er en array
     if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
