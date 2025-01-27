@@ -47,7 +47,6 @@ function userResponse(data) {
     }
 }
 
-
 function loadSelector(selector,data){
         selector.innerHTML = ''; 
         // Dynamisk lasting av data i select-feltet
@@ -59,6 +58,12 @@ function loadSelector(selector,data){
         });
 }
 
+document.getElementById("companySelector").addEventListener("change", function () {
+    // Hent verdien og teksten til det valgte alternativet
+    const selectedValue = selector.value; // ID (airtable)
+    const selectedText = selector.options[selector.selectedIndex].text; // Navn
+    companyChange(selectedValue);
+});
 
 function companyChange(companyId){
 // filtrer ut alle leverandører som inneholder en av gruppene som selskapet er i
