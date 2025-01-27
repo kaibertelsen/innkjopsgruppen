@@ -7,7 +7,7 @@ function startUp(userid){
 }
 function supplierResponse(data){
 // Sjekk om data.fields.companyjson eksisterer og er en array
-    if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
+    if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
         return; // Avbryt hvis data ikke er gyldig
     }
