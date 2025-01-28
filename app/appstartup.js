@@ -210,7 +210,7 @@ function listSuppliers(data) {
                 // Forsinkelse for å bytte synlighet midt i animasjonen
                 setTimeout(() => {
                     back.style.display = "none";
-                    front.style.display = "flex";
+                    front.style.display = "block";
                 }, 250); // Halvveis gjennom animasjonen
             }
 
