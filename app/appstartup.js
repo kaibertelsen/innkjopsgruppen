@@ -50,8 +50,6 @@ function userResponse(data) {
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
-
-
 }
 
 function loadSelector(selector,data){
@@ -91,33 +89,79 @@ function suppliersReady(){
     companyChange(selector.value);
 }
 
-function companyChange(companyId){
-    console.log("list på bakgrunn av dette selskapet"+companyId);
+function companyChange(companyId) {
+    console.log("List på bakgrunn av dette selskapet: " + companyId);
 
+    // Finn selskapet basert på ID
+    const selectedCompany = companys.find(company => company.airtable === companyId);
 
- const selectedCompany = companys.find(company => company.airtable === companyId);
-
-    // Sjekk om selskapet ble funnet
-    if (selectedCompany) {
-        console.log("Selskap funnet:", selectedCompany);
-    } else {
-        console.error("Ingen selskap funnet med ID:", companyId);
+    if (!selectedCompany) {
+        console.error("Fant ikke selskap med ID: " + companyId);
+        return;
     }
 
+    console.log("Valgt selskap:", selectedCompany);
 
-// filtrer ut alle leverandører som inneholder en av gruppene som selskapet er i
+    // Filtrer leverandører basert på gruppetilhørighet
+    const filteredSuppliers = suppliers.filter(supplier => {
+        return supplier.group.some(group => group.airtable === selectedCompany.group);
+    });
 
-//list leverandørene
+    console.log("Filtrerte leverandører:", filteredSuppliers);
 
-//sorter etter sortnr/ alfabetisk
-//send med informasjon om hvilke som alt er knyttet til leverandøren
-
-//sjekk om filter
-// søkefelt
-//evt. valgte kategorier
-
-
+    // Videre logikk for hva du ønsker å gjøre med de filtrerte leverandørene
+    // F.eks. oppdatere en visning eller kalle en annen funksjon
+    listSuppliers(filteredSuppliers);
 }
+
+function listSuppliers(data) {
+    console.log(data);
+
+    const supplierContainer = document.getElementById("supplierlist");
+    if (!supplierContainer) {
+        console.error("Ingen container funnet for visning av leverandører.");
+        return;
+    }
+
+    // Hent søkeverdien fra søkefeltet
+    const searchInput = document.getElementById("searchinput");
+    const searchValue = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+    // Filtrer data basert på "name" som matcher søkeverdien
+    let filteredData = data.filter(supplier =>
+        supplier.name.toLowerCase().includes(searchValue)
+    );
+
+    // Sorter data først etter "sortnr" (konvertert til tall) og deretter alfabetisk etter "name"
+    filteredData.sort((a, b) => {
+        const sortNrA = a.sortnr !== undefined ? Number(a.sortnr) : Infinity; // Hvis ingen sortnr, plasser sist
+        const sortNrB = b.sortnr !== undefined ? Number(b.sortnr) : Infinity;
+
+        if (sortNrA !== sortNrB) {
+            return sortNrA - sortNrB; // Sorter etter sortnr
+        }
+        return a.name.localeCompare(b.name); // Hvis sortnr er lik, sorter alfabetisk
+    });
+
+    // Tøm container
+    supplierContainer.innerHTML = '';
+
+    // Oppdater med nye leverandører
+    filteredData.forEach(supplier => {
+        const supplierElement = document.createElement("div");
+        supplierElement.classList.add("supplier");
+        supplierElement.innerHTML = `
+            <h3>${supplier.name}</h3>
+            <p>${supplier.kortinfo}</p>
+            <a href="${supplier.webside}" target="_blank">Besøk nettside</a>
+        `;
+        supplierContainer.appendChild(supplierElement);
+    });
+}
+
+
+
+
 
 
 function ruteresponse(data,id){
