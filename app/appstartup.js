@@ -142,8 +142,8 @@ function listSuppliers(data) {
     // Sorter data først etter "sortnr" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
         // Håndter sortnr for både tomme strenger og manglende verdier
-        const sortNrA = a.sortnr !== undefined && a.sortnr !== "" ? Number(a.sortnr) : 1; 
-        const sortNrB = b.sortnr !== undefined && b.sortnr !== "" ? Number(b.sortnr) : 1;
+        const sortNrA = a.sortering !== undefined && a.sortering !== "" ? Number(a.sortering) : 1; 
+        const sortNrB = b.sortering !== undefined && b.sortering !== "" ? Number(b.sortering) : 1;
     
         // Sorter etter sortnr først
         if (sortNrA !== sortNrB) {
