@@ -146,18 +146,19 @@ function listSuppliers(data) {
 
     // Sorter data først etter "sortering" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
-        // Håndter sortnr for både tomme strenger og manglende verdier
-        const sortNrA = a.sortering !== undefined && a.sortering !== "" ? Number(a.sortering) : 1; 
-        const sortNrB = b.sortering !== undefined && b.sortering !== "" ? Number(b.sortering) : 1;
+        // Konverter 'sortering' til tall, eller sett en lav verdi for manglende eller tomme verdier
+        const sortNrA = a.sortering !== undefined && a.sortering !== "" ? Number(a.sortering) : -Infinity;
+        const sortNrB = b.sortering !== undefined && b.sortering !== "" ? Number(b.sortering) : -Infinity;
     
-        // Sorter etter sortnr først
+        // Sorter først etter sortnr i synkende rekkefølge (høyest nummer først)
         if (sortNrA !== sortNrB) {
-            return sortNrA - sortNrB;
+            return sortNrB - sortNrA;
         }
     
-        // Hvis sortnr er lik, sorter alfabetisk etter navn
+        // Hvis sortnr er lik (eller begge mangler), sorter alfabetisk etter 'name'
         return a.name.localeCompare(b.name);
     });
+    
 
     // Tøm container
     supplierContainer.innerHTML = '';
