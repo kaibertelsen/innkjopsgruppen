@@ -262,9 +262,6 @@ function listSuppliers(data) {
         const nameback = supplierElement.querySelector('.suppliernameback');
         if (nameback) nameback.textContent = supplier.name || "Ukjent navn";
 
-        const shortinfoback = supplierElement.querySelector('.shortinfoback');
-        if (shortinfoback) shortinfoback.textContent = supplier.kortinfo || "Ingen informasjon tilgjengelig";
-
         // Sett bilde
         const image = supplierElement.querySelector('.imageback');
         if (image) {
