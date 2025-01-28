@@ -208,7 +208,7 @@ function listSuppliers(data) {
                 // Forsinkelse for å bytte synlighet midt i animasjonen
                 setTimeout(() => {
                     front.style.display = "none";
-                    back.style.display = "flex";
+                    back.style.display = "block";
                 }, 250); // Halvveis gjennom animasjonen
             } else {
                 // Rotasjon og visning av forsiden
