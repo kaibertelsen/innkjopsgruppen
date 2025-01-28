@@ -153,18 +153,49 @@ function listSuppliers(data) {
     // Tøm container
     supplierContainer.innerHTML = '';
 
+    const elementLibrary = document.getElementById("elementlibrary");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
+    }
+
+    const nodeElement = elementLibrary.querySelector('.suppliercard');
+    if (!nodeElement) {
+        console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
+        return;
+    }
+
     // Oppdater med nye leverandører
     filteredData.forEach(supplier => {
-        const supplierElement = document.createElement("div");
-        supplierElement.classList.add("supplier");
-        supplierElement.innerHTML = `
-            <h3>${supplier.name}</h3>
-            <p>${supplier.kortinfo}</p>
-            <a href="${supplier.webside}" target="_blank">Besøk nettside</a>
-        `;
+        const supplierElement = nodeElement.cloneNode(true);
+
+        // Sett navn
+        const name = supplierElement.querySelector('.suppliername');
+        if (name) name.textContent = supplier.name || "Ukjent navn";
+
+        // Sett kortinfo
+        const shortinfo = supplierElement.querySelector('.shortinfo');
+        if (shortinfo) shortinfo.textContent = supplier.kortinfo || "Ingen informasjon tilgjengelig";
+
+        // Sett kategori
+        const kategori = supplierElement.querySelector('.kategori');
+        if (kategori) kategori.textContent = supplier.kategori || "-";
+
+        // Sett logo
+        const logo = supplierElement.querySelector('.logoelement');
+        if (logo) {
+            if (supplier.logo) {
+                logo.src = supplier.logo;
+            } else {
+                logo.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
+            }
+        }
+
+        // Legg til leverandøren i containeren
         supplierContainer.appendChild(supplierElement);
     });
 }
+
 
 
 
