@@ -235,11 +235,11 @@ function listSuppliers(data) {
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
         if (name) name.textContent = supplier.name || "Ukjent navn";
-    
+        
         // Sett kortinfo
         const shortinfo = supplierElement.querySelector('.shortinfo');
         if (shortinfo) shortinfo.textContent = supplier.kortinfo || "Ingen informasjon tilgjengelig";
-    
+
         // Sett kategori
         const kategori = supplierElement.querySelector('.kategori');
         if (kategori) kategori.textContent = supplier.kategori || "-";
@@ -254,6 +254,25 @@ function listSuppliers(data) {
             }
         }
     
+
+        //bakside
+        const nameback = supplierElement.querySelector('.suppliernameback');
+        if (nameback) nameback.textContent = supplier.name || "Ukjent navn";
+
+        const shortinfoback = supplierElement.querySelector('.shortinfoback');
+        if (shortinfoback) shortinfoback.textContent = supplier.kortinfo || "Ingen informasjon tilgjengelig";
+
+        // Sett bilde
+        const image = supplierElement.querySelector('.imageback');
+        if (image) {
+            if (supplier.logo) {
+                image.src = supplier.image;
+            } else {
+                image.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
+            }
+        }
+
+
         // Legg til leverandøren i containeren
         supplierContainer.appendChild(supplierElement);
     });
