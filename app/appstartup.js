@@ -80,6 +80,11 @@ function supplierResponse(data){
         // Konverter JSON-strenger til objekter
         const jsonStrings = data.fields.supplierjson;
         suppliers = convertSuppliersJsonStringsToObjects(jsonStrings);
+
+        // Filtrer vekk alle suppliers som har true i nøkelen "hidden"
+        suppliers = suppliers.filter(supplier => !supplier.hidden);
+
+        // Kall funksjonen som gjør klar leverandørene for videre behandling
         suppliersReady();
     
 }
