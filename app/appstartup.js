@@ -139,11 +139,11 @@ function listSuppliers(data) {
         supplier.name.toLowerCase().includes(searchValue)
     );
 
-    // Sorter data først etter "sortnr" (konvertert til tall) og deretter alfabetisk etter "name"
+    // Sorter data først etter "sortering" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
         // Håndter sortnr for både tomme strenger og manglende verdier
-        const sortNrA = a.sortering !== undefined && a.sortering !== "" ? Number(a.sortering) : 1; 
-        const sortNrB = b.sortering !== undefined && b.sortering !== "" ? Number(b.sortering) : 1;
+        const sortNrA = a.sortering !== undefined && a.sortering !== "" ? Number(a.sortering) : 1000; 
+        const sortNrB = b.sortering !== undefined && b.sortering !== "" ? Number(b.sortering) : 1000;
     
         // Sorter etter sortnr først
         if (sortNrA !== sortNrB) {
