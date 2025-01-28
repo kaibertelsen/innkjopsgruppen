@@ -176,7 +176,6 @@ function listSuppliers(data) {
         return;
     }
 
-    // Oppdater med nye leverandører
     filteredData.forEach(supplier => {
         const supplierElement = nodeElement.cloneNode(true);
     
@@ -197,7 +196,7 @@ function listSuppliers(data) {
         supplierElement.style.transformStyle = "preserve-3d";
         supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
         supplierElement.style.transition = "transform 0.5s ease-in-out";
-        back.style.transform = "rotateY(180deg)"; // Roter baksiden 180 grader for riktig orientering
+        back.style.transform = "rotateY(180deg)"; // Orienter baksiden riktig
         front.style.display = "block";
         back.style.display = "none";
     
@@ -218,7 +217,7 @@ function listSuppliers(data) {
     
         // Klikk-hendelse for rotasjon
         function toggleFlip() {
-            // Lukk det forrige roterte elementet hvis det finnes
+            // Lukk det forrige roterte elementet hvis det finnes og er et annet element
             if (currentFlippedElement && currentFlippedElement !== supplierElement) {
                 currentFlippedElement.instance.closeElement();
             }
@@ -232,13 +231,18 @@ function listSuppliers(data) {
                     if (connectorwrapper) connectorwrapper.style.display = "none";
                     back.style.display = "block";
                 }, 250);
+    
+                // Oppdater nåværende roterte element
+                currentFlippedElement = supplierElement;
             } else {
                 // Reverser rotasjonen
                 closeElement();
-            }
     
-            // Oppdater nåværende roterte element
-            currentFlippedElement = isFlipped ? null : supplierElement;
+                // Nullstill kun hvis det lukkede elementet er det nåværende
+                if (currentFlippedElement === supplierElement) {
+                    currentFlippedElement = null;
+                }
+            }
     
             // Bytt tilstand
             isFlipped = !isFlipped;
