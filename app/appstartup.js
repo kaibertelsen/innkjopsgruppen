@@ -185,6 +185,7 @@ function listSuppliers(data) {
         // Synlighet og rotasjon for forside og bakside
         const front = supplierElement.querySelector('.forside');
         const back = supplierElement.querySelector('.baksiden');
+        const connectorwrapper = supplierElement.querySelector('.connectorwrapper');
 
         if (!front || !back) {
             console.error("Forside eller baksiden mangler i leverandør-elementet.");
@@ -208,6 +209,7 @@ function listSuppliers(data) {
                 // Forsinkelse for å bytte synlighet midt i animasjonen
                 setTimeout(() => {
                     front.style.display = "none";
+                    connectorwrapper.style.display = "none";
                     back.style.display = "block";
                 }, 250); // Halvveis gjennom animasjonen
             } else {
@@ -218,6 +220,7 @@ function listSuppliers(data) {
                 setTimeout(() => {
                     back.style.display = "none";
                     front.style.display = "block";
+                    connectorwrapper.style.display = "block";
                 }, 250); // Halvveis gjennom animasjonen
             }
 
