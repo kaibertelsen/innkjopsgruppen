@@ -179,22 +179,30 @@ function listSuppliers(data) {
     filteredData.forEach(supplier => {
         const supplierElement = nodeElement.cloneNode(true);
     
-        // Legg til en 'rotasjonstilstand' for å spore om elementet er rotert
-    let isFlipped = false;
+          // Legg til en 'rotasjonstilstand' for å spore om elementet er rotert
+        let isFlipped = false;
+
+        // Synlighet og rotasjon for forside og bakside
+        const front = supplierElement.querySelector('.forside');
+        const back = supplierElement.querySelector('.baksiden');
+
+        if (!front || !back) {
+            console.error("Forside eller baksiden mangler i leverandør-elementet.");
+            return;
+        }
+
+        // Initialiser transform og synlighet
+        supplierElement.style.transformStyle = "preserve-3d";
+        supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
+        supplierElement.style.transition = "transform 0.5s ease-in-out";
+        back.style.transform = "rotateY(180deg)"; // Roter baksiden 180 grader for riktig orientering
+        front.style.display = "block";
+        back.style.display = "none";
 
         // Klikk-hendelse for animasjon
         supplierElement.addEventListener('click', () => {
-            const front = supplierElement.querySelector('.forside');
-            const back = supplierElement.querySelector('.baksiden');
-
-            if (!front || !back) {
-                console.error("Forside eller baksiden mangler i leverandør-elementet.");
-                return;
-            }
-
             if (!isFlipped) {
                 // Rotasjon og visning av baksiden
-                supplierElement.style.transition = "transform 0.5s ease-in-out";
                 supplierElement.style.transform = "rotateY(180deg)";
 
                 // Forsinkelse for å bytte synlighet midt i animasjonen
@@ -204,7 +212,6 @@ function listSuppliers(data) {
                 }, 250); // Halvveis gjennom animasjonen
             } else {
                 // Rotasjon og visning av forsiden
-                supplierElement.style.transition = "transform 0.5s ease-in-out";
                 supplierElement.style.transform = "rotateY(0deg)";
 
                 // Forsinkelse for å bytte synlighet midt i animasjonen
@@ -218,11 +225,7 @@ function listSuppliers(data) {
             isFlipped = !isFlipped;
         });
 
-        // Initialiser synlighet
-        const front = supplierElement.querySelector('.forside');
-        const back = supplierElement.querySelector('.baksiden');
-        if (front) front.style.display = "block";
-        if (back) back.style.display = "none";
+       
     
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
