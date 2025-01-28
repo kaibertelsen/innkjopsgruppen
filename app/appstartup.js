@@ -248,6 +248,13 @@ function listSuppliers(data) {
         const kategori = supplierElement.querySelector('.kategori');
         if (kategori) kategori.textContent = supplier.category || "-";
 
+        // Sett rabbat merke
+        const cuttext = supplierElement.querySelector('.cutttext');
+        if(supplier.cuttext){
+            if (cuttext) cuttext.cutttext = supplier.cuttext || "-";
+            cuttext.parentElement.parentElement.style.display = "flex";
+        }
+
         // Sett logo
         const logo = supplierElement.querySelector('.logoelement');
         if (logo) {
