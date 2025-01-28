@@ -141,13 +141,17 @@ function listSuppliers(data) {
 
     // Sorter data først etter "sortnr" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
-        const sortNrA = a.sortnr !== undefined ? Number(a.sortnr) : Infinity; // Hvis ingen sortnr, plasser sist
-        const sortNrB = b.sortnr !== undefined ? Number(b.sortnr) : Infinity;
-
+        // Håndter sortnr for både tomme strenger og manglende verdier
+        const sortNrA = a.sortnr !== undefined && a.sortnr !== "" ? Number(a.sortnr) : 1000; 
+        const sortNrB = b.sortnr !== undefined && b.sortnr !== "" ? Number(b.sortnr) : 1000;
+    
+        // Sorter etter sortnr først
         if (sortNrA !== sortNrB) {
-            return sortNrA - sortNrB; // Sorter etter sortnr
+            return sortNrA - sortNrB;
         }
-        return a.name.localeCompare(b.name); // Hvis sortnr er lik, sorter alfabetisk
+    
+        // Hvis sortnr er lik, sorter alfabetisk etter navn
+        return a.name.localeCompare(b.name);
     });
 
     // Tøm container
