@@ -178,19 +178,62 @@ function listSuppliers(data) {
     // Oppdater med nye leverandører
     filteredData.forEach(supplier => {
         const supplierElement = nodeElement.cloneNode(true);
-
+    
+        // Legg til en 'rotasjonstilstand' for å spore om elementet er rotert
+        let isFlipped = false;
+    
+        // Klikk-hendelse for animasjon
+        supplierElement.addEventListener('click', () => {
+            // Hent "forside" og "baksiden" fra supplierElement
+            const front = supplierElement.querySelector('.forside');
+            const back = supplierElement.querySelector('.baksiden');
+    
+            // Sjekk at både forside og baksiden finnes
+            if (!front || !back) {
+                console.error("Forside eller baksiden mangler i leverandør-elementet.");
+                return;
+            }
+    
+            if (isFlipped) {
+                // Reverser animasjonen (tilbake til normal)
+                supplierElement.style.transform = "rotateY(0deg)";
+                front.style.opacity = "1";
+                back.style.opacity = "0";
+            } else {
+                // Animer til 180 grader rotasjon
+                supplierElement.style.transform = "rotateY(180deg)";
+                front.style.opacity = "0";
+                back.style.opacity = "1";
+            }
+    
+            // Bytt tilstand
+            isFlipped = !isFlipped;
+        });
+    
+        // Sett CSS-transisjon for glatt animasjon
+        supplierElement.style.transition = "transform 0.5s ease-in-out";
+    
+        // Sett forside og bakside overgang
+        const front = supplierElement.querySelector('.forside');
+        const back = supplierElement.querySelector('.baksiden');
+        if (front) front.style.transition = "opacity 0.5s ease-in-out";
+        if (back) back.style.transition = "opacity 0.5s ease-in-out";
+    
+        // Skjul "baksiden" som standard
+        if (back) back.style.opacity = "0";
+    
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
         if (name) name.textContent = supplier.name || "Ukjent navn";
-
+    
         // Sett kortinfo
         const shortinfo = supplierElement.querySelector('.shortinfo');
         if (shortinfo) shortinfo.textContent = supplier.kortinfo || "Ingen informasjon tilgjengelig";
-
+    
         // Sett kategori
         const kategori = supplierElement.querySelector('.kategori');
         if (kategori) kategori.textContent = supplier.kategori || "-";
-
+    
         // Sett logo
         const logo = supplierElement.querySelector('.logoelement');
         if (logo) {
@@ -200,10 +243,11 @@ function listSuppliers(data) {
                 logo.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
             }
         }
-
+    
         // Legg til leverandøren i containeren
         supplierContainer.appendChild(supplierElement);
     });
+    
 }
 
 
