@@ -179,7 +179,7 @@ function listSuppliers(data) {
     filteredData.forEach(supplier => {
         const supplierElement = nodeElement.cloneNode(true);
     
-          // Legg til en 'rotasjonstilstand' for å spore om elementet er rotert
+        // Legg til en 'rotasjonstilstand' for å spore om elementet er rotert
         let isFlipped = false;
 
         // Synlighet og rotasjon for forside og bakside
@@ -199,8 +199,8 @@ function listSuppliers(data) {
         front.style.display = "block";
         back.style.display = "none";
 
-        // Klikk-hendelse for animasjon
-        supplierElement.addEventListener('click', () => {
+        // Klikk-hendelse for rotasjon
+        function toggleFlip() {
             if (!isFlipped) {
                 // Rotasjon og visning av baksiden
                 supplierElement.style.transform = "rotateY(180deg)";
@@ -223,7 +223,12 @@ function listSuppliers(data) {
 
             // Bytt tilstand
             isFlipped = !isFlipped;
-        });
+        }
+
+        // Legg til klikk-hendelser for både forsiden og baksiden
+        front.addEventListener('click', toggleFlip);
+        back.addEventListener('click', toggleFlip);
+
 
        
     
