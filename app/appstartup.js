@@ -242,8 +242,8 @@ function listSuppliers(data) {
 
         // Sett kategori
         const kategori = supplierElement.querySelector('.kategori');
-        if (kategori) kategori.textContent = supplier.kategori || "-";
-    
+        if (kategori) kategori.textContent = supplier.category || "-";
+
         // Sett logo
         const logo = supplierElement.querySelector('.logoelement');
         if (logo) {
