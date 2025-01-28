@@ -251,8 +251,8 @@ function listSuppliers(data) {
         // Sett rabbat merke
         const cuttext = supplierElement.querySelector('.cutttext');
         if(supplier.cuttext){
-            if (cuttext) cuttext.cutttext = supplier.cuttext || "-";
-            cuttext.parentElement.parentElement.style.display = "flex";
+            if (cuttext) cuttext.textContent = supplier.cuttext || "-";
+            cuttext.parentElement.parentElement.style.display = "flex";  
         }
 
         // Sett logo
