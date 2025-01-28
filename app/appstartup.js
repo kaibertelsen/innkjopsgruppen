@@ -1,5 +1,6 @@
 var companys = [];
 var suppliers = [];
+let currentFlippedElement = null;
 
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
@@ -179,19 +180,19 @@ function listSuppliers(data) {
     filteredData.forEach(supplier => {
         const supplierElement = nodeElement.cloneNode(true);
     
-        // Legg til en 'rotasjonstilstand' for å spore om elementet er rotert
+        // Rotasjonstilstand for dette elementet
         let isFlipped = false;
-
+    
         // Synlighet og rotasjon for forside og bakside
         const front = supplierElement.querySelector('.forside');
         const back = supplierElement.querySelector('.baksiden');
         const connectorwrapper = supplierElement.querySelector('.connectorwrapper');
-
+    
         if (!front || !back) {
             console.error("Forside eller baksiden mangler i leverandør-elementet.");
             return;
         }
-
+    
         // Initialiser transform og synlighet
         supplierElement.style.transformStyle = "preserve-3d";
         supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
@@ -199,54 +200,69 @@ function listSuppliers(data) {
         back.style.transform = "rotateY(180deg)"; // Roter baksiden 180 grader for riktig orientering
         front.style.display = "block";
         back.style.display = "none";
-
-        // Klikk-hendelse for rotasjon
-        function toggleFlip() {
-            if (!isFlipped) {
-                // Rotasjon og visning av baksiden
-                supplierElement.style.transform = "rotateY(180deg)";
-
-                // Forsinkelse for å bytte synlighet midt i animasjonen
-                setTimeout(() => {
-                    front.style.display = "none";
-                    connectorwrapper.style.display = "none";
-                    back.style.display = "block";
-                }, 250); // Halvveis gjennom animasjonen
-            } else {
-                // Rotasjon og visning av forsiden
+    
+        // Funksjon for å lukke (tilbakestille) elementet
+        function closeElement() {
+            if (isFlipped) {
                 supplierElement.style.transform = "rotateY(0deg)";
-
-                // Forsinkelse for å bytte synlighet midt i animasjonen
+    
                 setTimeout(() => {
                     back.style.display = "none";
                     front.style.display = "block";
-                    connectorwrapper.style.display = "block";
-                }, 250); // Halvveis gjennom animasjonen
+                    if (connectorwrapper) connectorwrapper.style.display = "block";
+                }, 250);
+    
+                isFlipped = false; // Tilbakestill rotasjonstilstand
             }
-
+        }
+    
+        // Klikk-hendelse for rotasjon
+        function toggleFlip() {
+            // Lukk det forrige roterte elementet hvis det finnes
+            if (currentFlippedElement && currentFlippedElement !== supplierElement) {
+                currentFlippedElement.instance.closeElement();
+            }
+    
+            if (!isFlipped) {
+                // Roter dette elementet
+                supplierElement.style.transform = "rotateY(180deg)";
+    
+                setTimeout(() => {
+                    front.style.display = "none";
+                    if (connectorwrapper) connectorwrapper.style.display = "none";
+                    back.style.display = "block";
+                }, 250);
+            } else {
+                // Reverser rotasjonen
+                closeElement();
+            }
+    
+            // Oppdater nåværende roterte element
+            currentFlippedElement = isFlipped ? null : supplierElement;
+    
             // Bytt tilstand
             isFlipped = !isFlipped;
         }
-
+    
         // Legg til klikk-hendelser for både forsiden og baksiden
         front.addEventListener('click', toggleFlip);
         back.addEventListener('click', toggleFlip);
-
-
-       
+    
+        // Lagre en referanse til funksjonene på elementet
+        supplierElement.instance = { closeElement };
     
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
         if (name) name.textContent = supplier.name || "Ukjent navn";
-        
+    
         // Sett kortinfo
         const shortinfo = supplierElement.querySelector('.shortinfo');
         if (shortinfo) shortinfo.textContent = supplier.kortinfo || "Ingen informasjon tilgjengelig";
-
+    
         // Sett kategori
         const kategori = supplierElement.querySelector('.kategori');
         if (kategori) kategori.textContent = supplier.category || "-";
-
+    
         // Sett logo
         const logo = supplierElement.querySelector('.logoelement');
         if (logo) {
@@ -257,25 +273,24 @@ function listSuppliers(data) {
             }
         }
     
-
-        //bakside
+        // Bakside
         const nameback = supplierElement.querySelector('.suppliernameback');
         if (nameback) nameback.textContent = supplier.name || "Ukjent navn";
-
+    
         // Sett bilde
         const image = supplierElement.querySelector('.imageback');
         if (image) {
-            if (supplier.logo) {
+            if (supplier.image) {
                 image.src = supplier.image;
             } else {
-                image.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
+                image.src = "path/to/default/logo.png"; // Standardbilde hvis bilde mangler
             }
         }
-
-
+    
         // Legg til leverandøren i containeren
         supplierContainer.appendChild(supplierElement);
     });
+    
     
 }
 
