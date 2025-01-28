@@ -221,7 +221,7 @@ function listSuppliers(data) {
         // Initialiser synlighet
         const front = supplierElement.querySelector('.forside');
         const back = supplierElement.querySelector('.baksiden');
-        if (front) front.style.display = "flex";
+        if (front) front.style.display = "block";
         if (back) back.style.display = "none";
     
         // Sett navn
