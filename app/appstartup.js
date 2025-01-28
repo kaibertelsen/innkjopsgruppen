@@ -111,8 +111,15 @@ function companyChange(companyId) {
 
     // Videre logikk for hva du ønsker å gjøre med de filtrerte leverandørene
     // F.eks. oppdatere en visning eller kalle en annen funksjon
-    listSuppliers(filteredSuppliers);
+    activeSupplierList = filteredSuppliers;
+    listSuppliers(activeSupplierList);
 }
+
+// Lytt til 'input'-hendelsen på søkefeltet
+document.getElementById("searchinput").addEventListener("input", () => {
+    // Kjør funksjonen med den aktive leverandørlisten
+    listSuppliers(activeSupplierList);
+});
 
 function listSuppliers(data) {
     console.log(data);
