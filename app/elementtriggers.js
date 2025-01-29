@@ -21,7 +21,7 @@ document.addEventListener("click", function(event) {
     }
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+
     const filterViewElement = document.getElementById("filterviewelement");
     const toggleButton = document.getElementById("filterlistbutton");
 
@@ -37,6 +37,5 @@ document.addEventListener("DOMContentLoaded", function () {
             filterViewElement.style.height = "0px"; // Kollaps tilbake
         }
     });
-});
 
 
