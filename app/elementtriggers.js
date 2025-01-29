@@ -30,15 +30,16 @@ toggleButton.addEventListener("click", function () {
     if (filterViewElement.style.height === "0px" || filterViewElement.style.height === "") {
         filterViewElement.style.height = filterViewElement.scrollHeight + "px"; // Utvid til innholdets høyde
         toggleButton.classList.add("active");
-
+        openfrombutton = true;
         setTimeout(() => {
-            openfrombutton = true;
+            //reset slik at den kan lukkes når en trykker utenfor filter view
+            openfrombutton = false;
         }, 500);
         
     } else {
         filterViewElement.style.height = "0px"; // Kollaps tilbake
         toggleButton.classList.remove("active");
-        openfrombutton = false;
+        
     }
 });
 
