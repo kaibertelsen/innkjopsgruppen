@@ -191,7 +191,7 @@ function listSuppliers(data) {
     //sette counter
     let textmesage = " stk.";
     if(hasActiveDeals){
-        textmesage = " stk. (Viser nå kun "+activeCompany.Name+" sine tilknyttede leverandører)";
+        textmesage = " stk. (Viser nå tilknyttede leverandører for selskapet "+activeCompany.Name+" )";
     }
     const counter = document.getElementById("counterlist");
     counter.textContent = filteredData.length+textmesage;
@@ -211,7 +211,9 @@ function listSuppliers(data) {
 
         if (!front || !back) {
             //
-        }else{
+            return;
+        }
+
             // Initialiser transform og synlighet
             supplierElement.style.transformStyle = "preserve-3d";
             supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
@@ -251,7 +253,7 @@ function listSuppliers(data) {
             // Legg til klikk-hendelser for både forsiden og baksiden
             front.addEventListener('click', toggleFlip);
             back.addEventListener('click', toggleFlip);
-        }
+        
        // Finn checkbox-elementet
         const merkibjCheckbox = supplierElement.querySelector(".merkibj");
 
@@ -292,7 +294,7 @@ function listSuppliers(data) {
                 logo.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
             }
         }
-        
+
 
         // Sett ny merke (hvis supplier.created er mindre enn 30 dager siden)
             const newwrapper = supplierElement.querySelector('.newwrapper');
