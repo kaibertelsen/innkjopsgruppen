@@ -276,7 +276,7 @@ function listSuppliers(data) {
             if (supplier.logo) {
                 image.src = supplier.image;
             } else {
-                image.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
+                image.style.display = "none";
             }
         }
 
