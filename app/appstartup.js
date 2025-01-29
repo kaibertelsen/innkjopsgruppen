@@ -2,7 +2,7 @@ var companys = [];
 var suppliers = [];
 let currentFlippedElement = null;
 var activeCompany = {};
-var mainlistElementClass = "suppliercard";
+var mainlistElementClass = ".suppliercard";
 
 
 document.getElementById("elementlibrary").style.display = "none";
