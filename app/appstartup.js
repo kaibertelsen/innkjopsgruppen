@@ -1,6 +1,7 @@
 var companys = [];
 var suppliers = [];
 let currentFlippedElement = null;
+var activeCompany = {};
 
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
@@ -106,7 +107,7 @@ function companyChange(companyId) {
         return;
     }
 
-    console.log("Valgt selskap:", selectedCompany);
+    activeCompany = selectedCompany;
 
     // Filtrer leverandører basert på gruppetilhørighet
     const filteredSuppliers = suppliers.filter(supplier => {
@@ -233,8 +234,15 @@ function listSuppliers(data) {
         front.addEventListener('click', toggleFlip);
         back.addEventListener('click', toggleFlip);
 
+       // Finn checkbox-elementet
+        const merkibjCheckbox = document.querySelector(".merkibj");
 
-    
+        // Sjekk om noen av objektene i selectedCompany.connection har en "supplier" som matcher supplier.airtable
+        if (selectedCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
+            merkibjCheckbox.checked = true; // Sett checkbox til checked
+        } else {
+            merkibjCheckbox.checked = false; // Sett checkbox til unchecked (valgfritt)
+        }
 
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
