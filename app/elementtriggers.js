@@ -54,7 +54,14 @@ toggleButton.addEventListener("click", function () {
 });
 
 document.getElementById("viewlistLayoutbutton").addEventListener("click", function() {
-    this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
+
+    const listbutton = document.getElementById("viewlistLayoutbutton");
+    listbutton.classList.add("active");
+
+    const gridbutton = document.getElementById("viewgridLayoutbutton");
+    gridbutton.classList.remove("active");
+
+
     mainlistElementClass = ".supplierlistelement";
     const supplierContainer = document.getElementById("supplierlist");
     supplierContainer.style.display = "block";
@@ -63,6 +70,13 @@ document.getElementById("viewlistLayoutbutton").addEventListener("click", functi
 
 document.getElementById("viewgridLayoutbutton").addEventListener("click", function() {
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
+
+    const listbutton = document.getElementById("viewlistLayoutbutton");
+    listbutton.classList.remove("active");
+
+    const gridbutton = document.getElementById("viewgridLayoutbutton");
+    gridbutton.classList.add("active");
+
     mainlistElementClass = ".suppliercard";
     const supplierContainer = document.getElementById("supplierlist");
     supplierContainer.style.display = "grid";
