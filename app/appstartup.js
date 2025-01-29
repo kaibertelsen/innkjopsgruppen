@@ -292,6 +292,7 @@ function listSuppliers(data) {
                 logo.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
             }
         }
+        
 
         // Sett ny merke (hvis supplier.created er mindre enn 30 dager siden)
             const newwrapper = supplierElement.querySelector('.newwrapper');
