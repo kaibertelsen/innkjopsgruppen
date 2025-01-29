@@ -177,6 +177,11 @@ function listSuppliers(data) {
         return;
     }
 
+    //sette counter
+    const counter = document.getElementById("counterlist");
+    counter.textContent = filteredData.length+" stk.";
+    counter.style.display = "block";
+    
   // Oppdater med nye leverandører
     filteredData.forEach(supplier => {
         const supplierElement = nodeElement.cloneNode(true);
