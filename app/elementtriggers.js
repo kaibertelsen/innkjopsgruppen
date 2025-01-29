@@ -21,24 +21,22 @@ document.addEventListener("click", function(event) {
     }
 });
 
-document.getElementById("filterlistbutton").addEventListener("click", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const filterViewElement = document.getElementById("filterviewelement");
+    const toggleButton = document.getElementById("filterlistbutton");
 
-    // Hvis elementet er skjult eller har høyde 0, utvid det
-    if (!filterViewElement.style.height || filterViewElement.style.height === "0px") {
-        filterViewElement.style.display = "block"; // Sikre at det vises
-        filterViewElement.style.overflow = "hidden"; // Skjul innhold under animasjon
-        filterViewElement.style.transition = "height 0.3s ease-in-out"; // Legg til animasjon
-        filterViewElement.style.height = filterViewElement.scrollHeight + "px"; // Sett høyde til innholdets faktiske høyde
+    // Sett starttilstand
+    filterViewElement.style.height = "0px";
+    filterViewElement.style.overflow = "hidden"; // Sikre at innholdet ikke vises når høyden er 0
+    filterViewElement.style.transition = "height 0.3s ease-in-out"; // Legg til animasjon
 
-    } else {
-        // Hvis elementet er synlig, skjul det med animasjon
-        filterViewElement.style.height = "0px"; 
-
-        // Etter at animasjonen er ferdig, sett display: none
-        setTimeout(() => {
-            filterViewElement.style.display = "none";
-        }, 300); // 300ms = samme som animasjonen
-    }
+    toggleButton.addEventListener("click", function () {
+        if (filterViewElement.style.height === "0px") {
+            filterViewElement.style.height = filterViewElement.scrollHeight + "px"; // Utvid til innholdets høyde
+        } else {
+            filterViewElement.style.height = "0px"; // Kollaps tilbake
+        }
+    });
 });
+
 
