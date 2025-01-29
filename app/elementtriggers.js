@@ -3,10 +3,8 @@ document.getElementById("logobutton").addEventListener("click", function() {
 });
 
 
-function startUp(userid){
-    GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
-}
 
+/*
 document.addEventListener("click", function(event) {
     // Hent elementet
     const filterViewElement = document.getElementById("filterviewelement");
@@ -20,7 +18,7 @@ document.addEventListener("click", function(event) {
         }
     }
 });
-
+*/
 
     const filterViewElement = document.getElementById("filterviewelement");
     const toggleButton = document.getElementById("filterlistbutton");

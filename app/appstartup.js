@@ -2,6 +2,9 @@ var companys = [];
 var suppliers = [];
 let currentFlippedElement = null;
 
+function startUp(userid){
+    GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
+}
 
 function userResponse(data) {
     // Sjekk om data.fields.companyjson eksisterer og er en array
