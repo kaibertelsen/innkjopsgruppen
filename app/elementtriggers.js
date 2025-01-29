@@ -15,6 +15,7 @@ document.addEventListener("click", function(event) {
             // Skjul elementet
             filterViewElement.style.height = "0px"; // Kollaps tilbake
             toggleButton.classList.remove("active");
+            buttonTrigger = false;
         }
     }
 });
