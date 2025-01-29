@@ -238,7 +238,7 @@ function listSuppliers(data) {
         const merkibjCheckbox = document.querySelector(".merkibj");
 
         // Sjekk om noen av objektene i selectedCompany.connection har en "supplier" som matcher supplier.airtable
-        if (selectedCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
+        if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
             merkibjCheckbox.checked = true; // Sett checkbox til checked
         } else {
             merkibjCheckbox.checked = false; // Sett checkbox til unchecked (valgfritt)
