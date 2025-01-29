@@ -280,13 +280,13 @@ function listSuppliers(data) {
                 let isNew = diffDays < 30;
 
                 if (isNew) {
-                    newwrapper.parentElement.parentElement.style.display = "flex";
+                    newwrapper.style.display = "flex";
                 } else {
-                    newwrapper.parentElement.parentElement.style.display = "none";
+                    newwrapper.style.display = "none";
                 }
             } else {
                 // Skjul hvis det ikke finnes en opprettelsesdato
-                newwrapper.parentElement.parentElement.style.display = "none";
+                newwrapper.style.display = "none";
             }
 
 
