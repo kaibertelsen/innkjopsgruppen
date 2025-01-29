@@ -4,6 +4,10 @@ let currentFlippedElement = null;
 var activeCompany = {};
 var mainlistElementClass = "suppliercard";
 
+
+document.getElementById("elementlibrary").style.display = "none";
+
+
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
 }
