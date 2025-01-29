@@ -5,19 +5,20 @@ document.getElementById("logobutton").addEventListener("click", function() {
 
 const filterViewElement = document.getElementById("filterviewelement");
 const toggleButton = document.getElementById("filterlistbutton");
-let buttonTrigger = false;
+let openfrombutton = false;
 
 document.addEventListener("click", function(event) {
     // Sjekk om elementet er trigget av egen knapp
-    if (buttonTrigger) {
+    if (!buttonTrigger) {
         // Hvis klikket skjer utenfor filterviewelement
         if (!filterViewElement.contains(event.target)) {
             // Skjul elementet
             filterViewElement.style.height = "0px"; // Kollaps tilbake
             toggleButton.classList.remove("active");
-            buttonTrigger = false;
+            openfrombutton = false;
         }
     }
+    
 });
 
 
@@ -30,11 +31,10 @@ toggleButton.addEventListener("click", function () {
         if (filterViewElement.style.height === "0px") {
             filterViewElement.style.height = filterViewElement.scrollHeight + "px"; // Utvid til innholdets høyde
             toggleButton.classList.add("active");
-            buttonTrigger = true;
+            openfrombutton = true;
         } else {
             filterViewElement.style.height = "0px"; // Kollaps tilbake
             toggleButton.classList.remove("active");
-            buttonTrigger = false;
         }
 });
 
