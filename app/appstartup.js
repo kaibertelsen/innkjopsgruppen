@@ -186,7 +186,7 @@ function listSuppliers(data) {
     //sette counter
     let textmesage = " stk.";
     if(hasActiveDeals){
-        textmesage = " stk. (Viser "+activeCompany.Name+" sine tilknyttede leverandører)";
+        textmesage = " stk. (Viser nå kun "+activeCompany.Name+" sine tilknyttede leverandører)";
     }
     const counter = document.getElementById("counterlist");
     counter.textContent = filteredData.length+textmesage;
