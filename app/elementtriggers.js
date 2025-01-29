@@ -3,25 +3,24 @@ document.getElementById("logobutton").addEventListener("click", function() {
 });
 
 
+const filterViewElement = document.getElementById("filterviewelement");
+const toggleButton = document.getElementById("filterlistbutton");
+let buttonTrigger = false;
 
-/*
 document.addEventListener("click", function(event) {
-    // Hent elementet
-    const filterViewElement = document.getElementById("filterviewelement");
-    
-    // Sjekk om elementet finnes
-    if (filterViewElement) {
+    // Sjekk om elementet er trigget av egen knapp
+    if (!buttonTrigger) {
         // Hvis klikket skjer utenfor filterviewelement
         if (!filterViewElement.contains(event.target)) {
             // Skjul elementet
-            filterViewElement.style.display = "none";
+            filterViewElement.style.height = "0px"; // Kollaps tilbake
+            toggleButton.classList.remove("active");
         }
     }
 });
-*/
 
-const filterViewElement = document.getElementById("filterviewelement");
-const toggleButton = document.getElementById("filterlistbutton");
+
+
 
 // Sett starttilstand
 filterViewElement.style.height = "0px";
@@ -32,9 +31,11 @@ toggleButton.addEventListener("click", function () {
         if (filterViewElement.style.height === "0px") {
             filterViewElement.style.height = filterViewElement.scrollHeight + "px"; // Utvid til innholdets høyde
             toggleButton.classList.add("active");
+            buttonTrigger = true;
         } else {
             filterViewElement.style.height = "0px"; // Kollaps tilbake
             toggleButton.classList.remove("active");
+            buttonTrigger = false;
         }
 });
 
