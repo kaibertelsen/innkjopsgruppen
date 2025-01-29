@@ -9,7 +9,7 @@ let openfrombutton = false;
 
 document.addEventListener("click", function(event) {
     // Sjekk om elementet er trigget av egen knapp
-    if (!buttonTrigger) {
+    if (!openfrombutton) {
         // Hvis klikket skjer utenfor filterviewelement
         if (!filterViewElement.contains(event.target)) {
             // Skjul elementet
