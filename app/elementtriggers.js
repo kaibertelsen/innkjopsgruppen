@@ -56,12 +56,16 @@ toggleButton.addEventListener("click", function () {
 document.getElementById("viewlistLayoutbutton").addEventListener("click", function() {
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
     mainlistElementClass = ".supplierlistelement";
+    const supplierContainer = document.getElementById("supplierlist");
+    supplierContainer.style.display = "block";
     listSuppliers(activeSupplierList);
 });
 
 document.getElementById("viewgridLayoutbutton").addEventListener("click", function() {
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
     mainlistElementClass = ".suppliercard";
+    const supplierContainer = document.getElementById("supplierlist");
+    supplierContainer.style.display = "grid";
     listSuppliers(activeSupplierList);
 });
 
