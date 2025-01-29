@@ -2,6 +2,7 @@ var companys = [];
 var suppliers = [];
 let currentFlippedElement = null;
 var activeCompany = {};
+var mainlistElementClass = "suppliercard";
 
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
@@ -177,7 +178,7 @@ function listSuppliers(data) {
         return;
     }
 
-    const nodeElement = elementLibrary.querySelector('.suppliercard');
+    const nodeElement = elementLibrary.querySelector(mainlistElementClass);
     if (!nodeElement) {
         console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
         return;

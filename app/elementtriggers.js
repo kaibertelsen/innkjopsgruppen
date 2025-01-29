@@ -53,4 +53,16 @@ toggleButton.addEventListener("click", function () {
     }
 });
 
+document.getElementById("viewlistLayoutbutton").addEventListener("click", function() {
+    this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
+    mainlistElementClass = "supplierlistelement";
+    listSuppliers(activeSupplierList);
+});
+
+document.getElementById("viewgridLayoutbutton").addEventListener("click", function() {
+    this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
+    mainlistElementClass = "suppliercard";
+    listSuppliers(activeSupplierList);
+});
+
 
