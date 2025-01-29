@@ -267,6 +267,28 @@ function listSuppliers(data) {
             }
         }
 
+        // Sett ny merke (hvis supplier.created er mindre enn 30 dager siden)
+            const newwrapper = supplierElement.querySelector('.newwrapper');
+
+            if (supplier.created) {
+                const createdDate = new Date(supplier.created); // Konverter til dato
+                const today = new Date();
+                const diffTime = today - createdDate; // Tidsdifferanse i millisekunder
+                const diffDays = diffTime / (1000 * 60 * 60 * 24); // Konverter til dager
+
+                // Sjekk om differansen er mindre enn 30 dager
+                let isNew = diffDays < 30;
+
+                if (isNew) {
+                    newwrapper.parentElement.parentElement.style.display = "flex";
+                } else {
+                    newwrapper.parentElement.parentElement.style.display = "none";
+                }
+            } else {
+                // Skjul hvis det ikke finnes en opprettelsesdato
+                newwrapper.parentElement.parentElement.style.display = "none";
+            }
+
 
         //bakside
         const nameback = supplierElement.querySelector('.suppliernameback');
