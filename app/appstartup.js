@@ -240,7 +240,7 @@ function listSuppliers(data) {
         back.addEventListener('click', toggleFlip);
 
        // Finn checkbox-elementet
-        const merkibjCheckbox = document.querySelector(".merkibj");
+        const merkibjCheckbox = supplierElement.querySelector(".merkibj");
 
         // Sjekk om noen av objektene i selectedCompany.connection har en "supplier" som matcher supplier.airtable
         if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
