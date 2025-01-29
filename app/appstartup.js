@@ -146,6 +146,16 @@ function listSuppliers(data) {
         supplier.name.toLowerCase().includes(searchValue)
     );
 
+    // Sjekk om filteret er aktivt mine avtaler hvis aktiv
+    const hasActiveClass = document.getElementById("filtermydealsbutton").classList.contains("active");
+    if (hasActiveClass) {
+        // Hent alle supplier-verdiene fra activeCompany.connection
+        const activeSuppliers = activeCompany.connection.map(conn => conn.supplier);
+
+        // Filtrer arrayen basert på matching i "airtable"-nøkkelen
+        filteredData = filteredData.filter(item => activeSuppliers.includes(item.airtable));
+    }
+    
     // Sorter data først etter "sortering" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
         // Konverter 'sortering' til tall, eller sett en lav verdi for manglende eller tomme verdier
