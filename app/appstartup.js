@@ -220,38 +220,38 @@ function listSuppliers(data) {
             front.style.display = "block";
             back.style.display = "none";
 
-        // Klikk-hendelse for rotasjon
-        function toggleFlip() {
-            if (!isFlipped) {
-                // Rotasjon og visning av baksiden
-                supplierElement.style.transform = "rotateY(180deg)";
+            // Klikk-hendelse for rotasjon
+            function toggleFlip() {
+                if (!isFlipped) {
+                    // Rotasjon og visning av baksiden
+                    supplierElement.style.transform = "rotateY(180deg)";
 
-                // Forsinkelse for å bytte synlighet midt i animasjonen
-                setTimeout(() => {
-                    front.style.display = "none";
-                    connectorwrapper.style.display = "none";
-                    back.style.display = "block";
-                }, 250); // Halvveis gjennom animasjonen
-            } else {
-                // Rotasjon og visning av forsiden
-                supplierElement.style.transform = "rotateY(0deg)";
+                    // Forsinkelse for å bytte synlighet midt i animasjonen
+                    setTimeout(() => {
+                        front.style.display = "none";
+                        connectorwrapper.style.display = "none";
+                        back.style.display = "block";
+                    }, 250); // Halvveis gjennom animasjonen
+                } else {
+                    // Rotasjon og visning av forsiden
+                    supplierElement.style.transform = "rotateY(0deg)";
 
-                // Forsinkelse for å bytte synlighet midt i animasjonen
-                setTimeout(() => {
-                    back.style.display = "none";
-                    front.style.display = "block";
-                    connectorwrapper.style.display = "block";
-                }, 250); // Halvveis gjennom animasjonen
+                    // Forsinkelse for å bytte synlighet midt i animasjonen
+                    setTimeout(() => {
+                        back.style.display = "none";
+                        front.style.display = "block";
+                        connectorwrapper.style.display = "block";
+                    }, 250); // Halvveis gjennom animasjonen
+                }
+
+                // Bytt tilstand
+                isFlipped = !isFlipped;
             }
 
-            // Bytt tilstand
-            isFlipped = !isFlipped;
+            // Legg til klikk-hendelser for både forsiden og baksiden
+            front.addEventListener('click', toggleFlip);
+            back.addEventListener('click', toggleFlip);
         }
-
-        // Legg til klikk-hendelser for både forsiden og baksiden
-        front.addEventListener('click', toggleFlip);
-        back.addEventListener('click', toggleFlip);
-
        // Finn checkbox-elementet
         const merkibjCheckbox = supplierElement.querySelector(".merkibj");
 
