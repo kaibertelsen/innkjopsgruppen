@@ -253,6 +253,8 @@ function listSuppliers(data) {
         if(supplier.cuttext){
             if (cuttext) cuttext.textContent = supplier.cuttext || "-";
             cuttext.parentElement.parentElement.style.display = "flex";  
+        }else{
+            cuttext.parentElement.parentElement.style.display = "none";  
         }
 
         // Sett logo
