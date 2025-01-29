@@ -4,9 +4,14 @@ document.getElementById("logobutton").addEventListener("click", function() {
 
 document.getElementById("filtermydealsbutton").addEventListener("click", function() {
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
+    listSuppliers(activeSupplierList);
 });
 
-
+// Lytt til 'input'-hendelsen på søkefeltet
+document.getElementById("searchinput").addEventListener("input", () => {
+    // Kjør funksjonen med den aktive leverandørlisten
+    listSuppliers(activeSupplierList);
+});
 
 const filterViewElement = document.getElementById("filterviewelement");
 const toggleButton = document.getElementById("filterlistbutton");
