@@ -20,8 +20,6 @@ document.addEventListener("click", function(event) {
 });
 
 
-
-
 // Sett starttilstand
 filterViewElement.style.height = "0px";
 filterViewElement.style.overflow = "hidden"; // Sikre at innholdet ikke vises når høyden er 0
