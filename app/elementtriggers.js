@@ -15,7 +15,6 @@ document.addEventListener("click", function(event) {
             // Skjul elementet
             filterViewElement.style.height = "0px"; // Kollaps tilbake
             toggleButton.classList.remove("active");
-            openfrombutton = false;
         }
     }
     
@@ -28,14 +27,19 @@ filterViewElement.style.overflow = "hidden"; // Sikre at innholdet ikke vises n�
 filterViewElement.style.transition = "height 0.3s ease-in-out"; // Legg til animasjon
 
 toggleButton.addEventListener("click", function () {
-        if (filterViewElement.style.height === "0px") {
-            filterViewElement.style.height = filterViewElement.scrollHeight + "px"; // Utvid til innholdets høyde
-            toggleButton.classList.add("active");
+    if (filterViewElement.style.height === "0px" || filterViewElement.style.height === "") {
+        filterViewElement.style.height = filterViewElement.scrollHeight + "px"; // Utvid til innholdets høyde
+        toggleButton.classList.add("active");
+
+        setTimeout(() => {
             openfrombutton = true;
-        } else {
-            filterViewElement.style.height = "0px"; // Kollaps tilbake
-            toggleButton.classList.remove("active");
-        }
+        }, 500);
+        
+    } else {
+        filterViewElement.style.height = "0px"; // Kollaps tilbake
+        toggleButton.classList.remove("active");
+        openfrombutton = false;
+    }
 });
 
 
