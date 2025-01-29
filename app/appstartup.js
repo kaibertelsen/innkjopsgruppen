@@ -2,6 +2,11 @@ var companys = [];
 var suppliers = [];
 let currentFlippedElement = null;
 
+document.getElementById("logobutton").addEventListener("click", function() {
+    location.reload();
+});
+
+
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
 }
