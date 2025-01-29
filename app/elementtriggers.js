@@ -2,11 +2,17 @@ document.getElementById("logobutton").addEventListener("click", function() {
     location.reload();
 });
 
+document.getElementById("filtermydealsbutton").addEventListener("click", function() {
+    this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
+});
+
+
 
 const filterViewElement = document.getElementById("filterviewelement");
 const toggleButton = document.getElementById("filterlistbutton");
 let openfrombutton = false;
 
+//alle klikk
 document.addEventListener("click", function(event) {
     // Sjekk om elementet er trigget av egen knapp
     if (!openfrombutton) {
@@ -19,7 +25,6 @@ document.addEventListener("click", function(event) {
     }
     
 });
-
 
 // Sett starttilstand
 filterViewElement.style.height = "0px";
