@@ -210,17 +210,15 @@ function listSuppliers(data) {
         const connectorwrapper = supplierElement.querySelector('.connectorwrapper');
 
         if (!front || !back) {
-            console.error("Forside eller baksiden mangler i leverandør-elementet.");
-            return;
-        }
-
-        // Initialiser transform og synlighet
-        supplierElement.style.transformStyle = "preserve-3d";
-        supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
-        supplierElement.style.transition = "transform 0.5s ease-in-out";
-        back.style.transform = "rotateY(180deg)"; // Roter baksiden 180 grader for riktig orientering
-        front.style.display = "block";
-        back.style.display = "none";
+            //
+        }else{
+            // Initialiser transform og synlighet
+            supplierElement.style.transformStyle = "preserve-3d";
+            supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
+            supplierElement.style.transition = "transform 0.5s ease-in-out";
+            back.style.transform = "rotateY(180deg)"; // Roter baksiden 180 grader for riktig orientering
+            front.style.display = "block";
+            back.style.display = "none";
 
         // Klikk-hendelse for rotasjon
         function toggleFlip() {
