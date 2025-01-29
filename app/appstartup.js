@@ -11,6 +11,24 @@ function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
 }
 
+document.addEventListener("click", function(event) {
+    // Hent elementet
+    const filterViewElement = document.getElementById("filterviewelement");
+    
+    // Sjekk om elementet finnes
+    if (filterViewElement) {
+        // Hvis klikket skjer utenfor filterviewelement
+        if (!filterViewElement.contains(event.target)) {
+            // Skjul elementet
+            filterViewElement.style.display = "none";
+        }
+    }
+});
+
+
+
+
+
 function userResponse(data) {
     // Sjekk om data.fields.companyjson eksisterer og er en array
     if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
