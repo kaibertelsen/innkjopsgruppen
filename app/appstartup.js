@@ -493,11 +493,11 @@ function loadFilter() {
 
         list.appendChild(categoriElement);
     });
-    
+
 }
 
 function categoriFilterTriggered(button) {
-    const allButtons = button.parentElement.querySelectorAll("categoributton");
+    const allButtons = button.parentElement.querySelectorAll(".categoributton");
     // Sjekk om dataset.airtable er tom
     if (!button.dataset.airtable) {
         // Legg til klassen "active" på knappen som ble klikket
