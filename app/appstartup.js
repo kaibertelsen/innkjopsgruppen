@@ -7,7 +7,6 @@ var mainlistElementClass = ".suppliercard";
 
 document.getElementById("elementlibrary").style.display = "none";
 
-
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
 }
@@ -17,6 +16,14 @@ function userResponse(data) {
     if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
         return; // Avbryt hvis data ikke er gyldig
+    }
+
+    if (data.fields.onboarded && data.fields.onboarded === "TRUE") {
+        // Brukeren er allerede onboarded
+        console.log("Brukeren er allerede onboarded.");
+    } else {
+        // Brukeren er ikke onboarded, fortsett med onboarding-prosessen
+        document.getElementById("tabwelcome").click();
     }
 
     // Konverter JSON-strenger til objekter
@@ -54,6 +61,8 @@ function userResponse(data) {
         }
     }
 
+    
+    
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
