@@ -476,15 +476,22 @@ function convertJsonStringsToObjects(jsonStrings) {
 function convertSuppliersJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {
         try {
-           
-           // Parse hoved JSON-streng til et objekt
-           const data = JSON.parse(jsonString);
-           if (!data.group) {
-               data.group = [];
-           } 
-           if (!data.category) {
-            data.category = [];
-        } 
+            // Parse hoved JSON-streng til et objekt
+            const data = JSON.parse(jsonString);
+
+            // Sørg for at "group" og "category" alltid er arrays
+            if (!data.group) {
+                data.group = [];
+            }
+            if (!data.category) {
+                data.category = [];
+            }
+
+            // Rens og klargjør HTML-data i "info" hvis det finnes
+            if (data.info) {
+                data.info = cleanHtmlData(data.info);
+            }
+
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
@@ -493,10 +500,14 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
     });
 }
 
+// Funksjon for å rense og klargjøre HTML-data
+function cleanHtmlData(html) {
+    // Eksempel på enkel rensing av HTML: fjern unødvendige mellomrom og linjeskift
+    return html.trim();
+}
+
 
 function supplierChosed(supplier){
-
-
 console.log(data);
 
 
