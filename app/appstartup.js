@@ -493,6 +493,7 @@ function loadFilter() {
 
         list.appendChild(categoriElement);
     });
+    
 }
 
 function categoriFilterTriggered(button) {
