@@ -32,7 +32,8 @@ function userResponse(data) {
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.companyjson;
     companys = convertJsonStringsToObjects(jsonStrings);
-
+    // Legg til objektet øverst i arrayen
+    companys.unshift({ Name: "Ansattavtaler", airtable: "ansatt"});
     // Hent selector fra DOM
     const selector = document.getElementById("companySelector");
     if (!selector) {
@@ -433,7 +434,6 @@ function listSuppliers(data) {
     
 }
 
-
 function ruteresponse(data,id){
     if(id == "userResponse"){
         userResponse(data);
@@ -513,8 +513,6 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 }
 
 
-
-
 function supplierChosed(supplier) {
     console.log(supplier);
 
@@ -549,7 +547,6 @@ function supplierChosed(supplier) {
         contentview.innerHTML = supplier.info || "<p>Ingen informasjon tilgjengelig.</p>";
     }
 }
-
 
 function supplierConnecting(supplier, checkbox) {
     console.log(supplier);
