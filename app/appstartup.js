@@ -169,9 +169,6 @@ function getUniqueAreas(suppliers) {
     return uniqueAreasArray;
 }
 
-
-
-
 function suppliersReady(){
     const selector = document.getElementById("companySelector");
     companyChange(selector.value);
@@ -202,8 +199,6 @@ function companyChange(companyId) {
     activeSupplierList = filteredSuppliers;
     listSuppliers(activeSupplierList);
 }
-
-
 
 function listSuppliers(data) {
     console.log(data);
@@ -417,9 +412,6 @@ function listSuppliers(data) {
     
     
 }
-
-
-
 
 function ruteresponse(data,id){
     if(id == "userResponse"){

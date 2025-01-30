@@ -48,7 +48,6 @@ function loadFilterdata(list,data,nodeElement){
 
 }
 
-
 function categoriFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll(".categoributton");
 
@@ -74,6 +73,19 @@ function categoriFilterTriggered(button) {
         // Toggling av "active"-klassen på den klikkede knappen
         if (button.classList.contains("active")) {
             button.classList.remove("active"); // Fjern klassen hvis den allerede er satt
+
+            // Sjekk om ingen andre knapper har klassen "active"
+            const hasActiveButton = Array.from(allButtons).some(otherButton => 
+                otherButton.classList.contains("active")
+            );
+
+            // Hvis ingen andre knapper har klassen "active", sett klassen på knappen med tom airtable-verdi
+            if (!hasActiveButton) {
+                const defaultButton = Array.from(allButtons).find(otherButton => !otherButton.dataset.airtable);
+                if (defaultButton) {
+                    defaultButton.classList.add("active");
+                }
+            }
         } else {
             button.classList.add("active"); // Legg til klassen hvis den ikke er satt
         }
@@ -82,6 +94,7 @@ function categoriFilterTriggered(button) {
     // Kall funksjonen for å liste leverandører basert på aktiv filtrering
     listSuppliers(activeSupplierList);
 }
+
 
 function isFilterActive(toggleButton) {
     
