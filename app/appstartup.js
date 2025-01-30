@@ -539,8 +539,8 @@ function isFilterActive(toggleButton) {
         return button.dataset.airtable && button.classList.contains("active");
     });
 
-    // Hvis en slik knapp finnes, fjern klassen "active" fra `toggleButton`
-    if (hasActiveFilter) {
+    // Hvis en slik knapp ikke finnes, fjern klassen "active" fra `toggleButton`
+    if (!hasActiveFilter) {
         toggleButton.classList.remove("active");
     }
 }
