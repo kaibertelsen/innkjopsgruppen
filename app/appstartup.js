@@ -110,6 +110,8 @@ function supplierResponse(data){
         // Filtrer vekk alle suppliers som har true i nøkelen "hidden"
         suppliers = suppliers.filter(supplier => !supplier.hidden);
 
+        //hent ut alle unike kategorier og legg disse kategorier i en array
+
         // Kall funksjonen som gjør klar leverandørene for videre behandling
         suppliersReady();
     
@@ -415,6 +417,9 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
            if (!data.group) {
                data.group = [];
            } 
+           if (!data.category) {
+            data.category = [];
+        } 
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
