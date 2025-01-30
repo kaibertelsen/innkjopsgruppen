@@ -613,18 +613,15 @@ function loadmemberCard() {
     if (isVisible) {
         // Start reversert animasjon på Z-aksen
         memberCard.style.transform = "rotateY(0deg)";
-
-        // Etter 0.5 sekunder, skjul elementet
-        setTimeout(() => {
-            cardWrapper.style.display = "none";
-            memberCard.style.transform = "rotateZ(0deg)";  // Tilbakestill for neste visning
-        }, 500);
     } else {
         // Vis elementet
         cardWrapper.style.display = "flex";
-
+        setTimeout(() => {
         // Start animasjonen på Z-aksen
         memberCard.style.transform = "rotateY(180deg)";
+        }, 100);
+
+       
 
         // Last inn data til kortet
         loadCardData(cardWrapper);
