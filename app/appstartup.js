@@ -228,6 +228,12 @@ function listSuppliers(data) {
         filteredData = filteredData.filter(item => activeSuppliers.includes(item.airtable));
     }
 
+    //sjekk om listensfilter er slått på kategorier og områder
+    filteredData = filterSupplierList(filteredData,"categorilist");
+
+
+
+
     // Sorter data først etter "sortering" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
         // Konverter 'sortering' til tall, eller sett en lav verdi for manglende eller tomme verdier
@@ -412,6 +418,37 @@ function listSuppliers(data) {
     
     
 }
+
+function filterSupplierList(data,listname) {
+    const list = document.getElementById(listname);
+
+    // Finn alle knapper med klassen "active"
+    const activeButtons = Array.from(list.querySelectorAll(".categoributton.active"));
+
+    // Sjekk om en av de aktive knappene har tom dataset.airtable
+    const hasDefaultButton = activeButtons.some(button => !button.dataset.airtable);
+
+    // Hvis det finnes en knapp med tom dataset.airtable, returner hele data ufiltrert
+    if (hasDefaultButton) {
+        return data;  // Ingen filtrering
+    }
+
+    // Hent alle kategorier fra de aktive knappene
+    const activeCategories = activeButtons.map(button => button.dataset.airtable);
+
+    // Filtrer leverandører basert på om de har minst én kategori som matcher de aktive kategoriene
+    const filteredSuppliers = data.filter(supplier => {
+        if (Array.isArray(supplier.category)) {
+            // Sjekk om leverandørens kategorier overlapper med de aktive kategoriene
+            return supplier.category.some(cat => activeCategories.includes(cat));
+        }
+        return false;
+    });
+
+    return filteredSuppliers;
+}
+
+
 
 function ruteresponse(data,id){
     if(id == "userResponse"){
