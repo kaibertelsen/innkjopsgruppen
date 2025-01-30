@@ -4,10 +4,18 @@ document.getElementById("logginbutton").addEventListener("click", function() {
     sessionStorage.setItem("rootToApp", "true");
 });
 
+document.getElementById("gotolistview").addEventListener("click", function() {
+    // Gå videre til listen
+    document.getElementById("tablist").click();
+});
+
+
 
 document.getElementById("logobutton").addEventListener("click", function() {
     location.reload();
 });
+
+
 
 document.getElementById("filtermydealsbutton").addEventListener("click", function() {
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
