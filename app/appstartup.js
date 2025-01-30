@@ -111,7 +111,7 @@ function supplierResponse(data){
         suppliers = suppliers.filter(supplier => !supplier.hidden);
 
         //hent ut alle unike kategorier og legg disse kategorier i en array
-        categories = getuniqueCategories(suppliers);
+        categories = getUniqueCategories(suppliers);
         // Kall funksjonen som gjør klar leverandørene for videre behandling
         suppliersReady();
     
@@ -133,8 +133,14 @@ function getUniqueCategories(suppliers) {
     });
 
     // Konverter Map-verdiene til en array med unike kategorier
-    return Array.from(uniqueCategoriesMap.values());
+    let uniqueCategories = Array.from(uniqueCategoriesMap.values());
+
+    // Legg til kategorien { name: "Alle", airtable: "" } først i arrayen
+    uniqueCategories.unshift({ name: "Alle", airtable: "" });
+
+    return uniqueCategories;
 }
+
 
 
 function suppliersReady(){
@@ -449,5 +455,36 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 }
 
 
+function loadFilter() {
+    const list = document.getElementById("categorilist");
+
+    // Tøm listen
+    list.innerHTML = '';
+
+    const elementLibrary = document.getElementById("elementlibrary");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
+    }
+
+    const nodeElement = elementLibrary.querySelector("categoributton");
+    if (!nodeElement) {
+        console.error("Ingen 'categoributton' funnet i 'elementlibrary'.");
+        return;
+    }
+
+    categories.forEach((categori, index) => {
+        const categoriElement = nodeElement.cloneNode(true);
+        categoriElement.textContent = categori.name;
+        categoriElement.dataset.airtable = categori.airtable;
+
+        // Legg til klassen "active" på første element
+        if (index === 0) {
+            categoriElement.classList.add("active");
+        }
+
+        list.appendChild(categoriElement);
+    });
+}
 
 
