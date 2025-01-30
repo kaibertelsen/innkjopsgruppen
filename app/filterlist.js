@@ -1,4 +1,9 @@
 function loadFilter() {
+    const elementLibrary = document.getElementById("elementlibrary");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
+    }
     const nodeElement = elementLibrary.querySelector(".categoributton");
 
     //categori
