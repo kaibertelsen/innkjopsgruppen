@@ -24,6 +24,7 @@ cdnScripts.reduce((promise, script) => {
         if (member.loggedIn){
             startUp(member.airtableid);
             document.getElementById("tablist").click();
+            sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
         }else{
             document.getElementById("tablogin").click();
         }
