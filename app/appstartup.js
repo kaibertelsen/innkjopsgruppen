@@ -612,7 +612,7 @@ function loadmemberCard() {
 
     if (isVisible) {
         // Start reversert animasjon på Z-aksen
-        memberCard.style.transform = "rotateY(-180deg)";
+        memberCard.style.transform = "rotateY(0deg)";
 
         // Etter 0.5 sekunder, skjul elementet
         setTimeout(() => {
