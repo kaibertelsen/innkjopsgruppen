@@ -598,30 +598,38 @@ function loadmemberCard() {
         return;
     }
 
+    const memberCard = cardWrapper.querySelector(".membercard");
+    if (!memberCard) {
+        console.error("Elementet med klassen 'membercard' ble ikke funnet.");
+        return;
+    }
+
     // Sjekk om elementet er synlig
     const isVisible = cardWrapper.style.display !== "none" && cardWrapper.offsetParent !== null;
 
     if (isVisible) {
-        // Skjul elementet
-        cardWrapper.style.display = "none";
+        // Start reversert animasjon
+        memberCard.style.transition = "transform 1s ease-in-out";
+        memberCard.style.transform = "rotateY(360deg)";
+
+        // Etter 1 sekund, skjul elementet
+        setTimeout(() => {
+            cardWrapper.style.display = "none";
+            memberCard.style.transform = "rotateY(0deg)";  // Tilbakestill for neste visning
+        }, 1000);
     } else {
-        // Vis elementet og last inn data til kortet
+        // Vis elementet og start animasjonen
         cardWrapper.style.display = "flex";
+
+        // Start animasjon
+        memberCard.style.transition = "transform 1s ease-in-out";
+        memberCard.style.transform = "rotateY(360deg)";
+
+        // Last inn data til kortet
         loadCardData(cardWrapper);
-
-        // Start animasjonen for `membercard`
-        const memberCard = cardWrapper.querySelector(".membercard");
-        if (memberCard) {
-            memberCard.style.transition = "transform 1s ease-in-out";
-            memberCard.style.transform = "rotateY(360deg)";
-
-            // Tilbakestill rotasjonen etter animasjonen er fullført
-            setTimeout(() => {
-                memberCard.style.transform = "rotateY(0deg)";
-            }, 1000);
-        }
     }
 }
+
 
 
 // Eksempel på funksjonen for å laste inn data til kortet

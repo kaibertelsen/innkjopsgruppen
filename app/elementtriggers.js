@@ -31,8 +31,7 @@ document.getElementById("cardbutton").addEventListener("click", function() {
 });
 
 document.getElementById("closecardbutton").addEventListener("click", function() {
-    const cardWrapper = document.getElementById("cardwrapper");
-    cardWrapper.style.display = "none";
+    loadmemberCard();
 });
 
 
