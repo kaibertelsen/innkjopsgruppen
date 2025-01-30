@@ -22,7 +22,8 @@ cdnScripts.reduce((promise, script) => {
     console.log("All scripts loaded");
     MemberStack.onReady.then(function(member) {
         if (member.loggedIn){
-            startUp(member.airtableid);
+            userid = member.airtableid;
+            startUp(userid);
             document.getElementById("tablist").click();
             sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
         }else{

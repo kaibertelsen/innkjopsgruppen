@@ -85,6 +85,24 @@ async function PATCHairtable(baseId,tableId,itemId,body,id){
         let data = await response.json();
         apireturn (data,id);
 }
+
+async function patchAirtable(baseId,tableId,itemId,body,id){
+  // fra memberstack
+  let token = MemberStack.getToken();
+  let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&rowId=${itemId}&token=${token}`, {
+        method: "PATCH",
+        body:body,
+          headers: {
+           'Content-Type': 'application/json'
+          }
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+      }else {
+        let data = await response.json();
+      apireturn({success: true, data: data, id: id});
+      }
+}
     
 async function GETairtable(baseId,tableId,itemId,id){
         
@@ -93,10 +111,10 @@ async function GETairtable(baseId,tableId,itemId,id){
        
         if (!response.ok) {
           throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
-          }else {
+        }else {
           let data = await response.json();
-          apireturn({success: true, data: data, id: id});
-          }
+        apireturn({success: true, data: data, id: id});
+        }
         
 }
 

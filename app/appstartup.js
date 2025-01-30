@@ -1,4 +1,5 @@
 var companys = [];
+var userid;
 var suppliers = [];
 let currentFlippedElement = null;
 var activeCompany = {};
@@ -66,6 +67,15 @@ function userResponse(data) {
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
+}
+
+function registrerOnboarded(){
+    let body = {onboarded:true};
+    patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,JSON.stringify(body),"responsOnboarded")
+}
+
+function responsOnboarded(data){
+    console.log(data);
 }
 
 function loadSelector(selector,data){
@@ -354,15 +364,15 @@ function listSuppliers(data) {
 
 
 
-
-
-
 function ruteresponse(data,id){
     if(id == "userResponse"){
         userResponse(data);
     }else if(id == "supplierResponse"){
         supplierResponse(data);
+    }else if(id == "responsOnboarded"){
+        responsOnboarded(data);
     }
+
 
 }
 

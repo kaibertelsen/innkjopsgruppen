@@ -5,6 +5,8 @@ document.getElementById("logginbutton").addEventListener("click", function() {
 });
 
 document.getElementById("gotolistview").addEventListener("click", function() {
+    //registrere "onboarded" på brukeren
+    registrerOnboarded();
     // Gå videre til listen
     document.getElementById("tablist").click();
 });
