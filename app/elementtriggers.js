@@ -38,7 +38,7 @@ document.addEventListener("click", function(event) {
         if (!filterViewElement.contains(event.target)) {
             // Skjul elementet
             filterViewElement.style.height = "0px"; // Kollaps tilbake
-            toggleButton.classList.remove("active");
+            isFilterActive(toggleButton);
         }
     }
     
@@ -61,10 +61,26 @@ toggleButton.addEventListener("click", function () {
         //laste inhold i filteret
     } else {
         filterViewElement.style.height = "0px"; // Kollaps tilbake
-        toggleButton.classList.remove("active");
-        
+        //sjekke om filteret er activt
+        isFilterActive(toggleButton);
     }
 });
+
+function isFilterActive(toggleButton) {
+    const list = document.getElementById("categorilist");
+    const allButtons = list.querySelectorAll(".categoributton");
+
+    // Sjekk om noen knapper har en `airtable`-verdi og klassen `active`
+    const hasActiveFilter = Array.from(allButtons).some(button => {
+        return button.dataset.airtable && button.classList.contains("active");
+    });
+
+    // Hvis en slik knapp finnes, fjern klassen "active" fra `toggleButton`
+    if (hasActiveFilter) {
+        toggleButton.classList.remove("active");
+    }
+}
+
 
 document.getElementById("viewlistLayoutbutton").addEventListener("click", function() {
 
