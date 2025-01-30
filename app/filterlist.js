@@ -206,3 +206,27 @@ function filterSupplierListAreas(data) {
 
     return filteredSuppliers;
 }
+
+function filterSupplierListsearchField(data) {
+    // Hent søkeverdien fra søkefeltet
+    const searchInput = document.getElementById("searchinput");
+    const searchValue = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+    // Filtrer data basert på "name", "category.name" eller "kortinfo" som matcher søkeverdien
+    let filteredData = data.filter(supplier => {
+        // Sjekk om leverandørens navn matcher søkeverdien
+        const nameMatch = supplier.name.toLowerCase().includes(searchValue);
+
+        // Sjekk om noen kategorier i supplier.category matcher søkeverdien
+        const categoryMatch = Array.isArray(supplier.category) &&
+            supplier.category.some(cat => cat.name.toLowerCase().includes(searchValue));
+
+        // Sjekk om kortinfo matcher søkeverdien
+        const kortinfoMatch = supplier.kortinfo && supplier.kortinfo.toLowerCase().includes(searchValue);
+
+        // Returner true hvis enten navn, kategorier eller kortinfo matcher
+        return nameMatch || categoryMatch || kortinfoMatch;
+    });
+
+    return filteredData;
+}

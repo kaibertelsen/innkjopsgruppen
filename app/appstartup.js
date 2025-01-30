@@ -208,16 +208,9 @@ function listSuppliers(data) {
         console.error("Ingen container funnet for visning av leverandører.");
         return;
     }
-
-    // Hent søkeverdien fra søkefeltet
-    const searchInput = document.getElementById("searchinput");
-    const searchValue = searchInput ? searchInput.value.trim().toLowerCase() : '';
-
-    // Filtrer data basert på "name" som matcher søkeverdien
-    let filteredData = data.filter(supplier =>
-        supplier.name.toLowerCase().includes(searchValue)
-    );
-
+    //søkefeltet
+    let filteredData =  filterSupplierListsearchField(data);
+    
     // Sjekk om filteret er aktivt mine avtaler hvis aktiv
     const hasActiveDeals = document.getElementById("filtermydealsbutton").classList.contains("active");
     if (hasActiveDeals) {
