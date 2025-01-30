@@ -468,7 +468,7 @@ function loadFilter() {
         return;
     }
 
-    const nodeElement = elementLibrary.querySelector("categoributton");
+    const nodeElement = elementLibrary.querySelector(".categoributton");
     if (!nodeElement) {
         console.error("Ingen 'categoributton' funnet i 'elementlibrary'.");
         return;
