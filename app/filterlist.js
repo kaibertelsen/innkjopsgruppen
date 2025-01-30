@@ -1,4 +1,19 @@
 function loadFilter() {
+    const nodeElement = elementLibrary.querySelector(".categoributton");
+
+    //categori
+    const listc = document.getElementById("categorilist");
+    loadFilterdata(listc,categories,nodeElement);
+
+    //områder
+    const lista = document.getElementById("areaslist");
+    loadFilterdata(lista,categories,nodeElement);
+
+
+}
+
+function loadFilterdata(list,data,nodeElement){
+
     const list = document.getElementById("categorilist");
 
     // Tøm listen
@@ -10,12 +25,7 @@ function loadFilter() {
         return;
     }
 
-    const nodeElement = elementLibrary.querySelector(".categoributton");
-    if (!nodeElement) {
-        console.error("Ingen 'categoributton' funnet i 'elementlibrary'.");
-        return;
-    }
-    categories.forEach((categori, index) => {
+    data.forEach((categori, index) => {
         const categoriElement = nodeElement.cloneNode(true);
         categoriElement.textContent = categori.name;
         categoriElement.dataset.airtable = categori.airtable;
@@ -34,6 +44,9 @@ function loadFilter() {
     });
 
 }
+
+
+
 
 function categoriFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll(".categoributton");

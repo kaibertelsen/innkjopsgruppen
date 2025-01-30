@@ -143,15 +143,30 @@ function getUniqueCategories(suppliers) {
 function getUniqueAreas(suppliers) {
     let uniqueAreas = new Set();
 
+    // Hent unike områder fra nøkkelen "omrader"
     suppliers.forEach(supplier => {
         if (Array.isArray(supplier.omrader)) {
-            supplier.omrader.forEach(area => uniqueAreas.add(area));
+            supplier.omrader.forEach(area => {
+                if (typeof area === 'object' && area.name) {
+                    uniqueAreas.add(JSON.stringify(area)); // Bruk JSON-streng for å sikre unike objekter
+                }
+            });
         }
     });
 
-    // Konverter Set til en array
-    return Array.from(uniqueAreas);
+    // Konverter Set til array med objekter
+    let uniqueAreasArray = Array.from(uniqueAreas).map(area => JSON.parse(area));
+
+    // Sorter områdene alfabetisk på `name`
+    uniqueAreasArray.sort((a, b) => a.name.localeCompare(b.name, 'nb'));
+
+    // Legg til området { name: "Alle", airtable: "" } først i arrayen
+    uniqueAreasArray.unshift({ name: "Alle", airtable: "" });
+
+    return uniqueAreasArray;
 }
+
+
 
 function suppliersReady(){
     const selector = document.getElementById("companySelector");
