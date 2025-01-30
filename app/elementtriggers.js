@@ -1,3 +1,10 @@
+
+document.getElementById("logginbutton").addEventListener("click", function() {
+    // Lagre verdien som en streng i sessionStorage
+    sessionStorage.setItem("rootToApp", "true");
+});
+
+
 document.getElementById("logobutton").addEventListener("click", function() {
     location.reload();
 });
@@ -6,6 +13,10 @@ document.getElementById("filtermydealsbutton").addEventListener("click", functio
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
     listSuppliers(activeSupplierList);
 });
+
+
+
+
 
 // Lytt til 'input'-hendelsen på søkefeltet
 document.getElementById("searchinput").addEventListener("input", () => {
