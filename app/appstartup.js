@@ -459,25 +459,41 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
     });
 }
 
+function loadFilter() {
+    const list = document.getElementById("categorilist");
 
-categories.forEach((categori, index) => {
-    const categoriElement = nodeElement.cloneNode(true);
-    categoriElement.textContent = categori.name;
-    categoriElement.dataset.airtable = categori.airtable;
+    // Tøm listen
+    list.innerHTML = '';
 
-    // Legg til klassen "active" på første element
-    if (index === 0) {
-        categoriElement.classList.add("active");
+    const elementLibrary = document.getElementById("elementlibrary");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
     }
 
-    // Legg til eventlistener for å trigge funksjonen ved klikk
-    categoriElement.addEventListener("click", function() {
-        categoriFilterTriggered(categoriElement);
+    const nodeElement = elementLibrary.querySelector(".categoributton");
+    if (!nodeElement) {
+        console.error("Ingen 'categoributton' funnet i 'elementlibrary'.");
+        return;
+    }
+    categories.forEach((categori, index) => {
+        const categoriElement = nodeElement.cloneNode(true);
+        categoriElement.textContent = categori.name;
+        categoriElement.dataset.airtable = categori.airtable;
+
+        // Legg til klassen "active" på første element
+        if (index === 0) {
+            categoriElement.classList.add("active");
+        }
+
+        // Legg til eventlistener for å trigge funksjonen ved klikk
+        categoriElement.addEventListener("click", function() {
+            categoriFilterTriggered(categoriElement);
+        });
+
+        list.appendChild(categoriElement);
     });
-
-    list.appendChild(categoriElement);
-});
-
+}
 
 function categoriFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll("categoributton");
