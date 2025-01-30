@@ -14,8 +14,6 @@ function loadFilter() {
 
 function loadFilterdata(list,data,nodeElement){
 
-    const list = document.getElementById("categorilist");
-
     // Tøm listen
     list.innerHTML = '';
 
