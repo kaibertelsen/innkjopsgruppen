@@ -18,7 +18,7 @@ function userResponse(data) {
         return; // Avbryt hvis data ikke er gyldig
     }
 
-    if (data.fields.onboarded && data.fields.onboarded === "TRUE") {
+    if (data.fields.onboarded && data.fields.onboarded === "true") {
         // Brukeren er allerede onboarded
         console.log("Brukeren er allerede onboarded.");
     } else {
