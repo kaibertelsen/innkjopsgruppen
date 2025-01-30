@@ -26,6 +26,17 @@ document.getElementById("supplierpagebackbutton").addEventListener("click", func
     document.getElementById("tablist").click();
  });
 
+document.getElementById("cardbutton").addEventListener("click", function() {
+    loadmemberCard();
+});
+
+document.getElementById("closecardbutton").addEventListener("click", function() {
+    const cardWrapper = document.getElementById("cardwrapper");
+    cardWrapper.style.display = "none";
+});
+
+
+ 
 
 
 // Lytt til 'input'-hendelsen på søkefeltet

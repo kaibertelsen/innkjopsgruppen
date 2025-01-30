@@ -1,5 +1,6 @@
 var companys = [];
 var userid;
+var userObject;
 var suppliers = [];
 let currentFlippedElement = null;
 var activeCompany = {};
@@ -29,7 +30,7 @@ function userResponse(data) {
         // Brukeren er ikke onboarded, fortsett med onboarding-prosessen
         document.getElementById("tabwelcome").click();
     }
-
+    userObject = data.fields;
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.companyjson;
     companys = convertJsonStringsToObjects(jsonStrings);
@@ -42,6 +43,7 @@ function userResponse(data) {
         return;
     }
 
+    
     // Last data inn i selector
     loadSelector(selector, companys);
 
@@ -585,4 +587,44 @@ function supplierConnecting(supplier, checkbox) {
             checkbox.checked = true; // Hvis ikke bekreftet, sett unchecked
         }
     }
+}
+
+
+function loadmemberCard() {
+    const cardWrapper = document.getElementById("cardwrapper");
+
+    if (!cardWrapper) {
+        console.error("Elementet med id 'cardwrapper' ble ikke funnet.");
+        return;
+    }
+
+    // Sjekk om elementet er synlig
+    const isVisible = cardWrapper.style.display !== "none" && cardWrapper.offsetParent !== null;
+
+    if (isVisible) {
+        // Skjul elementet
+        cardWrapper.style.display = "none";
+    } else {
+        // Vis elementet og last inn data til kortet
+        cardWrapper.style.display = "flex";
+        loadCardData(cardWrapper);
+    }
+}
+
+// Eksempel på funksjonen for å laste inn data til kortet
+function loadCardData(cardWrapper) {
+    console.log("Laster inn data til kortet...");
+    // Her kan du legge til koden som henter og viser kortdata
+    const roll = cardWrapper.querySelector('.roll');
+    roll.textContent = userObject.rolle;
+    
+    const name = cardWrapper.querySelector('.cardname');
+    name.textContent = userObject.navn;
+    
+    const company = cardWrapper.querySelector('.cardcompany');
+    company.textContent = activeCompany.Name +" ("+ activeCompany.orgnr+")";
+
+    const cardnumber = cardWrapper.querySelector('.cardnumber');
+    cardnumber.textContent = userObject.airtable;
+   
 }
