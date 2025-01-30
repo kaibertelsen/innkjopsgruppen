@@ -6,6 +6,7 @@ var activeCompany = {};
 var mainlistElementClass = ".suppliercard";
 var areas;
 var categories;
+var Employeemode = false;
 
 
 document.getElementById("elementlibrary").style.display = "none";
@@ -182,7 +183,7 @@ function companyChange(companyId) {
         filteredSuppliers = suppliers.filter(supplier => {
             return supplier.category.some(category => category.airtable === "recSbtJnNprzB42fd");
         });
-
+        Employeemode = true;
     }else{
         // Finn selskapet basert på ID
         const selectedCompany = companys.find(company => company.airtable === companyId);
@@ -199,10 +200,7 @@ function companyChange(companyId) {
             return supplier.group.some(group => group.airtable === selectedCompany.group);
         });
 
-        console.log("Filtrerte leverandører:", filteredSuppliers);
-
-        // Videre logikk for hva du ønsker å gjøre med de filtrerte leverandørene
-        // F.eks. oppdatere en visning eller kalle en annen funksjon
+        Employeemode = false;
     }
 
 
@@ -337,19 +335,21 @@ function listSuppliers(data) {
         
        // Finn checkbox-elementet
         const merkibjCheckbox = supplierElement.querySelector(".merkibj");
-
-        // Sjekk om noen av objektene i selectedCompany.connection har en "supplier" som matcher supplier.airtable
-        if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
-            merkibjCheckbox.checked = true; // Sett checkbox til checked
-        } else {
-            merkibjCheckbox.checked = false; // Sett checkbox til unchecked (valgfritt)
+        if(Employeemode){
+            merkibjCheckbox.style.display = "none";
+        }else{
+            // Sjekk om noen av objektene i selectedCompany.connection har en "supplier" som matcher supplier.airtable
+            if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
+                merkibjCheckbox.checked = true; // Sett checkbox til checked
+            } else {
+                merkibjCheckbox.checked = false; // Sett checkbox til unchecked (valgfritt)
+            }
+            // Legg til eventlistener for å kjøre `supplierConnecting` når checkboxen trykkes
+            merkibjCheckbox.addEventListener("click", function() {
+                // Send med supplier og checkboxen til funksjonen
+                supplierConnecting(supplier, merkibjCheckbox);
+            });
         }
-        // Legg til eventlistener for å kjøre `supplierConnecting` når checkboxen trykkes
-        merkibjCheckbox.addEventListener("click", function() {
-            // Send med supplier og checkboxen til funksjonen
-            supplierConnecting(supplier, merkibjCheckbox);
-        });
-
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
         if (name) name.textContent = supplier.name || "Ukjent navn";
