@@ -487,9 +487,9 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
                 data.category = [];
             }
 
-            // Rens og klargjør HTML-data i "info" hvis det finnes
-            if (data.info) {
-                data.info = cleanHtmlData(data.info);
+            // Sørg for at "info" er korrekt håndtert som ren tekst uten parsing
+            if (typeof data.info !== 'string') {
+                data.info = '';  // Hvis info ikke er en streng, sett den til tom
             }
 
             return data;
@@ -500,11 +500,6 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
     });
 }
 
-// Funksjon for å rense og klargjøre HTML-data
-function cleanHtmlData(html) {
-    // Eksempel på enkel rensing av HTML: fjern unødvendige mellomrom og linjeskift
-    return html.trim();
-}
 
 
 function supplierChosed(supplier){
@@ -512,3 +507,4 @@ console.log(data);
 
 
 }
+
