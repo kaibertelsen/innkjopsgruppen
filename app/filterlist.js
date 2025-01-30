@@ -152,8 +152,8 @@ function resetFilterList(list) {
     }
 }
 
-function filterSupplierList(data, listname) {
-    const list = document.getElementById(listname);
+function filterSupplierListCategory(data) {
+    const list = document.getElementById("categorilist");
 
     // Finn alle knapper med klassen "active"
     const activeButtons = Array.from(list.querySelectorAll(".categoributton.active"));
@@ -176,6 +176,32 @@ function filterSupplierList(data, listname) {
             return supplier.category.some(cat => cat.airtable && activeCategories.includes(cat.airtable));
         }
         return false;
+    });
+
+
+    return filteredSuppliers;
+}
+
+function filterSupplierListAreas(data) {
+    const list = document.getElementById("areaslist");
+
+    // Finn alle knapper med klassen "active"
+    const activeButtons = Array.from(list.querySelectorAll(".categoributton.active"));
+
+    // Sjekk om en av de aktive knappene har tom dataset.airtable
+    const hasDefaultButton = activeButtons.some(button => !button.dataset.airtable);
+
+    // Hvis det finnes en knapp med tom dataset.airtable, returner hele data ufiltrert
+    if (hasDefaultButton) {
+        return data;  // Ingen filtrering
+    }
+
+    // Hent alle aktive `airtable`-verdier fra knappene
+    const activeAreas = activeButtons.map(button => button.dataset.airtable);
+
+    // Filtrer leverandører basert på om `omradet` finnes i de aktive områdene
+    const filteredSuppliers = data.filter(supplier => {
+        return supplier.omradet && activeAreas.includes(supplier.omradet);
     });
 
     return filteredSuppliers;

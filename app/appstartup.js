@@ -229,10 +229,10 @@ function listSuppliers(data) {
     }
 
     //sjekk om listensfilter er slått på kategorier
-    filteredData = filterSupplierList(filteredData,"categorilist");
+    filteredData = filterSupplierListCategory(filteredData);
 
     //sjekk om listensfilter er slått på OMRÅDET
-    filteredData = filterSupplierList(filteredData,"areaslist");
+    filteredData = filterSupplierListAreas(filteredData);
 
     // Sorter data først etter "sortering" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
