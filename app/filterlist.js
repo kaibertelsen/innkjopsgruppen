@@ -132,6 +132,8 @@ function clearFilter(){
     resetFilterList(listc);
     const lista = document.getElementById("areaslist");
     resetFilterList(lista);
+
+    listSuppliers(activeSupplierList);
 }
 
 function resetFilterList(list) {
