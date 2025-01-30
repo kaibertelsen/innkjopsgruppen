@@ -145,8 +145,8 @@ function getUniqueAreas(suppliers) {
 
     // Hent unike områder fra nøkkelen "omrader"
     suppliers.forEach(supplier => {
-        if (Array.isArray(supplier.omrader)) {
-            supplier.omrader.forEach(area => {
+        if (Array.isArray(supplier.omradet)) {
+            supplier.omradet.forEach(area => {
                 if (typeof area === 'object' && area.name) {
                     uniqueAreas.add(JSON.stringify(area)); // Bruk JSON-streng for å sikre unike objekter
                 }
