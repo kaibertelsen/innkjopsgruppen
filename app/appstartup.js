@@ -228,11 +228,12 @@ function listSuppliers(data) {
         filteredData = filteredData.filter(item => activeSuppliers.includes(item.airtable));
     }
 
-    //sjekk om listensfilter er slått på kategorier og områder
+    //sjekk om listensfilter er slått på kategorier
     filteredData = filterSupplierList(filteredData,"categorilist");
 
 
-
+    //sjekk om listensfilter er slått på OMRÅDET
+    filteredData = filterSupplierList(filteredData,"areaslist");
 
     // Sorter data først etter "sortering" (konvertert til tall) og deretter alfabetisk etter "name"
     filteredData.sort((a, b) => {
