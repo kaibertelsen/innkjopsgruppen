@@ -19,6 +19,10 @@ document.getElementById("filtermydealsbutton").addEventListener("click", functio
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
     listSuppliers(activeSupplierList);
 });
+document.getElementById("clearfilterbutton").addEventListener("click", function() {
+   clearFilter();
+});
+
 
 // Lytt til 'input'-hendelsen på søkefeltet
 document.getElementById("searchinput").addEventListener("input", () => {

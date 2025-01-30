@@ -14,7 +14,6 @@ function loadFilter() {
     const lista = document.getElementById("areaslist");
     loadFilterdata(lista,areas,nodeElement);
 
-
 }
 
 function loadFilterdata(list,data,nodeElement){
@@ -95,7 +94,6 @@ function categoriFilterTriggered(button) {
     listSuppliers(activeSupplierList);
 }
 
-
 function isFilterActive(toggleButton) {
     
     const listc = document.getElementById("categorilist");
@@ -126,4 +124,28 @@ function isFilterActiveSub(list){
         return false;
     }
 
+}
+
+function clearFilter(){
+
+    const listc = document.getElementById("categorilist");
+    resetFilterList(listc);
+    const lista = document.getElementById("areaslist");
+    resetFilterList(lista);
+}
+
+function resetFilterList(list) {
+    // Finn alle knapper i listen
+    const allButtons = list.querySelectorAll(".categoributton");
+
+    // Fjern klassen "active" fra alle knapper
+    allButtons.forEach(button => button.classList.remove("active"));
+
+    // Finn knappen med tom dataset.airtable
+    const defaultButton = Array.from(allButtons).find(button => !button.dataset.airtable);
+
+    // Sett klassen "active" på knappen med tom dataset.airtable, hvis den finnes
+    if (defaultButton) {
+        defaultButton.classList.add("active");
+    }
 }

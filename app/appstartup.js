@@ -474,7 +474,7 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
         }
     });
 }
-
+/*
 function loadFilter() {
     const list = document.getElementById("categorilist");
 
@@ -560,4 +560,4 @@ function isFilterActive(toggleButton) {
         toggleButton.classList.remove("active");
     }
 }
-
+*/
