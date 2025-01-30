@@ -112,6 +112,7 @@ function supplierResponse(data){
 
         //hent ut alle unike kategorier og legg disse kategorier i en array
         categories = getUniqueCategories(suppliers);
+        loadFilter();
         // Kall funksjonen som gjør klar leverandørene for videre behandling
         suppliersReady();
     

@@ -59,7 +59,6 @@ toggleButton.addEventListener("click", function () {
             openfrombutton = false;
         }, 500);
         //laste inhold i filteret
-        loadFilter();
     } else {
         filterViewElement.style.height = "0px"; // Kollaps tilbake
         toggleButton.classList.remove("active");
