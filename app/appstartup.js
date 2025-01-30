@@ -513,8 +513,12 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 
 
 function supplierChosed(supplier){
-console.log(data);
-
-
+    console.log(data);
+    document.getElementById("tabsupplier").click();
+    let name = document.getElementById("suppierpagename");
+    name.textContent = supplier.name;
+    
+    let contentview = document.getElementById("suppliercontentview");
+    contentview.innerHTML = supplier.info;
 }
 
