@@ -143,14 +143,17 @@ function getUniqueCategories(suppliers) {
 function getUniqueAreas(suppliers) {
     let uniqueAreas = new Set();
 
-    // Hent unike områder fra nøkkelen "omrader"
+    // Hent unike områder fra nøkkelen "omradet"
     suppliers.forEach(supplier => {
-        if (Array.isArray(supplier.omradet)) {
-            supplier.omradet.forEach(area => {
-                if (typeof area === 'object' && area.name) {
-                    uniqueAreas.add(JSON.stringify(area)); // Bruk JSON-streng for å sikre unike objekter
-                }
-            });
+        if (supplier.omradet) {
+            // Opprett et objekt med `name` og `airtable`
+            const area = {
+                name: supplier.omradet,
+                airtable: supplier.omradet
+            };
+
+            // Legg til objektet som en JSON-streng for unike verdier
+            uniqueAreas.add(JSON.stringify(area));
         }
     });
 
@@ -165,6 +168,7 @@ function getUniqueAreas(suppliers) {
 
     return uniqueAreasArray;
 }
+
 
 
 
