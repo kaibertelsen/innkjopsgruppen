@@ -351,7 +351,15 @@ function listSuppliers(data) {
 
         // Sett kategori
         const kategori = supplierElement.querySelector('.kategori');
-        if (kategori) kategori.textContent = supplier.category || "-";
+        if (kategori) {
+            if (Array.isArray(supplier.category)) {
+                // Kombiner alle name-nøkler med "-" som separator
+                kategori.textContent = supplier.category.map(cat => cat.name).join(' - ') || "-";
+            } else {
+                kategori.textContent = "-";
+            }
+        }
+
 
         // Sett rabbat merke
         const cuttext = supplierElement.querySelector('.cutttext');
@@ -419,37 +427,6 @@ function listSuppliers(data) {
     
 }
 
-function filterSupplierList(data, listname) {
-    const list = document.getElementById(listname);
-
-    // Finn alle knapper med klassen "active"
-    const activeButtons = Array.from(list.querySelectorAll(".categoributton.active"));
-
-    // Sjekk om en av de aktive knappene har tom dataset.airtable
-    const hasDefaultButton = activeButtons.some(button => !button.dataset.airtable);
-
-    // Hvis det finnes en knapp med tom dataset.airtable, returner hele data ufiltrert
-    if (hasDefaultButton) {
-        return data;  // Ingen filtrering
-    }
-
-    // Hent alle aktive `airtable`-verdier fra knappene
-    const activeCategories = activeButtons.map(button => button.dataset.airtable);
-
-    // Filtrer leverandører basert på om de har minst én kategori som matcher de aktive kategoriene
-    const filteredSuppliers = data.filter(supplier => {
-        if (Array.isArray(supplier.category)) {
-            // Sjekk om leverandørens kategorier har en matching `airtable`-verdi
-            return supplier.category.some(cat => cat.airtable && activeCategories.includes(cat.airtable));
-        }
-        return false;
-    });
-
-    return filteredSuppliers;
-}
-
-
-
 
 function ruteresponse(data,id){
     if(id == "userResponse"){
@@ -512,90 +489,3 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
         }
     });
 }
-/*
-function loadFilter() {
-    const list = document.getElementById("categorilist");
-
-    // Tøm listen
-    list.innerHTML = '';
-
-    const elementLibrary = document.getElementById("elementlibrary");
-    if (!elementLibrary) {
-        console.error("Ingen 'elementlibrary' funnet.");
-        return;
-    }
-
-    const nodeElement = elementLibrary.querySelector(".categoributton");
-    if (!nodeElement) {
-        console.error("Ingen 'categoributton' funnet i 'elementlibrary'.");
-        return;
-    }
-    categories.forEach((categori, index) => {
-        const categoriElement = nodeElement.cloneNode(true);
-        categoriElement.textContent = categori.name;
-        categoriElement.dataset.airtable = categori.airtable;
-
-        // Legg til klassen "active" på første element
-        if (index === 0) {
-            categoriElement.classList.add("active");
-        }
-
-        // Legg til eventlistener for å trigge funksjonen ved klikk
-        categoriElement.addEventListener("click", function() {
-            categoriFilterTriggered(categoriElement);
-        });
-
-        list.appendChild(categoriElement);
-    });
-
-}
-
-function categoriFilterTriggered(button) {
-    const allButtons = button.parentElement.querySelectorAll(".categoributton");
-
-    // Sjekk om dataset.airtable er tom
-    if (!button.dataset.airtable) {
-        // Legg til klassen "active" på knappen som ble klikket
-        button.classList.add("active");
-
-        // Fjern klassen "active" fra alle andre knapper
-        allButtons.forEach(otherButton => {
-            if (otherButton !== button) {
-                otherButton.classList.remove("active");
-            }
-        });
-    } else {
-        // Fjern klassen "active" fra knappen med tom airtable-nøkkel
-        allButtons.forEach(otherButton => {
-            if (!otherButton.dataset.airtable) {
-                otherButton.classList.remove("active");
-            }
-        });
-
-        // Toggling av "active"-klassen på den klikkede knappen
-        if (button.classList.contains("active")) {
-            button.classList.remove("active"); // Fjern klassen hvis den allerede er satt
-        } else {
-            button.classList.add("active"); // Legg til klassen hvis den ikke er satt
-        }
-    }
-
-    // Kall funksjonen for å liste leverandører basert på aktiv filtrering
-    listSuppliers(activeSupplierList);
-}
-
-function isFilterActive(toggleButton) {
-    const list = document.getElementById("categorilist");
-    const allButtons = list.querySelectorAll(".categoributton");
-
-    // Sjekk om noen knapper har en `airtable`-verdi og klassen `active`
-    const hasActiveFilter = Array.from(allButtons).some(button => {
-        return button.dataset.airtable && button.classList.contains("active");
-    });
-
-    // Hvis en slik knapp ikke finnes, fjern klassen "active" fra `toggleButton`
-    if (!hasActiveFilter) {
-        toggleButton.classList.remove("active");
-    }
-}
-*/

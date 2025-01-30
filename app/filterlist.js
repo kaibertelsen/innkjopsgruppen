@@ -151,3 +151,32 @@ function resetFilterList(list) {
         defaultButton.classList.add("active");
     }
 }
+
+function filterSupplierList(data, listname) {
+    const list = document.getElementById(listname);
+
+    // Finn alle knapper med klassen "active"
+    const activeButtons = Array.from(list.querySelectorAll(".categoributton.active"));
+
+    // Sjekk om en av de aktive knappene har tom dataset.airtable
+    const hasDefaultButton = activeButtons.some(button => !button.dataset.airtable);
+
+    // Hvis det finnes en knapp med tom dataset.airtable, returner hele data ufiltrert
+    if (hasDefaultButton) {
+        return data;  // Ingen filtrering
+    }
+
+    // Hent alle aktive `airtable`-verdier fra knappene
+    const activeCategories = activeButtons.map(button => button.dataset.airtable);
+
+    // Filtrer leverandører basert på om de har minst én kategori som matcher de aktive kategoriene
+    const filteredSuppliers = data.filter(supplier => {
+        if (Array.isArray(supplier.category)) {
+            // Sjekk om leverandørens kategorier har en matching `airtable`-verdi
+            return supplier.category.some(cat => cat.airtable && activeCategories.includes(cat.airtable));
+        }
+        return false;
+    });
+
+    return filteredSuppliers;
+}
