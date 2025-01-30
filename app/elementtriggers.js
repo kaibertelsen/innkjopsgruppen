@@ -22,6 +22,10 @@ document.getElementById("filtermydealsbutton").addEventListener("click", functio
 document.getElementById("clearfilterbutton").addEventListener("click", function() {
    clearFilter();
 });
+document.getElementById("supplierpagebackbutton").addEventListener("click", function() {
+    document.getElementById("tablist").click();
+ });
+
 
 
 // Lytt til 'input'-hendelsen på søkefeltet
