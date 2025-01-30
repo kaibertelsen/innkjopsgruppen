@@ -615,7 +615,7 @@ function loadmemberCard() {
         memberCard.style.transform = "rotateY(180deg)";
         setTimeout(() => {
             // Start animasjonen på Z-aksen
-            memberCard.style.display = "none";
+            cardWrapper.style.display = "none";
             }, 500);
     } else {
         // Vis elementet
