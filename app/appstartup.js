@@ -336,7 +336,7 @@ function listSuppliers(data) {
        // Finn checkbox-elementet
         const merkibjCheckbox = supplierElement.querySelector(".merkibj");
         if(Employeemode){
-            merkibjCheckbox.style.display = "none";
+            merkibjCheckbox.parentElement.style.display = "none";
         }else{
             // Sjekk om noen av objektene i selectedCompany.connection har en "supplier" som matcher supplier.airtable
             if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
