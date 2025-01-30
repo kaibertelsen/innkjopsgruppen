@@ -184,6 +184,7 @@ function companyChange(companyId) {
             return supplier.category.some(category => category.airtable === "recSbtJnNprzB42fd");
         });
         Employeemode = true;
+        document.getElementById("filtermydealsbutton").style.display = "none";
     }else{
         // Finn selskapet basert på ID
         const selectedCompany = companys.find(company => company.airtable === companyId);
@@ -201,6 +202,7 @@ function companyChange(companyId) {
         });
 
         Employeemode = false;
+        document.getElementById("filtermydealsbutton").style.display = "inline-block";
     }
 
 
