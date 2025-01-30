@@ -608,23 +608,66 @@ function loadmemberCard() {
         // Vis elementet og last inn data til kortet
         cardWrapper.style.display = "flex";
         loadCardData(cardWrapper);
+
+        // Start animasjonen for `membercard`
+        const memberCard = cardWrapper.querySelector(".membercard");
+        if (memberCard) {
+            memberCard.style.transition = "transform 1s ease-in-out";
+            memberCard.style.transform = "rotateY(360deg)";
+
+            // Tilbakestill rotasjonen etter animasjonen er fullført
+            setTimeout(() => {
+                memberCard.style.transform = "rotateY(0deg)";
+            }, 1000);
+        }
     }
 }
 
+
 // Eksempel på funksjonen for å laste inn data til kortet
 function loadCardData(cardWrapper) {
-    console.log("Laster inn data til kortet...");
-    // Her kan du legge til koden som henter og viser kortdata
-    const roll = cardWrapper.querySelector('.roll');
-    roll.textContent = userObject.rolle;
-    
-    const name = cardWrapper.querySelector('.cardname');
-    name.textContent = userObject.navn;
-    
-    const company = cardWrapper.querySelector('.cardcompany');
-    company.textContent = activeCompany.Name +" ("+ activeCompany.orgnr+")";
+    // Formater nåværende dato til "dd.mmm yyyy"
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate);
 
+    // Oppdater dato på kortet
+    const cardtime = cardWrapper.querySelector('.cardtime');
+    if (cardtime) {
+        cardtime.textContent = formattedDate;
+    }
+
+    // Oppdater rolle på kortet
+    const roll = cardWrapper.querySelector('.roll');
+    if (roll) {
+        roll.textContent = userObject.rolle || "Ukjent rolle";
+    }
+
+    // Oppdater navn på kortet
+    const name = cardWrapper.querySelector('.cardname');
+    if (name) {
+        name.textContent = userObject.navn || "Ukjent navn";
+    }
+
+    // Oppdater selskap på kortet
+    const company = cardWrapper.querySelector('.cardcompany');
+    if (company) {
+        company.textContent = activeCompany.Name + " (" + (activeCompany.orgnr || "Ukjent orgnr") + ")";
+    }
+
+    // Oppdater kortnummer på kortet
     const cardnumber = cardWrapper.querySelector('.cardnumber');
-    cardnumber.textContent = userObject.airtable;
-   
+    if (cardnumber) {
+        cardnumber.textContent = userObject.airtable || "Ukjent kortnummer";
+    }
 }
+
+// Funksjon for å formatere dato til "dd.mmm yyyy"
+function formatDate(date) {
+    const day = date.getDate();
+    const monthNames = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day}. ${month} ${year}`;
+}
+
