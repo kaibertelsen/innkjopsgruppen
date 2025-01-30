@@ -555,7 +555,7 @@ function supplierConnecting(supplier, checkbox) {
     console.log(supplier);
 
     // Sjekk om checkboxen ikke er checked
-    if (!checkbox.checked) {
+    if (checkbox.checked) {
         // Vis en alert med informasjon om tilknytning
         const confirmMessage = `Ønsker du å tilknyttes leverandøren ${supplier.name}?\nDet vil da gå informasjon til leverandøren slik at du blir lagt til denne avtalen.`;
 
@@ -566,6 +566,14 @@ function supplierConnecting(supplier, checkbox) {
             checkbox.checked = false; // Hvis ikke bekreftet, sett unchecked
         }
     } else {
-        console.log(`Leverandøren ${supplier.name} ble koblet fra.`);
+        // Vis en alert med informasjon om tilknytning
+        const confirmMessage = `Ønsker du å fjerne tilknyttningen?`;
+
+        // Hvis brukeren bekrefter, sett checkbox tilbake til checked, ellers fjern den
+        if (confirm(confirmMessage)) {
+            checkbox.checked = false;  // Hvis bekreftet, behold checked
+        } else {
+            checkbox.checked = true; // Hvis ikke bekreftet, sett unchecked
+        }
     }
 }
