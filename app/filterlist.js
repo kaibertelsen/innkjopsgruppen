@@ -46,8 +46,6 @@ function loadFilterdata(list,data,nodeElement){
 }
 
 
-
-
 function categoriFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll(".categoributton");
 
@@ -83,16 +81,33 @@ function categoriFilterTriggered(button) {
 }
 
 function isFilterActive(toggleButton) {
-    const list = document.getElementById("categorilist");
-    const allButtons = list.querySelectorAll(".categoributton");
+    
+    const listc = document.getElementById("categorilist");
+    let categoriOn = isFilterActiveSub(listc);
 
+    const lista = document.getElementById("areaslist");
+    let areaOn =isFilterActiveSub(lista);
+    
+    if(categoriOn || areaOn){
+        //det er et aktivt filter
+    }else{
+        toggleButton.classList.remove("active");
+    }
+}
+
+function isFilterActiveSub(list){
+
+    const allButtons = list.querySelectorAll(".categoributton");
     // Sjekk om noen knapper har en `airtable`-verdi og klassen `active`
     const hasActiveFilter = Array.from(allButtons).some(button => {
-        return button.dataset.airtable && button.classList.contains("active");
+    return button.dataset.airtable && button.classList.contains("active");
     });
 
     // Hvis en slik knapp ikke finnes, fjern klassen "active" fra `toggleButton`
-    if (!hasActiveFilter) {
-        toggleButton.classList.remove("active");
+    if (hasActiveFilter) {
+        return true;
+    }else{
+        return false;
     }
+
 }
