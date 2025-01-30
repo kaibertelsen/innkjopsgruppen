@@ -612,13 +612,14 @@ function loadmemberCard() {
 
     if (isVisible) {
         // Start reversert animasjon på Z-aksen
-        memberCard.style.transform = "rotateY(0deg)";
+        memberCard.style.transform = "rotateY(180deg)";
     } else {
         // Vis elementet
+        memberCard.style.transform = "rotateY(180deg)";
         cardWrapper.style.display = "flex";
         setTimeout(() => {
         // Start animasjonen på Z-aksen
-        memberCard.style.transform = "rotateY(180deg)";
+        memberCard.style.transform = "rotateY(0deg)";
         }, 100);
 
        
