@@ -526,7 +526,6 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
     });
 }
 
-
 function supplierChosed(supplier) {
     console.log(supplier);
 
@@ -589,7 +588,6 @@ function supplierConnecting(supplier, checkbox) {
     }
 }
 
-
 function loadmemberCard() {
     const cardWrapper = document.getElementById("cardwrapper");
 
@@ -605,7 +603,7 @@ function loadmemberCard() {
     }
 
     // Sjekk om elementet er synlig
-    const isVisible = cardWrapper.style.display !== "none" && cardWrapper.offsetParent !== null;
+    const isVisible = cardWrapper.style.display == "flex"
 
     if (isVisible) {
         // Start reversert animasjon
@@ -629,8 +627,6 @@ function loadmemberCard() {
         loadCardData(cardWrapper);
     }
 }
-
-
 
 // Eksempel på funksjonen for å laste inn data til kortet
 function loadCardData(cardWrapper) {
