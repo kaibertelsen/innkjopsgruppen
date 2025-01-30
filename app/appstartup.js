@@ -515,9 +515,24 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 function supplierChosed(supplier) {
     console.log(supplier);
 
+
+    
     // Simulerer klikk på elementet med id "tabsupplier"
     document.getElementById("tabsupplier").click();
 
+    let supplierconteinerpage = document.getElementById("supplierconteinerpage");
+
+    //logo
+      // Sett logo
+      const logo = supplierconteinerpage.querySelector('.supplierlogo');
+      if (logo) {
+          if (supplier.logo) {
+              logo.src = supplier.logo;
+          } else {
+              logo.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
+          }
+      }
+    
     // Oppdaterer navnet på leverandørsiden
     let name = document.getElementById("suppierpagename");
     if (name) {
