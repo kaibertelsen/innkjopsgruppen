@@ -498,6 +498,7 @@ function loadFilter() {
 
 function categoriFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll(".categoributton");
+
     // Sjekk om dataset.airtable er tom
     if (!button.dataset.airtable) {
         // Legg til klassen "active" på knappen som ble klikket
@@ -510,17 +511,24 @@ function categoriFilterTriggered(button) {
             }
         });
     } else {
-        // Fjern knappen med tom airtable-nøkkel fra klassen "active"
+        // Fjern klassen "active" fra knappen med tom airtable-nøkkel
         allButtons.forEach(otherButton => {
             if (!otherButton.dataset.airtable) {
                 otherButton.classList.remove("active");
             }
         });
 
-        // Legg til klassen "active" på den klikkede knappen
-        button.classList.add("active");
+        // Toggling av "active"-klassen på den klikkede knappen
+        if (button.classList.contains("active")) {
+            button.classList.remove("active"); // Fjern klassen hvis den allerede er satt
+        } else {
+            button.classList.add("active"); // Legg til klassen hvis den ikke er satt
+        }
     }
+
+    // Kall funksjonen for å liste leverandører basert på aktiv filtrering
     listSuppliers(activeSupplierList);
 }
+
 
 
