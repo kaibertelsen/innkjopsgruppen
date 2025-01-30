@@ -612,7 +612,7 @@ function loadmemberCard() {
 
     if (isVisible) {
         // Start reversert animasjon på Z-aksen
-        memberCard.style.transform = "rotateY(-360deg)";
+        memberCard.style.transform = "rotateY(-180deg)";
 
         // Etter 0.5 sekunder, skjul elementet
         setTimeout(() => {
@@ -624,7 +624,7 @@ function loadmemberCard() {
         cardWrapper.style.display = "flex";
 
         // Start animasjonen på Z-aksen
-        memberCard.style.transform = "rotateY(360deg)";
+        memberCard.style.transform = "rotateY(180deg)";
 
         // Last inn data til kortet
         loadCardData(cardWrapper);
