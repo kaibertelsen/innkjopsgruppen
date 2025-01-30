@@ -22,10 +22,10 @@ cdnScripts.reduce((promise, script) => {
     console.log("All scripts loaded");
     MemberStack.onReady.then(function(member) {
         if (member.loggedIn){
-        startUp(member.airtableid);
-     
+            startUp(member.airtableid);
+            document.getElementById("tablist").click();
         }else{
-        window.location.replace("https://portal.innkjops-gruppen.no/login");
+            document.getElementById("tablogin").click();
         }
     });
 }).catch(error => {
