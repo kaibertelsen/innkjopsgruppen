@@ -602,31 +602,36 @@ function loadmemberCard() {
         return;
     }
 
+    // Konfigurer 3D-effektene
+    memberCard.style.transformStyle = "preserve-3d";
+    memberCard.style.perspective = "1000px";  // Gir en følelse av dybde
+    memberCard.style.transition = "transform 0.5s ease-in-out";
+
     // Sjekk om elementet er synlig
-    const isVisible = cardWrapper.style.display == "flex"
+    const isVisible = cardWrapper.style.display === "flex";
 
     if (isVisible) {
-        // Start reversert animasjon
-        memberCard.style.transition = "transform 1s ease-in-out";
-        memberCard.style.transform = "rotateY(360deg)";
+        // Start reversert animasjon på Z-aksen
+        memberCard.style.transform = "rotateZ(-360deg)";
 
-        // Etter 1 sekund, skjul elementet
+        // Etter 0.5 sekunder, skjul elementet
         setTimeout(() => {
             cardWrapper.style.display = "none";
-            memberCard.style.transform = "rotateY(0deg)";  // Tilbakestill for neste visning
-        }, 1000);
+            memberCard.style.transform = "rotateZ(0deg)";  // Tilbakestill for neste visning
+        }, 500);
     } else {
-        // Vis elementet og start animasjonen
+        // Vis elementet
         cardWrapper.style.display = "flex";
 
-        // Start animasjon
-        memberCard.style.transition = "transform 1s ease-in-out";
-        memberCard.style.transform = "rotateY(360deg)";
+        // Start animasjonen på Z-aksen
+        memberCard.style.transform = "rotateZ(360deg)";
 
         // Last inn data til kortet
         loadCardData(cardWrapper);
     }
 }
+
+
 
 // Eksempel på funksjonen for å laste inn data til kortet
 function loadCardData(cardWrapper) {
