@@ -12,7 +12,7 @@ function loadFilter() {
 
     //områder
     const lista = document.getElementById("areaslist");
-    loadFilterdata(lista,categories,nodeElement);
+    loadFilterdata(lista,areas,nodeElement);
 
 
 }
