@@ -333,6 +333,11 @@ function listSuppliers(data) {
         } else {
             merkibjCheckbox.checked = false; // Sett checkbox til unchecked (valgfritt)
         }
+        // Legg til eventlistener for å kjøre `supplierConnecting` når checkboxen trykkes
+        merkibjCheckbox.addEventListener("click", function() {
+            // Send med supplier og checkboxen til funksjonen
+            supplierConnecting(supplier, merkibjCheckbox);
+        });
 
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
@@ -411,10 +416,8 @@ function listSuppliers(data) {
             }
         }
 
-
         // Sett knapp til leverandørsiden
         const supplierpagebutton = supplierElement.querySelector('.supplierpagebutton');
-
         if (supplierpagebutton) {
             // Legg til en click-eventlistener som triggere funksjonen `supplierChosed`
             supplierpagebutton.addEventListener('click', function() {
@@ -548,3 +551,21 @@ function supplierChosed(supplier) {
 }
 
 
+function supplierConnecting(supplier, checkbox) {
+    console.log(supplier);
+
+    // Sjekk om checkboxen ikke er checked
+    if (!checkbox.checked) {
+        // Vis en alert med informasjon om tilknytning
+        const confirmMessage = `Ønsker du å tilknyttes leverandøren ${supplier.name}?\nDet vil da gå informasjon til leverandøren slik at du blir lagt til denne avtalen.`;
+
+        // Hvis brukeren bekrefter, sett checkbox tilbake til checked, ellers fjern den
+        if (confirm(confirmMessage)) {
+            checkbox.checked = true;  // Hvis bekreftet, behold checked
+        } else {
+            checkbox.checked = false; // Hvis ikke bekreftet, sett unchecked
+        }
+    } else {
+        console.log(`Leverandøren ${supplier.name} ble koblet fra.`);
+    }
+}
