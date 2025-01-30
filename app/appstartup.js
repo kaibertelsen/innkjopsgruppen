@@ -111,10 +111,25 @@ function supplierResponse(data){
         suppliers = suppliers.filter(supplier => !supplier.hidden);
 
         //hent ut alle unike kategorier og legg disse kategorier i en array
-
+        categories = getuniqueCategories(suppliers);
         // Kall funksjonen som gjør klar leverandørene for videre behandling
         suppliersReady();
     
+}
+
+function getuniqueCategories(suppliers){
+
+        // Hent ut alle unike kategorier fra suppliers
+        let uniqueCategories = new Set();
+        suppliers.forEach(supplier => {
+            if (Array.isArray(supplier.category)) {
+                supplier.category.forEach(cat => uniqueCategories.add(cat));
+            }
+        });
+    
+        // Konverter Set til array
+        uniqueCategories = Array.from(uniqueCategories);
+        return uniqueCategories;
 }
 
 function suppliersReady(){
