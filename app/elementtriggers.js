@@ -66,8 +66,6 @@ toggleButton.addEventListener("click", function () {
     }
 });
 
-
-
 document.getElementById("viewlistLayoutbutton").addEventListener("click", function() {
 
     const listbutton = document.getElementById("viewlistLayoutbutton");
@@ -98,4 +96,10 @@ document.getElementById("viewgridLayoutbutton").addEventListener("click", functi
     listSuppliers(activeSupplierList);
 });
 
-
+document.getElementById("companySelector").addEventListener("change", function () {
+    // Hent verdien og teksten til det valgte alternativet
+    const selector = document.getElementById("companySelector");
+    const selectedValue = selector.value; // ID (airtable)
+    const selectedText = selector.options[selector.selectedIndex].text; // Navn
+    companyChange(selectedValue);
+});

@@ -4,6 +4,8 @@ var suppliers = [];
 let currentFlippedElement = null;
 var activeCompany = {};
 var mainlistElementClass = ".suppliercard";
+var areas;
+var categories;
 
 
 document.getElementById("elementlibrary").style.display = "none";
@@ -89,14 +91,6 @@ function loadSelector(selector,data){
         });
 }
 
-document.getElementById("companySelector").addEventListener("change", function () {
-    // Hent verdien og teksten til det valgte alternativet
-    const selector = document.getElementById("companySelector");
-    const selectedValue = selector.value; // ID (airtable)
-    const selectedText = selector.options[selector.selectedIndex].text; // Navn
-    companyChange(selectedValue);
-});
-
 function supplierResponse(data){
     // Sjekk om data.fields.companyjson eksisterer og er en array
         if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
@@ -112,6 +106,7 @@ function supplierResponse(data){
 
         //hent ut alle unike kategorier og legg disse kategorier i en array
         categories = getUniqueCategories(suppliers);
+        areas = getUniqueAreas(suppliers);
         loadFilter();
         // Kall funksjonen som gjør klar leverandørene for videre behandling
         suppliersReady();
@@ -145,8 +140,18 @@ function getUniqueCategories(suppliers) {
     return uniqueCategories;
 }
 
+function getUniqueAreas(suppliers) {
+    let uniqueAreas = new Set();
 
+    suppliers.forEach(supplier => {
+        if (Array.isArray(supplier.omrader)) {
+            supplier.omrader.forEach(area => uniqueAreas.add(area));
+        }
+    });
 
+    // Konverter Set til en array
+    return Array.from(uniqueAreas);
+}
 
 function suppliersReady(){
     const selector = document.getElementById("companySelector");
