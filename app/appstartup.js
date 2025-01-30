@@ -412,6 +412,16 @@ function listSuppliers(data) {
         }
 
 
+        // Sett knapp til leverandørsiden
+        const supplierpagebutton = supplierElement.querySelector('.supplierpagebutton');
+
+        if (supplierpagebutton) {
+            // Legg til en click-eventlistener som triggere funksjonen `supplierChosed`
+            supplierpagebutton.addEventListener('click', function() {
+                supplierChosed(supplier);  // Kall funksjonen med leverandørdataen
+            });
+        }
+
         // Legg til leverandøren i containeren
         supplierContainer.appendChild(supplierElement);
     });
@@ -481,4 +491,13 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
             return null; // Returner null hvis parsing feiler
         }
     });
+}
+
+
+function supplierChosed(supplier){
+
+
+console.log(data);
+
+
 }
