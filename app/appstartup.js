@@ -512,13 +512,24 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 
 
 
-function supplierChosed(supplier){
-    console.log(data);
+function supplierChosed(supplier) {
+    console.log(supplier);
+
+    // Simulerer klikk på elementet med id "tabsupplier"
     document.getElementById("tabsupplier").click();
+
+    // Oppdaterer navnet på leverandørsiden
     let name = document.getElementById("suppierpagename");
-    name.textContent = supplier.name;
-    
+    if (name) {
+        name.textContent = supplier.name || "Ukjent navn";
+    }
+
+    // Oppdaterer innholdet på leverandørsiden
     let contentview = document.getElementById("suppliercontentview");
-    contentview.innerHTML = supplier.info;
+    if (contentview) {
+        // Vurder sikkerhet: Bare bruk `innerHTML` hvis `supplier.info` er klarert HTML
+        contentview.innerHTML = supplier.info || "<p>Ingen informasjon tilgjengelig.</p>";
+    }
 }
+
 
