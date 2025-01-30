@@ -117,20 +117,25 @@ function supplierResponse(data){
     
 }
 
-function getuniqueCategories(suppliers){
+function getUniqueCategories(suppliers) {
+    // Hent ut unike kategorier basert på nøkkelen "airtable"
+    let uniqueCategoriesMap = new Map();
 
-        // Hent ut alle unike kategorier fra suppliers
-        let uniqueCategories = new Set();
-        suppliers.forEach(supplier => {
-            if (Array.isArray(supplier.category)) {
-                supplier.category.forEach(cat => uniqueCategories.add(cat));
-            }
-        });
-    
-        // Konverter Set til array
-        uniqueCategories = Array.from(uniqueCategories);
-        return uniqueCategories;
+    suppliers.forEach(supplier => {
+        if (Array.isArray(supplier.category)) {
+            supplier.category.forEach(cat => {
+                // Sjekk om kategorien har nøkkelen "airtable" og legg den til i Map hvis ikke allerede finnes
+                if (cat.airtable && !uniqueCategoriesMap.has(cat.airtable)) {
+                    uniqueCategoriesMap.set(cat.airtable, cat);
+                }
+            });
+        }
+    });
+
+    // Konverter Map-verdiene til en array med unike kategorier
+    return Array.from(uniqueCategoriesMap.values());
 }
+
 
 function suppliersReady(){
     const selector = document.getElementById("companySelector");

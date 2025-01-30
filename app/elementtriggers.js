@@ -11,22 +11,14 @@ document.getElementById("gotolistview").addEventListener("click", function() {
     document.getElementById("tablist").click();
 });
 
-
-
 document.getElementById("logobutton").addEventListener("click", function() {
     location.reload();
 });
-
-
 
 document.getElementById("filtermydealsbutton").addEventListener("click", function() {
     this.classList.toggle("active"); // Legger til eller fjerner klassen "active"
     listSuppliers(activeSupplierList);
 });
-
-
-
-
 
 // Lytt til 'input'-hendelsen på søkefeltet
 document.getElementById("searchinput").addEventListener("input", () => {
@@ -66,7 +58,8 @@ toggleButton.addEventListener("click", function () {
             //reset slik at den kan lukkes når en trykker utenfor filter view
             openfrombutton = false;
         }, 500);
-        
+        //laste inhold i filteret
+        loadFilter();
     } else {
         filterViewElement.style.height = "0px"; // Kollaps tilbake
         toggleButton.classList.remove("active");
