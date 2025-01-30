@@ -177,26 +177,36 @@ function suppliersReady(){
 
 function companyChange(companyId) {
     console.log("List på bakgrunn av dette selskapet: " + companyId);
+    let filteredSuppliers = [];
+    if(companyId == "ansatt"){
+        filteredSuppliers = suppliers.filter(supplier => {
+            return supplier.category.some(category => category.airtable === "recSbtJnNprzB42fd");
+        });
 
-    // Finn selskapet basert på ID
-    const selectedCompany = companys.find(company => company.airtable === companyId);
+    }else{
+        // Finn selskapet basert på ID
+        const selectedCompany = companys.find(company => company.airtable === companyId);
 
-    if (!selectedCompany) {
-        console.error("Fant ikke selskap med ID: " + companyId);
-        return;
+        if (!selectedCompany) {
+            console.error("Fant ikke selskap med ID: " + companyId);
+            return;
+        }
+
+        activeCompany = selectedCompany;
+
+        // Filtrer leverandører basert på gruppetilhørighet
+        filteredSuppliers = suppliers.filter(supplier => {
+            return supplier.group.some(group => group.airtable === selectedCompany.group);
+        });
+
+        console.log("Filtrerte leverandører:", filteredSuppliers);
+
+        // Videre logikk for hva du ønsker å gjøre med de filtrerte leverandørene
+        // F.eks. oppdatere en visning eller kalle en annen funksjon
     }
 
-    activeCompany = selectedCompany;
 
-    // Filtrer leverandører basert på gruppetilhørighet
-    const filteredSuppliers = suppliers.filter(supplier => {
-        return supplier.group.some(group => group.airtable === selectedCompany.group);
-    });
 
-    console.log("Filtrerte leverandører:", filteredSuppliers);
-
-    // Videre logikk for hva du ønsker å gjøre med de filtrerte leverandørene
-    // F.eks. oppdatere en visning eller kalle en annen funksjon
     activeSupplierList = filteredSuppliers;
     listSuppliers(activeSupplierList);
 }
