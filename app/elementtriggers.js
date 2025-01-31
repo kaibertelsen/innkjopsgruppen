@@ -44,6 +44,10 @@ document.getElementById("closecardbutton").addEventListener("click", function() 
     loadmemberCard();
 });
 
+document.getElementById("invitemembersbutton").addEventListener("click", function() {
+    alert("Her kan du invitere andre brukere når appen er lansert")
+});
+
 
 
 // Lytt til 'input'-hendelsen på søkefeltet
