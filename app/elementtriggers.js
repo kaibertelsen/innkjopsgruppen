@@ -24,14 +24,24 @@ document.getElementById("clearfilterbutton").addEventListener("click", function(
 });
 document.getElementById("supplierpagebackbutton").addEventListener("click", function() {
     document.getElementById("tablist").click();
- });
+});
+
+document.getElementById("companypagebackbutton").addEventListener("click", function() {
+    document.getElementById("tablist").click();
+});
+
+document.getElementById("companypagebutton").addEventListener("click", function() {
+    companyPageChosed(company)
+});
+
+
 
 document.getElementById("cardbutton").addEventListener("click", function() {
     loadmemberCard();
 });
 
 document.getElementById("closecardbutton").addEventListener("click", function() {
-    loadmemberCard();
+    loadmemberCard(activeCompany);
 });
 
 

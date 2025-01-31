@@ -549,7 +549,7 @@ function supplierChosed(supplier) {
 
     //logo
       // Sett logo
-      const logo = supplierconteinerpage.querySelector('.supplierlogo');
+      const logo = supplierconteinerpage.querySelector('.subpagelogo');
       if (logo) {
           if (supplier.logo) {
               logo.src = supplier.logo;
@@ -571,6 +571,41 @@ function supplierChosed(supplier) {
         contentview.innerHTML = supplier.info || "<p>Ingen informasjon tilgjengelig.</p>";
     }
 }
+
+function companyPageChosed(company) {
+   
+
+    // Simulerer klikk på elementet
+    document.getElementById("tabcompany").click();
+
+    const conteinerpage = document.getElementById("companyconteinerpage");
+
+      // Sett logo
+      const logo = conteinerpage.querySelector('.subpagelogo');
+      if (logo) {
+          if (company.logo) {
+              logo.src = company.logo;
+          } else {
+              //logo.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
+          }
+      }
+    
+    // Oppdaterer data på selskapet
+    let name = conteinerpage.querySelector('.companyname');
+    name.textContent = company.name || "-";
+
+    let orgnr = conteinerpage.querySelector('.orgnr');
+    orgnr.textContent = company.orgnr || "-";
+
+    let groupname = conteinerpage.querySelector('.group');
+    groupname.textContent = company.groupname || "-";
+
+    let adress = conteinerpage.querySelector('.adress');
+    adress.textContent = company.adresse+", "+company.postnr+" "+company.poststed;
+
+}
+
+
 
 function supplierConnecting(supplier, checkbox) {
     console.log(supplier);
