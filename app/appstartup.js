@@ -208,8 +208,8 @@ function companyChange(companyId) {
 
         //last inn gruppenslogo eller bruk standard
         let logourl;
-        if(selectedCompany.group.logo){
-            logourl = selectedCompany.group.logo;
+        if(selectedCompany.grouplogo){
+            logourl = selectedCompany.grouplogo;
         }else{
             logourl ="https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6797524cff44bf02fd8ee5e8_IG-logo-app.png";
         }
