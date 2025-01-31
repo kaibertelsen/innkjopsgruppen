@@ -601,7 +601,10 @@ function companyPageChosed(company) {
     groupname.textContent = company.groupname || "-";
 
     let adress = conteinerpage.querySelector('.adress');
-    adress.textContent = company.adresse+", "+company.postnr+" "+company.poststed;
+    adress.textContent = company.adresse || "-";
+
+    let post = conteinerpage.querySelector('.post');
+    adress.textContent = company.postnr+" "+company.poststed;
 
 }
 
