@@ -31,7 +31,7 @@ document.getElementById("companypagebackbutton").addEventListener("click", funct
 });
 
 document.getElementById("companypagebutton").addEventListener("click", function() {
-    companyPageChosed(company)
+    companyPageChosed(activeCompany);
 });
 
 
@@ -41,7 +41,7 @@ document.getElementById("cardbutton").addEventListener("click", function() {
 });
 
 document.getElementById("closecardbutton").addEventListener("click", function() {
-    loadmemberCard(activeCompany);
+    loadmemberCard();
 });
 
 
