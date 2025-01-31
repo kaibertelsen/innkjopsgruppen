@@ -48,6 +48,10 @@ document.getElementById("invitemembersbutton").addEventListener("click", functio
     alert("Her kan du invitere andre brukere når appen er lansert")
 });
 
+document.getElementById("savingmoneybutton").addEventListener("click", function() {
+    savingMoney();
+});
+
 
 
 // Lytt til 'input'-hendelsen på søkefeltet

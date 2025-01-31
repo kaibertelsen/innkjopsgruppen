@@ -648,6 +648,11 @@ function companyPageChosed(company) {
     });
 }
 
+function savingMoney(){
+      // Simulerer klikk på elementet
+      document.getElementById("savingmoneytabbutton").click();
+}
+
 
 
 function supplierConnecting(supplier, checkbox) {
@@ -725,9 +730,6 @@ function loadmemberCard() {
         loadCardData(cardWrapper);
     }
 }
-
-
-
 
 // Eksempel på funksjonen for å laste inn data til kortet
 function loadCardData(cardWrapper) {
