@@ -34,12 +34,6 @@ document.getElementById("closecardbutton").addEventListener("click", function() 
     loadmemberCard();
 });
 
-document.getElementById("cardwrapper").addEventListener("click", function() {
-    loadmemberCard();
-});
-
-
- 
 
 
 // Lytt til 'input'-hendelsen på søkefeltet

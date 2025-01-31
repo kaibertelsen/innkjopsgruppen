@@ -214,6 +214,7 @@ function companyChange(companyId) {
             logourl ="https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6797524cff44bf02fd8ee5e8_IG-logo-app.png";
         }
         const logoImage = document.getElementById("logobutton");
+        logoImage.removeAttribute("srcset");
         logoImage.src = logourl;
     }
 
