@@ -615,7 +615,8 @@ function companyPageChosed(company) {
           console.error("Ingen 'elementlibrary' funnet.");
           return;
       }
-
+      list.innerHTML = '';
+      
       const elementLibrary = document.getElementById("elementlibrary");
       if (!elementLibrary) {
           console.error("Ingen 'elementlibrary' funnet.");
