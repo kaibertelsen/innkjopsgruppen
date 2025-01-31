@@ -607,6 +607,45 @@ function companyPageChosed(company) {
     let post = conteinerpage.querySelector('.post');
     adress.textContent = company.postnr+" "+company.poststed;
 
+
+      let users = company.bruker;
+      const list = document.getElementById("memberholderlist");
+     
+      if (!list) {
+          console.error("Ingen 'elementlibrary' funnet.");
+          return;
+      }
+
+      const elementLibrary = document.getElementById("elementlibrary");
+      if (!elementLibrary) {
+          console.error("Ingen 'elementlibrary' funnet.");
+          return;
+      }
+  
+      const nodeElement = elementLibrary.querySelector(".membercardwrapper");
+      if (!nodeElement) {
+          console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
+          return;
+      }
+
+
+
+      // Oppdater med nye leverandører
+    users.forEach(member => {
+        const memberElement = nodeElement.cloneNode(true);
+
+        let name = memberElement.querySelector('.name');
+        name.textContent = member.navn || "-";
+
+        let email = memberElement.querySelector('.email');
+        email.textContent = member.epost || "-";
+
+        let roll = memberElement.querySelector('.roll');
+        roll.textContent = member.rolle || "-";
+
+        list.appendChild(memberElement);
+
+    });
 }
 
 
