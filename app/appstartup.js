@@ -585,8 +585,9 @@ function companyPageChosed(company) {
       if (logo) {
           if (company.logo) {
               logo.src = company.logo;
+              logo.style.display = "inline-block";
           } else {
-              //logo.src = "path/to/default/logo.png"; // Standardbilde hvis logo mangler
+            logo.style.display = "none";
           }
       }
     
