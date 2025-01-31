@@ -52,6 +52,9 @@ document.getElementById("savingmoneybutton").addEventListener("click", function(
     savingMoney();
 });
 
+document.getElementById("savingpagebackbutton").addEventListener("click", function() {
+    document.getElementById("tablist").click();
+});
 
 
 // Lytt til 'input'-hendelsen på søkefeltet
