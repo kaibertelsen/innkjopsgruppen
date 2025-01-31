@@ -593,7 +593,7 @@ function companyPageChosed(company) {
     
     // Oppdaterer data på selskapet
     let name = conteinerpage.querySelector('.companyname');
-    name.textContent = company.name || "-";
+    name.textContent = company.Name || "-";
 
     let orgnr = conteinerpage.querySelector('.orgnr');
     orgnr.textContent = company.orgnr || "-";
