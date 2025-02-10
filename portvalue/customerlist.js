@@ -116,7 +116,32 @@ function listCustomer(data) {
     
         console.log(filteredData);
         isInDuplicateMode = true;
+    }else if (selectedFilter === "freerider"){
+        filteredData = data.filter(company => {
+            // Sjekk om valuegroup er 0, tom eller "0"
+            const isValueGroupZero = ["0", 0, ""].includes(company.valuegroup);
+    
+            // Sjekk om company.group ikke er i den spesifikke listen av grupper
+            const excludedGroups = [
+                "recR9wfCUekhlQUHB",
+                "recLs5ykxdPBWQWM6",
+                "reco7RKbkt82pqE1s",
+                "recotgdVqY4St9ZMC"
+            ];
+            const isNotInExcludedGroups = !excludedGroups.includes(company.group);
+    
+           
+    
+            // Returner true hvis alle kriteriene er oppfylt
+            return isValueGroupZero && isNotInExcludedGroups;
+        });
+
+
+
+
     }
+
+
     const dateSelector = document.getElementById("listdateselector");
     let selectedValue = dateSelector.value;
     let [startDate, endDate] = selectedValue.split(",").map(date => new Date(date.trim()));
