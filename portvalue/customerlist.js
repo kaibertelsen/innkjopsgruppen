@@ -36,9 +36,20 @@ function listCustomer(data) {
     let isInDuplicateMode = false;
 
     if (selectedFilter === "valuegroup") {
-        filteredData = data.filter(company => 
-            company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0
-        );
+
+        filteredData = data.filter(company => {
+            // Sjekk om valuegroup er større enn 0
+            const hasPositiveValueGroup = company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0;
+    
+            // Sjekk om exit-dato er passert
+            const hasExpiredExitDate = company.exit && !isNaN(Date.parse(company.exit)) && new Date(company.exit) < currentDate;
+    
+            // Inkluder selskapet hvis begge kriteriene er oppfylt
+            return hasPositiveValueGroup && hasExpiredExitDate;
+        });
+
+
+
     } else if (selectedFilter === "kickback") {
         filteredData = data.filter(company =>
             company.cashflowjson && company.cashflowjson.some(cashflow => 
@@ -60,18 +71,15 @@ function listCustomer(data) {
             return isValueGroupZero && isCashflowZero;
         });
         
-    } else if (selectedFilter === "exit") {
-           // Filtrer kunder med dato i "exit" feltet
-           //der denne datoen passert skal også kunden fjernes
-           const currentDate = new Date();
-
-           filteredData = data.filter(company => 
-               company.exit && 
-               !isNaN(Date.parse(company.exit)) && 
-               new Date(company.exit) > currentDate
-           );
-    
-    }else if (selectedFilter === "supplier") {
+    }else if (selectedFilter === "exit") {
+    // Filtrer selskaper som har en gyldig dato i "exit"-feltet
+    filteredData = data.filter(company => {
+        const exitDate = new Date(company.exit);
+        
+        // Sjekk at exit-feltet eksisterer og er en gyldig dato
+        return company.exit && !isNaN(exitDate);
+    });
+    } else if (selectedFilter === "supplier") {
        // Filtrer alle kunder som har "supplier" i feltet "type"
        filteredData = data.filter(company => 
         company.type === "supplier"
