@@ -37,19 +37,17 @@ function listCustomer(data) {
 
     if (selectedFilter === "valuegroup") {
         const currentDate = new Date();
+    
         filteredData = data.filter(company => {
             // Sjekk om valuegroup er større enn 0
             const hasPositiveValueGroup = company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0;
     
-            // Sjekk om exit-dato er passert
-            const hasExpiredExitDate = company.exit && !isNaN(Date.parse(company.exit)) && new Date(company.exit) < currentDate;
+            // Sjekk om det ikke finnes en exit-dato eller om exit-datoen er fremtidig
+            const noExpiredExitDate = !company.exit || (new Date(company.exit) >= currentDate);
     
-            // Inkluder selskapet hvis begge kriteriene er oppfylt
-            return hasPositiveValueGroup && hasExpiredExitDate;
+            // Inkluder selskapet kun hvis begge kriteriene er oppfylt
+            return hasPositiveValueGroup && noExpiredExitDate;
         });
-
-
-
     } else if (selectedFilter === "kickback") {
         filteredData = data.filter(company =>
             company.cashflowjson && company.cashflowjson.some(cashflow => 
