@@ -36,7 +36,7 @@ function listCustomer(data) {
     let isInDuplicateMode = false;
 
     if (selectedFilter === "valuegroup") {
-
+        const currentDate = new Date();
         filteredData = data.filter(company => {
             // Sjekk om valuegroup er større enn 0
             const hasPositiveValueGroup = company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0;
