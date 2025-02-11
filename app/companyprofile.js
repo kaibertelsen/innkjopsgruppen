@@ -407,6 +407,6 @@ function validatePasswords() {
         submitButton.style.display = "none"; // Skjuler knappen hvis passordene ikke samsvarer
     } else {
         errorText.style.display = "none";
-        submitButton.style.display = "block"; // Viser knappen når passordene er like
+        submitButton.style.display = "inline-block"; // Viser knappen når passordene er like
     }
 }
