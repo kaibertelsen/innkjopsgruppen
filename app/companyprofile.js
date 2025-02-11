@@ -35,8 +35,9 @@ function companyPageChosed(company) {
 
     let users = company.bruker;
 
-    // Sorter brukere alfabetisk basert på 'name'
-    users.sort((a, b) => a.name.localeCompare(b.name));     
+    
+    // Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
+    users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));     
 
     //liste alle hovedbrukere
     const list = document.getElementById("memberholderlist");
