@@ -35,25 +35,6 @@ document.getElementById("invitemembersbutton").addEventListener("click", functio
     }
 });
 
-document.getElementById("searshforemailbutton").addEventListener("click", function() {
-//søk etter brukere med denne eposten
-const epostfield = document.getElementById("emailinvitationfield");
-let body = airtablebodylistAND({epost:epostfield.value});
-
-Getlistairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responsEmailsearchServer");
-
-document.getElementById("loadingscreenepostsearch").style.display = "block";
-
-
-});
-
-function responsEmailsearchServer(data){
-
-    document.getElementById("loadingscreenepostsearch").style.display = "none";
-    console.log("Har funnet dette",data);
-}
-
-
 function companyPageChosed(company) {
    
     // Simulerer klikk på elementet
@@ -239,4 +220,40 @@ function rollSelectorChange(selector, member, company) {
 
 function responsrollChange(data){
 console.log(data);
+}
+
+document.getElementById("searshforemailbutton").addEventListener("click", function() {
+    //søk etter brukere med denne eposten
+    const epostfield = document.getElementById("emailinvitationfield");
+    let body = airtablebodylistAND({epost:epostfield.value});
+    Getlistairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responsEmailsearchServer");
+    document.getElementById("loadingscreenepostsearch").style.display = "block";
+});
+    
+function responsEmailsearchServer(data) {
+    document.getElementById("loadingscreenepostsearch").style.display = "none";
+
+    console.log("Har funnet dette", data);
+
+    // Rens data og lagre i 'response'
+    let response = rawdatacleaner(data);
+
+    if (response.length > 0) {
+        // Det er gjort funn på en bruker med denne e-posten
+        let user = response[0];
+
+        // Vis bekreftelsesmelding
+        const confirmMessage = `Det finnes en bruker med denne e-posten!\nØnsker du å invitere brukeren med navn "${user.name}" og e-post "${user.epost}" til dette selskapet?`;
+
+        if (confirm(confirmMessage)) {
+            console.log("Bruker skal inviteres:", user);
+            // Her kan du legge til logikk for å invitere brukeren
+        } else {
+            console.log("Brukeren ble ikke invitert.");
+        }
+    } else {
+        // Ingen bruker funnet, vis inputfeltene for navn og telefonnummer
+       // document.getElementById("nameInputField").style.display = "block";
+        //document.getElementById("phoneInputField").style.display = "block";
+    }
 }
