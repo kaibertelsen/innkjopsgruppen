@@ -114,37 +114,49 @@ function rollSelectorChange(selector, member, company) {
     // Hent valgt alternativs tekst fra selector
     const selectedText = selector.options[selector.selectedIndex].text;
 
-    // Vis en bekreftelsesmelding
-    const confirmMessage = `Bytte tilgang for ${member.navn}\nFra ${member.rolle} til ${selectedText} ?`;
-
-    if (confirm(confirmMessage)) {
-        console.log("Tilgang oppdatert for:", member);
-
-        // Opprett body for oppdatering
-        let body = { rolle: selector.value };
-
-        // Oppdater server
-        PATCHairtable(
-            "app1WzN1IxEnVu3m0",
-            "tblMhgrvy31ihKYbr",
-            member.airtable,
-            JSON.stringify(body),
-            "responsrollChange"
-        );
-
-        // Oppdater verdi i company.bruker-arrayen
-        let userToUpdate = company.bruker.find(u => u.airtable === member.airtable);
-        if (userToUpdate) {
-            userToUpdate.rolle = selector.value;
-            preLists(company);
-
-
-        } else {
-            console.warn("Bruker ikke funnet i company.bruker-arrayen");
+    if(selector.value == "remove"){
+        const confirmMessage = `Er du sikker på at du vil fjerne brukeren ${member.navn}\nfra ${company.name}?`;
+        if (confirm(confirmMessage)) {
+            console.log("Ja fjern denne brukeren");
+        }else{
+            console.log("Nei avbryt fjerning av denne brukeren");
         }
-    } else {
-        // Sett tilbake forrige verdi hvis bekreftelsen avbrytes
-        selector.value = member.rolle;
+
+    }else{
+       
+
+        // Vis en bekreftelsesmelding
+        const confirmMessage = `Bytte tilgang for ${member.navn}\nFra ${member.rolle} til ${selectedText} ?`;
+
+        if (confirm(confirmMessage)) {
+            console.log("Tilgang oppdatert for:", member);
+
+            // Opprett body for oppdatering
+            let body = { rolle: selector.value };
+
+            // Oppdater server
+            PATCHairtable(
+                "app1WzN1IxEnVu3m0",
+                "tblMhgrvy31ihKYbr",
+                member.airtable,
+                JSON.stringify(body),
+                "responsrollChange"
+            );
+
+            // Oppdater verdi i company.bruker-arrayen
+            let userToUpdate = company.bruker.find(u => u.airtable === member.airtable);
+            if (userToUpdate) {
+                userToUpdate.rolle = selector.value;
+                preLists(company);
+
+
+            } else {
+                console.warn("Bruker ikke funnet i company.bruker-arrayen");
+            }
+        } else {
+            // Sett tilbake forrige verdi hvis bekreftelsen avbrytes
+            selector.value = member.rolle;
+        }
     }
 }
 
