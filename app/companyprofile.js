@@ -268,3 +268,61 @@ function newinvitatioUser(user){
     epostTextLable.textContent = epostfield.value;
     document.getElementById("newuserinvitation").style.display = "flex";
 }
+
+
+document.getElementById("searshforemailbutton").addEventListener("click", function() {
+    // Hent inputelementene
+    const emailElement = document.getElementById("epostresponse");
+    const nameElement = document.getElementById("nameinputinvitation");
+    const phoneElement = document.getElementById("phoneinputinvitation");
+    const roleSelector = document.getElementById("invitationrolle");
+
+    // Hent verdier fra feltene
+    const email = emailElement.value.trim();
+    const name = nameElement.value.trim();
+    const phone = phoneElement.value.trim();
+    const role = roleSelector.value;
+
+    // Valider e-post
+    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    // Valider navn (må ha minst 2 tegn)
+    const nameIsValid = name.length >= 2;
+
+    // Valider telefonnummer (kun tall og minst 8 sifre)
+    const phoneIsValid = /^[0-9]{8,15}$/.test(phone);
+
+    // Valider rolle (må ha en gyldig verdi)
+    const roleIsValid = role !== "";
+
+    // Sjekk om alle feltene er korrekt fylt ut
+    if (!emailIsValid) {
+        alert("Vennligst fyll inn en gyldig e-postadresse.");
+        return;
+    }
+
+    if (!nameIsValid) {
+        alert("Vennligst fyll inn et gyldig navn (minst 2 tegn).");
+        return;
+    }
+
+    if (!phoneIsValid) {
+        alert("Vennligst fyll inn et gyldig telefonnummer (kun tall, minst 8 sifre).");
+        return;
+    }
+
+    if (!roleIsValid) {
+        alert("Vennligst velg en rolle.");
+        return;
+    }
+
+    // Hvis alt er korrekt, kjør funksjonen med informasjonen
+    inviteUser({ email, name, phone, role });
+});
+
+// Eksempel på funksjon som kjøres hvis alt er korrekt
+function inviteUser(userInfo) {
+    console.log("Inviterer bruker:", userInfo);
+    // Her kan du legge til logikk for å sende invitasjonen
+}
+
