@@ -572,7 +572,6 @@ function supplierChosed(supplier) {
     }
 }
 
-
 function savingMoney(){
       // Simulerer klikk på elementet
       document.getElementById("savingmoneytabbutton").click();

@@ -35,6 +35,9 @@ function companyPageChosed(company) {
 
     let users = company.bruker;
 
+    // Sorter brukere alfabetisk basert på 'name'
+    users.sort((a, b) => a.name.localeCompare(b.name));     
+
     //liste alle hovedbrukere
     const list = document.getElementById("memberholderlist");
     listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list);
@@ -74,7 +77,12 @@ function listCompanyUsers(users,list){
       email.textContent = member.epost || "-";
 
       let roll = memberElement.querySelector('.roll');
-      roll.textContent = member.rolle || "-";
+
+      if (userObject?.rolle === "Admin") {
+        roll.style.display = "none";
+    } else {
+        roll.textContent = userObject?.rolle || "-";
+    }
 
       list.appendChild(memberElement);
 
