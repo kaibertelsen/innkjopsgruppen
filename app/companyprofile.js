@@ -346,14 +346,15 @@ function responseInvitationSendt(data) {
 
     // Beregn utløpsdatoen 3 måneder frem i tid
     let expirationdate = new Date();
-    expirationdate.setMonth(expirationdate.getMonth() + 3);  // Legger til 3 måneder
+    expirationdate.setMonth(expirationdate.getMonth() + 3);
 
-    // Konverter til ISO-format hvis nødvendig
-    let expirationdateISO = expirationdate.toISOString();
+    // Formatér datoen til "YYYY-MM-DD"
+    let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
 
     // Generer offentlig lenke
-    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateISO });
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted });
 }
+
 
 
 function generatePublicLink(data) {
