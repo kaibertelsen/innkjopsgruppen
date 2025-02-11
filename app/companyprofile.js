@@ -143,3 +143,9 @@ function rollSelectorChange(selector, member, company) {
         selector.value = member.rolle;
     }
 }
+
+function responsrollChange(data){
+
+console.log(data);
+
+}
