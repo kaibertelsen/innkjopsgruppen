@@ -1,7 +1,6 @@
 
 document.getElementById("invitemembersbutton").addEventListener("click", function() {
-    alert("Her kan du invitere andre brukere når appen er lansert");
-
+   
     const invitationwrapper = document.getElementById("invitationwrapper");
 
     // Sjekk om elementet er synlig
