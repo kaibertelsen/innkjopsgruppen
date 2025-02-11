@@ -136,7 +136,7 @@ function rollSelectorChange(selector, member, company) {
         let userToUpdate = company.bruker.find(u => u.airtable === member.airtable);
         if (userToUpdate) {
             userToUpdate.rolle = selector.value;
-            preLists(company.bruker);
+            preLists(company);
 
 
         } else {
