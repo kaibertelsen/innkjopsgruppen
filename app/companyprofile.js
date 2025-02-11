@@ -266,5 +266,5 @@ function newinvitatioUser(user){
     const epostfield = document.getElementById("emailinvitationfield");
     const epostTextLable = document.getElementById("epostresponse");
     epostTextLable.textContent = epostfield.value;
-    document.getElementById("newuserinvitation").style.display = "block"
+    document.getElementById("newuserinvitation").style.display = "flex";
 }
