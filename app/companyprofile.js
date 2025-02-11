@@ -116,11 +116,35 @@ function rollSelectorChange(selector, member, company) {
 
     if(selector.value == "remove"){
         const confirmMessage = `Er du sikker på at du vil fjerne brukeren ${member.navn}\nfra ${company.Name}?`;
+
         if (confirm(confirmMessage)) {
-            console.log("Ja fjern denne brukeren");
-        }else{
-            console.log("Nei avbryt fjerning av denne brukeren");
-            selector.value = member.rolle;
+            console.log("Ja, fjern denne brukeren");
+        
+            // Hent brukerliste fra selskapet
+            let companyUsers = company.bruker;
+        
+            // Finn og fjern brukeren basert på airtable-nøkkelen
+            companyUsers = companyUsers.filter(user => user.airtable !== member.airtable);
+        
+            // Lag en array med de gjenværende brukernes ID
+            const remainingUserIds = companyUsers.map(user => user.airtable);
+        
+            // Opprett body for oppdatering
+            let body = { bruker: remainingUserIds };
+        
+            // Oppdater serveren med de gjenværende brukerne
+            PATCHairtable(
+                "app1WzN1IxEnVu3m0",
+                "tblFySDb9qVeVVY5c",
+                company.airtable,
+                JSON.stringify(body),
+                "responsrollChange"
+            );
+        
+            console.log("Selskapet er oppdatert med de gjenværende brukerne.");
+        } else {
+            console.log("Nei, avbryt fjerning av denne brukeren");
+            selector.value = member.rolle;  // Sett tilbake forrige verdi i selector
         }
 
     }else{
