@@ -34,19 +34,23 @@ function companyPageChosed(company) {
     let post = conteinerpage.querySelector('.post');
     adress.textContent = company.postnr+" "+company.poststed;
 
-    let users = company.bruker;
-   
-    // Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
-    users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));     
-
-    //liste alle hovedbrukere
-    const list = document.getElementById("memberholderlist");
-    listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list,company);
-
-    const listpri = document.getElementById("memberpriholderlist");
-    listCompanyUsers(users.filter(user => user.rolle == "ansatt"),listpri,company);
-    
+    preLists(company.bruker);
 }
+
+function preLists(users){
+
+// Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
+users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));   
+
+//liste alle hovedbrukere
+const list = document.getElementById("memberholderlist");
+listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list,company);
+
+const listpri = document.getElementById("memberpriholderlist");
+listCompanyUsers(users.filter(user => user.rolle == "ansatt"),listpri,company);
+
+}
+
 
 function listCompanyUsers(users,list,company){
  
@@ -134,7 +138,9 @@ function rollSelectorChange(selector, member, company) {
         let userToUpdate = company.bruker.find(u => u.airtable === member.airtable);
         if (userToUpdate) {
             userToUpdate.rolle = selector.value;
-            console.log("Oppdatert bruker i arrayen:", userToUpdate);
+            preLists(company.bruker);
+
+
         } else {
             console.warn("Bruker ikke funnet i company.bruker-arrayen");
         }
