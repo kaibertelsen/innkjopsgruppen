@@ -270,7 +270,7 @@ function newinvitatioUser(user){
 }
 
 
-document.getElementById("sendinvitationbutton").addEventListener("click", function() {
+document.getElementById("searshforemailbutton").addEventListener("click", function() {
     // Hent inputelementene
     const emailElement = document.getElementById("epostresponse");
     const nameElement = document.getElementById("nameinputinvitation");
@@ -278,7 +278,7 @@ document.getElementById("sendinvitationbutton").addEventListener("click", functi
     const roleSelector = document.getElementById("invitationrolle");
 
     // Hent verdier fra feltene
-    const email = emailElement.value.trim();
+    const email = emailElement.textContent.trim();
     const name = nameElement.value.trim();
     const phone = phoneElement.value.trim();
     const role = roleSelector.value;
