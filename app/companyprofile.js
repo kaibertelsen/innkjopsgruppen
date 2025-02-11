@@ -39,6 +39,9 @@ function companyPageChosed(company) {
     const list = document.getElementById("memberholderlist");
     listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list);
 
+    const listpri = document.getElementById("memberpriholderlist");
+    listCompanyUsers(users.filter(user => user.rolle == "ansatt"),listpri);
+    
 }
 
 function listCompanyUsers(users,list){
