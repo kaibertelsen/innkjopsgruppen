@@ -32,6 +32,8 @@ cdnScripts.reduce((promise, script) => {
             document.getElementById("tablogin").click();
         }
     });
+
+    ruteContorll();
 }).catch(error => {
     console.error(error);
 });

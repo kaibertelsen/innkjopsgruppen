@@ -376,8 +376,29 @@ function generatePublicLink(data) {
 }
 
 function responPostpublicLink(data){
+ 
+    // Sett href-attributtet til ønsket URL
+    let link = "https://portal.innkjops-gruppen.no/app-portal?"+"shareKey="+data.shareKey+"&shareId="+data.shareId;
+    console.log(link);
+    //send denne linken på mail til 
+}
+
+function ruteContorll(){
+    let shareId = getTokenFromURL("shareId");
+    let shareKey = getTokenFromURL("shareKey");
+    if (shareId && shareKey){
+    getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
+    }
+}
+
+function getTokenFromURL(key){
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get(key); // Henter verdien av 'id'-parameteren
+    return id;
+}
+
+
+function responsShareKeyControll(data){
 
 console.log(data);
-
-
 }

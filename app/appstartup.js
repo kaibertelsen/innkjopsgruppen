@@ -473,6 +473,8 @@ function ruteresponse(data,id){
         responseInvitationSendt(data);
     }else if(id == "responPostpublicLink"){
         responPostpublicLink(data);
+    }else if(id == "responsShareKeyControll"){
+        responsShareKeyControll(data);
     }
 
     
