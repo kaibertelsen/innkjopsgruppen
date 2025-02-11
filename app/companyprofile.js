@@ -1,4 +1,44 @@
 
+document.getElementById("invitemembersbutton").addEventListener("click", function() {
+    alert("Her kan du invitere andre brukere når appen er lansert");
+
+    const invitationwrapper = document.getElementById("invitationwrapper");
+
+    // Sjekk om elementet er synlig
+    if (invitationwrapper.classList.contains("visible")) {
+        // Skjul elementet
+        invitationwrapper.style.height = `${invitationwrapper.scrollHeight}px`; // Sett høyden til nåværende høyde
+        requestAnimationFrame(() => {
+            invitationwrapper.style.transition = "height 0.5s ease";
+            invitationwrapper.style.height = "0px";
+        });
+
+        // Fjern synlighet etter animasjonen
+        setTimeout(() => {
+            invitationwrapper.classList.remove("visible");
+            invitationwrapper.style.display = "none";
+        }, 500);
+    } else {
+        // Vis elementet
+        invitationwrapper.style.display = "block";
+        invitationwrapper.style.height = "0px";
+
+        requestAnimationFrame(() => {
+            invitationwrapper.classList.add("visible");
+            invitationwrapper.style.transition = "height 0.5s ease";
+            invitationwrapper.style.height = `${invitationwrapper.scrollHeight}px`;
+        });
+
+        // Fjern høyde etter animasjon for å unngå problemer ved resizing
+        setTimeout(() => {
+            invitationwrapper.style.height = "auto";
+        }, 500);
+    }
+});
+
+
+
+
 function companyPageChosed(company) {
    
     // Simulerer klikk på elementet
