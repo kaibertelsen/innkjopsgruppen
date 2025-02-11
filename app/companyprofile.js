@@ -89,6 +89,11 @@ function listCompanyUsers(users,list){
                 }
             });
 
+            // Legg til en 'change'-hendelse på rollSelector
+            rollSelector.addEventListener('change', () => {
+                rollSelectorChange(rollSelector,member);  // Kjør funksjonen når verdien endres
+            });
+
             roll.style.display = "none";  // Skjul roll-elementet
         } else {
             // Sett rolle som tekst hvis det ikke er "Admin"
@@ -104,5 +109,12 @@ function listCompanyUsers(users,list){
 
 
 
+
+}
+
+
+function rollSelectorChange(selector,member){
+
+console.log(member);
 
 }
