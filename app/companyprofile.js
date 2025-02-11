@@ -76,13 +76,24 @@ function listCompanyUsers(users,list){
       let email = memberElement.querySelector('.email');
       email.textContent = member.epost || "-";
 
-      let roll = memberElement.querySelector('.roll');
+        let roll = memberElement.querySelector('.roll');
+        let rollSelector = memberElement.querySelector('.rollSelector');
 
-      if (userObject?.rolle === "Admin") {
-        roll.style.display = "none";
-    } else {
-        roll.textContent = userObject?.rolle || "-";
-    }
+        if (userObject?.rolle === "Admin") {
+            // Finn og sett riktig alternativ som aktiv i rollSelector
+            const options = rollSelector.querySelectorAll('option');
+            options.forEach(option => {
+                if (option.value === member.rolle) {
+                    option.selected = true;  // Sett alternativet som valgt
+                }
+            });
+
+            roll.style.display = "none";  // Skjul roll-elementet
+        } else {
+            // Sett rolle som tekst hvis det ikke er "Admin"
+            roll.textContent = member?.rolle || "-";
+            rollSelector.style.display = "none";  // Skjul rollSelector-elementet
+        }
 
       list.appendChild(memberElement);
 
