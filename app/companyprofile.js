@@ -270,7 +270,7 @@ function newinvitatioUser(user){
 }
 
 
-document.getElementById("searshforemailbutton").addEventListener("click", function() {
+document.getElementById("sendinvitationbutton").addEventListener("click", function() {
     // Hent inputelementene
     const emailElement = document.getElementById("epostresponse");
     const nameElement = document.getElementById("nameinputinvitation");
