@@ -383,3 +383,30 @@ function responPostpublicLink(data){
     //send denne linken på mail til 
 }
 
+function startUserInvitationView(data){
+    //klikk på invitasjonssiden
+    document.getElementById("userinvitationtabbutton").click();
+    
+    
+}
+
+function validatePasswords() {
+    const password1 = document.getElementById("passwordinput1").value;
+    const password2 = document.getElementById("passwordinput2").value;
+    const errorText = document.getElementById("passwordError");
+    const submitButton = document.getElementById("acseptinvitationbutton");
+
+    if (password1.length < 4 || password2.length < 4) {
+        errorText.style.display = "none";
+        submitButton.style.display = "none"; // Skjuler knappen til passordene er validert
+        return;
+    }
+
+    if (password1 !== password2) {
+        errorText.style.display = "block";
+        submitButton.style.display = "none"; // Skjuler knappen hvis passordene ikke samsvarer
+    } else {
+        errorText.style.display = "none";
+        submitButton.style.display = "block"; // Viser knappen når passordene er like
+    }
+}
