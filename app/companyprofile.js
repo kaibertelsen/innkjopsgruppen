@@ -1,8 +1,7 @@
-var companyUsers = [];
+
 
 function companyPageChosed(company) {
    
-    companyUsers = [];
     // Simulerer klikk på elementet
     document.getElementById("tabcompany").click();
 
@@ -36,21 +35,20 @@ function companyPageChosed(company) {
     adress.textContent = company.postnr+" "+company.poststed;
 
     let users = company.bruker;
-    companyUsers = users;
-    
+   
     // Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
     users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));     
 
     //liste alle hovedbrukere
     const list = document.getElementById("memberholderlist");
-    listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list);
+    listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list,company);
 
     const listpri = document.getElementById("memberpriholderlist");
-    listCompanyUsers(users.filter(user => user.rolle == "ansatt"),listpri);
+    listCompanyUsers(users.filter(user => user.rolle == "ansatt"),listpri,company);
     
 }
 
-function listCompanyUsers(users,list){
+function listCompanyUsers(users,list,company){
  
     if (!list) {
         console.error("Ingen 'elementlibrary' funnet.");
@@ -93,7 +91,7 @@ function listCompanyUsers(users,list){
 
             // Legg til en 'change'-hendelse på rollSelector
             rollSelector.addEventListener('change', () => {
-                rollSelectorChange(rollSelector,member);  // Kjør funksjonen når verdien endres
+                rollSelectorChange(rollSelector,member,company);  // Kjør funksjonen når verdien endres
             });
 
             roll.style.display = "none";  // Skjul roll-elementet
@@ -110,24 +108,38 @@ function listCompanyUsers(users,list){
 }
 
 
-function rollSelectorChange(selector, member) {
+function rollSelectorChange(selector, member, company) {
     // Hent valgt alternativs tekst fra selector
     const selectedText = selector.options[selector.selectedIndex].text;
 
     // Vis en bekreftelsesmelding
-    const confirmMessage = `Bytte tilgang for ${member.navn}? \nFra ${member.rolle} til ${selectedText}`;
-    
+    const confirmMessage = `Bytte tilgang for ${member.navn}\nFra ${member.rolle} til ${selectedText} ?`;
+
     if (confirm(confirmMessage)) {
         console.log("Tilgang oppdatert for:", member);
-        let body = {rolle:selector.value};
-        //Oppdater server
-        PATCHairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",member.airtable,JSON.stringify(body),"responsrollChange");
-        //oppdater lokalt
 
+        // Opprett body for oppdatering
+        let body = { rolle: selector.value };
+
+        // Oppdater server
+        PATCHairtable(
+            "app1WzN1IxEnVu3m0",
+            "tblMhgrvy31ihKYbr",
+            member.airtable,
+            JSON.stringify(body),
+            "responsrollChange"
+        );
+
+        // Oppdater verdi i company.bruker-arrayen
+        let userToUpdate = company.bruker.find(u => u.airtable === member.airtable);
+        if (userToUpdate) {
+            userToUpdate.rolle = selector.value;
+            console.log("Oppdatert bruker i arrayen:", userToUpdate);
+        } else {
+            console.warn("Bruker ikke funnet i company.bruker-arrayen");
+        }
     } else {
-        
-        selector.value = member.rolle;  // Antar at rollen samsvarer med en option-verdi
+        // Sett tilbake forrige verdi hvis bekreftelsen avbrytes
+        selector.value = member.rolle;
     }
-
-    console.log(member);
 }
