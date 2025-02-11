@@ -35,7 +35,23 @@ document.getElementById("invitemembersbutton").addEventListener("click", functio
     }
 });
 
+document.getElementById("searshforemailbutton").addEventListener("click", function() {
+//søk etter brukere med denne eposten
+const epostfield = document.getElementById("emailinvitationfield");
+let body = airtablebodylistAND({epost:epostfield.value});
 
+Getlistairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responsEmailsearchServer");
+
+document.getElementById("loadingscreenepostsearch").style.display = "block";
+
+
+});
+
+function responsEmailsearchServer(data){
+
+    document.getElementById("loadingscreenepostsearch").style.display = "none";
+    console.log("Har funnet dette",data);
+}
 
 
 function companyPageChosed(company) {
