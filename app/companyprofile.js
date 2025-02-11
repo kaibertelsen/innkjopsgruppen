@@ -1,6 +1,8 @@
+var companyUsers = [];
+
 function companyPageChosed(company) {
    
-
+    companyUsers = [];
     // Simulerer klikk på elementet
     document.getElementById("tabcompany").click();
 
@@ -34,7 +36,7 @@ function companyPageChosed(company) {
     adress.textContent = company.postnr+" "+company.poststed;
 
     let users = company.bruker;
-
+    companyUsers = users;
     
     // Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
     users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));     
@@ -105,16 +107,27 @@ function listCompanyUsers(users,list){
 
     });
 
-
-
-
-
-
 }
 
 
-function rollSelectorChange(selector,member){
+function rollSelectorChange(selector, member) {
+    // Hent valgt alternativs tekst fra selector
+    const selectedText = selector.options[selector.selectedIndex].text;
 
-console.log(member);
+    // Vis en bekreftelsesmelding
+    const confirmMessage = `Bytte tilgang for ${member.navn}? \nFra ${member.rolle} til ${selectedText}`;
+    
+    if (confirm(confirmMessage)) {
+        console.log("Tilgang oppdatert for:", member);
+        let body = {rolle:selector.value};
+        //Oppdater server
+        PATCHairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",member.airtable,JSON.stringify(body),"responsrollChange");
+        //oppdater lokalt
 
+    } else {
+        
+        selector.value = member.rolle;  // Antar at rollen samsvarer med en option-verdi
+    }
+
+    console.log(member);
 }

@@ -10,6 +10,7 @@ var categories;
 var Employeemode = false;
 
 
+
 document.getElementById("elementlibrary").style.display = "none";
 
 function startUp(userid){
