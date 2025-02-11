@@ -323,6 +323,15 @@ document.getElementById("searshforemailbutton").addEventListener("click", functi
 // Eksempel på funksjon som kjøres hvis alt er korrekt
 function inviteUser(userInfo) {
     console.log("Inviterer bruker:", userInfo);
-    // Her kan du legge til logikk for å sende invitasjonen
+
+    let body = {navn:userInfo.name,epost:userInfo.email,telefon:userInfo.phone,rolle:userInfo.role,firma:[activeCompany.airtable],avsender:[userObject.airtable]};
+    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblc1AGhwc6MMu4Aw",JSON.stringify(body),"responseInvitationSendt")
+
 }
 
+
+function responseInvitationSendt(data){
+console.log(data);
+//generer en sharelink
+
+}

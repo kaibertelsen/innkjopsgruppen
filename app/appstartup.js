@@ -469,7 +469,11 @@ function ruteresponse(data,id){
         responsOnboarded(data);
     }else if(id == "responsEmailsearchServer"){
         responsEmailsearchServer(data);
+    }else if(id == "responseInvitationSendt"){
+        responseInvitationSendt(data);
     }
+
+    
     
 }
 

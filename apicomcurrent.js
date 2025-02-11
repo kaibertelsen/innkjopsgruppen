@@ -57,6 +57,23 @@ async function POSTairtable(baseId,tableId,body,id){
        let data = await response.json();
        apireturn (data,id);
 }
+
+async function POSTNewRowairtable(baseId,tableId,body,id){
+  let token = MemberStack.getToken();
+  let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`, {
+     method: "POST",
+     body:body,
+     headers: {
+     'Content-Type': 'application/json'
+      }
+     });
+     if (!response.ok) {
+      throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+      }else {
+      let data = await response.json();
+      apireturn({success: true, data: data, id: id});
+      }
+}
     
 async function DELETEairtable(baseId,tableId,itemId,id){
     let token = MemberStack.getToken();
