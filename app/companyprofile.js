@@ -243,17 +243,28 @@ function responsEmailsearchServer(data) {
         let user = response[0];
 
         // Vis bekreftelsesmelding
-        const confirmMessage = `Det finnes en bruker med denne e-posten!\nØnsker du å invitere brukeren med navn "${user.name}" og e-post "${user.epost}" til dette selskapet?`;
+        const confirmMessage = `Det finnes en bruker med denne e-posten!\nØnsker du å invitere brukeren med navn "${user.navn}" og e-post "${user.epost}" til dette selskapet?`;
 
         if (confirm(confirmMessage)) {
             console.log("Bruker skal inviteres:", user);
             // Her kan du legge til logikk for å invitere brukeren
+            //lag en invitasjon for denne brukeren
+            
         } else {
             console.log("Brukeren ble ikke invitert.");
         }
     } else {
         // Ingen bruker funnet, vis inputfeltene for navn og telefonnummer
+        newinvitatioUser(email);
        // document.getElementById("nameInputField").style.display = "block";
         //document.getElementById("phoneInputField").style.display = "block";
     }
+}
+
+
+function newinvitatioUser(user){
+    const epostfield = document.getElementById("emailinvitationfield");
+    const epostTextLable = document.getElementById("epostresponse");
+    epostTextLable.textContent = epostfield.value;
+    document.getElementById("newuserinvitation").style.display = "block"
 }
