@@ -471,6 +471,8 @@ function ruteresponse(data,id){
         responsEmailsearchServer(data);
     }else if(id == "responseInvitationSendt"){
         responseInvitationSendt(data);
+    }else if(id == "responPostpublicLink"){
+        responPostpublicLink(data);
     }
 
     

@@ -327,11 +327,56 @@ function inviteUser(userInfo) {
     let body = {navn:userInfo.name,epost:userInfo.email,telefon:userInfo.phone,rolle:userInfo.role,firma:[activeCompany.airtable],avsender:[userObject.airtable]};
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblc1AGhwc6MMu4Aw",JSON.stringify(body),"responseInvitationSendt")
 
+    document.getElementById("loadingscreenepostsearch").style.display = "block";
+
 }
 
 
-function responseInvitationSendt(data){
+function responseInvitationSendt(data) {
+    console.log(data);
+
+    // Skjul loading-skjermen
+    document.getElementById("loadingscreenepostsearch").style.display = "none";
+
+    // Generer en sharelink
+    let baseId = "app1WzN1IxEnVu3m0";
+    let tableId = "tblc1AGhwc6MMu4Aw";
+    let rowId = data.id;
+    let text = "Invitasjonslink";
+
+    // Beregn utløpsdatoen 3 måneder frem i tid
+    let expirationdate = new Date();
+    expirationdate.setMonth(expirationdate.getMonth() + 3);  // Legger til 3 måneder
+
+    // Konverter til ISO-format hvis nødvendig
+    let expirationdateISO = expirationdate.toISOString();
+
+    // Generer offentlig lenke
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateISO });
+}
+
+
+function generatePublicLink(data) {
+    // Sjekk om nødvendig data finnes
+    if (!data.baseId || !data.tableId || !data.rowId || !data.text || !data.expirationdate) {
+        console.error("Manglende data for å generere offentlig link.");
+        return;
+    }
+
+    // Generer body for POST-forespørselen
+    let body = {
+        query: `baseId=${data.baseId}&tableId=${data.tableId}&rowId=${data.rowId}`,
+        note: data.text,
+        expirationDate: data.expirationdate
+    };
+
+    // Send POST-forespørsel
+    POSTairtablepublicLink(JSON.stringify(body), "responPostpublicLink");
+}
+
+function responPostpublicLink(data){
+
 console.log(data);
-//generer en sharelink
+
 
 }
