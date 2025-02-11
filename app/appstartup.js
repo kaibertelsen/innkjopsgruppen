@@ -710,3 +710,29 @@ function formatDate(date) {
     return `${day}. ${month} ${year}`;
 }
 
+function ruteContorll(){
+    let shareId = getTokenFromURL("shareId");
+    let shareKey = getTokenFromURL("shareKey");
+    if (shareId && shareKey){
+    getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
+    }
+}
+
+function getTokenFromURL(key){
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get(key); // Henter verdien av 'id'-parameteren
+    return id;
+}
+
+
+function responsShareKeyControll(data) {
+    // Sjekk om tabellen er en invitasjonsforespørsel
+    if (data._table.name === "tblc1AGhwc6MMu4Aw") {
+        console.log("Dette er en invitasjonsforespørsel.");
+        //klikk på invitasjonssiden
+    } else {
+        console.log("Dette er ikke en invitasjonsforespørsel.");
+    }
+    // Logg hele dataobjektet for debugging
+    console.log(data);
+}

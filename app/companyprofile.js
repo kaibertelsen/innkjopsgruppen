@@ -383,22 +383,3 @@ function responPostpublicLink(data){
     //send denne linken på mail til 
 }
 
-function ruteContorll(){
-    let shareId = getTokenFromURL("shareId");
-    let shareKey = getTokenFromURL("shareKey");
-    if (shareId && shareKey){
-    getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
-    }
-}
-
-function getTokenFromURL(key){
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get(key); // Henter verdien av 'id'-parameteren
-    return id;
-}
-
-
-function responsShareKeyControll(data){
-
-console.log(data);
-}
