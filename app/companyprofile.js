@@ -120,14 +120,11 @@ function rollSelectorChange(selector, member, company) {
         if (confirm(confirmMessage)) {
             console.log("Ja, fjern denne brukeren");
         
-            // Hent brukerliste fra selskapet
-            let companyUsers = company.bruker;
-        
             // Finn og fjern brukeren basert på airtable-nøkkelen
-            companyUsers = companyUsers.filter(user => user.airtable !== member.airtable);
+            company.bruker = company.bruker.filter(user => user.airtable !== member.airtable);
         
             // Lag en array med de gjenværende brukernes ID
-            const remainingUserIds = companyUsers.map(user => user.airtable);
+            const remainingUserIds = company.bruker.map(user => user.airtable);
         
             // Opprett body for oppdatering
             let body = { bruker: remainingUserIds };
@@ -140,8 +137,8 @@ function rollSelectorChange(selector, member, company) {
                 JSON.stringify(body),
                 "responsrollChange"
             );
-        
-            console.log("Selskapet er oppdatert med de gjenværende brukerne.");
+            preLists(company);
+            
         } else {
             console.log("Nei, avbryt fjerning av denne brukeren");
             selector.value = member.rolle;  // Sett tilbake forrige verdi i selector
