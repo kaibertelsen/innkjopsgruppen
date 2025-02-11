@@ -1,5 +1,4 @@
 
-
 function companyPageChosed(company) {
    
     // Simulerer klikk på elementet
@@ -34,11 +33,12 @@ function companyPageChosed(company) {
     let post = conteinerpage.querySelector('.post');
     adress.textContent = company.postnr+" "+company.poststed;
 
-    preLists(company.bruker);
+    preLists(company);
 }
 
-function preLists(users){
+function preLists(company){
 
+let users = company.bruker;
 // Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
 users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));   
 
@@ -50,7 +50,6 @@ const listpri = document.getElementById("memberpriholderlist");
 listCompanyUsers(users.filter(user => user.rolle == "ansatt"),listpri,company);
 
 }
-
 
 function listCompanyUsers(users,list,company){
  
@@ -111,7 +110,6 @@ function listCompanyUsers(users,list,company){
 
 }
 
-
 function rollSelectorChange(selector, member, company) {
     // Hent valgt alternativs tekst fra selector
     const selectedText = selector.options[selector.selectedIndex].text;
@@ -151,7 +149,5 @@ function rollSelectorChange(selector, member, company) {
 }
 
 function responsrollChange(data){
-
 console.log(data);
-
 }
