@@ -115,11 +115,12 @@ function rollSelectorChange(selector, member, company) {
     const selectedText = selector.options[selector.selectedIndex].text;
 
     if(selector.value == "remove"){
-        const confirmMessage = `Er du sikker på at du vil fjerne brukeren ${member.navn}\nfra ${company.name}?`;
+        const confirmMessage = `Er du sikker på at du vil fjerne brukeren ${member.navn}\nfra ${company.Name}?`;
         if (confirm(confirmMessage)) {
             console.log("Ja fjern denne brukeren");
         }else{
             console.log("Nei avbryt fjerning av denne brukeren");
+            selector.value = member.rolle;
         }
 
     }else{
