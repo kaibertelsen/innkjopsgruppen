@@ -1,4 +1,5 @@
 var activeInvitation = {};
+var userInfoMail = {};
 
 document.getElementById("invitemembersbutton").addEventListener("click", function() {
    
@@ -324,14 +325,11 @@ document.getElementById("sendinvitationbutton").addEventListener("click", functi
 // Eksempel på funksjon som kjøres hvis alt er korrekt
 function inviteUser(userInfo) {
     console.log("Inviterer bruker:", userInfo);
-
+    userInfoMail = userInfo;
     let body = {navn:userInfo.name,epost:userInfo.email,telefon:userInfo.phone,rolle:userInfo.role,firma:[activeCompany.airtable],avsender:[userObject.airtable]};
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblc1AGhwc6MMu4Aw",JSON.stringify(body),"responseInvitationSendt")
-
     document.getElementById("loadingscreenepostsearch").style.display = "block";
-
 }
-
 
 function responseInvitationSendt(data) {
     console.log(data);
@@ -356,8 +354,6 @@ function responseInvitationSendt(data) {
     generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted });
 }
 
-
-
 function generatePublicLink(data) {
     // Sjekk om nødvendig data finnes
     if (!data.baseId || !data.tableId || !data.rowId || !data.text || !data.expirationdate) {
@@ -381,7 +377,37 @@ function responPostpublicLink(data){
     // Sett href-attributtet til ønsket URL
     let link = "https://portal.innkjops-gruppen.no/app-portal?"+"shareKey="+data.shareKey+"&shareId="+data.shareId;
     console.log(link);
-    //send denne linken på mail til 
+    //send denne linken på mail via zapier
+
+    let mailData = {
+            name:userInfoMail.name,
+            mail:userInfoMail.email,
+            phone:userInfoMail.phone,
+            link:link
+    };
+    sendMail(mailData);
+
+}
+
+async function sendMail(data) {
+    
+    const formData = new FormData();
+    for (const key in data) {
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+    }
+
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2avamvd/", {
+        method: "POST",
+        body: formData
+    });
+
+    if (response.ok) {
+      
+    } else {
+        console.error("Error sending data to Zapier:", response.statusText);
+    }
 }
 
 function startUserInvitationView(data){
