@@ -729,8 +729,7 @@ function responsShareKeyControll(data) {
     // Sjekk om tabellen er en invitasjonsforespørsel
     if (data._table.name === "tblc1AGhwc6MMu4Aw") {
         console.log("Dette er en invitasjonsforespørsel.");
-        startUserInvitationView(data);
-        
+        startUserInvitationView(data.fields);
     } else {
         console.log("Dette er ikke en invitasjonsforespørsel.");
     }
