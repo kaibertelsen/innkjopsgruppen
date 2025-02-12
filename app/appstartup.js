@@ -731,10 +731,19 @@ function formatDate(date) {
 function ruteContorll(){
     let shareId = getTokenFromURL("shareId");
     let shareKey = getTokenFromURL("shareKey");
+
+    let proCode = getTokenFromURL("proCode");
+    let actCode = getTokenFromURL("actCode");
+
+
+
     if (shareId && shareKey){
         isSharkey = true;
         document.getElementById("tabloadingsite").click();
         getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
+    }else if(proCode && actCode){
+        //aktiveringskode
+        runActivation({proCode,actCode});
     }else{
         isSharkey = false;
     }

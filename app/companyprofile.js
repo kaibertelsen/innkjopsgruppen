@@ -475,3 +475,12 @@ async function sendUserToZapier(data) {
         console.error("Error sending data to Zapier:", response.statusText);
     }
 }
+
+
+function runActivation({proCode,actCode}){
+
+    let password = atob(proCode);
+    let email = atob(actCode);
+    console.log(email,password);
+
+}
