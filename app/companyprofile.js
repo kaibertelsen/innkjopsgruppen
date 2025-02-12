@@ -447,7 +447,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
 
     // Krypter aktiveringskode (e-post + passord)
     let aCode = { email, password };
-    let activationCode = encryptData(aCode); // Nå kryptert med IV
+    let encryptedCode = encryptData(aCode); // Nå kryptert med IV
 
     let body = {
         epost: email,
@@ -457,7 +457,8 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
         rolle: role,
         airtable: invitationairtable,
         password: password,
-        activationCode: JSON.stringify(activationCode) // Lagret med IV
+        actCode: encryptedCode.encrypted,
+        viCode:encryptedCode.iv
     };
 
     // Send brukerdata til Zapier
@@ -493,8 +494,7 @@ async function sendUserToZapier(data) {
 function runActivation(data){
 
     //start activeringssiden
-    let crypted = JSON.parse(data);
-    let decrypted = decryptData(crypted);
+    let decrypted = decryptData(data);
 
     let password = decrypted.password;
     let email = decrypted.email;

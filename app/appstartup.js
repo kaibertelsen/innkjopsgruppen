@@ -732,14 +732,15 @@ function ruteContorll(){
     let shareId = getTokenFromURL("shareId");
     let shareKey = getTokenFromURL("shareKey");
     let actCode = getTokenFromURL("actCode");
+    let viCode = getTokenFromURL("viCode");
 
     if (shareId && shareKey){
         isSharkey = true;
         document.getElementById("tabloadingsite").click();
         getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
-    }else if(actCode){
+    }else if(actCode && viCode){
         //aktiveringskode
-        runActivation(actCode);
+        runActivation({key:actCode,vi:viCode});
     }else{
         isSharkey = false;
     }
