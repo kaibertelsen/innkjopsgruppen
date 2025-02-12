@@ -409,7 +409,7 @@ async function sendMail(data) {
     document.getElementById("newuserinvitation").style.display = "none";
     document.getElementById("sentdinvitationwrapper").style.display = "block";
     setTimeout(() => {
-        ddocument.getElementById("sentdinvitationwrapper").style.display = "none";
+        document.getElementById("sentdinvitationwrapper").style.display = "none";
     }, 3000);
     
     } else {
