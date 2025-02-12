@@ -14,7 +14,7 @@ function getSecretKey() {
     return key ? CryptoJS.enc.Hex.parse(key) : CryptoJS.enc.Hex.parse(generateSecretKey());
 }
 
-// 🔒 Krypter data med AES + IV (Må brukes i dekryptering også)
+// 🔒 Krypter data og returner én enkelt streng
 function encryptData(data) {
     let key = getSecretKey();
     let iv = CryptoJS.lib.WordArray.random(16); // Initialiseringsvektor (IV)
@@ -23,15 +23,22 @@ function encryptData(data) {
 
     let encrypted = CryptoJS.AES.encrypt(jsonData, key, { iv: iv }).toString();
 
-    return {
-        encrypted: encrypted,
-        iv: iv.toString(CryptoJS.enc.Hex) // Lagre IV separat
-    };
+    // Kombiner IV og kryptert data i ett JSON-objekt, og base64-enkod det
+    let combinedData = JSON.stringify({ encrypted: encrypted, iv: iv.toString(CryptoJS.enc.Hex) });
+
+    return btoa(combinedData); // Base64-enkoder for URL-sikker overføring
 }
 
-// 🔓 Dekrypter data med AES + IV (Bruker lagret IV)
-function decryptData(encryptedObject) {
-    // Sjekk om input er gyldig
+
+// 🔓 Dekrypter data fra én enkelt base64-enkodet streng
+function decryptData(encryptedString) {
+    // Base64-dekoder
+    let decodedString = atob(encryptedString);
+    
+    // Parse JSON tilbake til objekt
+    let encryptedObject = JSON.parse(decodedString);
+
+    // Sjekk at vi har de nødvendige verdiene
     if (!encryptedObject || !encryptedObject.encrypted || !encryptedObject.iv) {
         console.error("Feil: Ugyldig kryptert objekt", encryptedObject);
         return null;
@@ -44,15 +51,13 @@ function decryptData(encryptedObject) {
         let bytes = CryptoJS.AES.decrypt(encryptedObject.encrypted, key, { iv: iv });
         let decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
-        // Fjern nøkkelen etter dekryptering for ekstra sikkerhet
-        localStorage.removeItem("SECRET_KEY");
-
         return JSON.parse(decrypted); // Forsøk å parse JSON
     } catch (error) {
         console.error("Dekrypteringsfeil:", error);
         return null;
     }
 }
+
 
 
 
