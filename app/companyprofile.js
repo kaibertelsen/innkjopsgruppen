@@ -458,7 +458,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
         airtable: invitationairtable,
         password: password,
         actCode: encryptedCode.encrypted,
-        viCode:encryptedCode.iv
+        ivCode:encryptedCode.iv
     };
 
     // Send brukerdata til Zapier
