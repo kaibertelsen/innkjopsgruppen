@@ -435,7 +435,7 @@ function validatePasswords() {
 
 
 document.getElementById("acseptinvitationbutton").addEventListener("click", function() {
-
+    
     //sende inn data for å opprette bruker
     let password = document.getElementById("passwordinput2").value;
     let name = activeInvitation.navn;
@@ -445,7 +445,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     let role = activeInvitation.rolle;
     let invitationairtable = activeInvitation.airtable;
     let activationCode = btoa(email);
-    let proCode = btoa(password);
+    let proCode = encrypt(password,btoa(email));
 
     let body = {epost:email,telefon:phone,navn:name,company:companyId,rolle:role,airtable:invitationairtable,password:password,activationCode:activationCode,proCode:proCode};
     //opprett bruker i database
@@ -479,8 +479,19 @@ async function sendUserToZapier(data) {
 
 function runActivation(data){
 
-    let password = atob(data.proCode);
+    //start activeringssiden
+    let password = decrypt(data,atob(data.data.actCode));
     let email = atob(data.actCode);
     console.log(email,password);
 
+}
+
+
+function encrypt(data,SECRET_KEY) {
+    return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
+}
+
+function decrypt(data,SECRET_KEY) {
+    let bytes = CryptoJS.AES.decrypt(data, SECRET_KEY);
+    return bytes.toString(CryptoJS.enc.Utf8);
 }
