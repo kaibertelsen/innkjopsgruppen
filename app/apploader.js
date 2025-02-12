@@ -30,7 +30,8 @@ cdnScripts.reduce((promise, script) => {
             rootPageControll("list");
             sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
         }else{
-            document.getElementById("tablogin").click();
+            rootPageControll("login");
+            
         }
     });
 

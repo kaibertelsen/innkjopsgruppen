@@ -26,6 +26,8 @@ function rootPageControll(page){
             document.getElementById("tabwelcome").click();
         }else if(page == "list"){
             document.getElementById("tablist").click();
+        }else if(page == "login"){
+            document.getElementById("tablogin").click();
         }
     }
 
