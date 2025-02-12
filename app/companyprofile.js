@@ -389,10 +389,15 @@ function startUserInvitationView(data){
     
     const invitationuserwrapper = document.getElementById("invitationuserwrapper");
 
-    // Oppdater tekstinnhold i relevante elementer
-    invitationuserwrapper.querySelector(".namelabel")?.textContent = `Hei ${data.navn}.`;
-    invitationuserwrapper.querySelector(".infotextlable")?.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
-    invitationuserwrapper.querySelector(".emaillable")?.textContent = data.epost;
+    // Hent elementene og oppdater dem kun hvis de finnes
+    const nameText = invitationuserwrapper.querySelector(".namelabel");
+    if (nameText) nameText.textContent = `Hei ${data.navn}.`;
+
+    const infotextLabel = invitationuserwrapper.querySelector(".infotextlable");
+    if (infotextLabel) infotextLabel.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
+
+    const emailLabel = invitationuserwrapper.querySelector(".emaillable");
+    if (emailLabel) emailLabel.textContent = data.epost;
 
 }
 
