@@ -31,21 +31,29 @@ function encryptData(data) {
 
 // 🔓 Dekrypter data med AES + IV (Bruker lagret IV)
 function decryptData(encryptedObject) {
+    // Sjekk om input er gyldig
+    if (!encryptedObject || !encryptedObject.encrypted || !encryptedObject.iv) {
+        console.error("Feil: Ugyldig kryptert objekt", encryptedObject);
+        return null;
+    }
+
     let key = getSecretKey();
     let iv = CryptoJS.enc.Hex.parse(encryptedObject.iv); // Konverter IV tilbake til WordArray
 
-    let bytes = CryptoJS.AES.decrypt(encryptedObject.encrypted, key, { iv: iv });
-    let decrypted = bytes.toString(CryptoJS.enc.Utf8);
-
-    // Fjern nøkkelen etter dekryptering for ekstra sikkerhet
-    localStorage.removeItem("SECRET_KEY");
-
     try {
+        let bytes = CryptoJS.AES.decrypt(encryptedObject.encrypted, key, { iv: iv });
+        let decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
+        // Fjern nøkkelen etter dekryptering for ekstra sikkerhet
+        localStorage.removeItem("SECRET_KEY");
+
         return JSON.parse(decrypted); // Forsøk å parse JSON
-    } catch {
-        return decrypted; // Returner som tekst hvis ikke JSON
+    } catch (error) {
+        console.error("Dekrypteringsfeil:", error);
+        return null;
     }
 }
+
 
 
 
