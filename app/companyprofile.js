@@ -271,7 +271,6 @@ function newinvitatioUser(user){
     document.getElementById("newuserinvitation").style.display = "flex";
 }
 
-
 document.getElementById("sendinvitationbutton").addEventListener("click", function() {
     // Hent inputelementene
     const emailElement = document.getElementById("epostresponse");
@@ -322,7 +321,6 @@ document.getElementById("sendinvitationbutton").addEventListener("click", functi
     inviteUser({ email, name, phone, role });
 });
 
-// Eksempel på funksjon som kjøres hvis alt er korrekt
 function inviteUser(userInfo) {
     console.log("Inviterer bruker:", userInfo);
     userInfoMail = userInfo;
@@ -418,7 +416,23 @@ function startUserInvitationView(data){
     activeInvitation = data;
     //klikk på invitasjonssiden
     document.getElementById("userinvitationtabbutton").click();
+    const contentview = document.getElementById("presenderusercreate");
+    const acseptedwrapper = document.getElementById("acseptedwrapper");
     
+    
+    if(data?.akseptert){
+        contentview.style.display = "none";
+        acseptedwrapper.style.display = "block";
+        isSharkey = false;
+         // ⏳ Forsink innlogging med 3 sekunder (3000 millisekunder)
+            setTimeout(() => {
+                document.getElementById("logginbutton").click();
+        }, 3000);
+
+    }else{
+        contentview.style.display = "block";
+        acseptedwrapper.display = "none";
+
     const invitationuserwrapper = document.getElementById("invitationuserwrapper");
 
     // Hent elementene og oppdater dem kun hvis de finnes
@@ -430,6 +444,7 @@ function startUserInvitationView(data){
 
     const emailLabel = invitationuserwrapper.querySelector(".emaillable");
     if (emailLabel) emailLabel.textContent = data.epost;
+    }
 
 }
 
@@ -461,8 +476,6 @@ function validatePasswords() {
     errorText.style.display = "none";
     submitButton.style.display = "inline-block";
 }
-
-
 
 document.getElementById("acseptinvitationbutton").addEventListener("click", function() {
     
@@ -497,7 +510,6 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     document.getElementById("loadingscreeninvitation").style.display = "block";
 });
 
-
 async function sendUserToZapier(data) {
     
     const formData = new FormData();
@@ -520,7 +532,6 @@ async function sendUserToZapier(data) {
         console.error("Error sending data to Zapier:", response.statusText);
     }
 }
-
 
 function runActivation(data){
 
@@ -548,7 +559,6 @@ function runActivation(data){
             document.getElementById("logginbutton").click();
     }, 3000);
 }
-
 
 function removeUrlParameter(param) {
     let url = new URL(window.location.href);
