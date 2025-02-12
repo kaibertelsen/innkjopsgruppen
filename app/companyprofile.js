@@ -495,6 +495,8 @@ async function sendUserToZapier(data) {
 function runActivation(data){
 
     //start activeringssiden
+    document.getElementById("emailverificatiomtabbutton").click();
+    
 
     let decryptedData = decryptData(data);
 
