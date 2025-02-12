@@ -1,3 +1,4 @@
+var activeInvitation = {};
 
 document.getElementById("invitemembersbutton").addEventListener("click", function() {
    
@@ -384,6 +385,8 @@ function responPostpublicLink(data){
 }
 
 function startUserInvitationView(data){
+
+    activeInvitation = data;
     //klikk på invitasjonssiden
     document.getElementById("userinvitationtabbutton").click();
     
@@ -420,4 +423,28 @@ function validatePasswords() {
         errorText.style.display = "none";
         submitButton.style.display = "inline-block"; // Viser knappen når passordene er like
     }
+}
+
+
+document.getElementById("acseptinvitationbutton").addEventListener("click", function() {
+
+    //sende inn data for å opprette bruker
+    let password = document.getElementById("passwordinput2").value;
+    let name = activeInvitation.navn;
+    let email = activeInvitation.apost;
+    let companyId = activeInvitation.firma;
+    let phone = activeInvitation.telefon;
+    let role = activeInvitation.rolle;
+
+    let body = {epost:email,telefon:phone,navn:name,company:[companyId],rolle:role};
+    //opprett bruker i database
+    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",JSON.stringify(body),"responseCreatUser");
+
+    //hvis loading
+    document.getElementById("loadingscreenepostsearch").style.display = "block";
+});
+
+function responseCreatUser(data){
+    document.getElementById("loadingscreenepostsearch").style.display = "none";
+    console.log(data);
 }

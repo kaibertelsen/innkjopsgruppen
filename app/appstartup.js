@@ -9,6 +9,7 @@ var areas;
 var categories;
 var Employeemode = false;
 var isSharkey = false;
+var isLoggedin = false;
 
 
 
@@ -17,7 +18,6 @@ document.getElementById("elementlibrary").style.display = "none";
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
 }
-
 
 function rootPageControll(page){
 
@@ -32,7 +32,6 @@ function rootPageControll(page){
     }
 
 }
-
 
 function userResponse(data) {
     // Sjekk om data.fields.companyjson eksisterer og er en array
@@ -492,6 +491,8 @@ function ruteresponse(data,id){
         responPostpublicLink(data);
     }else if(id == "responsShareKeyControll"){
         responsShareKeyControll(data);
+    }else if(id == "responseCreatUser"){
+        responseCreatUser(data);
     }
 
     

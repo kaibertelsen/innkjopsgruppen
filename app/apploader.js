@@ -25,13 +25,14 @@ cdnScripts.reduce((promise, script) => {
     ruteContorll();
     MemberStack.onReady.then(function(member) {
         if (member.loggedIn){
+            isLoggedin = true;
             userid = member.airtableid;
             startUp(userid);
             rootPageControll("list");
             sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
         }else{
+            isLoggedin = false;
             rootPageControll("login");
-            
         }
     });
 
