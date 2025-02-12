@@ -511,6 +511,7 @@ function runActivation(data){
      //logg inn
     document.getElementById("email").value = email;
     document.getElementById("password").value = password;
+    sessionStorage.setItem("rootToApp", "true");
     document.getElementById("logginbutton").click();
 }
 
