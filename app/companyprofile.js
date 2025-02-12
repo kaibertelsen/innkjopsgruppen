@@ -441,7 +441,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     sendUserToZapier(body);
 
     //hvis animasjon
-    document.getElementById("loadingscreenepostsearch").style.display = "block";
+    document.getElementById("loadingscreeninvitation").style.display = "block";
 });
 
 async function sendUserToZapier(data) {
@@ -460,7 +460,7 @@ async function sendUserToZapier(data) {
     });
 
     if (response.ok) {
-        document.getElementById("loadingscreenepostsearch").style.display = "none";
+        document.getElementById("loadingscreeninvitation").style.display = "none";
     } else {
         console.error("Error sending data to Zapier:", response.statusText);
     }
