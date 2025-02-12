@@ -22,18 +22,18 @@ cdnScripts.reduce((promise, script) => {
     return promise.then(() => loadScript(script));
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
+    ruteContorll();
     MemberStack.onReady.then(function(member) {
         if (member.loggedIn){
             userid = member.airtableid;
             startUp(userid);
-            document.getElementById("tablist").click();
+            rootPageControll("list");
             sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
         }else{
             document.getElementById("tablogin").click();
         }
     });
 
-    ruteContorll();
 }).catch(error => {
     console.error(error);
 });

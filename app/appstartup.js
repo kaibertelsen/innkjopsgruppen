@@ -8,6 +8,7 @@ var mainlistElementClass = ".suppliercard";
 var areas;
 var categories;
 var Employeemode = false;
+var isSharkey = false;
 
 
 
@@ -16,6 +17,20 @@ document.getElementById("elementlibrary").style.display = "none";
 function startUp(userid){
     GETairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,"userResponse");
 }
+
+
+function rootPageControll(page){
+
+    if(!isSharkey){
+        if(page == "welcome"){
+            document.getElementById("tabwelcome").click();
+        }else if(page == "list"){
+            document.getElementById("tablist").click();
+        }
+    }
+
+}
+
 
 function userResponse(data) {
     // Sjekk om data.fields.companyjson eksisterer og er en array
@@ -29,7 +44,7 @@ function userResponse(data) {
         console.log("Brukeren er allerede onboarded.");
     } else {
         // Brukeren er ikke onboarded, fortsett med onboarding-prosessen
-        document.getElementById("tabwelcome").click();
+        rootPageControll("welcome");
     }
     userObject = data.fields;
     // Konverter JSON-strenger til objekter
@@ -714,7 +729,11 @@ function ruteContorll(){
     let shareId = getTokenFromURL("shareId");
     let shareKey = getTokenFromURL("shareKey");
     if (shareId && shareKey){
-    getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
+        isSharkey = true;
+        document.getElementById("tabloadingsite").click();
+        getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
+    }else{
+        isSharkey = false;
     }
 }
 
@@ -735,4 +754,5 @@ function responsShareKeyControll(data) {
     }
     // Logg hele dataobjektet for debugging
     console.log(data);
+    isSharkey = false;
 }
