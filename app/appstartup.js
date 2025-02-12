@@ -738,7 +738,7 @@ function ruteContorll(){
         isSharkey = true;
         document.getElementById("tabloadingsite").click();
         getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
-    }else if(actCode && ivCodeCode){
+    }else if(actCode && ivCode){
         //aktiveringskode
         runActivation({key:actCode,vi:ivCode});
     }else{
