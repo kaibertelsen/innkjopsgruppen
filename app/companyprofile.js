@@ -410,19 +410,27 @@ function validatePasswords() {
     const errorText = document.getElementById("passwordError");
     const submitButton = document.getElementById("acseptinvitationbutton");
 
-    if (password1.length < 4 || password2.length < 4) {
-        errorText.style.display = "none";
-        submitButton.style.display = "none"; // Skjuler knappen til passordene er validert
+    // Nullstill feilmelding
+    errorText.style.display = "none";
+    submitButton.style.display = "none";
+
+    // Sjekk lengdekravet
+    if (password1.length < 8 || password2.length < 8) {
+        errorText.textContent = "Passordet må være minst 8 tegn langt.";
+        errorText.style.display = "block";
         return;
     }
 
+    // Sjekk om passordene samsvarer
     if (password1 !== password2) {
+        errorText.textContent = "Passordene samsvarer ikke.";
         errorText.style.display = "block";
-        submitButton.style.display = "none"; // Skjuler knappen hvis passordene ikke samsvarer
-    } else {
-        errorText.style.display = "none";
-        submitButton.style.display = "inline-block"; // Viser knappen når passordene er like
+        return;
     }
+
+    // Hvis alle krav er oppfylt, vis knappen
+    errorText.style.display = "none";
+    submitButton.style.display = "inline-block";
 }
 
 
