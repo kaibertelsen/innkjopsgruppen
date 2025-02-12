@@ -1,5 +1,5 @@
 // Bruk CryptoJS fra CDN hvis du ikke har installert det via npm
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+//<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 // 🔑 Generer en tilfeldig 256-bit SECRET_KEY og lagre i localStorage
 function generateSecretKey() {
