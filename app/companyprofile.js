@@ -423,10 +423,8 @@ function startUserInvitationView(data){
     if(data?.akseptert){
         contentview.style.display = "none";
         acseptedwrapper.style.display = "block";
-        isSharkey = false;
-         // ⏳ Forsink innlogging med 3 sekunder (3000 millisekunder)
-            setTimeout(() => {
-                document.getElementById("logginbutton").click();
+        setTimeout(() => {
+            window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
         }, 3000);
 
     }else{
