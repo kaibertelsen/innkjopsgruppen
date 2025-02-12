@@ -444,10 +444,11 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     let phone = activeInvitation.telefon;
     let role = activeInvitation.rolle;
     let invitationairtable = activeInvitation.airtable;
-    let activationCode = btoa(email);
-    let proCode = encrypt(password,btoa(email));
+    let aCode = {email,password};
+    let activationCode = encryptData(aCode);
+    
 
-    let body = {epost:email,telefon:phone,navn:name,company:companyId,rolle:role,airtable:invitationairtable,password:password,activationCode:activationCode,proCode:proCode};
+    let body = {epost:email,telefon:phone,navn:name,company:companyId,rolle:role,airtable:invitationairtable,password:password,activationCode:activationCode};
     //opprett bruker i database
     sendUserToZapier(body);
 
@@ -480,18 +481,10 @@ async function sendUserToZapier(data) {
 function runActivation(data){
 
     //start activeringssiden
-    let password = decrypt(data,atob(data.data.actCode));
-    let email = atob(data.actCode);
+    let decrypted = decryptData(encrypted);
+
+    let password = decrypted.password;
+    let email = decrypted.email;
     console.log(email,password);
 
-}
-
-
-function encrypt(data,SECRET_KEY) {
-    return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
-}
-
-function decrypt(data,SECRET_KEY) {
-    let bytes = CryptoJS.AES.decrypt(data, SECRET_KEY);
-    return bytes.toString(CryptoJS.enc.Utf8);
 }

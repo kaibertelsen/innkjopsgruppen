@@ -14,6 +14,7 @@ const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/app/elementtriggers.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/app/filterlist.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/app/companyprofile.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/app/crypto.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js"
 ];
 
