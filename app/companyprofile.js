@@ -445,8 +445,9 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     let role = activeInvitation.rolle;
     let invitationairtable = activeInvitation.airtable;
     let activationCode = btoa(email);
+    let proCode = btoa(email);
 
-    let body = {epost:email,telefon:phone,navn:name,company:companyId,rolle:role,airtable:invitationairtable,password:password,activationCode:activationCode};
+    let body = {epost:email,telefon:phone,navn:name,company:companyId,rolle:role,airtable:invitationairtable,password:password,activationCode:activationCode,proCode:proCode};
     //opprett bruker i database
     sendUserToZapier(body);
 
