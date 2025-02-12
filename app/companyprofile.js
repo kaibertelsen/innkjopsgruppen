@@ -481,7 +481,7 @@ async function sendUserToZapier(data) {
 function runActivation(data){
 
     //start activeringssiden
-    let decrypted = decryptData(encrypted);
+    let decrypted = decryptData(data);
 
     let password = decrypted.password;
     let email = decrypted.email;

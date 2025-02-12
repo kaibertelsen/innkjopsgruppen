@@ -731,8 +731,6 @@ function formatDate(date) {
 function ruteContorll(){
     let shareId = getTokenFromURL("shareId");
     let shareKey = getTokenFromURL("shareKey");
-
-    let proCode = getTokenFromURL("proCode");
     let actCode = getTokenFromURL("actCode");
 
 
@@ -741,9 +739,9 @@ function ruteContorll(){
         isSharkey = true;
         document.getElementById("tabloadingsite").click();
         getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
-    }else if(proCode && actCode){
+    }else if(actCode){
         //aktiveringskode
-        runActivation({proCode,actCode});
+        runActivation(actCode);
     }else{
         isSharkey = false;
     }
