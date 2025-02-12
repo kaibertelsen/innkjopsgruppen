@@ -432,7 +432,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     let password = document.getElementById("passwordinput2").value;
     let name = activeInvitation.navn;
     let email = activeInvitation.epost;
-    let companyId = activeInvitation.firma;
+    let companyId = activeInvitation?.firma?.[0] || "";
     let phone = activeInvitation.telefon;
     let role = activeInvitation.rolle;
 
