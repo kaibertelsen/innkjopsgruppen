@@ -477,10 +477,10 @@ async function sendUserToZapier(data) {
 }
 
 
-function runActivation({proCode,actCode}){
+function runActivation(data){
 
-    let password = atob(proCode);
-    let email = atob(actCode);
+    let password = atob(data.proCode);
+    let email = atob(data.actCode);
     console.log(email,password);
 
 }
