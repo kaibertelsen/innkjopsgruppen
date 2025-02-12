@@ -405,7 +405,13 @@ async function sendMail(data) {
     });
 
     if (response.ok) {
-      
+      //da er mailen sendt til mottaker
+    document.getElementById("newuserinvitation").style.display = "none";
+    document.getElementById("sentdinvitationwrapper").style.display = "block";
+    setTimeout(() => {
+        ddocument.getElementById("sentdinvitationwrapper").style.display = "none";
+    }, 3000);
+    
     } else {
         console.error("Error sending data to Zapier:", response.statusText);
     }
