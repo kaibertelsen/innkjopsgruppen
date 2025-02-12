@@ -438,13 +438,30 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
 
     let body = {epost:email,telefon:phone,navn:name,company:[companyId],rolle:role};
     //opprett bruker i database
-    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",JSON.stringify(body),"responseCreatUser");
+    sendUserToZapier(body);
 
-    //hvis loading
+    //hvis animasjon
     document.getElementById("loadingscreenepostsearch").style.display = "block";
 });
 
-function responseCreatUser(data){
-    document.getElementById("loadingscreenepostsearch").style.display = "none";
-    console.log(data);
+async function sendUserToZapier(data) {
+    
+
+    const formData = new FormData();
+    for (const key in data) {
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+    }
+
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2ajscws/", {
+        method: "POST",
+        body: formData
+    });
+
+    if (response.ok) {
+        document.getElementById("loadingscreenepostsearch").style.display = "none";
+    } else {
+        console.error("Error sending data to Zapier:", response.statusText);
+    }
 }
