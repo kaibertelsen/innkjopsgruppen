@@ -495,10 +495,32 @@ async function sendUserToZapier(data) {
 function runActivation(data){
 
     //start activeringssiden
+
     let decryptedData = decryptData(data);
 
     let password = decryptedData.password;
     let email = decryptedData.email;
-    console.log(email,password);
+    document.getElementById("verificationemaillable").textContent = email;
 
+    // 🚀 Fjern 'key' fra URL-en
+    removeUrlParameter('key');  
+    isSharkey = false;
+
+     //logg inn
+    document.getElementById("email").value = email;
+    document.getElementById("password").value = password;
+    document.getElementById("logginbutton").click();
 }
+
+
+function removeUrlParameter(param) {
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+
+    // Fjern parameteren
+    params.delete(param);
+    // Oppdater URL uten å laste siden på nytt
+    window.history.replaceState({}, document.title, url.pathname + '?' + params.toString());
+   
+}
+
