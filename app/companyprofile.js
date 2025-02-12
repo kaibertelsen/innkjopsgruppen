@@ -456,7 +456,6 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
 
 async function sendUserToZapier(data) {
     
-
     const formData = new FormData();
     for (const key in data) {
         const value = data[key];
