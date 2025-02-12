@@ -733,8 +733,6 @@ function ruteContorll(){
     let shareKey = getTokenFromURL("shareKey");
     let actCode = getTokenFromURL("actCode");
 
-
-
     if (shareId && shareKey){
         isSharkey = true;
         document.getElementById("tabloadingsite").click();
