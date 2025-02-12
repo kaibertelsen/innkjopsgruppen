@@ -484,6 +484,8 @@ async function sendUserToZapier(data) {
 
     if (response.ok) {
         document.getElementById("loadingscreeninvitation").style.display = "none";
+        document.getElementById("presenderusercreate").style.display = "none";
+        document.getElementById("emailissendtwrapper").style.display = "block";
     } else {
         console.error("Error sending data to Zapier:", response.statusText);
     }
