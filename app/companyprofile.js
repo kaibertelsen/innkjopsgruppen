@@ -448,7 +448,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     // Krypter aktiveringskode (e-post + passord)
     let aCode = { email, password };
     let encryptedCode = encryptData(aCode); // Nå kryptert med IV
-    let decrypted = decryptData(encryptedCode);
+    //let decrypted = decryptData(encryptedCode);
 
     let body = {
         epost: email,
