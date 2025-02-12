@@ -740,7 +740,7 @@ function ruteContorll(){
         getRecordWithShareKeyButton(shareId,shareKey,"responsShareKeyControll");
     }else if(actCode && ivCode){
         //aktiveringskode
-        runActivation({key:actCode,vi:ivCode});
+        runActivation({key:actCode,iv:ivCode});
     }else{
         isSharkey = false;
     }
