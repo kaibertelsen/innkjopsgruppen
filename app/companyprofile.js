@@ -387,7 +387,13 @@ function startUserInvitationView(data){
     //klikk på invitasjonssiden
     document.getElementById("userinvitationtabbutton").click();
     
-    
+    const invitationuserwrapper = document.getElementById("invitationuserwrapper");
+
+    // Oppdater tekstinnhold i relevante elementer
+    invitationuserwrapper.querySelector(".namelabel")?.textContent = `Hei ${data.navn}.`;
+    invitationuserwrapper.querySelector(".infotextlable")?.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
+    invitationuserwrapper.querySelector(".emaillable")?.textContent = data.epost;
+
 }
 
 function validatePasswords() {
