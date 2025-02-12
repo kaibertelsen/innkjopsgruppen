@@ -431,7 +431,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     //sende inn data for å opprette bruker
     let password = document.getElementById("passwordinput2").value;
     let name = activeInvitation.navn;
-    let email = activeInvitation.apost;
+    let email = activeInvitation.epost;
     let companyId = activeInvitation.firma;
     let phone = activeInvitation.telefon;
     let role = activeInvitation.rolle;
