@@ -385,7 +385,8 @@ function responPostpublicLink(data){
             phone:userInfoMail.phone,
             role:userInfoMail.role,
             companyname:activeCompany.Name,
-            link:link
+            link:link,
+            sendername:userObject.navn
     };
     sendMail(mailData);
 
