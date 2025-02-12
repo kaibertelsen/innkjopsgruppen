@@ -436,7 +436,7 @@ function validatePasswords() {
 
 document.getElementById("acseptinvitationbutton").addEventListener("click", function() {
     
-    //sende inn data for å opprette bruker
+    // Hent brukerdata
     let password = document.getElementById("passwordinput2").value;
     let name = activeInvitation.navn;
     let email = activeInvitation.epost;
@@ -444,17 +444,29 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
     let phone = activeInvitation.telefon;
     let role = activeInvitation.rolle;
     let invitationairtable = activeInvitation.airtable;
-    let aCode = {email,password};
-    let activationCode = encryptData(aCode);
-    
 
-    let body = {epost:email,telefon:phone,navn:name,company:companyId,rolle:role,airtable:invitationairtable,password:password,activationCode:activationCode};
-    //opprett bruker i database
+    // Krypter aktiveringskode (e-post + passord)
+    let aCode = { email, password };
+    let activationCode = encryptData(aCode); // Nå kryptert med IV
+
+    let body = {
+        epost: email,
+        telefon: phone,
+        navn: name,
+        company: companyId,
+        rolle: role,
+        airtable: invitationairtable,
+        password: password,
+        activationCode: activationCode // Lagret med IV
+    };
+
+    // Send brukerdata til Zapier
     sendUserToZapier(body);
 
-    //hvis animasjon
+    // Vis lasteskjerm
     document.getElementById("loadingscreeninvitation").style.display = "block";
 });
+
 
 async function sendUserToZapier(data) {
     
