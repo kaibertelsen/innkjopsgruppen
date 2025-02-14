@@ -386,17 +386,31 @@ function responPostpublicLink(data){
     console.log(link);
     //send denne linken på mail via zapier
 
-    let mailData = {
-            name:userInfoMail.name,
-            mail:userInfoMail.email,
-            phone:userInfoMail.phone,
-            role:userInfoMail.role,
+    let mailData = {};
+    if(userInfoMail?.airtable){
+        //dette er en eksisterende bruker som er invitert
+        mailData = {
+            name:userInfoMail.navn,
+            mail:userInfoMail.epost,
+            phone:userInfoMail.telefon,
             companyname:activeCompany.Name,
             link:link,
             sendername:userObject.navn
-    };
-    sendMail(mailData);
+        };
 
+    }else{
+        mailData = {
+                name:userInfoMail.name,
+                mail:userInfoMail.email,
+                phone:userInfoMail.phone,
+                role:userInfoMail.role,
+                companyname:activeCompany.Name,
+                link:link,
+                sendername:userObject.navn
+        };
+    }
+
+    sendMail(mailData);
 }
 
 async function sendMail(data) {
