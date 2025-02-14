@@ -34,11 +34,7 @@ function rootPageControll(page){
 }
 
 function userResponse(data) {
-    // Sjekk om data.fields.companyjson eksisterer og er en array
-    if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
-        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.companyjson' som en array.");
-        return; // Avbryt hvis data ikke er gyldig
-    }
+  
 
     if (data.fields?.onboarded && data.fields.onboarded === true) {
         // Brukeren er allerede onboarded
@@ -47,7 +43,14 @@ function userResponse(data) {
         // Brukeren er ikke onboarded, fortsett med onboarding-prosessen
         rootPageControll("welcome");
     }
+
     userObject = data.fields;
+
+      // Sjekk om data.fields.companyjson eksisterer og er en array
+      if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
+        console.error("Brukeren har ikke noe selskap tilknyttet");
+        return; // Avbryt hvis data ikke er gyldig
+        }
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.companyjson;
     companys = convertJsonStringsToObjects(jsonStrings);
