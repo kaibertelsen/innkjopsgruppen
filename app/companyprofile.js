@@ -251,6 +251,7 @@ function responsEmailsearchServer(data) {
             console.log("Bruker skal inviteres:", user);
             // Her kan du legge til logikk for å invitere brukeren
             //lag en invitasjon for denne brukeren
+            inviteExistingUser(user)
             
         } else {
             console.log("Brukeren ble ikke invitert.");
@@ -263,6 +264,13 @@ function responsEmailsearchServer(data) {
     }
 }
 
+function inviteExistingUser(user) {
+    console.log("Inviterer bruker:", userInfo);
+    userInfoMail = userInfo;
+    let body = {bruker:[user.airtable],navn:user.navn,epost:user.epost,telefon:user.telefon,firma:[activeCompany.airtable],avsender:[userObject.airtable]};
+    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblc1AGhwc6MMu4Aw",JSON.stringify(body),"responseInvitationSendt")
+    document.getElementById("loadingscreenepostsearch").style.display = "block";
+}
 
 function newinvitatioUser(user){
     const epostfield = document.getElementById("emailinvitationfield");
@@ -328,6 +336,8 @@ function inviteUser(userInfo) {
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblc1AGhwc6MMu4Aw",JSON.stringify(body),"responseInvitationSendt")
     document.getElementById("loadingscreenepostsearch").style.display = "block";
 }
+
+
 
 function responseInvitationSendt(data) {
     console.log(data);
