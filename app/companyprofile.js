@@ -395,7 +395,8 @@ function responPostpublicLink(data){
             phone:userInfoMail.telefon,
             companyname:activeCompany.Name,
             link:link,
-            sendername:userObject.navn
+            sendername:userObject.navn,
+            exist:true
         };
 
     }else{
@@ -406,7 +407,8 @@ function responPostpublicLink(data){
                 role:userInfoMail.role,
                 companyname:activeCompany.Name,
                 link:link,
-                sendername:userObject.navn
+                sendername:userObject.navn,
+                exist:false
         };
     }
 
