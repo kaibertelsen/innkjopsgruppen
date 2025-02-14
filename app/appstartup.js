@@ -198,6 +198,21 @@ function suppliersReady(){
     companyChange(selector.value);
 }
 
+function employeeModeLayout(status){
+
+    const companypagebutton = document.getElementById("companypagebutton");
+    const savingmoneybutton = document.getElementById("savingmoneybutton");
+    
+    if(status){
+        companypagebutton.style.display = "none";
+        savingmoneybutton.style.display = "none";
+    }else{
+        companypagebutton.style.display = "block";
+        savingmoneybutton.style.display = "block";
+    }
+
+}
+
 function companyChange(companyId) {
     console.log("List på bakgrunn av dette selskapet: " + companyId);
     let filteredSuppliers = [];
@@ -238,7 +253,7 @@ function companyChange(companyId) {
         logoImage.src = logourl;
     }
 
-
+    employeeModeLayout(Employeemode);
 
     activeSupplierList = filteredSuppliers;
     listSuppliers(activeSupplierList);
