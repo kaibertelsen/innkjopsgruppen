@@ -265,7 +265,7 @@ function responsEmailsearchServer(data) {
 }
 
 function inviteExistingUser(user) {
-    userInfoMail = userInfo;
+    userInfoMail = user;
     let body = {bruker:[user.airtable],navn:user.navn,epost:user.epost,telefon:user.telefon,firma:[activeCompany.airtable],avsender:[userObject.airtable]};
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblc1AGhwc6MMu4Aw",JSON.stringify(body),"responseInvitationSendt")
     document.getElementById("loadingscreenepostsearch").style.display = "block";
