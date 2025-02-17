@@ -38,15 +38,23 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 
 function emailContactMerge(companylist) {
     companylist.forEach(company => {
-        // Filtrer ut brukere som ikke har rollen "ansatt" og hent e-postene
-        company.emails = (company.bruker || [])
+        // Hent e-post fra brukere som ikke er "ansatt"
+        let emails = (company.bruker || [])
             .filter(user => user.rolle !== "ansatt") // Utelat "ansatt"
-            .map(user => user.epost) // Hent e-postene
-            .join(","); // Slå sammen til en kommaseparert streng
+            .map(user => user.epost); // Hent e-postene
+
+        // Hvis det ikke finnes brukere, sjekk "invitasjon"-feltet
+        if (emails.length === 0) {
+            emails = (company.invitasjon || []).map(invite => invite.epost);
+        }
+
+        // Lagre resultatet i "emails" som en kommaseparert streng
+        company.emails = emails.join(",");
     });
 
     return companylist; // Returnerer den oppdaterte listen
 }
+
 
 
 
