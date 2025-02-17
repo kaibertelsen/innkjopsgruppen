@@ -337,7 +337,6 @@ function inviteUser(userInfo) {
 }
 
 
-
 function responseInvitationSendt(data) {
     console.log(data);
 
@@ -449,7 +448,8 @@ function startUserInvitationView(data){
     document.getElementById("userinvitationtabbutton").click();
     const contentview = document.getElementById("presenderusercreate");
     const acseptedwrapper = document.getElementById("acseptedwrapper");
-    
+    const uapwrapper = document.getElementById("usernameandpasswordwrapper");
+    const acseptbutton = document.getElementById("acseptinvitationbutton");
     
     if(data?.akseptert){
         contentview.style.display = "none";
@@ -458,7 +458,15 @@ function startUserInvitationView(data){
             window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
         }, 3000);
 
+    }else if(data?.bruker){
+        //dette er en eksisterende bruker og vindu for passord skal ikke vises
+        uapwrapper.style.display = "none";
+        acseptbutton.addEventListener("click", function() {
+            acseptInvitationExistUser(data);
+        });
+
     }else{
+        uapwrapper.style.display = "block";
         contentview.style.display = "block";
         acseptedwrapper.display = "none";
 
@@ -473,6 +481,10 @@ function startUserInvitationView(data){
 
     const emailLabel = invitationuserwrapper.querySelector(".emaillable");
     if (emailLabel) emailLabel.textContent = data.epost;
+
+    acseptbutton.addEventListener("click", function() {
+        acseptInvitationNewUser();
+    });
     }
 
 }
@@ -506,8 +518,31 @@ function validatePasswords() {
     submitButton.style.display = "inline-block";
 }
 
-document.getElementById("acseptinvitationbutton").addEventListener("click", function() {
-    
+function acseptInvitationExistUser(data){
+//hente ut brukere på selskapet
+GETairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",data.firma[0],"acseptInvitationcompanyResponse");
+//slå på loading
+
+}
+function acseptInvitationcompanyResponse(data){
+
+let company = data.fields;
+//legge til denne brukeren i array 
+
+//oppdatere selskapet
+
+//reload side
+
+
+}
+
+
+
+
+
+
+
+function acseptInvitationNewUser(){
     // Hent brukerdata
     let password = document.getElementById("passwordinput2").value;
     let name = activeInvitation.navn;
@@ -537,7 +572,7 @@ document.getElementById("acseptinvitationbutton").addEventListener("click", func
 
     // Vis lasteskjerm
     document.getElementById("loadingscreeninvitation").style.display = "block";
-});
+};
 
 async function sendUserToZapier(data) {
     
