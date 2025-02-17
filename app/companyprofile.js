@@ -225,12 +225,29 @@ console.log(data);
 }
 
 document.getElementById("searshforemailbutton").addEventListener("click", function() {
-    //søk etter brukere med denne eposten
-    const epostfield = document.getElementById("emailinvitationfield");
-    let body = airtablebodylistAND({epost:epostfield.value});
-    Getlistairtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responsEmailsearchServer");
+    
+    const epostField = document.getElementById("emailinvitationfield");
+    const epostValue = epostField.value.trim(); // Fjerner eventuelle mellomrom
+
+    // Sjekk først om denne brukeren allerede er i selskapet
+    let users = company.bruker || []; // Sikrer at det ikke krasjer hvis 'bruker' ikke er definert
+    
+    // Bruker "some()" for å sjekke om epost allerede finnes i users-arrayen
+    let userExists = users.some(user => user.epost === epostValue);
+
+    if (userExists) {
+        alert("Denne brukeren er allerede lagt til i dette selskapet.");
+        return; // Stopper funksjonen hvis brukeren finnes
+    }
+
+    // Søk etter brukere med denne e-posten på serveren
+    let body = airtablebodylistAND({ epost: epostValue });
+    Getlistairtable("app1WzN1IxEnVu3m0", "tblMhgrvy31ihKYbr", body, "responsEmailsearchServer");
+
+    // Viser en loading-indikator mens søket pågår
     document.getElementById("loadingscreenepostsearch").style.display = "block";
 });
+
     
 function responsEmailsearchServer(data) {
     document.getElementById("loadingscreenepostsearch").style.display = "none";
