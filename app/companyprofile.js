@@ -478,21 +478,21 @@ function startUserInvitationView(data){
         contentview.style.display = "block";
         acseptedwrapper.display = "none";
 
-    const invitationuserwrapper = document.getElementById("invitationuserwrapper");
+        const invitationuserwrapper = document.getElementById("invitationuserwrapper");
 
-    // Hent elementene og oppdater dem kun hvis de finnes
-    const nameText = invitationuserwrapper.querySelector(".namelabel");
-    if (nameText) nameText.textContent = `Hei ${data.navn}.`;
+        // Hent elementene og oppdater dem kun hvis de finnes
+        const nameText = invitationuserwrapper.querySelector(".namelabel");
+        if (nameText) nameText.textContent = `Hei ${data.navn}.`;
 
-    const infotextLabel = invitationuserwrapper.querySelector(".infotextlable");
-    if (infotextLabel) infotextLabel.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
+        const infotextLabel = invitationuserwrapper.querySelector(".infotextlable");
+        if (infotextLabel) infotextLabel.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
 
-    const emailLabel = invitationuserwrapper.querySelector(".emaillable");
-    if (emailLabel) emailLabel.textContent = data.epost;
+        const emailLabel = invitationuserwrapper.querySelector(".emaillable");
+        if (emailLabel) emailLabel.textContent = data.epost;
 
-    acseptbutton.addEventListener("click", function() {
-        acseptInvitationNewUser();
-    });
+        acseptbutton.addEventListener("click", function() {
+            acseptInvitationNewUser();
+        });
     }
 
 }
