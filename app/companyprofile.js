@@ -336,7 +336,6 @@ function inviteUser(userInfo) {
     document.getElementById("loadingscreenepostsearch").style.display = "block";
 }
 
-
 function responseInvitationSendt(data) {
     console.log(data);
 
@@ -434,6 +433,10 @@ async function sendMail(data) {
     document.getElementById("sentdinvitationwrapper").style.display = "block";
     setTimeout(() => {
         document.getElementById("sentdinvitationwrapper").style.display = "none";
+        //tøm feltet
+        document.getElementById("emailinvitationfield").value = "";
+        //animer skjul
+        document.getElementById("invitemembersbutton").click();
     }, 3000);
     
     } else {
@@ -533,7 +536,8 @@ GETairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",data.firma[0],"acceptInvitat
 document.getElementById("loadingscreeninvitation").style.display = "block";
 
 }
-function acceptInvitationCompanyResponse(data) {  // Rettet "acsept" til "accept" for riktig engelsk stavemåte
+
+function acceptInvitationCompanyResponse(data) {
 
     let company = data.fields;
 
@@ -579,11 +583,6 @@ function responseInvitationAccept() {
     // Laster inn siden på nytt
     location.reload();
 }
-
-
-
-
-
 
 function acseptInvitationNewUser(){
     // Hent brukerdata
