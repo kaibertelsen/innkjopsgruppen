@@ -38,12 +38,16 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 
 function emailContactMerge(companylist) {
     companylist.forEach(company => {
-        // Henter alle e-poster fra bruker-arrayen og lager en kommaseparert streng
-        company.emails = (company.bruker || []).map(user => user.epost).join(",");
+        // Filtrer ut brukere som ikke har rollen "ansatt" og hent e-postene
+        company.emails = (company.bruker || [])
+            .filter(user => user.rolle !== "ansatt") // Utelat "ansatt"
+            .map(user => user.epost) // Hent e-postene
+            .join(","); // Slå sammen til en kommaseparert streng
     });
 
     return companylist; // Returnerer den oppdaterte listen
 }
+
 
 
 document.getElementById("exportsumportecompanys").addEventListener("click", () => {
