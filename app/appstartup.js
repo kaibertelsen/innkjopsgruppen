@@ -511,13 +511,15 @@ function ruteresponse(data,id){
         responsShareKeyControll(data);
     }else if(id == "responseCreatUser"){
         responseCreatUser(data);
-    }else if(id == "acseptInvitationcompanyResponse"){
-        acseptInvitationcompanyResponse(data);
-    }else if(id == "responseUserInvitationAcseptExist"){
-        responseUserInvitationAcseptExist(data);
+    }else if(id == "acceptInvitationCompanyResponse"){
+        acceptInvitationCompanyResponse(data);
+    }else if(id == "responseUserInvitationAcceptExist"){
+        responseUserInvitationAcceptExist(data);
+    }else if(id == "responseInvitationAccept"){
+        responseInvitationAccept(data);
     }
 
-
+    
 }
 
 function convertJsonStringsToObjects(jsonStrings) {

@@ -528,30 +528,58 @@ function validatePasswords() {
 
 function acseptInvitationExistUser(data){
 //hente ut brukere på selskapet
-GETairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",data.firma[0],"acseptInvitationcompanyResponse");
+GETairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",data.firma[0],"acceptInvitationCompanyResponse");
 //slå på loading
+document.getElementById("loadingscreeninvitation").style.display = "block";
 
 }
-function acseptInvitationcompanyResponse(data){
+function acceptInvitationCompanyResponse(data) {  // Rettet "acsept" til "accept" for riktig engelsk stavemåte
 
-let company = data.fields;
-//legge til denne brukeren i array 
-let userarray = data.fields.bruker || [];
-//oppdatere selskapet
-userarray.push(activeInvitation.bruker[0]);
-let body = {bruker:userarray};
-patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",data.id,JSON.stringify(body),"responseUserInvitationAcseptExist")
+    let company = data.fields;
 
+    // Legger til brukeren i arrayet
+    let userArray = company.bruker || [];
 
+    // Oppdaterer selskapet med den nye brukeren
+    userArray.push(activeInvitation.bruker[0]);
 
+    let body = { bruker: userArray };
+
+    // Sender oppdateringen til Airtable
+    patchAirtable(
+        "app1WzN1IxEnVu3m0",
+        "tblFySDb9qVeVVY5c",
+        data.id,
+        JSON.stringify(body),
+        "responseUserInvitationAcceptExist" 
+    );
 }
 
-function responseUserInvitationAcseptExist(data){
+function responseUserInvitationAcceptExist(data) {  
 
-//reload side
+    //Oppdater invitasjon til akseptert på ServiceWorkerRegistration
+let body = { akseptert: true };
 
+    // Sender oppdateringen til Airtable
+    patchAirtable(
+        "app1WzN1IxEnVu3m0",
+        "tblFySDb9qVeVVY5c",
+        activeInvitation.airtable,
+        JSON.stringify(body),
+        "responseInvitationAccept" 
+    );
 
+   
 }
+
+function responseInvitationAccept() {
+    // Fjerner alle query-parametere fra URL-en
+    window.history.replaceState(null, null, window.location.pathname);
+
+    // Laster inn siden på nytt
+    location.reload();
+}
+
 
 
 
