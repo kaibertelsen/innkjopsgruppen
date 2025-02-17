@@ -138,12 +138,14 @@ function exportDashBoard(companys,name){
         winningdate: "Vunnet dato",
         invoicedate: "Faktura dato",
         exit: "Oppsigelses dato",
-        airtable:"SystemID"
+        airtable:"SystemID",
+        emails:"E-poster"
     };
 
     // Generer filnavn
     let filename = name;
 
+    companys = emailContactMerge(companys);
     // Eksporter til Excel
     exportData(companys, fieldMapping, filename);
 }
