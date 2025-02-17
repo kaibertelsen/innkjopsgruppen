@@ -27,8 +27,8 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 
     // Generer filnavn
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
-    // Eksempelbruk
-     const updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet ditt
+    
+     let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet ditt
      updatedexportData = emailContactMerge(updatedexportData);
     //add contactemails
     
