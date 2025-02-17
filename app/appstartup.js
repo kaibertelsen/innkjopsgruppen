@@ -513,7 +513,10 @@ function ruteresponse(data,id){
         responseCreatUser(data);
     }else if(id == "acseptInvitationcompanyResponse"){
         acseptInvitationcompanyResponse(data);
+    }else if(id == "responseUserInvitationAcseptExist"){
+        responseUserInvitationAcseptExist(data);
     }
+
 
 }
 

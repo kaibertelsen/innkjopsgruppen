@@ -536,15 +536,22 @@ function acseptInvitationcompanyResponse(data){
 
 let company = data.fields;
 //legge til denne brukeren i array 
-
+let userarray = data.fields.bruker || [];
 //oppdatere selskapet
+userarray.push(activeInvitation.airtable);
+let body = {bruker:userarray};
+patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",data.id,JSON.stringify(body),"responseUserInvitationAcseptExist")
+
+
+
+}
+
+function responseUserInvitationAcseptExist(data){
 
 //reload side
 
 
 }
-
-
 
 
 
