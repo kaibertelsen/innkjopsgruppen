@@ -14,7 +14,8 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         winningdate: "Vunnet dato",
         invoicedate: "Faktura dato",
         exit: "Oppsigelses dato",
-        airtable:"SystemID"
+        airtable:"SystemID",
+        emails:"E-poster"
     };
 
     // Hent tekstverdier fra selectorer
@@ -26,11 +27,23 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
 
     // Generer filnavn
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
-// Eksempelbruk
+    // Eksempelbruk
      const updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet ditt
+     updatedexportData = emailContactMerge(updatedexportData);
+    //add contactemails
+    
     // Eksporter til Excel
     exportData(updatedexportData, fieldMapping, filename);
 });
+
+function emailContactMerge(companylist) {
+    companylist.forEach(company => {
+        // Henter alle e-poster fra bruker-arrayen og lager en kommaseparert streng
+        company.emails = (company.bruker || []).map(user => user.epost).join(",");
+    });
+
+    return companylist; // Returnerer den oppdaterte listen
+}
 
 
 document.getElementById("exportsumportecompanys").addEventListener("click", () => {
