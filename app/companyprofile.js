@@ -460,6 +460,14 @@ function startUserInvitationView(data){
 
     }else if(data?.bruker){
         //dette er en eksisterende bruker og vindu for passord skal ikke vises
+
+        // Hent elementene og oppdater dem kun hvis de finnes
+    const nameText = invitationuserwrapper.querySelector(".namelabel");
+    if (nameText) nameText.textContent = `Hei ${data.navn}.`;
+
+        const infotextLabel = invitationuserwrapper.querySelector(".infotextlable");
+        if (infotextLabel) infotextLabel.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
+        acseptbutton.style.display = "lnline-block";
         uapwrapper.style.display = "none";
         acseptbutton.addEventListener("click", function() {
             acseptInvitationExistUser(data);
