@@ -90,7 +90,7 @@ function listCustomer(data) {
     
         // Filtrer selskaper basert på registreringsdato for oppsigelse
         filteredData = data.filter(company => {
-            const exitRegisteredAt = new Date(company.exitRegisteredAt);
+            let exitRegisteredAt = company.exitRegisteredAt ? new Date(company.exitRegisteredAt) : new Date(company.exit);
     
             // Sjekk at datoen er gyldig og innenfor valgt periode
             return !isNaN(exitRegisteredAt) && exitRegisteredAt >= startDate && exitRegisteredAt <= endDate;
