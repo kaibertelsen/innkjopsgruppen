@@ -180,6 +180,7 @@ function listCustomer(data) {
         const kickbackCell = companyElement.querySelector(".kickbakvaluetext");
         const winningDateCell = companyElement.querySelector(".winingdatetext");
         const exitDateCell = companyElement.querySelector(".exitdatetext");
+        const exitRegisteredAtCell = companyElement.querySelector(".exitregisteredat");
         const invoiceDateCell = companyElement.querySelector(".invoicedatetext");
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
         const besparelseCell = companyElement.querySelector(".besparelse");
@@ -238,6 +239,11 @@ function listCustomer(data) {
         : "Ingen dato";
         exitDateCell.textContent = exitDate;
 
+        const exitRegisteredAt = company.exitRegisteredAt
+        ? company.exitRegisteredAt.split("T")[0]
+        : "Ingen dato";
+        exitRegisteredAtCell.textContent = exitRegisteredAt;
+
         const valuegroup = company.valuegroup
             ? `${parseFloat(company.valuegroup).toLocaleString()} kr`
             : "0 kr";
@@ -251,23 +257,7 @@ function listCustomer(data) {
         orgnrCell.addEventListener("click", () => triggerEditInput(orgnrCell, company, "orgnr"));
         valuegroupCell.addEventListener("click", () => triggerEditInput(valuegroupCell, company, "valuegroup"));
         altnameCell.addEventListener("click", () => triggerEditInput(altnameCell, company, "altname"));
-        /*
-        valuegroupCell.addEventListener("click", () => {
-            const options = [
-                { text: "12.000 kr", value: 12000 },
-                { text: "24.000 kr", value: 24000 },
-                { text: "36.000 kr", value: 36000 },
-                { text: "0 kr", value: 0 },
-                {text:"Annet beløp",value:""}
-            ];
-            triggerEditDropdown(valuegroupCell, company, "valuegroup", options, selectedOption => {
-                const updatedValue = selectedOption.value;
-                valuegroupCell.textContent = `${updatedValue.toLocaleString()} kr`;
-                updateCompanyData(company.airtable, { valuegroup: updatedValue });
-            });
-        });
-        */
-
+        
 
         groupCell.addEventListener("click", () => {
             const groupOptions = Array.from(document.getElementById("dashboardgroupselector").options)
@@ -316,6 +306,10 @@ function listCustomer(data) {
 
         exitDateCell.addEventListener("click", () => {
             triggerEditDate(exitDateCell, company, "exit");
+        });
+
+        exitRegisteredAtCell.addEventListener("click", () => {
+            triggerEditDate(exitRegisteredAtCell, company, "exitRegisteredAt");
         });
 
         const moreinfoDiv = companyElement.querySelector(".moreinfowrapper");
