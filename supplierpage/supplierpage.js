@@ -23,7 +23,7 @@ function startConnectionList(data) {
         return;
     }
 
-    list.replaceChildren(); // Clear the list container
+    list.replaceChildren(); // Rens listen før ny data legges til
 
     const elementLibrary = document.getElementById("elementconnectionholder");
     if (!elementLibrary) {
@@ -37,46 +37,45 @@ function startConnectionList(data) {
         return;
     }
 
-    // Update connection counter
-    document.getElementById("connectioncounter").textContent = data.length + " stk. tilkoblede selskaper.";
+    // Bruk et sett for å lagre unike kombinasjoner av company[0] + supplier[0]
+    const uniqueConnections = new Set();
+    const filteredData = [];
 
-    // Sort data by lastmodified (newest first)
-    data.sort((a, b) => {
-        const dateA = new Date(a.lastmodified);
-        const dateB = new Date(b.lastmodified);
-        return dateB - dateA; // Descending order
+    data.forEach(connection => {
+        const companyId = connection.company?.[0] || "";
+        const supplierId = connection.supplier?.[0] || "";
+        const uniqueKey = `${companyId}-${supplierId}`;
+
+        if (!uniqueConnections.has(uniqueKey)) {
+            uniqueConnections.add(uniqueKey);
+            filteredData.push(connection);
+        }
     });
 
-    // Populate the list
-    data.forEach((connections, index) => {
+    // Oppdater telleren for antall unike tilkoblinger
+    document.getElementById("connectioncounter").textContent = filteredData.length + " stk. tilkoblede selskaper.";
+
+    // Sorter data etter `lastmodified` (nyeste først)
+    filteredData.sort((a, b) => new Date(b.lastmodified) - new Date(a.lastmodified));
+
+    // Populer listen med unike data
+    filteredData.forEach((connection, index) => {
         const rowElement = nodeElement.cloneNode(true);
 
-        // Add class for alternating row styles
+        // Legg til klasse for annenhver rad (alternating styles)
         if (index % 2 === 1) {
             rowElement.classList.add("pair");
         }
 
-        // Populate the row with data
-        rowElement.querySelector(".date").textContent = formatDate(connections.lastmodified) || "Ingen dato";
-        rowElement.querySelector(".company").textContent = connections.companyname || "";
-        rowElement.querySelector(".person").textContent = connections.companybrukernavn || "";
-        /*
-        // Create a link for the sender element
-        const senderElement = rowElement.querySelector(".sender");
-        if (senderElement) {
-            const emailLink = document.createElement("a");
-            emailLink.textContent = connections.brukernavn || "";
-            emailLink.href = `mailto:${connections.useremail || ""}`;
-            emailLink.target = "_blank"; // Opens email client in a new tab/window
-            senderElement.replaceChildren(emailLink);
-        }
-        */
+        // Populer raden med data
+        rowElement.querySelector(".date").textContent = formatDate(connection.lastmodified) || "Ingen dato";
+        rowElement.querySelector(".company").textContent = connection.companyname?.[0] || "";
+        rowElement.querySelector(".person").textContent = connection.companybrukernavn?.[0] || "";
 
-        // Append the populated row to the list
+        // Legg til rad i listen
         list.appendChild(rowElement);
     });
 }
-
 
 
 function formatNameList(nameList) {
