@@ -11,7 +11,7 @@ function respondconnections(data){
         company.company && company.company.length > 0
     );
     
-    GlobalConnections = cleanedList;
+    
     startConnectionList(cleanedList);
     
 }
@@ -58,6 +58,7 @@ function startConnectionList(data) {
     // Sorter data etter `lastmodified` (nyeste først)
     filteredData.sort((a, b) => new Date(b.lastmodified) - new Date(a.lastmodified));
 
+    GlobalConnections = filteredData;
     // Populer listen med unike data
     filteredData.forEach((connection, index) => {
         const rowElement = nodeElement.cloneNode(true);
