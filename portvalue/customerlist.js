@@ -849,7 +849,7 @@ function updateCompanyData(companyId, fieldValue) {
                     let date = today.toISOString().split("T")[0]; // Setter kun dato (YYYY-MM-DD)
 
                     company.exitRegisteredAt = date;
-                let exitRegisteredAtObject = {field:"exitRegisteredAt",value:date}
+                let exitRegisteredAtObject = {exitRegisteredAt:date}
                 //save to server
                 saveToServer(companyId, exitRegisteredAtObject);
                 }
