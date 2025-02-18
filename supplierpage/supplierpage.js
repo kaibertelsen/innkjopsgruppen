@@ -113,7 +113,7 @@ function formatDate(inputDate) {
 
 document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Feltene du vil hente
-    const selectedFields = ["lastmodified", "companyorgnr", "companyname", "useremail", "companybrukernavn"];
+    const selectedFields = ["lastmodified", "companyorgnr", "companyname", "useremail", "companybrukernavn","companyuseremail"];
 
     // Mapping til nye navn
     const fieldMapping = {
