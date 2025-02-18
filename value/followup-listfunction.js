@@ -72,6 +72,10 @@ function startFollowinglistElement(data) {
             ? company.lastfollowupdate.split("T")[0] 
             : "-";
 
+            rowElement.querySelector(".exitdate").textContent = company.exitdate 
+            ? company.exitdate.split("T")[0] 
+            : "-";
+
             rowElement.querySelector(".daysagain").textContent = company.daytorenewal+" dager" || "Ingen data";
 
 
