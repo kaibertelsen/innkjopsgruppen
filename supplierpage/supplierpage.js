@@ -121,7 +121,8 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         companyorgnr: "Orgnummer",
         companyname: "Selskapsnavn",
         useremail: "Innsender",
-        companybrukernavn: "Brukere"
+        companybrukernavn: "Brukere",
+        companyuseremail: "Bruker e-poster"
     };
 
     let filename = "Tilkoblinger for " + GlobalConnections[0].suppliername[0];
