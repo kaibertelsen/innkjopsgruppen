@@ -70,19 +70,31 @@ function listCustomer(data) {
         });
         
     }else if (selectedFilter === "exit") {
-    // Filtrer selskaper som har en gyldig dato i "exit"-feltet
-    filteredData = data.filter(company => {
-        const exitDate = new Date(company.exit);
-        
-        // Sjekk at exit-feltet eksisterer og er en gyldig dato
-        return company.exit && !isNaN(exitDate);
-    });
-    } else if (selectedFilter === "supplier") {
-       // Filtrer alle kunder som har "supplier" i feltet "type"
-       filteredData = data.filter(company => 
-        company.type === "supplier"
-        );
-
+        // Hent valgt periode fra listdateselector
+        const dateRange = document.getElementById("listdateselector").value.split(",");
+        const startDate = new Date(dateRange[0]);
+        const endDate = new Date(dateRange[1]);
+    
+        // Filtrer selskaper basert på exit-dato
+        filteredData = data.filter(company => {
+            const exitDate = new Date(company.exit);
+    
+            // Sjekk at exit-feltet eksisterer, er en gyldig dato og innenfor perioden
+            return company.exit && !isNaN(exitDate) && exitDate >= startDate && exitDate <= endDate;
+        });
+    }else if (selectedFilter === "exitRegistered") {
+        // Hent valgt periode fra listdateselector
+        const dateRange = document.getElementById("listdateselector").value.split(",");
+        const startDate = new Date(dateRange[0]);
+        const endDate = new Date(dateRange[1]);
+    
+        // Filtrer selskaper basert på registreringsdato for oppsigelse
+        filteredData = data.filter(company => {
+            const exitRegisteredAt = new Date(company.exitRegisteredAt);
+    
+            // Sjekk at datoen er gyldig og innenfor valgt periode
+            return !isNaN(exitRegisteredAt) && exitRegisteredAt >= startDate && exitRegisteredAt <= endDate;
+        });
     }else if (selectedFilter === "duplicate") {
         // Opprett to Maps for å spore duplikater basert på normaliserte navn og orgnr
         const nameMap = new Map();
@@ -146,7 +158,7 @@ function listCustomer(data) {
 
 
     }
-
+    
 
     const dateSelector = document.getElementById("listdateselector");
     let selectedValue = dateSelector.value;
