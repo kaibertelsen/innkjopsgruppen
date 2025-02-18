@@ -826,7 +826,7 @@ function triggerEditDate(cell, company, field) {
 
 function updateCompanyData(companyId, fieldValue) {
 
-    const company = klientdata.find(item => item.airtable === companyId);
+    let company = klientdata.find(item => item.airtable === companyId);
 
     if (company) {
         // Oppdater lokalt
@@ -842,7 +842,21 @@ function updateCompanyData(companyId, fieldValue) {
                 dashboardNeedsUpdate = true;
             }else if (field === "exit"){
                 dashboardNeedsUpdate = true;
+                // Sjekk om exitRegisteredAt er satt, hvis ikke, sett den til dagens dato uten klokkeslett
+                if (!company.exitRegisteredAt) {
+                    let today = new Date();
+                    today.setHours(0, 0, 0, 0); // Nullstiller klokkeslettet
+                    let date = today.toISOString().split("T")[0]; // Setter kun dato (YYYY-MM-DD)
+
+                    company.exitRegisteredAt = date;
+                let exitRegisteredAtObject = {field:"exitRegisteredAt",value:date}
+                //save to server
+                saveToServer(companyId, exitRegisteredAtObject);
+                }
+
             }else if (field === "type"){
+                dashboardNeedsUpdate = true;
+            }else if(field === "exitRegisteredAt"){
                 dashboardNeedsUpdate = true;
             }
         }
@@ -854,7 +868,7 @@ function updateCompanyData(companyId, fieldValue) {
             const salsboardData = calculatingSaleDashboard(klientdata);
             loadDashboardsale(salsboardData);
         }
-
+        
         // Oppdater på server
         saveToServer(companyId, fieldValue);
   
