@@ -29,7 +29,7 @@ function hideMenye(){
 function showMenye(){
     const menyElement = document.getElementById("menyelementwrapper");
     menyElement.style.height = menyElement.scrollHeight + "px";
-    menyElement.style.width = menyElement.scrollWidth + "px";
+    menyElement.style.maxWidth = "500px"; // Sett en max-grense for animasjonen
 }
 
 
