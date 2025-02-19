@@ -28,8 +28,9 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Generer filnavn
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
     
-     let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet ditt
-     updatedexportData = emailContactMerge(updatedexportData);
+    let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet
+    updatedexportData = emailContactMerge(updatedexportData);
+    updatedexportData = nameContactMerge(companylist)
     //add contactemails
     
     // Eksporter til Excel
@@ -55,6 +56,24 @@ function emailContactMerge(companylist) {
     return companylist; // Returnerer den oppdaterte listen
 }
 
+function nameContactMerge(companylist) {
+    companylist.forEach(company => {
+        // Hent navn fra brukere som ikke er "ansatt"
+        let names = (company.bruker || [])
+            .filter(user => user.rolle !== "ansatt") // Utelat "ansatt"
+            .map(user => user.navn); // Hent e-postene
+
+        // Hvis det ikke finnes brukere, sjekk "invitasjon"-feltet
+        if (names.length === 0) {
+            names = (company.invitasjon || []).map(invite => invite.navn);
+        }
+
+        // Lagre resultatet i "emails" som en kommaseparert streng
+        company.names = names.join(",");
+    });
+
+    return companylist; // Returnerer den oppdaterte listen
+}
 
 
 
