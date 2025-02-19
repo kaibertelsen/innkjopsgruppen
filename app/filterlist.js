@@ -230,3 +230,27 @@ function filterSupplierListsearchField(data) {
 
     return filteredData;
 }
+
+
+document.getElementById("PersonalTaggButton").addEventListener("click", function() {
+    dealsTypeSwitch()
+});
+
+document.getElementById("BusinessTaggButton").addEventListener("click", function() {
+    dealsTypeSwitch()
+});
+
+function dealsTypeSwitch() {
+    const personalButton = document.getElementById("PersonalTaggButton");
+    const businessButton = document.getElementById("BusinessTaggButton");
+
+    if (personalButton.classList.contains("active")) {
+        personalButton.classList.remove("active");
+        businessButton.classList.add("active");
+    } else {
+        businessButton.classList.remove("active");
+        personalButton.classList.add("active");
+    }
+}
+
+
