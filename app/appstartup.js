@@ -12,6 +12,7 @@ var isSharkey = false;
 var isLoggedin = false;
 
 document.getElementById("menybuttonopener").addEventListener("click", function() {
+    const menyElement = document.getElementById("menyelementwrapper");
     if (menyElement.style.height === "0px" || menyElement.style.height === "") {
         showMenye();
     } else {
