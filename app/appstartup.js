@@ -23,7 +23,7 @@ document.getElementById("menybuttonopener").addEventListener("click", function()
 function hideMenye(){
     const menyElement = document.getElementById("menyelementwrapper");
     menyElement.style.height = "0px"; // Skjuler igjen
-    menyElement.style.width = "0px"; // Skjuler igjen
+    menyElement.style.maxWidth = "0px"
 }
 
 function showMenye(){
