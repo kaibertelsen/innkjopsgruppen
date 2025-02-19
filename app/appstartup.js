@@ -85,6 +85,10 @@ function userResponse(data) {
     // Last data inn i selector
     loadSelector(selector, companys);
 
+    //om det bare er et selskap så skjul rullegardin
+   if(companys.length<2){
+        selector.style.display = "none";
+   }
     
     // Sjekk om favorittselskap eksisterer og velg det, ellers velg første selskap
     if (data.fields?.companystart) {
