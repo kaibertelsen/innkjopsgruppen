@@ -76,8 +76,6 @@ function nameContactMerge(companylist) {
     return companylist; // Returnerer den oppdaterte listen
 }
 
-
-
 document.getElementById("exportsumportecompanys").addEventListener("click", () => {
     // Hent tekstverdier fra selectorer
     const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
@@ -167,6 +165,7 @@ function exportDashBoard(companys,name){
         invoicedate: "Faktura dato",
         exit: "Oppsigelses dato",
         airtable:"SystemID",
+        names:"Kontaktpersoner",
         emails:"E-poster"
     };
 
@@ -174,6 +173,7 @@ function exportDashBoard(companys,name){
     let filename = name;
 
     companys = emailContactMerge(companys);
+    companys = nameContactMerge(companys);
     // Eksporter til Excel
     exportData(companys, fieldMapping, filename);
 }
