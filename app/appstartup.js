@@ -32,7 +32,6 @@ function showMenye(){
     menyElement.style.maxWidth = "500px"; // Sett en max-grense for animasjonen
 }
 
-
 document.getElementById("elementlibrary").style.display = "none";
 
 function startUp(userid){
@@ -75,7 +74,7 @@ function userResponse(data) {
     const jsonStrings = data.fields.companyjson;
     companys = convertJsonStringsToObjects(jsonStrings);
     // Legg til objektet øverst i arrayen
-    companys.unshift({ Name: "Ansattavtaler", airtable: "ansatt"});
+    //companys.unshift({ Name: "Ansattavtaler", airtable: "ansatt"});
     // Hent selector fra DOM
     const selector = document.getElementById("companySelector");
     if (!selector) {
@@ -83,10 +82,10 @@ function userResponse(data) {
         return;
     }
 
-    
     // Last data inn i selector
     loadSelector(selector, companys);
 
+    
     // Sjekk om favorittselskap eksisterer og velg det, ellers velg første selskap
     if (data.fields?.companystart) {
         const favoriteCompanyId = data.fields.companystart[0];
