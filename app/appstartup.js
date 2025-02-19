@@ -23,11 +23,13 @@ document.getElementById("menybuttonopener").addEventListener("click", function()
 function hideMenye(){
     const menyElement = document.getElementById("menyelementwrapper");
     menyElement.style.height = "0px"; // Skjuler igjen
+    menyElement.style.width = "0px"; // Skjuler igjen
 }
 
 function showMenye(){
     const menyElement = document.getElementById("menyelementwrapper");
     menyElement.style.height = menyElement.scrollHeight + "px";
+    menyElement.style.width = menyElement.scrollWidth + "px";
 }
 
 
