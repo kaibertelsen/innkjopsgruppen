@@ -233,11 +233,13 @@ function filterSupplierListsearchField(data) {
 
 
 document.getElementById("PersonalTaggButton").addEventListener("click", function() {
-    dealsTypeSwitch()
+    dealsTypeSwitch();
+    companyChange("");
 });
 
 document.getElementById("BusinessTaggButton").addEventListener("click", function() {
-    dealsTypeSwitch()
+    dealsTypeSwitch();
+    companyChange("");
 });
 
 function dealsTypeSwitch() {
@@ -253,4 +255,8 @@ function dealsTypeSwitch() {
     }
 }
 
+function isPersonalModeON(){
+    const personalButton = document.getElementById("PersonalTaggButton");
+return personalButton.classList.contains("active");
+}
 

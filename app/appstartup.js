@@ -87,7 +87,7 @@ function userResponse(data) {
 
     //om det bare er et selskap så skjul rullegardin
    if(companys.length<2){
-        selector.style.display = "none";
+    selector.style.display = "none";
    }
     
     // Sjekk om favorittselskap eksisterer og velg det, ellers velg første selskap
@@ -239,7 +239,7 @@ function employeeModeLayout(status){
 function companyChange(companyId) {
     console.log("List på bakgrunn av dette selskapet: " + companyId);
     let filteredSuppliers = [];
-    if(companyId == "ansatt"){
+    if(isPersonalModeON()){
         filteredSuppliers = suppliers.filter(supplier => {
             return supplier.category.some(category => category.airtable === "recSbtJnNprzB42fd");
         });
