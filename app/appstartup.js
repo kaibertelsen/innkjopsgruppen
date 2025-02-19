@@ -65,11 +65,17 @@ function userResponse(data) {
 
     userObject = data.fields;
 
-      // Sjekk om data.fields.companyjson eksisterer og er en array
-      if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
+    // Sjekk om data.fields.companyjson eksisterer og er en array
+    if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
         console.error("Brukeren har ikke noe selskap tilknyttet");
         return; // Avbryt hvis data ikke er gyldig
-        }
+    }
+
+    if (data?.fields?.rolle === "ansatt") {
+        // Dette er en ansattbruker
+        setEmployerMode();
+    }
+    
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.companyjson;
     companys = convertJsonStringsToObjects(jsonStrings);
@@ -221,19 +227,22 @@ function suppliersReady(){
     companyChange(selector.value);
 }
 
-function employeeModeLayout(status){
+function employerModeLayout(status){
 
     const companypagebutton = document.getElementById("companypagebutton");
     const savingmoneybutton = document.getElementById("savingmoneybutton");
+    const dealsIcon = document.getElementById("filtermydealsbutton");
     
     if(status){
         companypagebutton.style.display = "none";
         savingmoneybutton.style.display = "none";
+        dealsIcon.style.display = "none";
     }else{
         companypagebutton.style.display = "block";
         savingmoneybutton.style.display = "block";
+        dealsIcon.style.display = "inline-block";
     }
-
+   
 }
 
 function companyChange(companyId) {
@@ -243,12 +252,10 @@ function companyChange(companyId) {
         filteredSuppliers = suppliers.filter(supplier => {
             return supplier.category.some(category => category.airtable === "recSbtJnNprzB42fd");
         });
-        Employeemode = true;
-        document.getElementById("filtermydealsbutton").style.display = "none";
+       
     }else{
         // Finn selskapet basert på ID
         const selectedCompany = companys.find(company => company.airtable === companyId);
-
         if (!selectedCompany) {
             console.error("Fant ikke selskap med ID: " + companyId);
             return;
@@ -261,8 +268,7 @@ function companyChange(companyId) {
             return supplier.group.some(group => group.airtable === selectedCompany.group);
         });
 
-        Employeemode = false;
-        document.getElementById("filtermydealsbutton").style.display = "inline-block";
+        
 
         //last inn gruppenslogo eller bruk standard
         let logourl;
@@ -275,8 +281,6 @@ function companyChange(companyId) {
         logoImage.removeAttribute("srcset");
         logoImage.src = logourl;
     }
-
-    employeeModeLayout(Employeemode);
 
     activeSupplierList = filteredSuppliers;
     listSuppliers(activeSupplierList);

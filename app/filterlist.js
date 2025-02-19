@@ -247,9 +247,11 @@ function dealsTypeSwitch() {
     if (personalButton.classList.contains("active")) {
         personalButton.classList.remove("active");
         businessButton.classList.add("active");
+        employerModeLayout(false);
     } else {
         businessButton.classList.remove("active");
         personalButton.classList.add("active");
+        employerModeLayout(true);
     }
     suppliersReady();
 }
@@ -259,3 +261,12 @@ function isPersonalModeON(){
 return personalButton.classList.contains("active");
 }
 
+function setEmployerMode(){
+
+    const personalButton = document.getElementById("PersonalTaggButton");
+    const businessButton = document.getElementById("BusinessTaggButton");
+    businessButton.classList.remove("active");
+    personalButton.classList.add("active");
+    employerModeLayout(true);
+
+}
