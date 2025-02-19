@@ -11,7 +11,15 @@ var Employeemode = false;
 var isSharkey = false;
 var isLoggedin = false;
 
+document.getElementById("menybuttonopener").addEventListener("click", function() {
+    const menyElement = document.getElementById("menyelementwrapper");
 
+    if (menyElement.style.height === "0px" || menyElement.style.height === "") {
+        menyElement.style.height = menyElement.scrollHeight + "px"; // Setter høyden til innholdets faktiske høyde
+    } else {
+        menyElement.style.height = "0px"; // Skjuler igjen
+    }
+});
 
 document.getElementById("elementlibrary").style.display = "none";
 

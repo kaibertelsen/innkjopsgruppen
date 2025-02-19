@@ -153,10 +153,6 @@ function listCustomer(data) {
             // Returner true hvis alle kriteriene er oppfylt
             return isValueGroupZero && isNotInExcludedGroups;
         });
-
-
-
-
     }
     
 
