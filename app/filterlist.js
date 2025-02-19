@@ -11,8 +11,8 @@ function loadFilter() {
     loadFilterdata(listc,categories,nodeElement);
 
     //områder
-    const lista = document.getElementById("areaslist");
-    loadFilterdata(lista,areas,nodeElement);
+    //const lista = document.getElementById("areaslist");
+    //loadFilterdata(lista,areas,nodeElement);
 
 }
 
