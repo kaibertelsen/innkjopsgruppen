@@ -31,6 +31,7 @@ document.getElementById("companypagebackbutton").addEventListener("click", funct
 });
 
 document.getElementById("companypagebutton").addEventListener("click", function() {
+    hideMenye();
     companyPageChosed(activeCompany);
 });
 
