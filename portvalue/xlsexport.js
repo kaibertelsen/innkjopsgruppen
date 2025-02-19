@@ -15,6 +15,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         invoicedate: "Faktura dato",
         exit: "Oppsigelses dato",
         airtable:"SystemID",
+        names:"Kontaktpersoner",
         emails:"E-poster"
     };
 
@@ -30,7 +31,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     
     let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet
     updatedexportData = emailContactMerge(updatedexportData);
-    updatedexportData = nameContactMerge(companylist)
+    updatedexportData = nameContactMerge(updatedexportData);
     //add contactemails
     
     // Eksporter til Excel
