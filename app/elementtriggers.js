@@ -137,4 +137,5 @@ document.getElementById("companySelector").addEventListener("change", function (
     const selectedValue = selector.value; // ID (airtable)
     const selectedText = selector.options[selector.selectedIndex].text; // Navn
     companyChange(selectedValue);
+    companyPageChosed(activeCompany);
 });
