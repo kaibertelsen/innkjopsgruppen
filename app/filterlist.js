@@ -130,8 +130,8 @@ function clearFilter(){
 
     const listc = document.getElementById("categorilist");
     resetFilterList(listc);
-    const lista = document.getElementById("areaslist");
-    resetFilterList(lista);
+    //const lista = document.getElementById("areaslist");
+    //resetFilterList(lista);
 
     listSuppliers(activeSupplierList);
 }
