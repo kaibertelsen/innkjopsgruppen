@@ -269,6 +269,7 @@ function setEmployerMode(){
     const businessButton = document.getElementById("BusinessTaggButton");
     businessButton.classList.remove("active");
     personalButton.classList.add("active");
+    Employeemode = true;
     employerModeLayout(true);
 
 }
