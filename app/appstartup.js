@@ -19,7 +19,7 @@ document.getElementById("menybuttonopener").addEventListener("click", function()
         hideMenye();
     }
 });
-
+hideMenye();
 function hideMenye(){
     const menyElement = document.getElementById("menyelementwrapper");
     menyElement.style.height = "0px"; // Skjuler igjen
