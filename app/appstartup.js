@@ -248,6 +248,7 @@ function employerModeLayout(status){
 function companyChange(companyId) {
     console.log("List på bakgrunn av dette selskapet: " + companyId);
     let filteredSuppliers = [];
+ 
     if(isPersonalModeON()){
         filteredSuppliers = suppliers.filter(supplier => {
             return supplier.category.some(category => category.airtable === "recSbtJnNprzB42fd");

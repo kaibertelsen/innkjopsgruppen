@@ -247,10 +247,12 @@ function dealsTypeSwitch() {
     if (personalButton.classList.contains("active")) {
         personalButton.classList.remove("active");
         businessButton.classList.add("active");
+        Employeemode = false;
         employerModeLayout(false);
     } else {
         businessButton.classList.remove("active");
         personalButton.classList.add("active");
+        Employeemode = true;
         employerModeLayout(true);
     }
     suppliersReady();
