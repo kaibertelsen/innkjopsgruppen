@@ -232,15 +232,18 @@ function employerModeLayout(status){
     const companypagebutton = document.getElementById("companypagebutton");
     const savingmoneybutton = document.getElementById("savingmoneybutton");
     const dealsIcon = document.getElementById("filtermydealsbutton");
+    const typeDealsFilterwrapper = document.getElementById("typeDealsFilterwrapper");
     
     if(status){
         companypagebutton.style.display = "none";
         savingmoneybutton.style.display = "none";
         dealsIcon.style.display = "none";
+        typeDealsFilterwrapper.style.display = "none";
     }else{
         companypagebutton.style.display = "block";
         savingmoneybutton.style.display = "block";
         dealsIcon.style.display = "inline-block";
+        typeDealsFilterwrapper.style.display = "block";
     }
    
 }
