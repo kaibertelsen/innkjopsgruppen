@@ -158,7 +158,8 @@ function mergesuppiersCachflow(data){
                     let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,lines:1,airtable:data[i].airtable};
 
                     if(data[i]?.supplierquantityname){
-                        newLine.quantityname = data[i].supplierquantityname;
+                        newLine.quantityname = data[i].supplierquantityname[0];
+                        newLine.quantityunit = data[i].supplierquantityunit[0];
                     }
                     mergearray.push(newLine);
                 }
@@ -167,7 +168,8 @@ function mergesuppiersCachflow(data){
             }else{
                 let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,lines:1,airtable:data[i].airtable};
                 if(data[i]?.supplierquantityname){
-                    newLine.quantityname = data[i].supplierquantityname;
+                    newLine.quantityname = data[i].supplierquantityname[0];
+                    newLine.quantityunit = data[i].supplierquantityunit[0];
                 }
                 //denne linjeb har localcut
                 mergearray.push(newLine);
