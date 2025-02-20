@@ -94,10 +94,20 @@ function listElements(data,list,type){
                     avalue = avalue+analysevalue;
                 }
                 bvalueelement.innerHTML = valutalook(round(analysevalue, 0))+" Kr"  
+
+                if(clientMode){
+                    if(analysevalue == 0){
+                        //skul row
+                        clonerow.style.display = "none";
+                    }
+                }
+
             }
             //
         }
-                    
+        if(clientMode){      
+            
+        }else{ 
         const buttonline = clonerow.getElementsByClassName("buttonline")[0];
         buttonline.innerHTML = data[i].lines;
         const suppliername = data[i].suppliername;
@@ -126,7 +136,7 @@ function listElements(data,list,type){
             }; 
         }
                     
-                    
+    }         
         list.appendChild(clonerow);
     }
             
