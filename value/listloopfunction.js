@@ -57,7 +57,7 @@ function listElements(data,list,type){
             c3.innerHTML = round(Number(xcut)*100, 2)+"%";
             
             const c4 = clonerow.getElementsByClassName("c4")[0];
-            let besparelse = xcut*xvalue;
+            let besparelse = data[i].cutvalue;
             c4.innerHTML = valutalook(round(besparelse))+" Kr";
             gcut = gcut+besparelse;
                         
@@ -158,11 +158,12 @@ function mergesuppiersCachflow(data){
                 if(cutobject){
                     //samme cut
                      cutobject.value = Number(cutobject.value)+Number(data[i].value);
+                     cutobject.cutvalue = Number(cutobject.cutvalue)+Number(data[i].cutvalue);
                      //legge til en linje
                      cutobject.lines = Number(cutobject.lines)+1;
                 }else{
                     //ikke samme cut
-                    let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,lines:1,airtable:data[i].airtable};
+                    let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,cutvalue:data[i].cutvalue,lines:1,airtable:data[i].airtable};
 
                     if(data[i]?.supplierquantityname){
                         newLine.quantityname = data[i].supplierquantityname[0];
@@ -173,7 +174,7 @@ function mergesuppiersCachflow(data){
       
                 
             }else{
-                let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,lines:1,airtable:data[i].airtable};
+                let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,cutvalue:data[i].cutvalue,lines:1,airtable:data[i].airtable};
                 if(data[i]?.supplierquantityname){
                     newLine.quantityname = data[i].supplierquantityname[0];
                     newLine.quantityunit = data[i].supplierquantityunit[0];
