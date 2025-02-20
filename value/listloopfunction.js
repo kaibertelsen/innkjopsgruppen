@@ -36,7 +36,7 @@ function listElements(data,list,type){
         if(type == 1){
             const c2 = clonerow.getElementsByClassName("c2")[0];
       
-            if(data[0]?.quantityname){
+            if(data[i]?.quantityname){
             //dette er en volum enhet og ikke kroner
             c2.textContent = data[i].value+" "+data.quantityname+" "+data.quantityunit;
             }else{
