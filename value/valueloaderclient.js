@@ -10,7 +10,7 @@ function loadScript(url) {
 
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
-    "https://kaibertelsen.github.io/innkjopsgruppen/value/listloopfunction.js"
+    "https://kaibertelsen.github.io/innkjopsgruppen/value/startupclient.js"
 ];
 
 // Laste inn alle skriptene sekvensielt
