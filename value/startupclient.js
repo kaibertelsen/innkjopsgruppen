@@ -330,7 +330,8 @@ function listcompanyinview(data){
     const list = document.getElementById("listcopyholder");
     var sumObject = listElements(data,list,1);
     //oppdatere sum
-    document.getElementById("gvalue").innerHTML = valutalook(round(sumObject.sumvalue))+" Kr";
+    document.getElementById("gvalue").innerHTML = "";
+    //valutalook(round(sumObject.sumvalue))+" Kr";
     document.getElementById("gcut").innerHTML = valutalook(round(sumObject.sumcutvalue))+" Kr";
     if(!data){
     list.parentElement.style.display = "none";
@@ -339,9 +340,9 @@ function listcompanyinview(data){
     return sumObject.sumcutvalue;
     
     
-    }
+}
     
-    function listcompanybistand(data){
+function listcompanybistand(data){
     const list = document.getElementById("listholderbistand");
     var sumObject = listElements(data,list,2);
     //oppdatere sum
@@ -362,4 +363,4 @@ function listcompanyinview(data){
     }
     
     return sumObject.sumavalue;
-    }
+}
