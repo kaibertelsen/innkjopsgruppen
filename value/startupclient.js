@@ -194,9 +194,9 @@ function mergesuppiersCachflow(data){
     
             }else{
                     let newLine = {supplier:data[i].supplier,value:data[i].value,cut:data[i].cut,datalines:1,airtable:data[i].airtable};
-                    if(data[i]?.supplierquantityname){
-                            newLine.quantityname = data[i].supplierquantityname[0];
-                            newLine.quantityunit = data[i].supplierquantityunit[0];
+                    if(data[i]?.quantityname){
+                            newLine.quantityname = data[i].quantityname;
+                            newLine.quantityunit = data[i].quantityunit;
                   }
                   mergearray.push(newLine);
                 //denne linjeb har localcut
