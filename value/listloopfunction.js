@@ -38,8 +38,13 @@ function listElements(data,list,type){
             const c3 = clonerow.getElementsByClassName("c3")[0];
       
             if(data[i]?.quantityname){
+                let quantityname = data[i].quantityname;
+                            //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
+                            if(quantityname == "Diesel" || quantityname == "Bensin"){
+                                quantityname = "Drivstoff";
+                            }
                 //dette er en volum enhet og ikke kroner
-                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+data[i].quantityname;
+                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+quantityname;
                 c3.textContent = "";
                 //(Number(data[i].cutvalue) / Number(data[i].value)).toFixed(1) + " Kr/pr. " + data[i].quantityunit;
             }else{
@@ -106,7 +111,7 @@ function listElements(data,list,type){
             //
         }
         if(clientMode){      
-            
+
         }else{ 
         const buttonline = clonerow.getElementsByClassName("buttonline")[0];
         buttonline.innerHTML = data[i].lines;
