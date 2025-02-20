@@ -214,7 +214,13 @@ function listElements(data,list,type){
                         const c2 = clonerow.getElementsByClassName("c2")[0];
                         
                         if(data[i]?.quantityname){
-                        c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+data[i].quantityname;
+                            let quantityname = data[i].quantityname;
+                            //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
+                            if(quantityname == "Diesel" || quantityname == "Bensin"){
+                                quantityname = "Drivstoff";
+                            }
+
+                        c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+quantityname;
                         
                         }else{
                           var xvalue = 0;
