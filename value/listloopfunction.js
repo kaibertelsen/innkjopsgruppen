@@ -38,7 +38,8 @@ function listElements(data,list,type){
       
             if(data[i]?.quantityname){
             //dette er en volum enhet og ikke kroner
-            c2.textContent = data[i].value+" "+data[i].quantityname+" "+data[i].quantityunit;
+            c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+data[i].quantityname;
+
             }else{
             var xvalue = 0;
             if(data[i]?.value){
