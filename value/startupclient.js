@@ -1,3 +1,13 @@
+function startApp(){
+
+    document.getElementById("contentscreen").style.display = "none";
+    document.getElementById("loadingscreen").style.display = "block";
+    
+    loadmaindateSelector();
+    companySelected();
+    }
+
+
 function companySelected(){
     //laste ned alle besparelseslinjene på dette selskapet 
     
