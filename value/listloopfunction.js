@@ -125,6 +125,7 @@ function listElements(data,list,type){
     return {sumvalue:gvalue,sumcutvalue:gcut,sumbvalue:bvalue,sumavalue:avalue};         
 }
 
+
 function mergesuppiersCachflow(data){
  
     var mergearray = [];
