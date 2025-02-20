@@ -124,6 +124,7 @@ function listElements(data,list,type){
             
     return {sumvalue:gvalue,sumcutvalue:gcut,sumbvalue:bvalue,sumavalue:avalue};         
 }
+
 function mergesuppiersCachflow(data){
  
     var mergearray = [];
@@ -155,8 +156,8 @@ function mergesuppiersCachflow(data){
                     //ikke samme cut
                     let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,lines:1,airtable:data[i].airtable};
 
-                    if(data[i]?.supplierquantityname[0]){
-                        newLine.quantityname = data[i].supplierquantityname[0];
+                    if(data[i]?.supplierquantityname){
+                        newLine.quantityname = data[i].supplierquantityname;
                     }
                     mergearray.push(newLine);
                 }
@@ -164,8 +165,8 @@ function mergesuppiersCachflow(data){
                 
             }else{
                 let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,lines:1,airtable:data[i].airtable};
-                if(data[i]?.supplierquantityname[0]){
-                    newLine.quantityname = data[i].supplierquantityname[0];
+                if(data[i]?.supplierquantityname){
+                    newLine.quantityname = data[i].supplierquantityname;
                 }
                 //denne linjeb har localcut
                 mergearray.push(newLine);
