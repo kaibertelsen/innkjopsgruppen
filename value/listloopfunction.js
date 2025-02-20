@@ -38,9 +38,9 @@ function listElements(data,list,type){
             const c3 = clonerow.getElementsByClassName("c3")[0];
       
             if(data[i]?.quantityname){
-            //dette er en volum enhet og ikke kroner
-            c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+data[i].quantityname;
-            c3.textContent = (Number(data[i].cutvalue) / Number(data[i].value)).toFixed(2) + " Kr/pr. " + data[i].quantityunit;
+                //dette er en volum enhet og ikke kroner
+                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+data[i].quantityname;
+                c3.textContent = (Number(data[i].cutvalue) / Number(data[i].value)).toFixed(1) + " Kr/pr. " + data[i].quantityunit;
             }else{
                 var xvalue = 0;
                 if(data[i]?.value){
@@ -56,9 +56,6 @@ function listElements(data,list,type){
                 c3.innerHTML = round(Number(xcut)*100, 2)+"%";
             }
 
-            
-            
-            
             const c4 = clonerow.getElementsByClassName("c4")[0];
             let besparelse = data[i].cutvalue;
             c4.innerHTML = valutalook(round(besparelse))+" Kr";
