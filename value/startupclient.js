@@ -256,14 +256,14 @@ function listElements(data,list,type){
                              xvalue = data[i].value;
                           }
                           c2.innerHTML = valutalook(round(xvalue, 0))+" Kr"
-                          gvalue = gvalue+xvalue;
+                          gvalue = gvalue+Number(xvalue);
                         }
                        
                         
                         const c4 = clonerow.getElementsByClassName("c4")[0];
                         let besparelse = data[i].cut;
                         c4.innerHTML = valutalook(round(besparelse))+" Kr";
-                        gcut = gcut+besparelse;
+                        gcut = gcut+Number(besparelse);
                         
                         if(besparelse == 0){
                         //skul row
@@ -292,7 +292,7 @@ function listElements(data,list,type){
                             var bistandvalue = 0;
                             if(data[i]?.bistand){
                                 bistand = data[i].bistand;
-                                bvalue = bvalue+bistand;
+                                bvalue = bvalue+Number(bistand);
                             }
                         bvalueelement.innerHTML = valutalook(round(bistand, 0))+" Kr"
                         
@@ -306,7 +306,7 @@ function listElements(data,list,type){
                             var analysevalue = 0;
                             if(data[i]?.analyse){
                                 analyse = data[i].analyse;
-                                avalue = avalue+analyse;
+                                avalue = avalue+Number(analyse);
                             }
                         bvalueelement.innerHTML = valutalook(round(analyse, 0))+" Kr"  
                         
@@ -324,3 +324,42 @@ function listElements(data,list,type){
             
        return {sumvalue:gvalue,sumcutvalue:gcut,sumbvalue:bvalue,sumavalue:avalue};         
 }
+
+function listcompanyinview(data){
+
+    const list = document.getElementById("listcopyholder");
+    var sumObject = listElements(data,list,1);
+    //oppdatere sum
+    document.getElementById("gvalue").innerHTML = valutalook(round(sumObject.sumvalue))+" Kr";
+    document.getElementById("gcut").innerHTML = valutalook(round(sumObject.sumcutvalue))+" Kr";
+    if(!data){
+    list.parentElement.style.display = "none";
+    }
+    
+    return sumObject.sumcutvalue;
+    
+    
+    }
+    
+    function listcompanybistand(data){
+    const list = document.getElementById("listholderbistand");
+    var sumObject = listElements(data,list,2);
+    //oppdatere sum
+    document.getElementById("sumbistandtext").innerHTML = valutalook(round(sumObject.sumbvalue))+" Kr";
+    if(!data){
+    list.parentElement.style.display = "none";
+    }
+    
+    return sumObject.sumbvalue;
+    }
+    function listcompanyanalyse(data){
+    const list = document.getElementById("listholderanalyse");
+    var sumObject = listElements(data,list,3);
+    //oppdatere sum
+    document.getElementById("sumanalysetext").innerHTML = valutalook(round(sumObject.sumavalue))+" Kr";
+    if(!data){
+    list.parentElement.style.display = "none";
+    }
+    
+    return sumObject.sumavalue;
+    }
