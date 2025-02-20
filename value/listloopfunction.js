@@ -35,13 +35,21 @@ function listElements(data,list,type){
         }
         if(type == 1){
             const c2 = clonerow.getElementsByClassName("c2")[0];
+           
+
+
+            if(data?.quantityname){
+            //dette er en volum enhet og ikke kroner
+            c2.textContent = data[i].value+" "+data.quantityname+" "+data.quantityunit;
+            }else{
             var xvalue = 0;
             if(data[i]?.value){
                 xvalue = data[i].value;
             }
             c2.innerHTML = valutalook(round(xvalue, 0))+" Kr"
             gvalue = gvalue+xvalue;
-            
+            }
+
             const c3 = clonerow.getElementsByClassName("c3")[0];
             var xcut = 0;
             if(data[i]?.cut){
