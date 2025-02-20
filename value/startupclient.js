@@ -5,8 +5,7 @@ function startApp(){
     
     loadmaindateSelector();
     companySelected();
-    }
-
+}
 
 function companySelected(){
     //laste ned alle besparelseslinjene på dette selskapet 
@@ -104,6 +103,7 @@ function makecompanylines(data){
     return newarray;
     
 }
+
 function mainrootcompanylist(data){
         
      //filtrere på valgt dato i velger
@@ -141,40 +141,6 @@ function convertJsonStringsToObjects(jsonStrings) {
     });
 }
 
-/*
-//fra orginalen
-{
-    "mark": "-",
-    "airtable": "recUnfxCWY7yl0EBA",
-    "type": "handel",
-    "maindate": "2024-12-31",
-    "date": "2024-12-31",
-    "seconddate": "2024-12-31",
-    "value": 26313.53,
-    "cutvalue": 2631.353,
-    "suppliername": "UnoX",
-    "customer": "Viken Betong AS",
-    "bistandvalue": 0,
-    "analysevalue": 0
-}
-
-//fra json
-{
-    "kickbackvalue": "1052.5412",
-    "value": "26313.53",
-    "type": "handel",
-    "mark": "",
-    "airtable": "recUnfxCWY7yl0EBA",
-    "customer": "Viken Betong AS",
-    "supplier": "UnoX",
-    "group": "recU4I3Q8PsPKg2or",
-    "groupname": "Bygg og Anlegg",
-    "cut": "2631.353",
-    "bistand": "0",
-    "analyse": "0",
-    "maindate": "2024-12-31T00:00:00.000Z"
-}
-*/
 function mergesuppiersCachflow(data){
  
     if(data){
@@ -352,8 +318,9 @@ function listcompanybistand(data){
     }
     
     return sumObject.sumbvalue;
-    }
-    function listcompanyanalyse(data){
+}
+
+function listcompanyanalyse(data){
     const list = document.getElementById("listholderanalyse");
     var sumObject = listElements(data,list,3);
     //oppdatere sum
