@@ -381,10 +381,10 @@ function responseInvitationSendt(data) {
     let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
 
     // Generer offentlig lenke
-    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted });
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink");
 }
 
-function generatePublicLink(data) {
+function generatePublicLink(data,response) {
     // Sjekk om nødvendig data finnes
     if (!data.baseId || !data.tableId || !data.rowId || !data.text || !data.expirationdate) {
         console.error("Manglende data for å generere offentlig link.");
@@ -399,7 +399,7 @@ function generatePublicLink(data) {
     };
 
     // Send POST-forespørsel
-    POSTairtablepublicLink(JSON.stringify(body), "responPostpublicLink");
+    POSTairtablepublicLink(JSON.stringify(body), response);
 }
 
 function responPostpublicLink(data){
@@ -757,4 +757,27 @@ function responsGenerateLink(data){
 
 console.log(data);
 
+ // Generer en sharelink
+ let baseId = "app1WzN1IxEnVu3m0";
+ let tableId = "tblfDzgRjRKBiIxM3";
+ let rowId = data.id;
+ let text = "Ansatt - Invitasjonslink";
+
+ // Beregn utløpsdatoen 3 måneder frem i tid
+ let expirationdate = new Date();
+ expirationdate.setMonth(expirationdate.getMonth() + 24);
+
+ // Formatér datoen til "YYYY-MM-DD"
+ let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
+
+ // Generer offentlig lenke
+ generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responseGenerateEmployerLink");
+
+
+
+}
+
+function responseGenerateEmployerLink(data){
+
+console.log(data);
 }

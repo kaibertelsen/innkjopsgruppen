@@ -550,6 +550,8 @@ function ruteresponse(data,id){
         responseInvitationAccept(data);
     }else if(id == "responsGenerateLink"){
         responsGenerateLink(data);
+    }else if(id == "responseGenerateEmployerLink"){
+        responseGenerateEmployerLink(data);
     }
     
     
