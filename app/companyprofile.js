@@ -713,16 +713,16 @@ function employeebenefits(data) {
         employerLinkContainer.innerHTML = ""; // Tøm eksisterende innhold
 
         if (data.ansattfordelerlink) {
-
+            let url = "https://portal.innkjops-gruppen.no/app-portal?"+data.ansattfordelerlink;
             const link = document.getElementById("employerlink");
-            link.href = "https://portal.innkjops-gruppen.no/app-portal?"+data.ansattfordelerlink;
+            link.href = url;
             link.textContent = "Invitasjonslink";
             link.target = "_blank";
 
             // Lag kopier-knappen
             const copyButton = document.getElementById("copylinkbutton");
             copyButton.onclick = function () {
-                navigator.clipboard.writeText(data.ansattfordelerlink).then(() => {
+                navigator.clipboard.writeText(url).then(() => {
                     alert("Lenken er kopiert til utklippstavlen!");
                 }).catch(err => console.error("Kopiering feilet:", err));
             };
