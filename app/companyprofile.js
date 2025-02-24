@@ -669,7 +669,6 @@ function runActivation(data){
     //start activeringssiden
     document.getElementById("emailverificatiomtabbutton").click();
     
-
     let decryptedData = decryptData(data);
 
     let password = decryptedData.password;
@@ -714,12 +713,11 @@ function employeebenefits(data) {
         employerLinkContainer.innerHTML = ""; // Tøm eksisterende innhold
 
         if (data.ansattfordelerlink) {
-            // Lag lenken
+
             const link = document.getElementById("employerlink");
             link.href = data.ansattfordelerlink;
             link.textContent = "Invitasjonslink";
             link.target = "_blank";
-            link.style.marginRight = "10px"; // Liten avstand til knappen
 
             // Lag kopier-knappen
             const copyButton = document.getElementById("copylinkbutton");
@@ -731,6 +729,7 @@ function employeebenefits(data) {
         } else {
             // Generer lenken dersom den ikke finnes
             generateEmployerLink(data);
+            document.getElementById("employerlink").style.display = "none";
         }
     } else {
         elementWrapper.style.display = "none";
@@ -750,7 +749,8 @@ function  generateEmployerLink(data){
     }
 
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblfDzgRjRKBiIxM3",JSON.stringify(body),"responsGenerateLink")
-
+    //slå på loading
+    document.getElementById("generatelinkloading").style.display = "block";
 }
 
 function responsGenerateLink(data){
@@ -780,10 +780,15 @@ function responseGenerateEmployerLink(data){
     let body = {ansattfordelerlink:url};
     patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",activeCompany.airtable,JSON.stringify(body),"responseEmployerLinkCompany")
 
+    let fullUrl = "https://portal.innkjops-gruppen.no/app-portal?"+url;
+    const link = document.getElementById("employerlink");
+    link.href = fullUrl;
+    link.textContent = "Invitasjonslink";
+    link.target = "_blank";
+    link.style.display = "block";
 }
 
 function responseEmployerLinkCompany(data){
-
-
-    console.log(data);
+  //slå av loading
+  document.getElementById("generatelinkloading").style.display = "none";
 }
