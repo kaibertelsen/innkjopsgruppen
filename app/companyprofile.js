@@ -755,33 +755,30 @@ function  generateEmployerLink(data){
 
 function responsGenerateLink(data){
 
-console.log(data);
+    // Generer en sharelink
+    let baseId = "app1WzN1IxEnVu3m0";
+    let tableId = "tblfDzgRjRKBiIxM3";
+    let rowId = data.id;
+    let text = "Ansatt - Invitasjonslink";
 
- // Generer en sharelink
- let baseId = "app1WzN1IxEnVu3m0";
- let tableId = "tblfDzgRjRKBiIxM3";
- let rowId = data.id;
- let text = "Ansatt - Invitasjonslink";
+    // Beregn utløpsdatoen 3 måneder frem i tid
+    let expirationdate = new Date();
+    expirationdate.setMonth(expirationdate.getMonth() + 24);
 
- // Beregn utløpsdatoen 3 måneder frem i tid
- let expirationdate = new Date();
- expirationdate.setMonth(expirationdate.getMonth() + 24);
+    // Formatér datoen til "YYYY-MM-DD"
+    let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
 
- // Formatér datoen til "YYYY-MM-DD"
- let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
-
- // Generer offentlig lenke
- generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responseGenerateEmployerLink");
+    // Generer offentlig lenke
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responseGenerateEmployerLink");
 
 }
 
 function responseGenerateEmployerLink(data){
 
-let url = "shareKey="+shareKey+"&"+"shareId="+shareId;
-
-//lager denne url på selskapets felt
-let body = {ansattfordelerlink:url};
-patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",[activeCompany.airtable],JSON.stringify(body),"responseEmployerLinkCompany")
+    let url = "shareKey="+shareKey+"&"+"shareId="+shareId;
+    //lager denne url på selskapets felt
+    let body = {ansattfordelerlink:url};
+    patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",[activeCompany.airtable],JSON.stringify(body),"responseEmployerLinkCompany")
 
 }
 
