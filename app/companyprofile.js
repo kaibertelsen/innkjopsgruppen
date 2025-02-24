@@ -78,16 +78,22 @@ function companyPageChosed(company) {
 
 function preLists(company){
 
-let users = company.bruker;
-// Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
-users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));   
+    let users = company.bruker;
+    // Sorter brukere alfabetisk basert på 'name', med fallback for manglende navn
+    users.sort((a, b) => (a.name || "").localeCompare(b.name || ""));   
 
-//liste alle hovedbrukere
-const list = document.getElementById("memberholderlist");
-listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list,company);
+    //liste alle hovedbrukere
+    const list = document.getElementById("memberholderlist");
+    listCompanyUsers(users.filter(user => user.rolle !== "ansatt"),list,company);
 
-const listpri = document.getElementById("memberpriholderlist");
-listCompanyUsers(users.filter(user => user.rolle == "ansatt"),listpri,company);
+    const listpri = document.getElementById("memberpriholderlist");
+    let ansattarray = users.filter(user => user.rolle == "ansatt");
+    if(ansattarray.length >0){
+        listCompanyUsers(ansattarray,listpri,company);
+    }else{
+        document.getElementById("ansattbrukereliste").style.display = "none";
+    }
+
 
 }
 
