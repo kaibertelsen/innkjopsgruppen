@@ -715,7 +715,7 @@ function employeebenefits(data) {
         if (data.ansattfordelerlink) {
 
             const link = document.getElementById("employerlink");
-            link.href = data.ansattfordelerlink;
+            link.href = "https://portal.innkjops-gruppen.no/app-portal?"+data.ansattfordelerlink;
             link.textContent = "Invitasjonslink";
             link.target = "_blank";
 
