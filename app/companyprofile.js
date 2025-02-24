@@ -696,16 +696,44 @@ function removeUrlParameter(param) {
    
 }
 
-function employeebenefits(data){
-//sjekke om selskapet har ansatt fordeler
+function employeebenefits(data) {
+    // Hent wrapper-elementet for ansattfordeler
+    const elementWrapper = document.getElementById("employee_benefits");
 
-const elementWrapper = document.getElementById("employee_benefits");
-
-    if(data.ansattfordeler){
+    if (data.ansattfordeler) {
         elementWrapper.style.display = "block";
-    }else{
+
+        // Hent eller opprett linken i elementet med id "employerlink"
+        const employerLinkContainer = document.getElementById("employerlink");
+        employerLinkContainer.innerHTML = ""; // Tøm eksisterende innhold
+
+        if (data.ansattfordelerlink) {
+            // Lag lenken
+            const link = document.createElement("a");
+            link.href = data.ansattfordelerlink;
+            link.textContent = "Invitasjonslink";
+            link.target = "_blank";
+            link.style.marginRight = "10px"; // Liten avstand til knappen
+
+            // Lag kopier-knappen
+            const copyButton = document.createElement("button");
+            copyButton.textContent = "Kopier";
+            copyButton.onclick = function () {
+                navigator.clipboard.writeText(data.ansattfordelerlink).then(() => {
+                    alert("Lenken er kopiert til utklippstavlen!");
+                }).catch(err => console.error("Kopiering feilet:", err));
+            };
+
+            // Legg til lenke og knapp i containeren
+            employerLinkContainer.appendChild(link);
+            employerLinkContainer.appendChild(copyButton);
+
+        } else {
+            // Generer lenken dersom den ikke finnes
+            generateEmployerLink(data);
+        }
+    } else {
         elementWrapper.style.display = "none";
     }
-
-
 }
+
