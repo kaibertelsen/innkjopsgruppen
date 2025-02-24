@@ -698,7 +698,7 @@ function removeUrlParameter(param) {
 
 function employeebenefits(data) {
     // Hent wrapper-elementet for ansattfordeler
-    const elementWrapper = document.getElementById("employee_benefits");
+    const elementWrapper = document.getElementById("employeebenefits");
 
     if (data.ansattfordeler) {
         elementWrapper.style.display = "block";
