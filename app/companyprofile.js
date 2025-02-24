@@ -72,6 +72,8 @@ function companyPageChosed(company) {
     adress.textContent = company.postnr+" "+company.poststed;
 
     preLists(company);
+
+    employeebenefits(company);
 }
 
 function preLists(company){
@@ -694,3 +696,16 @@ function removeUrlParameter(param) {
    
 }
 
+function employeebenefits(data){
+//sjekke om selskapet har ansatt fordeler
+
+const elementWrapper = document.getElementById("employee_benefits");
+
+    if(data.ansattfordeler){
+        elementWrapper.style.display = "block";
+    }else{
+        elementWrapper.style.display = "none";
+    }
+
+
+}
