@@ -552,6 +552,8 @@ function ruteresponse(data,id){
         responsGenerateLink(data);
     }else if(id == "responseGenerateEmployerLink"){
         responseGenerateEmployerLink(data);
+    }else if(id == "responseEmployerLinkCompany"){
+        responseEmployerLinkCompany(data);
     }
     
     

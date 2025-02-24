@@ -773,11 +773,20 @@ console.log(data);
  // Generer offentlig lenke
  generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responseGenerateEmployerLink");
 
-
-
 }
 
 function responseGenerateEmployerLink(data){
 
-console.log(data);
+let url = "shareKey="+shareKey+"&"+"shareId="+shareId;
+
+//lager denne url på selskapets felt
+let body = {ansattfordelerlink:url};
+patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",[activeCompany.airtable],JSON.stringify(body),"responseEmployerLinkCompany")
+
+}
+
+function responseEmployerLinkCompany(data){
+
+
+    console.log(data);
 }
