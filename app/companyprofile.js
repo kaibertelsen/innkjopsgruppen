@@ -709,25 +709,19 @@ function employeebenefits(data) {
 
         if (data.ansattfordelerlink) {
             // Lag lenken
-            const link = document.createElement("a");
+            const link = document.getElementById("employerlink");
             link.href = data.ansattfordelerlink;
             link.textContent = "Invitasjonslink";
             link.target = "_blank";
             link.style.marginRight = "10px"; // Liten avstand til knappen
 
             // Lag kopier-knappen
-            const copyButton = document.createElement("button");
-            copyButton.textContent = "Kopier";
+            const copyButton = document.getElementById("copylinkbutton");
             copyButton.onclick = function () {
                 navigator.clipboard.writeText(data.ansattfordelerlink).then(() => {
                     alert("Lenken er kopiert til utklippstavlen!");
                 }).catch(err => console.error("Kopiering feilet:", err));
             };
-
-            // Legg til lenke og knapp i containeren
-            employerLinkContainer.appendChild(link);
-            employerLinkContainer.appendChild(copyButton);
-
         } else {
             // Generer lenken dersom den ikke finnes
             generateEmployerLink(data);
