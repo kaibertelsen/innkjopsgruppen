@@ -778,7 +778,7 @@ function responseGenerateEmployerLink(data){
     let url = "shareKey="+data.shareKey+"&"+"shareId="+data.shareId;
     //lager denne url på selskapets felt
     let body = {ansattfordelerlink:url};
-    patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",[activeCompany.airtable],JSON.stringify(body),"responseEmployerLinkCompany")
+    patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",activeCompany.airtable,JSON.stringify(body),"responseEmployerLinkCompany")
 
 }
 
