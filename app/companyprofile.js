@@ -737,3 +737,8 @@ function employeebenefits(data) {
     }
 }
 
+function  generateEmployerLink(data){
+
+
+    console.log("Genererer link");
+}
