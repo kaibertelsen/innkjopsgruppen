@@ -737,6 +737,24 @@ function employeebenefits(data) {
     }
 }
 
-function  generateEmployerLink(data){
+function  generateEmployerLink(data){   
+
+    //lag row for kobling
     console.log("Genererer link");
+    let categoryid = "recSbtJnNprzB42fd"
+
+    let body = {
+        companyid:[activeCompany.airtable],
+        category:[categoryid],
+        creator:[userid]
+    }
+
+    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblfDzgRjRKBiIxM3",JSON.stringify(body),"responsGenerateLink")
+
+}
+
+function responsGenerateLink(data){
+
+console.log(data);
+
 }

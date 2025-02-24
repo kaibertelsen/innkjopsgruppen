@@ -548,8 +548,10 @@ function ruteresponse(data,id){
         responseUserInvitationAcceptExist(data);
     }else if(id == "responseInvitationAccept"){
         responseInvitationAccept(data);
+    }else if(id == "responsGenerateLink"){
+        responsGenerateLink(data);
     }
-
+    
     
 }
 
