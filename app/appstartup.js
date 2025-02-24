@@ -741,7 +741,6 @@ function loadmemberCard() {
     }
 }
 
-// Eksempel på funksjonen for å laste inn data til kortet
 function loadCardData(cardWrapper) {
     // Formater nåværende dato til "dd.mmm yyyy"
     const currentDate = new Date();
@@ -778,7 +777,7 @@ function loadCardData(cardWrapper) {
     }
 }
 
-// Funksjon for å formatere dato til "dd.mmm yyyy"
+
 function formatDate(date) {
     const day = date.getDate();
     const monthNames = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"];
@@ -817,6 +816,10 @@ function responsShareKeyControll(data) {
     if (data._table.name === "tblc1AGhwc6MMu4Aw") {
         console.log("Dette er en invitasjonsforespørsel.");
         startUserInvitationView(data.fields);
+    } else if(data._table.name === "tblfDzgRjRKBiIxM3"){
+        //dette er en ansattdelingslink
+        startEmployerView(data.fields);
+
     } else {
         console.log("Dette er ikke en invitasjonsforespørsel.");
     }
