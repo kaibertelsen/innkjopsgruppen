@@ -11,9 +11,12 @@ function loadEmployeeView(data){
     const companyLogo = document.getElementById("companyLogoElement");
     companyLogo.src = data.companylogo;
 
-     // Hent inputfeltet
-     const companyIdField = document.getElementById("firmaidairtableId");
-     companyIdField.value = data.companyid[0];
+    // Hent inputfeltet
+    const companyIdField = document.getElementById("firmaidairtableId");
+    companyIdField.value = data.companyid[0];
+
+    const employerRole = document.getElementById("employerRole"); 
+    employerRole.value = "ansatt";
 
     let textMessage = data.companyname + 
     " er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører.<br>" +
