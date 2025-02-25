@@ -29,8 +29,15 @@ cdnScripts.reduce((promise, script) => {
         if (member.loggedIn){
             isLoggedin = true;
             userid = member.airtableid;
-            startUp(userid);
-            rootPageControll("list");
+            memberId = member.id;
+            companyId = member.airtableidfirma;
+            //sjekke om det er en bruker som venter på et selskap
+            if (sessionStorage.getItem("startupEmployer") !== "true") {
+                startUp(userid);
+                rootPageControll("list");
+            }else{
+                startWaitForCompany(companyId);
+            }
             sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
         }else{
             isLoggedin = false;

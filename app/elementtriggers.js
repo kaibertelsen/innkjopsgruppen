@@ -7,6 +7,7 @@ document.getElementById("logginbutton").addEventListener("click", function() {
 document.getElementById("creatUserButton").addEventListener("click", function() {
     // Lagre verdien som en streng i sessionStorage
     sessionStorage.setItem("rootToApp", "true");
+    sessionStorage.setItem("startupEmployer", "true");
 });
 
 document.getElementById("gotolistview").addEventListener("click", function() {

@@ -32,6 +32,30 @@ function loadEmployeeView(data){
     listSuppliersPublic(suppliersArray);
 }
 
+function startWaitForCompany(companyId) {
+    // Trykk på venteskjerm
+    document.getElementById("tabloadingsite").click();
+
+    // Vent 3 sekunder før GETairtable kalles
+    setTimeout(() => {
+        GETairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", companyId, "companyControllResponse");
+    }, 3000);
+}
+
+function companyControllResponse(data) {
+    if (data.fields?.brukermemberId) {
+        // Sjekk om memberId finnes i brukermemberId-arrayen
+        if (Array.isArray(data.fields.brukermemberId) && data.fields.brukermemberId.includes(memberId)) {
+            //bruker er koblet 
+            sessionStorage.removeItem("startupEmployer");
+            startUp(userid);
+            rootPageControll("list");
+        } else {
+            startWaitForCompany(companyId)
+        }
+    } 
+}
+
 
 function listSuppliersPublic(data) {
     console.log(data);

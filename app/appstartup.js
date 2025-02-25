@@ -1,5 +1,7 @@
 var companys = [];
+var memberId;
 var userid;
+var companyId;
 var userObject;
 var suppliers = [];
 let currentFlippedElement = null;
@@ -556,7 +558,11 @@ function ruteresponse(data,id){
         responseEmployerLinkCompany(data);
     }else if(id == "responsEmailsearchServerEmployer"){
         responsEmailsearchServerEmployer(data);
+    }else if(id == "companyControllResponse"){
+        companyControllResponse(data);
     }
+
+    
     
     
 }
