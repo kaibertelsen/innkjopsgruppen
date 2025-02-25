@@ -25,6 +25,37 @@ function loadEmployeeView(data){
     listSuppliersPublic(suppliersArray);
 }
 
+
+document.getElementById("emailsearchEmployer").addEventListener("click", function() {
+    // Hent inputfeltet
+    const emailField = document.getElementById("employeremailfield");
+    const email = emailField.value.trim();
+
+    // Regex for å validere e-postadresse
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailRegex.test(email)) {
+        // Hvis e-posten er gyldig, kjør funksjonen
+        searchEmployerMail(email);
+    } else {
+        // Hvis e-posten er ugyldig, vis en feilmelding
+        alert("Vennligst skriv inn en gyldig e-postadresse.");
+        emailField.focus();
+    }
+});
+
+function searchEmployerMail(email){
+ // Søk etter brukere med denne e-posten på serveren
+ let body = airtablebodylistAND({ epost: email });
+ Getlistairtable("app1WzN1IxEnVu3m0", "tblMhgrvy31ihKYbr", body, "responsEmailsearchServerEmployer");
+}
+
+function responsEmailsearchServerEmployer(data){
+
+    console.log(data);
+
+}
+
 function listSuppliersPublic(data) {
     console.log(data);
 
