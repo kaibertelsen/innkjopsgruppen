@@ -11,9 +11,9 @@ function loadEmployeeView(data){
     const companyLogo = document.getElementById("companyLogoElement");
     companyLogo.src = data.companylogo;
 
-    let textMessage = data.companyname+" er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører.For å gjøre deg bruk av disse fordelene må du trykke på knappen under og opprette en bruker.Dette er helt gratis og uforpliktende.";
+    let textMessage = data.companyname+" er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører. n/For å gjøre deg bruk av disse fordelene må du trykke på knappen under og opprette en bruker.Dette er helt gratis og uforpliktende.";
     const employeersMessage = document.getElementById("employeerMessage");
-    employeersMessage.textContent = textMessage;
+    employeersMessage.innerHTML = textMessage;
 
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.supplierjson;
