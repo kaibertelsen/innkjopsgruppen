@@ -17,7 +17,7 @@ function loadEmployeeView(data){
 
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.supplierjson;
-    let suppliersArray = convertJsonStringsToObjects(jsonStrings);
+    let suppliersArray = convertSuppliersJsonStringsToObjects(jsonStrings)
 
     console.log(suppliersArray);
 }
