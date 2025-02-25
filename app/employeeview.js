@@ -83,47 +83,46 @@ function listSuppliersPublic(data) {
             return;
         }
 
-            // Initialiser transform og synlighet
-            supplierElement.style.transformStyle = "preserve-3d";
-            supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
-            supplierElement.style.transition = "transform 0.5s ease-in-out";
-            back.style.transform = "rotateY(180deg)"; // Roter baksiden 180 grader for riktig orientering
-            front.style.display = "block";
-            back.style.display = "none";
+        // Initialiser transform og synlighet
+        supplierElement.style.transformStyle = "preserve-3d";
+        supplierElement.style.perspective = "1000px"; // For å skape 3D-effekt
+        supplierElement.style.transition = "transform 0.5s ease-in-out";
+        back.style.transform = "rotateY(180deg)"; // Roter baksiden 180 grader for riktig orientering
+        front.style.display = "block";
+        back.style.display = "none";
 
-            // Klikk-hendelse for rotasjon
-            function toggleFlip() {
-                if (!isFlipped) {
-                    // Rotasjon og visning av baksiden
-                    supplierElement.style.transform = "rotateY(180deg)";
+        // Klikk-hendelse for rotasjon
+        function toggleFlip() {
+            if (!isFlipped) {
+                // Rotasjon og visning av baksiden
+                supplierElement.style.transform = "rotateY(180deg)";
 
-                    // Forsinkelse for å bytte synlighet midt i animasjonen
-                    setTimeout(() => {
-                        front.style.display = "none";
-                        connectorwrapper.style.display = "none";
-                        back.style.display = "block";
-                    }, 250); // Halvveis gjennom animasjonen
-                } else {
-                    // Rotasjon og visning av forsiden
-                    supplierElement.style.transform = "rotateY(0deg)";
+                // Forsinkelse for å bytte synlighet midt i animasjonen
+                setTimeout(() => {
+                    front.style.display = "none";
+                    connectorwrapper.style.display = "none";
+                    back.style.display = "block";
+                }, 250); // Halvveis gjennom animasjonen
+            } else {
+                // Rotasjon og visning av forsiden
+                supplierElement.style.transform = "rotateY(0deg)";
 
-                    // Forsinkelse for å bytte synlighet midt i animasjonen
-                    setTimeout(() => {
-                        back.style.display = "none";
-                        front.style.display = "block";
-                        connectorwrapper.style.display = "block";
-                    }, 250); // Halvveis gjennom animasjonen
-                }
-
-                // Bytt tilstand
-                isFlipped = !isFlipped;
+                // Forsinkelse for å bytte synlighet midt i animasjonen
+                setTimeout(() => {
+                    back.style.display = "none";
+                    front.style.display = "block";
+                    connectorwrapper.style.display = "block";
+                }, 250); // Halvveis gjennom animasjonen
             }
 
-            // Legg til klikk-hendelser for både forsiden og baksiden
-            front.addEventListener('click', toggleFlip);
-            back.addEventListener('click', toggleFlip);
-        
+            // Bytt tilstand
+            isFlipped = !isFlipped;
+        }
 
+        // Legg til klikk-hendelser for både forsiden og baksiden
+        front.addEventListener('click', toggleFlip);
+        back.addEventListener('click', toggleFlip);
+        
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
         if (name) name.textContent = supplier.name || "Ukjent navn";
