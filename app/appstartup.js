@@ -76,6 +76,8 @@ function userResponse(data) {
     if (data?.fields?.rolle === "ansatt") {
         // Dette er en ansattbruker
         setEmployerMode();
+    }else{
+        document.getElementById("companypagebutton").style.display = "block";
     }
     
     // Konverter JSON-strenger til objekter
