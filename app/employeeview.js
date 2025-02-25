@@ -65,15 +65,6 @@ function listSuppliersPublic(data) {
         console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
         return;
     }
-
-    //sette counter
-    let textmesage = " stk.";
-    if(hasActiveDeals){
-        textmesage = " stk. (Viser nå tilknyttede leverandører for selskapet "+activeCompany.Name+" )";
-    }
-    const counter = document.getElementById("counterlist");
-    counter.textContent = filteredData.length+textmesage;
-    counter.style.display = "block";
     
   // Oppdater med nye leverandører
     filteredData.forEach(supplier => {
@@ -190,6 +181,4 @@ function listSuppliersPublic(data) {
         supplierContainer.appendChild(supplierElement);
     });
 
-    
-    
 }
