@@ -12,7 +12,7 @@ function loadEmployeeView(data){
     companyLogo.src = data.companylogo;
 
     let textMessage = data.companyname + 
-    " er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører.<br><br>" +
+    " er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører.<br>" +
     "For å gjøre bruk av disse fordelene må du trykke på knappen under og opprette en bruker. Dette er helt gratis og uforpliktende.";
 
     const employerMessage = document.getElementById("employerMessage");
