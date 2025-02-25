@@ -13,7 +13,7 @@ function loadEmployeeView(data){
 
      // Hent inputfeltet
      const companyIdField = document.getElementById("firmaidairtableId");
-     companyIdField.value = activeCompany.airtable;
+     companyIdField.value = data.companyid[0];
 
     let textMessage = data.companyname + 
     " er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører.<br>" +
