@@ -11,6 +11,10 @@ function loadEmployeeView(data){
     const companyLogo = document.getElementById("companyLogoElement");
     companyLogo.src = data.companylogo;
 
+     // Hent inputfeltet
+     const companyIdField = document.getElementById("firmaidairtableId");
+     companyIdField.value = activeCompany.airtable;
+
     let textMessage = data.companyname + 
     " er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører.<br>" +
     "For å gjøre bruk av disse fordelene må du trykke på knappen under og opprette en bruker. Dette er helt gratis og uforpliktende.";
@@ -24,15 +28,6 @@ function loadEmployeeView(data){
 
     listSuppliersPublic(suppliersArray);
 }
-
-
-document.getElementById("emailsearchEmployer").addEventListener("click", function() {
-    // Hent inputfeltet
-    const companyIdField = document.getElementById("firmaidairtableId");
-    companyIdField.value = activeCompany.airtable;
-    
-});
-
 
 
 function listSuppliersPublic(data) {

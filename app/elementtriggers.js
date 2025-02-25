@@ -4,6 +4,11 @@ document.getElementById("logginbutton").addEventListener("click", function() {
     sessionStorage.setItem("rootToApp", "true");
 });
 
+document.getElementById("creatUserButton").addEventListener("click", function() {
+    // Lagre verdien som en streng i sessionStorage
+    sessionStorage.setItem("rootToApp", "true");
+});
+
 document.getElementById("gotolistview").addEventListener("click", function() {
     //registrere "onboarded" på brukeren
     registrerOnboarded();
@@ -35,8 +40,6 @@ document.getElementById("companypagebutton").addEventListener("click", function(
     companyPageChosed(activeCompany);
 });
 
-
-
 document.getElementById("cardbutton").addEventListener("click", function() {
     loadmemberCard();
 });
@@ -44,8 +47,6 @@ document.getElementById("cardbutton").addEventListener("click", function() {
 document.getElementById("closecardbutton").addEventListener("click", function() {
     loadmemberCard();
 });
-
-
 
 document.getElementById("savingmoneybutton").addEventListener("click", function() {
     savingMoney();
