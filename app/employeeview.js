@@ -43,18 +43,32 @@ function startWaitForCompany(companyId) {
 }
 
 function companyControllResponse(data) {
-    if (data.fields?.brukermemberId) {
-        // Sjekk om memberId finnes i brukermemberId-arrayen
-        if (Array.isArray(data.fields.brukermemberId) && data.fields.brukermemberId.includes(memberId)) {
-            //bruker er koblet 
+    if (data.fields?.brukermemberId && Array.isArray(data.fields.brukermemberId)) {
+        // Finn indeksen til memberId i brukermemberId-arrayen
+        const index = data.fields.brukermemberId.indexOf(memberId);
+
+        if (index !== -1) {
+            // Bruker er koblet, fjern startupEmployer fra sessionStorage
             sessionStorage.removeItem("startupEmployer");
-            startUp(userid);
-            rootPageControll("list");
+
+            // Hent userid fra bruker-arrayen basert på samme indeks
+            userid = data.fields.bruker?.[index];
+
+            if (userid) {
+                startUp(userid);
+                rootPageControll("list");
+            } else {
+                console.error("UserId ble ikke funnet på forventet indeks.");
+            }
         } else {
-            startWaitForCompany(companyId)
+            // Hvis memberId ikke finnes, vent på selskapet
+            startWaitForCompany(companyId);
         }
-    } 
+    } else {
+        console.error("Ingen brukermemberId funnet eller feil datastruktur.");
+    }
 }
+
 
 
 function listSuppliersPublic(data) {
