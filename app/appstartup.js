@@ -739,7 +739,7 @@ function responsSupplierConnection(rawdata) {
                     name: data.brukernavn[0],
                     subject: data.subjectcompany[0],
                     content: data.mailcontentcompany[0],
-                    attachment: data.data?.guidfil || "",
+                    attachment: data.guidfil || "",
                     type: "customer"
                 };
                 break;
