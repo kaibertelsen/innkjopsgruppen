@@ -714,7 +714,7 @@ function connectToSupplier(supplier){
 function responsSupplierConnection(rawdata) {
     let data = rawdata.fields;
 
-    updateLocalSupplier(data.json);
+    updateLocalSupplier([data.json]);
 
     if (data?.outputnr) {
         let outputnr = data.outputnr[0];
@@ -786,7 +786,7 @@ function responsZapierUrl(data){
 
 function updateLocalSupplier(data){
 
-   let supplier =  convertSuppliersJsonStringsToObjects(data);
+   let supplier =  convertSuppliersJsonStringsToObjects(data)[0];
 
 }
 
