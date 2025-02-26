@@ -641,6 +641,14 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 function supplierChosed(supplier) {
     console.log(supplier);
     activeSupplier = supplier;
+
+    //sjekke om denne leverandøren et tilkoblet
+    const checkbox = document.getElementById("supplierSwitsjIntern");
+    if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
+        checkbox.checked = true;
+    }else{
+        checkbox.checked = false;
+    }
     // Simulerer klikk på elementet med id "tabsupplier"
     document.getElementById("tabsupplier").click();
 
