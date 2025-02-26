@@ -85,6 +85,15 @@ function userResponse(data) {
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.companyjson;
     companys = convertJsonStringsToObjects(jsonStrings);
+
+    //sjekker gjennom companys.connections arrayen og fjerner de koblingene som har true i delete nøkkelen
+    companys.forEach(company => {
+        if (company.connections) {  
+            company.connections = company.connections.filter(conn => !conn.delete);
+        }
+    });
+
+
     // Legg til objektet øverst i arrayen
     //companys.unshift({ Name: "Ansattavtaler", airtable: "ansatt"});
     // Hent selector fra DOM
