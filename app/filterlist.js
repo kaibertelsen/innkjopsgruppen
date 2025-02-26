@@ -253,7 +253,11 @@ function dealsTypeSwitch() {
         businessButton.classList.remove("active");
         personalButton.classList.add("active");
         Employeemode = true;
-        employerModeLayout(true);
+        //kun hvis det er en ansattuser
+        if(userObject.rolle == "Ansatt"){
+            employerModeLayout(true);
+        }
+        
     }
     suppliersReady();
 }
