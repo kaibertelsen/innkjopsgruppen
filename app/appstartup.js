@@ -564,7 +564,10 @@ function ruteresponse(data,id){
         companyControllResponse(data);
     }else if(id == "responsSupplierConnection"){
         responsSupplierConnection(data);
+    }else if(id == "responsZapierUrl"){
+        responsZapierUrl(data);
     }
+
 
 }
 
@@ -708,42 +711,63 @@ function connectToSupplier(supplier){
 
 }
 
-function responsSupplierConnection(data){
-//sende videre til mail for leverandøren evt. kunden om det er en slik output
-let connectionObject = data.fields;
+function responsSupplierConnection(data) {
+    let connectionObject = data.fields;
 
-    if(connectionObject?.outputnr){
+    if (connectionObject?.outputnr) {
         let outputnr = connectionObject.outputnr;
+        let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
+        let body = { mailto: "", name: "", subject: "", content: "", attachment: "" };
 
-        let companyUrl = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/"
-        let supplierUrl = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/"
-        //har en output
-        if(outputnr==1){
-            //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
-            let body = {mail:"",subject:"",att}
-            sendDataToZapierWebhook(body,companyUrl,"responsZapierUrl")
-        }else if(outputnr==2){
-        //Leverandør får kundeleads pr. mail
-
-        }else if(outputnr==3){
-        //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
-            
-        }else if(outputnr==4){
-        //Direkte mail til leverandør med kunde info
-            
-        }else if(outputnr==5){
-        //Brukes dersom en kunde ønsker en leverandør, men det er usikkert når de har behov for varene/tjenestene
-
+        switch (outputnr) {
+            case 1:
+                // Kunden får en guide på mail
+                body = {
+                    mailto: data.useremail,
+                    name: data.brukernavn,
+                    subject: data.subjectcompany,
+                    content: data.mailcontentcompany,
+                    attachment: data.data.guidfil
+                };
+                break;
+            case 2:
+            case 4:
+            case 5:
+                // Leverandør får kundeleads / direkte mail med kundeinfo
+                body = {
+                    mailto: data.mailtosupplier,
+                    name: "",
+                    subject: data.subjectsupplier,
+                    content: data.mailcontentsupplier,
+                    attachment: ""
+                };
+                break;
+            case 3:
+                // Mail til kundeservice hos Innkjøpsgruppen
+                body = {
+                    mailto: "post@innkjops-gruppen.no",
+                    name: "",
+                    subject: `Kunde ${data.companyname} ble tilkoblet leverandøren ${data.suppliername}`,
+                    content: data.mailcontentsupplier,
+                    attachment: ""
+                };
+                break;
+            default:
+                console.warn("Ugyldig outputnr: ", outputnr);
+                return;
         }
 
+        sendDataToZapierWebhook(body, Url, "responsZapierUrl");
     }
-
-
 }
 
 
+function responsZapierUrl(data){
+
+console.log(data);
 
 
+}
 
 
 
