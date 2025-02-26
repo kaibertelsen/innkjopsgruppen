@@ -722,9 +722,7 @@ function supplierConnecting(supplier, checkbox) {
         if (confirm(confirmMessage)) {
             checkbox.checked = false;  // Hvis bekreftet, behold checked
             //slett tilkobling
-            deleteConnectionToServer();
             let thisconnection = activeCompany.connection.filter(conn => conn.supplier !== supplier.airtable);
-            
             let body = JSON.stringify({delete:true});
             patchAirtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",thisconnection.airtable,body,"responseDeleteConenction");
 
