@@ -714,6 +714,8 @@ function connectToSupplier(supplier){
 function responsSupplierConnection(rawdata) {
     let data = rawdata.fields;
 
+    updateLocalSupplier(data.json);
+
     if (data?.outputnr) {
         let outputnr = data.outputnr[0];
         let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
@@ -778,16 +780,15 @@ function responsSupplierConnection(rawdata) {
     }
 }
 
-
-
 function responsZapierUrl(data){
-
-console.log(data);
-
-
+    console.log(data);
 }
 
+function updateLocalSupplier(data){
 
+   let supplier =  convertSuppliersJsonStringsToObjects(data);
+
+}
 
 function loadmemberCard() {
     const cardWrapper = document.getElementById("cardwrapper");
