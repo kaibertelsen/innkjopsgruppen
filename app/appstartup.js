@@ -88,8 +88,8 @@ function userResponse(data) {
 
     //sjekker gjennom companys.connections arrayen og fjerner de koblingene som har true i delete nøkkelen
     companys.forEach(company => {
-        if (company.connections) {  
-            company.connections = company.connections.filter(conn => !conn.delete);
+        if (company.connection) {  
+            company.connection = company.connection.filter(conn => !conn.delete);
         }
     });
 
