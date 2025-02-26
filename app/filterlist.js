@@ -254,7 +254,7 @@ function dealsTypeSwitch() {
         personalButton.classList.add("active");
         Employeemode = true;
         //kun hvis det er en ansattuser
-        if(userObject.rolle == "Ansatt"){
+        if(userObject.rolle == "ansatt"){
             employerModeLayout(true);
         }
         
