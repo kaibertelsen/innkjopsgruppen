@@ -244,8 +244,8 @@ function listElements(data,list,type){
                         
                     }else if (type === 2 || type === 3){
                         const dateelement = clonerow.getElementsByClassName("date")[0];
-                        var date = maindate;
-                        dateelement.innerHTML = dayAndmndName(date);
+                        //var date = maindate;
+                        dateelement.innerHTML = "";//dayAndmndName(date);
                         //
                         const noteelement = clonerow.getElementsByClassName("note")[0];
                         var mark = "";

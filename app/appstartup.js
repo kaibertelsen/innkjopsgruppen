@@ -709,7 +709,39 @@ function connectToSupplier(supplier){
 }
 
 function responsSupplierConnection(data){
-console.log(data);
+//sende videre til mail for leverandøren evt. kunden om det er en slik output
+let connectionObject = data.fields;
+
+    if(connectionObject?.outputnr){
+        let outputnr = connectionObject.outputnr;
+        //har en output
+        if(outputnr==1){
+        //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
+
+        }else if(outputnr==2){
+            //Leverandør får kundeleads pr. mail
+
+        }else if(outputnr==3){
+            //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
+            
+        }else if(outputnr==4){
+            //Direkte mail til leverandør med kunde info
+            
+        }
+
+
+
+
+
+
+
+
+
+        
+    }
+
+
+
 }
 
 
