@@ -717,7 +717,7 @@ function responsSupplierConnection(rawdata) {
     if (data?.outputnr[0]) {
         let outputnr = data.outputnr[0];
         let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
-        let body = { mailto: "", name: "", subject: "", content: "", attachment: "" };
+        let body = { mailto: "", name: "", subject: "", content: "", attachment: "", type: ""};
 
         switch (outputnr) {
             case 1:
@@ -727,7 +727,8 @@ function responsSupplierConnection(rawdata) {
                     name: data.brukernavn,
                     subject: data.subjectcompany,
                     content: data.mailcontentcompany,
-                    attachment: data.data.guidfil
+                    attachment: data.data.guidfil,
+                    type:"customer"
                 };
                 break;
             case 2:
@@ -739,7 +740,8 @@ function responsSupplierConnection(rawdata) {
                     name: "",
                     subject: data.subjectsupplier,
                     content: data.mailcontentsupplier,
-                    attachment: ""
+                    attachment: "",
+                    type:"supplier"
                 };
                 break;
             case 3:
@@ -749,7 +751,8 @@ function responsSupplierConnection(rawdata) {
                     name: "",
                     subject: `Kunde ${data.companyname} ble tilkoblet leverandøren ${data.suppliername}`,
                     content: data.mailcontentsupplier,
-                    attachment: ""
+                    attachment: "",
+                    type:"IG"
                 };
                 break;
             default:
