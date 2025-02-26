@@ -696,41 +696,57 @@ document.getElementById("supplierSwitsjIntern").addEventListener("change", funct
 function supplierConnecting(supplier, checkbox) {
     console.log(supplier);
 
-    // Sjekk om checkboxen ikke er checked
+    // Sjekk om checkboxen er checked
     if (checkbox.checked) {
-        // Vis en alert med informasjon om tilknytning
+        // Bekreft tilknytning
         const confirmMessage = `Ønsker du å tilknyttes leverandøren ${supplier.name}?\nDet vil da gå informasjon til leverandøren slik at du blir lagt til denne avtalen.`;
 
-        // Hvis brukeren bekrefter, sett checkbox tilbake til checked, ellers fjern den
         if (confirm(confirmMessage)) {
-            checkbox.checked = true;  // Hvis bekreftet, behold checked
-            //oppdaterer lokal kobling
+            checkbox.checked = true; // Behold checked
+
+            // Oppdaterer lokal kobling
             activeCompany.connection.push({
                 "company": activeCompany.airtable,
                 "supplier": supplier.airtable,
-                "airtable": ""
+                "airtable": "" // Ny tilkobling vil få en ID etter synk med Airtable
             });
+
             connectToSupplier(supplier);
         } else {
             checkbox.checked = false; // Hvis ikke bekreftet, sett unchecked
         }
     } else {
-        // Vis en alert med informasjon om tilknytning
-        const confirmMessage = `Ønsker du å fjerne tilknyttningen?`;
+        // Bekreft fjerning av tilknytning
+        const confirmMessage = `Ønsker du å fjerne tilknytningen?`;
 
-        // Hvis brukeren bekrefter, sett checkbox tilbake til checked, ellers fjern den
         if (confirm(confirmMessage)) {
-            checkbox.checked = false;  // Hvis bekreftet, behold checked
-            //slett tilkobling
-            let thisconnection = activeCompany.connection.filter(conn => conn.supplier !== supplier.airtable);
-            let body = JSON.stringify({delete:true});
-            patchAirtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",thisconnection.airtable,body,"responseDeleteConenction");
+            checkbox.checked = false; // Behold unchecked
+
+            // Finn tilkoblingen som skal slettes basert på supplier.airtable
+            let thisConnectionIndex = activeCompany.connection.findIndex(conn => conn.supplier === supplier.airtable);
+
+            if (thisConnectionIndex !== -1) {
+                let thisConnection = activeCompany.connection[thisConnectionIndex];
+
+                // Slett fra Airtable hvis ID eksisterer
+                if (thisConnection.airtable) {
+                    let body = JSON.stringify({ delete: true });
+                    patchAirtable("app1WzN1IxEnVu3m0", "tblLjCOdb9elLmKOb", thisConnection.airtable, body, "responseDeleteConnection");
+                }
+
+                // Fjern tilkoblingen fra `activeCompany.connection`
+                activeCompany.connection.splice(thisConnectionIndex, 1);
+                console.log(`Tilknytning til ${supplier.name} fjernet.`);
+            } else {
+                console.warn(`Ingen tilkobling funnet for leverandør: ${supplier.name}`);
+            }
 
         } else {
-            checkbox.checked = true; // Hvis ikke bekreftet, sett unchecked
+            checkbox.checked = true; // Hvis ikke bekreftet, sett checked igjen
         }
     }
 }
+
 
 function responseDeleteConenction(data){
     console.log(data);
