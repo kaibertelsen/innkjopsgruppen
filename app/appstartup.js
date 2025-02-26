@@ -568,8 +568,10 @@ function ruteresponse(data,id){
         responsSupplierConnection(data);
     }else if(id == "responsZapierUrl"){
         responsZapierUrl(data);
+    }else if(id == "responseDeleteConenction"){
+        responseDeleteConenction(data);
     }
-
+    
 
 }
 
@@ -719,11 +721,23 @@ function supplierConnecting(supplier, checkbox) {
         // Hvis brukeren bekrefter, sett checkbox tilbake til checked, ellers fjern den
         if (confirm(confirmMessage)) {
             checkbox.checked = false;  // Hvis bekreftet, behold checked
+            //slett tilkobling
+            deleteConnectionToServer();
+            let thisconnection = activeCompany.connection.filter(conn => conn.supplier !== supplier.airtable);
+            
+            let body = JSON.stringify({delete:true});
+            patchAirtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",thisconnection.airtable,body,"responseDeleteConenction");
+
         } else {
             checkbox.checked = true; // Hvis ikke bekreftet, sett unchecked
         }
     }
 }
+
+function responseDeleteConenction(data){
+    console.log(data);
+}
+
 function connectToSupplier(supplier){
     // send kobling til airtable
     let body = JSON.stringify({company:[activeCompany.airtable],supplier:[supplier.airtable],bruker:[userid]});
@@ -886,7 +900,6 @@ function loadCardData(cardWrapper) {
         cardnumber.textContent = userObject.airtable || "Ukjent kortnummer";
     }
 }
-
 
 function formatDate(date) {
     const day = date.getDate();
