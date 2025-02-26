@@ -168,6 +168,27 @@ async function POSTairtablepublicLink(body,id) {
 }
 
 
+async function sendDataToZapierWebhook(data,url,id) {
+    
+  const formData = new FormData();
+  for (const key in data) {
+      const value = data[key];
+      // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+      formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+  }
+
+  const response = await fetch(url, {
+      method: "POST",
+      body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }else{
+  let data = await response.json();
+    apireturn({success: true, data: data, id: id});
+  }
+}
 
 
 function apireturn(response){

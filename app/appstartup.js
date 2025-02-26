@@ -714,35 +714,37 @@ let connectionObject = data.fields;
 
     if(connectionObject?.outputnr){
         let outputnr = connectionObject.outputnr;
+
+        let companyUrl = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/"
+        let supplierUrl = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/"
         //har en output
         if(outputnr==1){
-        //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
-
+            //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
+            let body = {mail:"",subject:"",att}
+            sendDataToZapierWebhook(body,companyUrl,"responsZapierUrl")
         }else if(outputnr==2){
-            //Leverandør får kundeleads pr. mail
+        //Leverandør får kundeleads pr. mail
 
         }else if(outputnr==3){
-            //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
+        //Kunden får en guide på mail med beskrivelse på hvordan bli kunde hos leverandør med Innkjøpsgruppens avtale.
             
         }else if(outputnr==4){
-            //Direkte mail til leverandør med kunde info
+        //Direkte mail til leverandør med kunde info
             
+        }else if(outputnr==5){
+        //Brukes dersom en kunde ønsker en leverandør, men det er usikkert når de har behov for varene/tjenestene
+
         }
 
-
-
-
-
-
-
-
-
-        
     }
 
 
-
 }
+
+
+
+
+
 
 
 function loadmemberCard() {
