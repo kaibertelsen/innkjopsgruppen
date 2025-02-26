@@ -562,11 +562,10 @@ function ruteresponse(data,id){
         responsEmailsearchServerEmployer(data);
     }else if(id == "companyControllResponse"){
         companyControllResponse(data);
+    }else if(id == "responsSupplierConnection"){
+        responsSupplierConnection(data);
     }
 
-    
-    
-    
 }
 
 function convertJsonStringsToObjects(jsonStrings) {
@@ -686,6 +685,7 @@ function supplierConnecting(supplier, checkbox) {
         // Hvis brukeren bekrefter, sett checkbox tilbake til checked, ellers fjern den
         if (confirm(confirmMessage)) {
             checkbox.checked = true;  // Hvis bekreftet, behold checked
+            connectToSupplier(supplier);
         } else {
             checkbox.checked = false; // Hvis ikke bekreftet, sett unchecked
         }
@@ -701,6 +701,17 @@ function supplierConnecting(supplier, checkbox) {
         }
     }
 }
+function connectToSupplier(supplier){
+    // send kobling til airtable
+    let body = {company:[activeCompany.airtable],supplier:[supplier.airtable],bruker:[userid]};
+    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"responsSupplierConnection")
+
+}
+
+function responsSupplierConnection(data){
+console.log(data);
+}
+
 
 function loadmemberCard() {
     const cardWrapper = document.getElementById("cardwrapper");
