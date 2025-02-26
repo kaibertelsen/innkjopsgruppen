@@ -714,7 +714,7 @@ function connectToSupplier(supplier){
 function responsSupplierConnection(rawdata) {
     let data = rawdata.fields;
 
-    if (data?.outputnr[0]) {
+    if (data?.outputnr) {
         let outputnr = data.outputnr[0];
         let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
         let body = { mailto: "", name: "", subject: "", content: "", attachment: "", type: "", data: "" };
