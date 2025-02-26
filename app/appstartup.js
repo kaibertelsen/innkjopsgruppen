@@ -711,11 +711,11 @@ function connectToSupplier(supplier){
 
 }
 
-function responsSupplierConnection(data) {
-    let connectionObject = data.fields;
+function responsSupplierConnection(rawdata) {
+    let data = rawdata.fields;
 
-    if (connectionObject?.outputnr[0]) {
-        let outputnr = connectionObject.outputnr[0];
+    if (data?.outputnr[0]) {
+        let outputnr = data.outputnr[0];
         let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
         let body = { mailto: "", name: "", subject: "", content: "", attachment: "" };
 
