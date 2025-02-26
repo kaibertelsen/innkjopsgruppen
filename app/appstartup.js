@@ -13,6 +13,7 @@ var categories;
 var Employeemode = false;
 var isSharkey = false;
 var isLoggedin = false;
+var activeSupplierList;
 
 document.getElementById("menybuttonopener").addEventListener("click", function() {
     const menyElement = document.getElementById("menyelementwrapper");
@@ -685,7 +686,9 @@ function savingMoney(){
 }
 
 document.getElementById("supplierSwitsjIntern").addEventListener("change", function() {
-    supplierConnecting(activeSupplier, this)
+    supplierConnecting(activeSupplier, this);
+    //last suppiers in i listen på nytt
+    listSuppliers(activeSupplierList);
 });
 
 function supplierConnecting(supplier, checkbox) {
