@@ -717,18 +717,30 @@ function responsSupplierConnection(rawdata) {
     if (data?.outputnr[0]) {
         let outputnr = data.outputnr[0];
         let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
-        let body = { mailto: "", name: "", subject: "", content: "", attachment: "", type: ""};
+        let body = { mailto: "", name: "", subject: "", content: "", attachment: "", type: "", data: "" };
+
+        // Formatering av kundedata i HTML
+        function formatCustomerData() {
+            return `
+                <p><strong>${data.companyname[0]} (${data.companyorgnr[0]})</strong></p>
+                <p>Adresse: Garden 12b, 5379 Steinsland</p>
+                <p><strong>Kontaktperson:</strong><br>
+                ${data.brukernavn[0]}<br>
+                Telefon: ${data.brukertelefon ? data.brukertelefon[0] : "Ikke oppgitt"}<br>
+                E-post: ${data.useremail[0]}</p>
+            `;
+        }
 
         switch (outputnr) {
             case 1:
                 // Kunden får en guide på mail
                 body = {
-                    mailto: data.useremail,
-                    name: data.brukernavn,
-                    subject: data.subjectcompany,
-                    content: data.mailcontentcompany,
-                    attachment: data.data.guidfil,
-                    type:"customer"
+                    mailto: data.useremail[0],
+                    name: data.brukernavn[0],
+                    subject: data.subjectcompany[0],
+                    content: data.mailcontentcompany[0],
+                    attachment: data.data?.guidfil || "",
+                    type: "customer"
                 };
                 break;
             case 2:
@@ -736,12 +748,13 @@ function responsSupplierConnection(rawdata) {
             case 5:
                 // Leverandør får kundeleads / direkte mail med kundeinfo
                 body = {
-                    mailto: data.mailtosupplier,
+                    mailto: data.mailtosupplier[0],
                     name: "",
-                    subject: data.subjectsupplier,
-                    content: data.mailcontentsupplier,
+                    subject: data.subjectsupplier[0],
+                    content: data.mailcontentsupplier[0],
                     attachment: "",
-                    type:"supplier"
+                    type: "supplier",
+                    data: formatCustomerData()
                 };
                 break;
             case 3:
@@ -749,10 +762,11 @@ function responsSupplierConnection(rawdata) {
                 body = {
                     mailto: "post@innkjops-gruppen.no",
                     name: "",
-                    subject: `Kunde ${data.companyname} ble tilkoblet leverandøren ${data.suppliername}`,
-                    content: data.mailcontentsupplier,
+                    subject: `Kunde ${data.companyname[0]} ble tilkoblet leverandøren ${data.suppliername[0]}`,
+                    content: data.mailcontentsupplier[0],
                     attachment: "",
-                    type:"IG"
+                    type: "IG",
+                    data: formatCustomerData()
                 };
                 break;
             default:
@@ -763,6 +777,7 @@ function responsSupplierConnection(rawdata) {
         sendDataToZapierWebhook(body, Url, "responsZapierUrl");
     }
 }
+
 
 
 function responsZapierUrl(data){
