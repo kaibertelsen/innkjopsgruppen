@@ -784,11 +784,28 @@ function responsZapierUrl(data){
     console.log(data);
 }
 
-function updateLocalSupplier(data){
+function updateLocalSupplier(data) {
+    let supplier = convertSuppliersJsonStringsToObjects(data)[0];
 
-   let supplier =  convertSuppliersJsonStringsToObjects(data)[0];
+    if (!supplier || !supplier.airtable) {
+        console.warn("Ugyldig leverandørdata:", supplier);
+        return;
+    }
 
+    // Anta at suppliers-arrayen eksisterer globalt eller sendes inn som parameter
+    let index = suppliers.findIndex(s => s.airtable === supplier.airtable);
+
+    if (index !== -1) {
+        // Oppdater eksisterende leverandør
+        suppliers[index] = { ...suppliers[index], ...supplier };
+        console.log(`Leverandør med Airtable ID ${supplier.airtable} oppdatert.`);
+    } else {
+        // Legg til leverandøren hvis den ikke finnes
+        suppliers.push(supplier);
+        console.log(`Ny leverandør med Airtable ID ${supplier.airtable} lagt til.`);
+    }
 }
+
 
 function loadmemberCard() {
     const cardWrapper = document.getElementById("cardwrapper");
