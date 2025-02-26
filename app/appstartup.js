@@ -6,6 +6,7 @@ var userObject;
 var suppliers = [];
 let currentFlippedElement = null;
 var activeCompany = {};
+var activeSupplier = {};
 var mainlistElementClass = ".suppliercard";
 var areas;
 var categories;
@@ -639,9 +640,7 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 
 function supplierChosed(supplier) {
     console.log(supplier);
-
-
-    
+    activeSupplier = supplier;
     // Simulerer klikk på elementet med id "tabsupplier"
     document.getElementById("tabsupplier").click();
 
@@ -676,6 +675,10 @@ function savingMoney(){
       // Simulerer klikk på elementet
       document.getElementById("savingmoneytabbutton").click();
 }
+
+document.getElementById("supplierSwitsjIntern").addEventListener("change", function() {
+    supplierConnecting(activeSupplier, this)
+});
 
 function supplierConnecting(supplier, checkbox) {
     console.log(supplier);
@@ -787,7 +790,6 @@ function responsSupplierConnection(rawdata) {
 function responsZapierUrl(data){
     console.log(data);
 }
-
 
 function loadmemberCard() {
     const cardWrapper = document.getElementById("cardwrapper");
