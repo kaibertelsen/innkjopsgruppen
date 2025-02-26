@@ -703,7 +703,7 @@ function supplierConnecting(supplier, checkbox) {
 }
 function connectToSupplier(supplier){
     // send kobling til airtable
-    let body = {company:[activeCompany.airtable],supplier:[supplier.airtable],bruker:[userid]};
+    let body = JSON.stringify({company:[activeCompany.airtable],supplier:[supplier.airtable],bruker:[userid]});
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"responsSupplierConnection")
 
 }
