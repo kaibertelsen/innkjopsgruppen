@@ -248,20 +248,17 @@ function employerModeLayout(status){
     const savingmoneybutton = document.getElementById("savingmoneybutton");
     const dealsIcon = document.getElementById("filtermydealsbutton");
     const typeDealsFilterwrapper = document.getElementById("typeDealsFilterwrapper");
-    const supplierSwitsjIntern = document.getElementById("supplierSwitsjIntern");
   
     if(status){
         companypagebutton.style.display = "none";
         savingmoneybutton.style.display = "none";
         dealsIcon.style.display = "none";
         typeDealsFilterwrapper.style.display = "none";
-        supplierSwitsjIntern.style.display = "none";
     }else{
         companypagebutton.style.display = "block";
         savingmoneybutton.style.display = "block";
         dealsIcon.style.display = "inline-block";
         typeDealsFilterwrapper.style.display = "block";
-        supplierSwitsjIntern.style.display = "block";
     }
    
 }
@@ -656,10 +653,12 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 function supplierChosed(supplier) {
     console.log(supplier);
     activeSupplier = supplier;
-
-    if(!Employeemode){
+    const checkbox = document.getElementById("supplierSwitsjIntern");
+    if(Employeemode){
+        checkbox.style.display = "none";
+    }else{
         //sjekke om denne leverandøren et tilkoblet
-        const checkbox = document.getElementById("supplierSwitsjIntern");
+        
         if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
             checkbox.checked = true;
         }else{
