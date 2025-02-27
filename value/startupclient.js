@@ -1,3 +1,5 @@
+var userid = "";
+
 function startApp(){
 
     document.getElementById("contentscreen").style.display = "none";
@@ -67,10 +69,8 @@ function respondcustomerlist(data,id){
         //sende beskjed om at denne linken er åpnet
         sendresponsData(data.fields);
 }
-async function sendresponsData(data) {
+function sendresponsData(data) {
     try {
-        // Hent medlem fra MemberStack
-        let member = MemberStack.getMember();
         let body = {
             link: window.location.href,
             device: getDeviceType()
@@ -81,9 +81,9 @@ async function sendresponsData(data) {
             body.company = [data.airtable];
         }
 
-        // Legg til user ID hvis brukeren er innlogget, ellers legg til en kommentar
-        if (member && member.id) {
-            body.user = member.id;
+        // Bruk global `userid` hvis definert, ellers legg til en kommentar
+        if (typeof userid !== "undefined" && userid) {
+            body.user = [userid]; // User lagres som en array
         } else {
             body.comment = "Bruker ikke innlogget";
         }
@@ -94,6 +94,7 @@ async function sendresponsData(data) {
         console.error("Feil ved sending av responsdata:", error);
     }
 }
+
 
 async function sendDataToZapierWebhook(data,url,id) {
     

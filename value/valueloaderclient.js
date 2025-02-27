@@ -18,6 +18,11 @@ cdnScripts.reduce((promise, script) => {
     return promise.then(() => loadScript(script));
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
+    MemberStack.onReady.then(function(member) {
+        if (member.loggedIn){
+         userid = member.airtableid;
+          }
+      });
     startApp();
 }).catch(error => {
     console.error(error);
