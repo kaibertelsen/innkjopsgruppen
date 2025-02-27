@@ -73,7 +73,8 @@ function sendresponsData(data) {
     try {
         let body = {
             link: window.location.href,
-            device: getDeviceType()
+            device: getDeviceType(),
+            comment: "Link åpnet" 
         };
 
         // Legg til company som array hvis den eksisterer
@@ -85,7 +86,7 @@ function sendresponsData(data) {
         if (typeof userid !== "undefined" && userid) {
             body.user = [userid]; // User lagres som en array
         } else {
-            body.comment = "Bruker ikke innlogget";
+            body.comment = "Link - Bruker ikke innlogget";
         }
 
         sendDataToZapierWebhook(body, "https://hooks.zapier.com/hooks/catch/10455257/2ggc5vw/", "responsDataLink");
