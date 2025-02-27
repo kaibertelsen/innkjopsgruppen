@@ -62,8 +62,77 @@ function respondcustomerlist(data,id){
         document.getElementById("contentscreen").style.display = "block";
        
         //skul loader
-         document.getElementById("loadingscreen").style.display = "none";
+        document.getElementById("loadingscreen").style.display = "none";
+
+        //sende beskjed om at denne linken er åpnet
+        sendresponsData(data.fields);
 }
+async function sendresponsData(data) {
+    try {
+        // Hent medlem fra MemberStack
+        let member = await MemberStack.getMember();
+        let body = {
+            link: window.location.href,
+            device: getDeviceType()
+        };
+
+        // Legg til company som array hvis den eksisterer
+        if (data.airtable) {
+            body.company = [data.airtable];
+        }
+
+        // Legg til user ID hvis brukeren er innlogget, ellers legg til en kommentar
+        if (member && member.id) {
+            body.user = member.id;
+        } else {
+            body.comment = "Bruker ikke innlogget";
+        }
+
+        sendDataToZapierWebhook(body, "https://hooks.zapier.com/hooks/catch/10455257/2ggc5vw/", "responsDataLink");
+        console.log("Data sendt til Zapier:", body);
+    } catch (error) {
+        console.error("Feil ved sending av responsdata:", error);
+    }
+}
+
+async function sendDataToZapierWebhook(data,url,id) {
+    
+    const formData = new FormData();
+    for (const key in data) {
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+    }
+  
+    const response = await fetch(url, {
+        method: "POST",
+        body: formData
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }else{
+    let data = await response.json();
+    responsDataLink();
+    }
+}
+function responsDataLink(){
+    console.log("Data sent");
+}
+
+function getDeviceType() {
+    const width = window.innerWidth;
+    if (width < 768) {
+        return "Mobile";
+    } else if (width < 1024) {
+        return "Tablet";
+    } else {
+        return "Desktop";
+    }
+}
+
+console.log(getDeviceType()); // F.eks. "Mobile", "Tablet" eller "Desktop"
+
     
 function makecompanylines(data){
     
