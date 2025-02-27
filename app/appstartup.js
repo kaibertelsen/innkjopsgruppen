@@ -655,10 +655,10 @@ function supplierChosed(supplier) {
     activeSupplier = supplier;
     const checkbox = document.getElementById("supplierSwitsjIntern");
     if(Employeemode){
-        checkbox.style.display = "none";
+        checkbox.parentElement.style.display = "none";
     }else{
         //sjekke om denne leverandøren et tilkoblet
-        
+        checkbox.parentElement.style.display = "block";
         if (activeCompany.connection.some(conn => conn.supplier === supplier.airtable)) {
             checkbox.checked = true;
         }else{
