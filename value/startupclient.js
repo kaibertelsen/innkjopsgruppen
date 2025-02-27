@@ -87,7 +87,7 @@ function sendresponsData(data) {
         if (typeof userid !== "undefined" && userid) {
             body.user = [userid]; // User lagres som en array
         } else {
-            body.comment = "Link - Bruker ikke innlogget";
+            body.comment = "Link åpnet - Bruker ikke innlogget";
         }
 
         sendDataToZapierWebhook(body, "https://hooks.zapier.com/hooks/catch/10455257/2ggc5vw/", "responsDataLink");
