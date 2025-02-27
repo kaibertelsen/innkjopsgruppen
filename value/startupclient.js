@@ -70,7 +70,7 @@ function respondcustomerlist(data,id){
 async function sendresponsData(data) {
     try {
         // Hent medlem fra MemberStack
-        let member = await MemberStack.getMember();
+        let member = MemberStack.getMember();
         let body = {
             link: window.location.href,
             device: getDeviceType()
