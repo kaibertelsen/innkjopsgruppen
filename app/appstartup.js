@@ -120,6 +120,7 @@ function userResponse(data) {
 
         if (optionToSelect) {
             selector.value = favoriteCompanyId; // Velger favorittselskapet
+            activeCompany = companys.find(company => company.airtable === favoriteCompanyId);
         } else {
             console.warn(`Favorittselskapet med ID '${favoriteCompanyId}' finnes ikke i listen.`);
         }
@@ -127,6 +128,7 @@ function userResponse(data) {
         // Velg det første selskapet i listen dersom ingen favorittselskap er angitt
         if (companys.length > 0) {
             selector.value = companys[0].airtable; // Sett første element som valgt
+            activeCompany = companys[0];
         } else {
             console.warn("Ingen selskaper tilgjengelige i listen.");
         }
@@ -759,7 +761,6 @@ function supplierConnecting(supplier, checkbox) {
         }
     }
 }
-
 
 function responseDeleteConenction(data){
     console.log(data);
