@@ -69,6 +69,7 @@ function respondcustomerlist(data,id){
         //sende beskjed om at denne linken er åpnet
         sendresponsData(data.fields);
 }
+
 function sendresponsData(data) {
     try {
         let body = {
@@ -96,7 +97,6 @@ function sendresponsData(data) {
     }
 }
 
-
 async function sendDataToZapierWebhook(data,url,id) {
     
     const formData = new FormData();
@@ -118,6 +118,7 @@ async function sendDataToZapierWebhook(data,url,id) {
     responsDataLink();
     }
 }
+
 function responsDataLink(){
     console.log("Data sent");
 }
@@ -134,8 +135,7 @@ function getDeviceType() {
 }
 
 console.log(getDeviceType()); // F.eks. "Mobile", "Tablet" eller "Desktop"
-
-    
+ 
 function makecompanylines(data){
     
     var valuearray = data.fields.valuecashflow;
