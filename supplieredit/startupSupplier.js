@@ -88,7 +88,7 @@ function listSuppliersinList(suppliers){
         return;
     }
 
-    const nodeElement = elementLibrary.querySelector("supplier");
+    const nodeElement = elementLibrary.querySelector(".supplier");
     if (!nodeElement) {
         console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
         return;
