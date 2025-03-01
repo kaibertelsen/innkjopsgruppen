@@ -124,9 +124,35 @@ function listSuppliersinList(suppliers){
 function openSupplier(supplier){
 
     console.log(supplier);
+    //åpne leverandørsiden
+    document.getElementById("supplierTagbutton").click();
+
+    const supplierPageConteiner = document.getElementById("supplierPageConteiner");
+    
+
+    const suppliernamepage = supplierPageConteiner.querySelector(".suppliernamepage");
+    suppliernamepage.textContent = supplier.name;
+
+    const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
+    supplierlogo.src = supplier.logo;
+
+    const shortdescription = supplierPageConteiner.querySelector(".shortdescription");
+    shortdescription.textContent = supplier.kortinfo;
+
+    const contentInfoelement = supplierPageConteiner.querySelector(".contentInfoelement");
+    contentInfoelement.innerHTML = supplier.info || "Ingen informasjon";
+  
+
 }
 
+document.getElementById("saveButton").addEventListener("click", function () {
+    // Hent innholdet fra TinyMCE editoren
+    var editorContent = tinymce.get("editor").getContent();
 
+    // Logg innholdet i konsollen (for debugging)
+    console.log("Innhold som skal lagres:", editorContent);
+
+});
 
 
 
