@@ -140,20 +140,30 @@ function openSupplier(supplier){
     shortdescription.textContent = supplier.kortinfo;
 
     const contentInfoelement = supplierPageConteiner.querySelector(".contentInfoelement");
-    contentInfoelement.innerHTML = supplier.info || "Ingen informasjon";
+    loadContentIntoEditor(supplier.info);
   
 
 }
 
 document.getElementById("saveButton").addEventListener("click", function () {
     // Hent innholdet fra TinyMCE editoren
-    var editorContent = tinymce.get("editor").getContent();
+    var editorContent = tinymce.get("#contentInfoelement").getContent();
 
     // Logg innholdet i konsollen (for debugging)
     console.log("Innhold som skal lagres:", editorContent);
 
 });
 
+function loadContentIntoEditor(htmlContent) {
+    var editorInstance = tinymce.get("#contentInfoelement");
+
+    if (!editorInstance) {
+        console.error("TinyMCE-editoren er ikke lastet inn ennå.");
+        return;
+    }
+
+    editorInstance.setContent(htmlContent); // Setter HTML-innhold i editoren
+}
 
 
 function ruteresponse(data,id){
