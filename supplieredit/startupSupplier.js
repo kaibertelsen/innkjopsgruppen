@@ -146,7 +146,7 @@ function openSupplier(supplier){
 
 document.getElementById("saveButton").addEventListener("click", function () {
     // Hent innholdet fra TinyMCE editoren
-    var editorContent = tinymce.get("#contentInfoelement").getContent();
+    var editorContent = tinymce.get("contentInfoelement").getContent();
 
     // Logg innholdet i konsollen (for debugging)
     console.log("Innhold som skal lagres:", editorContent);
@@ -154,7 +154,7 @@ document.getElementById("saveButton").addEventListener("click", function () {
 });
 
 function loadContentIntoEditor() {
-    var editorInstance = tinymce.get("editor");
+    var editorInstance = tinymce.get("contentInfoelement");
 
     if (!editorInstance) {
         console.error("TinyMCE-editoren er ikke lastet inn ennå.");
@@ -244,21 +244,27 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 
 
 
-  tinymce.init({
-    selector: '#contentInfoelement',
+tinymce.init({
+    selector: '#contentInfoelement', // Må ha # her
     plugins: [
-      // Core editing features
-      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-      // Your account includes a free trial of TinyMCE premium features
-      // Try the most popular premium features until Mar 14, 2025:
-      'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
     ],
     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',
     mergetags_list: [
-      { value: 'First.Name', title: 'First Name' },
-      { value: 'Email', title: 'Email' },
+        { value: 'First.Name', title: 'First Name' },
+        { value: 'Email', title: 'Email' },
     ],
     ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-  });
+
+    setup: function (editor) {
+        editor.on('init', function () {
+            console.log("TinyMCE for #contentInfoelement er lastet inn!");
+
+            // Sett HTML-innhold når editoren er klar
+            loadContentIntoEditor();
+        });
+    }
+});
