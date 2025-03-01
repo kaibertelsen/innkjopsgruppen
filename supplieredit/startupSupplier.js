@@ -227,14 +227,5 @@ tinymce.init({
         { value: 'First.Name', title: 'First Name' },
         { value: 'Email', title: 'Email' },
     ],
-    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-
-    setup: function (editor) {
-        editor.on('init', function () {
-            console.log("TinyMCE for #contentInfoelement er lastet inn!");
-
-            // Sett HTML-innhold når editoren er klar
-            loadContentIntoEditor();
-        });
-    }
+    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant'))
 });
