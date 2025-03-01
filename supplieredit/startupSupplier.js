@@ -153,7 +153,7 @@ document.getElementById("saveButton").addEventListener("click", function () {
 
 });
 
-function loadContentIntoEditor() {
+function loadContentIntoEditor(htmlContent) {
     var editorInstance = tinymce.get("contentInfoelement");
 
     if (!editorInstance) {
@@ -161,36 +161,6 @@ function loadContentIntoEditor() {
         return;
     }
 
-    // HTML-innholdet du ønsker å laste inn
-    var htmlContent = `<p id=""><strong id="">Fordelsavtale:</strong></p>
-        <p id="">30% rabatt for IG medlemmer</p>
-        <p id="">‍</p>
-        <p id="">Allport er vår leverandør av garasjeporter, industriporter og gjerder med premium kvalitet. <br>‍</p>
-        <figure id="" class="w-richtext-figure-type-image w-richtext-align-floatleft" data-rt-type="image" data-rt-align="floatleft">
-            <div id=""><img src="https://uploads-ssl.webflow.com/6346cfad3c47af9f6e8cc934/639852bd60b1ead225abadaf_Industriport.jpg" loading="lazy" id="" width="auto" height="auto"></div>
-        </figure>
-        <p id="">Stort utvalg av industriporter</p>
-        <ul id="">
-            <li id="">Rulleporter</li>
-            <li id="">Leddporter</li>
-            <li id="">Hengende skyveporter</li>
-            <li id="">Foldeporter</li>
-            <li id="">Lastesystemer</li>
-        </ul>
-        <figure id="" class="w-richtext-figure-type-image w-richtext-align-floatright" data-rt-type="image" data-rt-align="floatright">
-            <div id=""><img src="https://uploads-ssl.webflow.com/6346cfad3c47af9f6e8cc934/639856322dd6d57b8bbaea4c_grind.jpg" loading="lazy" id="" width="auto" height="auto"></div>
-        </figure>
-        <p id=""><br></p>
-        <p id=""><br>‍</p>
-        <p id="">‍</p>
-        <p id="">‍</p>
-        <p id="">‍<br><br>Automatiske skyveporter</p>
-        <ul id="">
-            <li id="">Velprøvd teknologi og enkel montering</li>
-            <li id="">Sikker og pålitelig drift</li>
-            <li id="">Funksjonalitet og sikkerhet</li>
-        </ul>
-        <p id="">‍<br></p>`;
 
     // Sett HTML-innholdet i TinyMCE
     editorInstance.setContent(htmlContent);
