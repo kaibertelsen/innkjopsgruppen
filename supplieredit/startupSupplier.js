@@ -232,17 +232,27 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 
 
 tinymce.init({
-    selector: '#contentInfoelement', // Må ha # her
-    plugins: [
-        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
-    ],
+    selector: '#contentInfoelement', // Sørg for at dette ID-en matcher textarea
+    plugins: 'autoresize anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',
-    mergetags_list: [
-        { value: 'First.Name', title: 'First Name' },
-        { value: 'Email', title: 'Email' },
-    ],
-    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant'))
+
+    // 🚀 Auto-resize plugin konfigurasjon
+    autoresize_bottom_margin: 20, // Ekstra margin nederst
+    autoresize_min_height: 150,   // Minimum høyde
+    autoresize_max_height: 500,   // Maks høyde før scroll aktiveres
+    menubar: false,               // Skjuler menylinjen for et renere grensesnitt
+
+    // 🚀 Setup-funksjon for event listeners
+    setup: function (editor) {
+        editor.on('init', function () {
+            console.log("TinyMCE for #contentInfoelement er lastet inn!");
+        });
+
+        // Juster høyde dynamisk når innholdet endres
+        editor.on('input', function () {
+            adjustEditorHeight();
+        });
+    }
 });
