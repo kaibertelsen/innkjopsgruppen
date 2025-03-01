@@ -161,10 +161,27 @@ function loadContentIntoEditor(htmlContent) {
         return;
     }
 
-
     // Sett HTML-innholdet i TinyMCE
     editorInstance.setContent(htmlContent);
+
+    // 🚀 Juster høyden basert på innholdets faktiske størrelse
+    setTimeout(() => adjustEditorHeight(), 300); // Vent litt slik at innholdet rendres først
 }
+
+function adjustEditorHeight() {
+    var editorInstance = tinymce.get("contentInfoelement");
+
+    if (!editorInstance) return;
+
+    // Finn TinyMCE sitt innholdselement
+    var editorBody = editorInstance.getContentAreaContainer().querySelector("iframe");
+
+    if (editorBody) {
+        var newHeight = editorBody.contentWindow.document.body.scrollHeight + 20; // Legg til ekstra padding
+        editorInstance.iframeElement.style.height = newHeight + "px"; // Oppdater høyde
+    }
+}
+
 
 
 
