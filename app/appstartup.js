@@ -23,7 +23,9 @@ document.getElementById("menybuttonopener").addEventListener("click", function()
         hideMenye();
     }
 });
+
 hideMenye();
+
 function hideMenye(){
     const menyElement = document.getElementById("menyelementwrapper");
     menyElement.style.height = "0px"; // Skjuler igjen
@@ -58,7 +60,6 @@ function rootPageControll(page){
 
 function userResponse(data) {
   
-
     if (data.fields?.onboarded && data.fields.onboarded === true) {
         // Brukeren er allerede onboarded
         console.log("Brukeren er allerede onboarded.");

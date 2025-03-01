@@ -71,12 +71,60 @@ function sortSuppliers(suppliers) {
 }
 
 function listSuppliersinList(suppliers){
-    console.log(suppliers);
+
+    // Hent containeren for leverandører
+    const supplierContainer = document.getElementById("supplierlist");
+    if (!supplierContainer) {
+        console.error("Ingen container funnet for visning av leverandører.");
+        return;
+    }
+  
+    // Tøm container
+    supplierContainer.innerHTML = '';
+
+    const elementLibrary = document.getElementById("elementlibrary");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
+    }
+
+    const nodeElement = elementLibrary.querySelector("supplier");
+    if (!nodeElement) {
+        console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
+        return;
+    }
+
+    //sette counter
+    const counter = document.getElementById("counterlist");
+    counter.textContent = filteredData.length+"skt.";
+    counter.style.display = "block";
+    
+    suppliers.forEach(supplier => {
+        const supplierElement = nodeElement.cloneNode(true);
+
+        // Sett navn
+        const name = supplierElement.querySelector('.suppliername');
+        if (name) name.textContent = supplier.name || "Ukjent navn";
+        
+        //leg til klikk event for knapp
+        const button = supplierElement.querySelector('.openingbutton');
+        button.addEventListener("click", function() {
+            // Kjør funksjonen med den aktive leverandørlisten
+            openSupplier(supplier);
+        });
+
+        // Legg til leverandøren i containeren
+        supplierContainer.appendChild(supplierElement);
+    });
+
+    
 }
 
 
+function openSupplier(supplier){
 
-
+    console.log(supplier);
+}
 
 
 
