@@ -96,7 +96,7 @@ function listSuppliersinList(suppliers){
 
     //sette counter
     const counter = document.getElementById("counterlist");
-    counter.textContent = filteredData.length+"skt.";
+    counter.textContent = suppliers.length+"skt.";
     counter.style.display = "block";
     
     suppliers.forEach(supplier => {
