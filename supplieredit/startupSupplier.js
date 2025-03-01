@@ -73,7 +73,7 @@ function sortSuppliers(suppliers) {
 function listSuppliersinList(suppliers){
 
     // Hent containeren for leverandører
-    const supplierContainer = document.getElementById("supplierlist");
+    const supplierContainer = document.getElementById("supplierlistconteiner");
     if (!supplierContainer) {
         console.error("Ingen container funnet for visning av leverandører.");
         return;
