@@ -1,3 +1,4 @@
+var gsuppliers = [];
 
 function getSuppier(){     
 //hente leverandører
@@ -14,9 +15,71 @@ function supplierResponse(data){
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.supplierjson;
     suppliers = convertSuppliersJsonStringsToObjects(jsonStrings);
+    gsuppliers = suppliers;
+    startupSupplierList(suppliers)
+}
 
+document.getElementById("searchinput").addEventListener("input", function () {
+
+    // Kjør startupSupplierList med de filtrerte leverandørene
+    startupSupplierList(gsuppliers);
+});
+
+function startupSupplierList(suppliers){
+   // Filtrer leverandørene
+   suppliers = filterSuppliers(suppliers);
+
+   // Sorter leverandørene alfabetisk
+   suppliers = sortSuppliers(suppliers);
+
+   // List leverandørene i listen
+   listSuppliersinList(suppliers)
+
+}
+
+function filterSuppliers(suppliers) {
+    // Hent input-feltet
+    const searchInput = document.getElementById("searchinput");
+
+    if (!searchInput) {
+        console.error("Fant ikke input-feltet med id 'searchinput'");
+        return suppliers;
+    }
+
+    // Hent søketeksten og trim mellomrom
+    const searchText = searchInput.value.trim().toLowerCase();
+
+    // Hvis søketeksten er tom, returner hele listen
+    if (searchText === "") {
+        return suppliers;
+    }
+
+    // Filtrer leverandører basert på søketeksten
+    return suppliers.filter(supplier =>
+        supplier.name.toLowerCase().includes(searchText)
+    );
+}
+
+function sortSuppliers(suppliers) {
+   
+    // Filtrer ut ugyldige eller tomme verdier (valgfritt)
+    let filteredSuppliers = suppliers.filter(supplier => supplier.name && supplier.name.trim() !== "");
+
+    // Sorter leverandørene alfabetisk etter navn (case-insensitiv)
+    filteredSuppliers.sort((a, b) => a.name.localeCompare(b.name, 'no', { sensitivity: 'base' }));
+    return filteredSuppliers;
+}
+
+function listSuppliersinList(suppliers){
     console.log(suppliers);
 }
+
+
+
+
+
+
+
 
 
 function ruteresponse(data,id){
