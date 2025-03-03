@@ -1,4 +1,7 @@
 var gsuppliers = [];
+var malonetext;
+var maltotext;
+var orginaltext;
 
 function getSuppier(){     
 //hente leverandører
@@ -120,7 +123,6 @@ function listSuppliersinList(suppliers){
     
 }
 
-
 function openSupplier(supplier){
 
     console.log(supplier);
@@ -141,16 +143,27 @@ function openSupplier(supplier){
 
     const contentInfoelement = supplierPageConteiner.querySelector(".contentInfoelement");
     loadContentIntoEditor(supplier.info);
+    orginaltext = supplier.info;
   
 }
 
 document.getElementById("saveButton").addEventListener("click", function () {
     // Hent innholdet fra TinyMCE editoren
     var editorContent = tinymce.get("contentInfoelement").getContent();
-
+    orginaltextbutton = editorContent;
     // Logg innholdet i konsollen (for debugging)
     console.log("Innhold som skal lagres:", editorContent);
 
+});
+document.getElementById("malonetextbutton").addEventListener("click", function () {
+    loadContentIntoEditor(malonetext);
+});
+document.getElementById("malonetextbutton").addEventListener("click", function () {
+    loadContentIntoEditor(orginaltextbutton);
+});
+
+document.getElementById("malonetextbutton").addEventListener("click", function () {
+    loadContentIntoEditor(malonetext);
 });
 
 function loadContentIntoEditor(htmlContent) {
@@ -181,8 +194,6 @@ function adjustEditorHeight() {
         editorInstance.iframeElement.style.height = newHeight + "px"; // Oppdater høyde
     }
 }
-
-
 
 
 function ruteresponse(data,id){
@@ -246,3 +257,32 @@ tinymce.init({
     ],
     ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant'))
 });
+
+
+
+malonetext = `
+<p><span style="font-size: 14pt;"><strong>Generell informasjon:</strong></span><br>
+Vi har forhandlet frem en fastprisavtale for bedrifter på et utvalg av produkter og tjenester fra <strong>{leverandørnavn}</strong>. 
+Denne avtalen sikrer konkurransedyktige priser, også i høysesong, slik at din bedrift kan oppnå besparelser og forutsigbarhet i kostnader.
+</p>
+
+<p>I tillegg har vi sikret <strong>{rabatt_prosent}%</strong> rabatt på hele sortimentet for ansatte, slik at de også kan dra nytte av gunstige betingelser.</p>
+
+<h3><span style="font-size: 14pt;"><strong>Fordeler med avtalen:</strong></span></h3>
+<ul>
+  <li><strong>Fastpriser</strong> på et utvalg {produktkategori}</li>
+  <li><strong>Forutsigbarhet</strong> – sikre deg lave priser også i høysesong</li>
+  <li><strong>Avtalenummer (AWD): {avtalenummer}</strong> – enkelt å benytte rabatten ved bestilling</li>
+  <li><strong>Tilgang til bedriftskonto</strong> – mulighet for å knytte {betalingsløsning} til en felles bedriftskonto som kan benyttes av alle ansatte</li>
+  <li><strong>Enkel registrering</strong> – en guide for opprettelse av bedriftskonto er vedlagt</li>
+</ul>
+
+<h3><strong>Hvordan komme i gang:</strong></h3>
+<ol>
+  <li><strong>Registrer deg</strong> ved å aktiver tilknytningsbryteren øverst til høyre på denne siden...</li>
+  <li><strong>Bruk avtalenummeret {avtalenummer}</strong> ved bestilling for å sikre fastprisene og rabattene...</li>
+  <li><strong>Del fordelen med dine ansatte</strong> – de kan opprette konto og benytte seg av rabatten...</li>
+</ol>
+
+<p>For spørsmål eller mer informasjon, kontakt <strong>{kontaktperson}</strong> - <strong>{kontaktinfo}</strong>.</p>
+`;
