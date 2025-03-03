@@ -156,6 +156,7 @@ document.getElementById("saveButton").addEventListener("click", function () {
    
     if (document.getElementById("malonetextbutton").classList.contains("active")) {
         orginaltext = editorContent;
+        document.getElementById("orginaltextbutton").click();
     } else {
     document.getElementById("orginaltextbutton").classList.add("active");
     document.getElementById("malonetextbutton").classList.remove("active");
@@ -185,8 +186,9 @@ document.getElementById("malonetextbutton").addEventListener("click", function (
 
     // Legg til "active"-klassen på "malonetextbutton"
     this.classList.add("active");
-
-    document.getElementById("saveButton").textContent = "Kopier til gjeldende";
+    const saveButton = document.getElementById("saveButton");
+    saveButton.textContent = "Kopier til gjeldende";
+    saveButton.classList.add("active");
 });
 
 document.getElementById("orginaltextbutton").addEventListener("click", function () {
