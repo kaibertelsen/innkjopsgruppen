@@ -631,11 +631,23 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
                 }
             }
 
+            let shortinfoValue = '';
+            if (jsonString.includes('"kortinfo":')) {
+                // Ekstraher `info`-feltet med en regex (forutsatt korrekt JSON-format)
+                const shortinfoMatch = jsonString.match(/"kortinfo":\s*"(.*?)"(,|\})/s);
+                if (shortinfoMatch) {
+                    shortinfoValue = shortinfoMatch[1];  // Ekstraher verdien av `info`
+                    jsonString = jsonString.replace(/"kortinfo":\s*".*?"(,|\})/s, '"kortinfo":""$1');  // Fjern HTML-innholdet midlertidig
+                }
+            }
+
+
             // Parse JSON-strengen uten HTML-dataen
             const data = JSON.parse(jsonString);
 
             // Legg tilbake `info`-feltet
             data.info = infoValue;
+            data.kortinfo = shortinfoValue;
 
             // Sørg for at "group" og "category" alltid er arrays
             if (!data.group) {
