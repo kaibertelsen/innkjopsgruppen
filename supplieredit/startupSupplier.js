@@ -23,7 +23,6 @@ function supplierResponse(data){
     gsuppliers = suppliers;
     startupSupplierList(suppliers);
 
-
     const groups = data.fields.groupjson;
     gGroups = convertGroupJsonStringsToObjects(groups);
 }
@@ -157,7 +156,52 @@ function openSupplier(supplier){
     const contentInfoelement = tinymce.get("contentInfoelement");
     loadContentIntoEditor(contentInfoelement,supplier.info);
     orginaltext = supplier.info;
+
+
+    listGroups(supplier.group);
   
+}
+
+function listGroups(activeGroups){
+
+    // Hent containeren for leverandører
+    const groupContainer = document.getElementById("grouplist");
+    if (!groupContainer) {
+        console.error("Ingen container funnet for visning av leverandører.");
+        return;
+    }
+  
+    // Tøm container
+    groupContainer.innerHTML = '';
+
+    const elementLibrary = document.getElementById("groupelementwrapper");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
+    }
+
+    const nodeElement = elementLibrary.querySelector(".groupbuttom");
+    if (!nodeElement) {
+        console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
+        return;
+    }
+
+
+    gGroups.forEach(group => {
+        const groupElement = nodeElement.cloneNode(true);
+        groupElement.textContent = group.Name;
+        groupElement.dataset.groupid = group.airtable;
+
+        //hvis denne gruppen er i listen
+        if(activeGroups.includes(group.airtable)){
+            groupElement.classList.add("active");
+        }
+
+        groupContainer.appendChild(groupElement);
+
+    });
+
+
 }
 
 document.getElementById("publicSwitsh").addEventListener("click", function () {
@@ -171,8 +215,6 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
         saveSupplierInfo(activeSupplier.airtable, {skjult: true});
     }
 });
-
-
 
 document.getElementById("saveshorttextButton").addEventListener("click", function () {     
      // Hent innholdet fra TinyMCE editoren
