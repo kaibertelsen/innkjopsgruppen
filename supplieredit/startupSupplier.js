@@ -197,7 +197,7 @@ function responseSupplierDataUpdate(data){
 
 document.getElementById("malonetextbutton").addEventListener("click", function () {
     // Last inn innhold i TinyMCE
-    loadContentIntoEditor(malonetext);
+    loadContentIntoEditor(tinymce.get("contentInfoelement"),malonetext);
 
     // Fjern "active"-klassen fra "orginaltextbutton"
     document.getElementById("orginaltextbutton").classList.remove("active");
@@ -343,17 +343,6 @@ tinymce.init({
 });
 
 
-
-
-
-
-
-// 🔹 Funksjon som kjører hver gang brukeren endrer noe
-function handleEditorChange() {
-    console.log("Editor-innholdet er endret! Kan kjøre lagring eller oppdatering her.");
-    // Her kan du f.eks. aktivere en "Lagre"-knapp eller oppdatere forhåndsvisning
-    document.getElementById("saveButton").classList.add("active");
-}
 
 function handleEditorChange(editorId) {
 
