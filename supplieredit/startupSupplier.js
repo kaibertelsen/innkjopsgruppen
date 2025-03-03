@@ -135,6 +135,9 @@ function openSupplier(supplier){
 
     const publicSwitsh = document.getElementById("publicSwitsh");
     publicSwitsh.checked = supplier.hidden ? false : true;
+
+    const publicSwitshtext = document.getElementById("publicSwitshtext");
+    publicSwitshtext.textContent = supplier.hidden ? "Ikke publisert" : "Publisert";
     
     const suppliernamepage = supplierPageConteiner.querySelector(".suppliernamepage");
     suppliernamepage.textContent = supplier.name;
@@ -153,10 +156,13 @@ function openSupplier(supplier){
 }
 
 document.getElementById("publicSwitsh").addEventListener("click", function () {
+    const publicSwitshtext = document.getElementById("publicSwitshtext");
     // sjekke om den er checked
     if(this.checked){
+        publicSwitshtext.textContent = "Publisert";
         saveSupplierInfo(activeSupplier.airtable, {skjult: false});
     }else{
+        publicSwitshtext.textContent = "Ikke publisert";
         saveSupplierInfo(activeSupplier.airtable, {skjult: true});
     }
 });
