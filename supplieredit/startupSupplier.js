@@ -77,7 +77,7 @@ function sortSuppliers(suppliers) {
     filteredSuppliers.sort((a, b) => a.name.localeCompare(b.name, 'no', { sensitivity: 'base' }));
     return filteredSuppliers;
 }
-
+/*
 function listSuppliersinList(suppliers){
 
     // Hent containeren for leverandører
@@ -114,6 +114,10 @@ function listSuppliersinList(suppliers){
         const name = supplierElement.querySelector('.suppliername');
         if (name) name.textContent = supplier.name || "Ukjent navn";
         
+        // Sett navn
+        const sortnr = supplierElement.querySelector('.sortnr');
+        if (sortnr) sortnr.textContent = supplier.sortering || "Ukjent navn";
+
         //leg til klikk event for knapp
         const button = supplierElement.querySelector('.openingbutton');
         button.addEventListener("click", function() {
@@ -127,6 +131,105 @@ function listSuppliersinList(suppliers){
 
     
 }
+*/
+function listSuppliersinList(suppliers) {
+    // Hent containeren for leverandører
+    const supplierContainer = document.getElementById("supplierlistconteiner");
+    if (!supplierContainer) {
+        console.error("Ingen container funnet for visning av leverandører.");
+        return;
+    }
+
+    // Tøm container
+    supplierContainer.innerHTML = '';
+
+    const elementLibrary = document.getElementById("elementlibrary");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
+    }
+
+    const nodeElement = elementLibrary.querySelector(".supplier");
+    if (!nodeElement) {
+        console.error("Ingen '.supplier' funnet i 'elementlibrary'.");
+        return;
+    }
+
+    // Sett counter
+    const counter = document.getElementById("counterlist");
+    counter.textContent = suppliers.length + " stk.";
+    counter.style.display = "block";
+
+    suppliers.forEach((supplier, index) => {
+        const supplierElement = nodeElement.cloneNode(true);
+        supplierElement.setAttribute("draggable", "true"); // Gjør elementet dra-bart
+        supplierElement.dataset.index = index; // Lagre original indeks
+
+        // Sett navn
+        const name = supplierElement.querySelector('.suppliername');
+        if (name) name.textContent = supplier.name || "Ukjent navn";
+
+        // Sett sorteringsnummer
+        const sortnr = supplierElement.querySelector('.sortnr');
+        if (sortnr) sortnr.textContent = supplier.sortering || "Ukjent sortering";
+
+        // Legg til klikk-event for åpning
+        const button = supplierElement.querySelector('.openingbutton');
+        if (button) {
+            button.addEventListener("click", function () {
+                openSupplier(supplier);
+            });
+        }
+
+        // 🎯 Dra-og-slipp event listeners
+        supplierElement.addEventListener("dragstart", handleDragStart);
+        supplierElement.addEventListener("dragover", handleDragOver);
+        supplierElement.addEventListener("drop", handleDrop);
+        supplierElement.addEventListener("dragend", handleDragEnd);
+
+        // Legg til leverandøren i containeren
+        supplierContainer.appendChild(supplierElement);
+    });
+}
+
+// 🔹 Funksjon for når et element starter å dras
+function handleDragStart(event) {
+    event.dataTransfer.setData("text/plain", event.target.dataset.index);
+    event.target.classList.add("dragging");
+}
+
+// 🔹 Funksjon for når et element dras over et annet element
+function handleDragOver(event) {
+    event.preventDefault(); // Hindrer standard oppførsel
+    const draggingElement = document.querySelector(".dragging");
+    const dropTarget = event.target.closest(".supplier");
+    
+    if (dropTarget && draggingElement !== dropTarget) {
+        const supplierContainer = document.getElementById("supplierlistconteiner");
+        const children = [...supplierContainer.children];
+        const draggingIndex = children.indexOf(draggingElement);
+        const targetIndex = children.indexOf(dropTarget);
+        
+        if (draggingIndex > targetIndex) {
+            supplierContainer.insertBefore(draggingElement, dropTarget);
+        } else {
+            supplierContainer.insertBefore(draggingElement, dropTarget.nextSibling);
+        }
+    }
+}
+
+// 🔹 Funksjon for når et element slippes
+function handleDrop(event) {
+    event.preventDefault();
+}
+
+// 🔹 Funksjon for når dra-operasjonen er ferdig
+function handleDragEnd(event) {
+    event.target.classList.remove("dragging");
+}
+
+
+
 
 function openSupplier(supplier){
 
