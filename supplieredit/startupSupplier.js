@@ -148,6 +148,7 @@ function openSupplier(supplier){
     orginaltext = supplier.info;
   
 }
+
 document.getElementById("saveshorttextButton").addEventListener("click", function () {     
     let shortdescription = document.getElementById("shorttextArea").value;   
     // Lagre innholdet i databasen
@@ -157,15 +158,11 @@ document.getElementById("saveshorttextButton").addEventListener("click", functio
     document.getElementById("saveshorttextButton").classList.remove("active");
 });
 
-
 document.getElementById("shorttextArea").addEventListener("input", function () {
 
     // Aktiver lagreknappen
     document.getElementById("saveshorttextButton").classList.add("active");
 })
-
-
-
 
 document.getElementById("saveButton").addEventListener("click", function () {
     // Hent innholdet fra TinyMCE editoren
@@ -297,7 +294,7 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 }
 
 tinymce.init({
-    selector: '#contentInfoelement', // Må ha # her
+    selector: '#contentInfoelement,#shorttextArea', // Må ha # her
     branding: false, // 🚀 Fjerner "Build with TinyMCE"
     plugins: [
         'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
