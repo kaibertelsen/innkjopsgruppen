@@ -159,7 +159,7 @@ document.getElementById("malonetextbutton").addEventListener("click", function (
     loadContentIntoEditor(malonetext);
 });
 document.getElementById("orginaltextbutton").addEventListener("click", function () {
-    loadContentIntoEditor(orginaltextbutton);
+    loadContentIntoEditor(orginaltext);
 });
 
 
