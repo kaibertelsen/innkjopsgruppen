@@ -455,7 +455,7 @@ function listSuppliers(data) {
         
         // Sett kortinfo
         const shortinfo = supplierElement.querySelector('.shortinfo');
-        if (shortinfo) shortinfo.textContent = supplier.kortinfo || "Ingen informasjon tilgjengelig";
+        if (shortinfo) shortinfo.innerHTML = supplier.kortinfo || "Ingen informasjon tilgjengelig";
 
         // Sett kategori
         const kategori = supplierElement.querySelector('.kategori');
