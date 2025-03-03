@@ -176,7 +176,7 @@ function loadContentIntoEditor(htmlContent) {
     editorInstance.setContent(htmlContent);
 
     // 🚀 Juster høyden basert på innholdets faktiske størrelse
-    setTimeout(() => adjustEditorHeight(), 300); // Vent litt slik at innholdet rendres først
+   // setTimeout(() => adjustEditorHeight(), 300); // Vent litt slik at innholdet rendres først
 }
 
 function adjustEditorHeight() {
