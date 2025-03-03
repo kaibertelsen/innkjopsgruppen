@@ -273,8 +273,28 @@ tinymce.init({
         { value: 'First.Name', title: 'First Name' },
         { value: 'Email', title: 'Email' },
     ],
-    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant'))
+    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+
+    // 🚀 Setup for event listener
+    setup: function (editor) {
+        editor.on('input', function () {
+            console.log("Brukeren har skrevet noe i TinyMCE!");
+            handleEditorChange();
+        });
+
+        editor.on('change', function () {
+            console.log("Innholdet i TinyMCE ble endret!");
+            handleEditorChange();
+        });
+    }
 });
+
+// 🔹 Funksjon som kjører hver gang brukeren endrer noe
+function handleEditorChange() {
+    console.log("Editor-innholdet er endret! Kan kjøre lagring eller oppdatering her.");
+    // Her kan du f.eks. aktivere en "Lagre"-knapp eller oppdatere forhåndsvisning
+}
+
 
 
 
