@@ -230,10 +230,49 @@ function handleDragOver(event) {
     }
 }
 
-// 🔹 Funksjon for når et element slippes
+// Funksjon som håndterer når et element slippes
 function handleDrop(event) {
     event.preventDefault();
+    
+    const draggingElement = document.querySelector(".dragging");
+    if (!draggingElement) return;
+    
+    draggingElement.classList.remove("dragging");
+
+    const supplierContainer = document.getElementById("supplierlistconteiner");
+    const suppliersList = [...supplierContainer.children];
+
+    // Hent elementet over og under
+    const previousElement = draggingElement.previousElementSibling;
+    const nextElement = draggingElement.nextElementSibling;
+
+    let newSortering;
+
+    // Hent sorteringsverdier fra over og under
+    const previousSortering = previousElement ? parseFloat(previousElement.dataset.sortering) : null;
+    const nextSortering = nextElement ? parseFloat(nextElement.dataset.sortering) : null;
+
+    // Beregn ny sorteringsverdi
+    if (previousSortering !== null && nextSortering !== null) {
+        newSortering = (previousSortering + nextSortering) / 2;
+    } else if (previousSortering !== null) {
+        newSortering = previousSortering + 1; // Hvis det er første element, legg til 1
+    } else if (nextSortering !== null) {
+        newSortering = nextSortering - 1; // Hvis det er siste element, trekk fra 1
+    } else {
+        newSortering = 1000; // Standardverdi hvis ingen andre verdier finnes
+    }
+
+    // Oppdater dataset og synlig sorteringsnummer
+    draggingElement.dataset.sortering = newSortering;
+    const sortnr = draggingElement.querySelector('.sortnr');
+    if (sortnr) sortnr.textContent = newSortering.toFixed(1); // Viser ny sortering
+
+    console.log(`Ny sortering: ${newSortering}`);
+
+    // 🚀 Her kan du legge til en funksjon for å lagre den nye sorteringsrekkefølgen til databasen!
 }
+
 
 // 🔹 Funksjon for når dra-operasjonen er ferdig
 function handleDragEnd(event) {
