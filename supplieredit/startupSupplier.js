@@ -132,8 +132,10 @@ function openSupplier(supplier){
     document.getElementById("supplierTagbutton").click();
 
     const supplierPageConteiner = document.getElementById("supplierPageConteiner");
-    
 
+    const publicSwitsh = document.getElementById("publicSwitsh");
+    publicSwitsh.checked = supplier.hidden ? false : true;
+    
     const suppliernamepage = supplierPageConteiner.querySelector(".suppliernamepage");
     suppliernamepage.textContent = supplier.name;
 
@@ -149,6 +151,17 @@ function openSupplier(supplier){
     orginaltext = supplier.info;
   
 }
+
+document.getElementById("publicSwitsh").addEventListener("click", function () {
+    // sjekke om den er checked
+    if(this.checked){
+        saveSupplierInfo(activeSupplier.airtable, {skjult: false});
+    }else{
+        saveSupplierInfo(activeSupplier.airtable, {skjult: true});
+    }
+});
+
+
 
 document.getElementById("saveshorttextButton").addEventListener("click", function () {     
      // Hent innholdet fra TinyMCE editoren
@@ -327,7 +340,7 @@ tinymce.init({
     // 🚀 Forskjellig høyde for hver editor
     init_instance_callback: function (editor) {
         if (editor.id === "contentInfoelement") {
-            editor.getContainer().style.height = "500px"; // Setter høyde for contentInfoelement
+            editor.getContainer().style.height = "550px"; // Setter høyde for contentInfoelement
         } else if (editor.id === "shorttextArea") {
             editor.getContainer().style.height = "250px"; // Setter høyde for shorttextArea
         }
