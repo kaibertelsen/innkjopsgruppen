@@ -262,6 +262,8 @@ function handleDrop(event) {
         newSortering = previousSortering + 1; // Hvis det er første element, legg til 1
     } else if (nextSortering !== null) {
         newSortering = nextSortering - 1; // Hvis det er siste element, trekk fra 1
+    } else if (previousSortering == null) {
+        newSortering = nextSortering + 1; // Hvis det er det første elementet i listen
     } else {
         newSortering = 1000; // Standardverdi hvis ingen andre verdier finnes
     }
