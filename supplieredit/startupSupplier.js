@@ -307,7 +307,7 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
         }
     });
 }
-
+/*
 tinymce.init({
     selector: '#contentInfoelement, #shorttextArea', // 🚀 Initialiserer begge TinyMCE-feltene
     branding: false, // Fjerner "Build with TinyMCE"
@@ -332,6 +332,38 @@ tinymce.init({
         });
     }
 });
+*/
+
+tinymce.init({
+    selector: '#contentInfoelement, #shorttextArea', // 🚀 Initialiserer begge TinyMCE-feltene
+    branding: false, // Fjerner "Build with TinyMCE"
+    plugins: [
+        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
+    ],
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+
+    setup: function (editor) {
+        // 🚀 Forskjellig høyde for hvert felt
+        if (editor.id === "contentInfoelement") {
+            editor.settings.height = 400; // Setter høyde til 400px
+        } else if (editor.id === "shorttextArea") {
+            editor.settings.height = 150; // Setter høyde til 150px
+        }
+
+        editor.on('init', function () {
+            console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.settings.height}px`);
+        });
+
+        // 🚀 Eventlistener for endring i innhold
+        editor.on('change', function () {
+            handleEditorChange(editor.id);
+        });
+    }
+});
+
 
 // 🔹 Funksjon som kjører hver gang brukeren endrer noe
 function handleEditorChange() {
