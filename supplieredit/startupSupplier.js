@@ -345,24 +345,18 @@ tinymce.init({
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',
 
-    setup: function (editor) {
-        // 🚀 Forskjellig høyde for hvert felt
+    // 🚀 Forskjellig høyde for hver editor
+    init_instance_callback: function (editor) {
         if (editor.id === "contentInfoelement") {
-            editor.settings.height = 400; // Setter høyde til 400px
+            editor.getContainer().style.height = "400px"; // Setter høyde for contentInfoelement
         } else if (editor.id === "shorttextArea") {
-            editor.settings.height = 150; // Setter høyde til 150px
+            editor.getContainer().style.height = "150px"; // Setter høyde for shorttextArea
         }
 
-        editor.on('init', function () {
-            console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.settings.height}px`);
-        });
-
-        // 🚀 Eventlistener for endring i innhold
-        editor.on('change', function () {
-            handleEditorChange(editor.id);
-        });
+        console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
     }
 });
+
 
 
 // 🔹 Funksjon som kjører hver gang brukeren endrer noe
