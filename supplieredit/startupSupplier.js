@@ -260,7 +260,7 @@ function handleDrop(event) {
         newSortering = (previousSortering + nextSortering) / 2;
     } else if (previousSortering !== null) {
         newSortering = previousSortering + 1; // Hvis det er første element, legg til 1
-    } else if (nextSortering !== null) {
+    } else if (nextSortering !== null && nextElement == null) {
         newSortering = nextSortering - 1; // Hvis det er siste element, trekk fra 1
     } else if (previousSortering == null) {
         newSortering = nextSortering + 1; // Hvis det er det første elementet i listen
