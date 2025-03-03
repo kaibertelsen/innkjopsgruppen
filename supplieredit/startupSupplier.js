@@ -328,7 +328,7 @@ function handleEditorChange() {
 
 function handleEditorChange(editorId) {
 
-    var editor = tinymce.get(editorId);
+    var editor = document.getElementById(editorId);
     editor.parenetElement.querySelector(".savebuttontext").classList.add("active");
   
 }
