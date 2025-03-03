@@ -140,11 +140,12 @@ function openSupplier(supplier){
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
     supplierlogo.src = supplier.logo;
 
-    const shortdescription = supplierPageConteiner.querySelector(".shortdescription");
-    shortdescription.textContent = supplier.kortinfo;
+    var shorttextArea = tinymce.get("shorttextArea");
+    loadContentIntoEditor(shorttextArea,supplier.kortinfo);
 
-    const contentInfoelement = supplierPageConteiner.querySelector(".contentInfoelement");
-    loadContentIntoEditor(supplier.info);
+
+    const contentInfoelement = tinymce.get("contentInfoelement");
+    loadContentIntoEditor(contentInfoelement,supplier.info);
     orginaltext = supplier.info;
   
 }
@@ -219,16 +220,16 @@ document.getElementById("orginaltextbutton").addEventListener("click", function 
 
 });
 
-function loadContentIntoEditor(htmlContent) {
-    var editorInstance = tinymce.get("contentInfoelement");
+function loadContentIntoEditor(element,htmlContent) {
+    
 
-    if (!editorInstance) {
+    if (!element) {
         console.error("TinyMCE-editoren er ikke lastet inn ennå.");
         return;
     }
 
     // Sett HTML-innholdet i TinyMCE
-    editorInstance.setContent(htmlContent);
+    element.setContent(htmlContent);
 
     // 🚀 Juster høyden basert på innholdets faktiske størrelse
    // setTimeout(() => adjustEditorHeight(), 300); // Vent litt slik at innholdet rendres først
@@ -294,8 +295,8 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 }
 
 tinymce.init({
-    selector: '#contentInfoelement,#shorttextArea', // Må ha # her
-    branding: false, // 🚀 Fjerner "Build with TinyMCE"
+    selector: '#contentInfoelement, #shorttextArea', // 🚀 Initialiserer begge TinyMCE-feltene
+    branding: false, // Fjerner "Build with TinyMCE"
     plugins: [
         'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
         'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
@@ -311,14 +312,9 @@ tinymce.init({
 
     // 🚀 Setup for event listener
     setup: function (editor) {
-        editor.on('input', function () {
-            console.log("Brukeren har skrevet noe i TinyMCE!");
-            handleEditorChange();
-        });
-
+    
         editor.on('change', function () {
-            console.log("Innholdet i TinyMCE ble endret!");
-            handleEditorChange();
+            handleEditorChange(editor.id);
         });
     }
 });
@@ -328,6 +324,13 @@ function handleEditorChange() {
     console.log("Editor-innholdet er endret! Kan kjøre lagring eller oppdatering her.");
     // Her kan du f.eks. aktivere en "Lagre"-knapp eller oppdatere forhåndsvisning
     document.getElementById("saveButton").classList.add("active");
+}
+
+function handleEditorChange(editorId) {
+
+    var editor = tinymce.get(editorId);
+    editor.peranetElement.querySelector(".savebuttontext").classList.add("active");
+  
 }
 
 
