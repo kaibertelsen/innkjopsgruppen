@@ -3,6 +3,7 @@ var activeSupplier = {};
 var malonetext;
 var maltotext;
 var orginaltext = "";
+var gGroups = [];
 
 function getSuppier(){     
 //hente leverandører
@@ -20,7 +21,11 @@ function supplierResponse(data){
     const jsonStrings = data.fields.supplierjson;
     suppliers = convertSuppliersJsonStringsToObjects(jsonStrings);
     gsuppliers = suppliers;
-    startupSupplierList(suppliers)
+    startupSupplierList(suppliers);
+
+
+    const groups = data.fields.groupjson;
+    gGroups = JSON.parse(groups);
 }
 
 document.getElementById("searchinput").addEventListener("input", function () {
