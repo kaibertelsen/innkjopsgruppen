@@ -232,6 +232,11 @@ function groupFilterTriggered(button) {
     
 };
 
+document.getElementById("backtolistbutton").addEventListener("click", function () {
+    document.getElementById("supplierListTagbutton").click();
+});
+
+
 document.getElementById("publicSwitsh").addEventListener("click", function () {
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     // sjekke om den er checked
