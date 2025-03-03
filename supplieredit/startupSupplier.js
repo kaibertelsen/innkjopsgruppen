@@ -176,6 +176,8 @@ function listSuppliersinList(suppliers) {
         const supplierElement = nodeElement.cloneNode(true);
         supplierElement.setAttribute("draggable", "true"); // Gjør elementet dra-bart
         supplierElement.dataset.index = index; // Lagre original indeks
+        supplierElement.dataset.sortering = supplier.sortering || 0; // Lagre sorteringsverdi
+        supplierElement.dataset.airtable = supplier.airtable; // Lagre Airtable-ID
 
         // Sett navn
         const name = supplierElement.querySelector('.suppliername');
@@ -184,7 +186,7 @@ function listSuppliersinList(suppliers) {
         // Sett sorteringsnummer
         const sortnr = supplierElement.querySelector('.sortnr');
         if (sortnr) sortnr.textContent = supplier.sortering || "0";
-        supplierElement.dataset.sortering = supplier.sortering || 0;
+        
 
         // Legg til klikk-event for åpning
         const button = supplierElement.querySelector('.openingbutton');
@@ -271,11 +273,11 @@ function handleDrop(event) {
 
     console.log(`Ny sortering: ${newSortering}`);
 
-    //oppdatere lokalt o gsuppliers array
-    gsuppliers[draggingElement.dataset.index].sortering = newSortering;
+    //oppdatere lokalt o gsuppliers array finne den på bakgrun av dataset.airtable
+    gsuppliers.find(supplier => supplier.airtable === draggingElement.dataset.airtable).sortering = newSortering;
 
     // Lager på serveren
-    saveSupplierInfo(gsuppliers[draggingElement.dataset.index].airtable, {sortering: newSortering});
+    saveSupplierInfo(draggingElement.dataset.airtable, {sortering: newSortering});
 
 }
 
