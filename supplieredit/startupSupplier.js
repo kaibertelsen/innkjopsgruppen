@@ -154,7 +154,7 @@ document.getElementById("saveButton").addEventListener("click", function () {
    
     document.getElementById("orginaltextbutton").classList.add("active");
     document.getElementById("malonetextbutton").classList.remove("active");
-
+    document.getElementById("saveButton").classList.remove("active");
     // Lagre innholdet i databasen
 
 
@@ -293,6 +293,8 @@ tinymce.init({
 function handleEditorChange() {
     console.log("Editor-innholdet er endret! Kan kjøre lagring eller oppdatering her.");
     // Her kan du f.eks. aktivere en "Lagre"-knapp eller oppdatere forhåndsvisning
+    document.getElementById("saveButton").classList.add("active");
+
 }
 
 
