@@ -154,12 +154,15 @@ document.getElementById("saveButton").addEventListener("click", function () {
     var editorContent = tinymce.get("contentInfoelement").getContent();
     orginaltext = editorContent;
    
+    if (document.getElementById("malonetextbutton").classList.contains("active")) {
+        orginaltext = editorContent;
+    } else {
     document.getElementById("orginaltextbutton").classList.add("active");
     document.getElementById("malonetextbutton").classList.remove("active");
     document.getElementById("saveButton").classList.remove("active");
     // Lagre innholdet i databasen
     saveSupplierInfo(activeSupplier.airtable, {info: editorContent});
-
+    }
 
 });
 
@@ -182,6 +185,8 @@ document.getElementById("malonetextbutton").addEventListener("click", function (
 
     // Legg til "active"-klassen på "malonetextbutton"
     this.classList.add("active");
+
+    document.getElementById("malonetextbutton").textContent = "Kopier til gjeldende";
 });
 
 document.getElementById("orginaltextbutton").addEventListener("click", function () {
@@ -192,6 +197,8 @@ document.getElementById("orginaltextbutton").addEventListener("click", function 
 
     // Legg til "active"-klassen 
     this.classList.add("active");
+
+    document.getElementById("malonetextbutton").textContent = "Lagre tekst";
 
 });
 
