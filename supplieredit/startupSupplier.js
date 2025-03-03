@@ -203,12 +203,34 @@ function listGroups(activeGroups){
             groupElement.classList.add("active");
         }
 
+        groupElement.addEventListener("click", function() {
+            // Kjør funksjonen med den aktive leverandørlisten
+            groupFilterTriggered(groupElement); 
+        }); 
         groupContainer.appendChild(groupElement);
 
     });
 
 
 }
+
+
+function groupFilterTriggered(button) {
+    const allButtons = button.parentElement.querySelectorAll(".groupbuttom");   
+
+        // Toggling av "active"-klassen på den klikkede knappen
+        if (button.classList.contains("active")) {
+            button.classList.remove("active"); // Fjern klassen hvis den allerede er satt
+        } else {
+            button.classList.add("active"); // Legg til klassen hvis den ikke er satt
+        }
+
+        // Hent alle aktive grupper
+        const activeGroups = Array.from(allButtons).filter(button => button.classList.contains("active"));  
+        const activeGroupsid = activeGroups.map(group => group.dataset.groupid);
+        saveSupplierInfo(activeSupplier.airtable, {gruppe: activeGroupsid});
+    
+};
 
 document.getElementById("publicSwitsh").addEventListener("click", function () {
     const publicSwitshtext = document.getElementById("publicSwitshtext");
