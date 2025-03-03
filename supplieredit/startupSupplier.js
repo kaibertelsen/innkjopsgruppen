@@ -151,15 +151,35 @@ document.getElementById("saveButton").addEventListener("click", function () {
     // Hent innholdet fra TinyMCE editoren
     var editorContent = tinymce.get("contentInfoelement").getContent();
     orginaltext = editorContent;
-    // Logg innholdet i konsollen (for debugging)
-    console.log("Innhold som skal lagres:", editorContent);
+   
+    document.getElementById("orginaltextbutton").classList.add("active");
+    document.getElementById("malonetextbutton").classList.remove("active");
+
+    // Lagre innholdet i databasen
+
+
 
 });
 document.getElementById("malonetextbutton").addEventListener("click", function () {
+    // Last inn innhold i TinyMCE
     loadContentIntoEditor(malonetext);
+
+    // Fjern "active"-klassen fra "orginaltextbutton"
+    document.getElementById("orginaltextbutton").classList.remove("active");
+
+    // Legg til "active"-klassen på "malonetextbutton"
+    this.classList.add("active");
 });
+
 document.getElementById("orginaltextbutton").addEventListener("click", function () {
     loadContentIntoEditor(orginaltext);
+
+    // Fjern "active"-klassen fra "orginaltextbutton"
+    document.getElementById("malonetextbutton").classList.remove("active");
+
+    // Legg til "active"-klassen 
+    this.classList.add("active");
+
 });
 
 
