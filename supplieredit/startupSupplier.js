@@ -329,7 +329,7 @@ function handleEditorChange() {
 function handleEditorChange(editorId) {
 
     var editor = document.getElementById(editorId);
-    editor.parenetElement.querySelector(".savebuttontext").classList.add("active");
+    editor.parentElement.querySelector(".savebuttontext").classList.add("active");
   
 }
 
