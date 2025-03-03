@@ -1,7 +1,8 @@
 var gsuppliers = [];
+var activeSupplier = {};
 var malonetext;
 var maltotext;
-var orginaltext;
+var orginaltext = "";
 
 function getSuppier(){     
 //hente leverandører
@@ -125,6 +126,7 @@ function listSuppliersinList(suppliers){
 
 function openSupplier(supplier){
 
+    activeSupplier = supplier;
     console.log(supplier);
     //åpne leverandørsiden
     document.getElementById("supplierTagbutton").click();
@@ -156,10 +158,21 @@ document.getElementById("saveButton").addEventListener("click", function () {
     document.getElementById("malonetextbutton").classList.remove("active");
     document.getElementById("saveButton").classList.remove("active");
     // Lagre innholdet i databasen
-
+    saveSupplierInfo(activeSupplier.airtable, {info: editorContent});
 
 
 });
+
+function saveSupplierInfo(supplierId, body) {
+
+    patchAirtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",supplierId,JSON.stringify(body),"responseSupplierDataUpdate");
+
+}
+
+function responseSupplierDataUpdate(data){
+    console.log(data);
+}
+
 document.getElementById("malonetextbutton").addEventListener("click", function () {
     // Last inn innhold i TinyMCE
     loadContentIntoEditor(malonetext);
@@ -181,8 +194,6 @@ document.getElementById("orginaltextbutton").addEventListener("click", function 
     this.classList.add("active");
 
 });
-
-
 
 function loadContentIntoEditor(htmlContent) {
     var editorInstance = tinymce.get("contentInfoelement");
@@ -213,14 +224,14 @@ function adjustEditorHeight() {
     }
 }
 
-
 function ruteresponse(data,id){
 
     if(id == "supplierResponse"){
         supplierResponse(data);
+    }else if(id == "responseSupplierDataUpdate"){
+        responseSupplierDataUpdate(data);
     }
 }
-
 
 function convertSuppliersJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {
@@ -258,8 +269,6 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
     });
 }
 
-
-
 tinymce.init({
     selector: '#contentInfoelement', // Må ha # her
     plugins: [
@@ -294,10 +303,7 @@ function handleEditorChange() {
     console.log("Editor-innholdet er endret! Kan kjøre lagring eller oppdatering her.");
     // Her kan du f.eks. aktivere en "Lagre"-knapp eller oppdatere forhåndsvisning
     document.getElementById("saveButton").classList.add("active");
-
 }
-
-
 
 
 malonetext = `
