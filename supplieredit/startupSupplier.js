@@ -148,6 +148,24 @@ function openSupplier(supplier){
     orginaltext = supplier.info;
   
 }
+document.getElementById("saveshorttextButton").addEventListener("click", function () {     
+    let shortdescription = document.getElementById("shorttextArea").value;   
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {kortinfo: shortdescription});
+
+    // Deaktiver lagreknappen
+    document.getElementById("saveshorttextButton").classList.remove("active");
+});
+
+
+document.getElementById("shorttextArea").addEventListener("input", function () {
+
+    // Aktiver lagreknappen
+    document.getElementById("saveshorttextButton").classList.add("active");
+})
+
+
+
 
 document.getElementById("saveButton").addEventListener("click", function () {
     // Hent innholdet fra TinyMCE editoren
