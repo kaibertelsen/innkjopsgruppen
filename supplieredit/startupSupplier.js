@@ -271,7 +271,12 @@ function handleDrop(event) {
 
     console.log(`Ny sortering: ${newSortering}`);
 
-    // 🚀 Her kan du legge til en funksjon for å lagre den nye sorteringsrekkefølgen til databasen!
+    //oppdatere lokalt o gsuppliers array
+    gsuppliers[draggingElement.dataset.index].sortering = newSortering;
+
+    // Lager på serveren
+    saveSupplierInfo(gsuppliers[draggingElement.dataset.index].airtable, {sortering: newSortering});
+
 }
 
 
