@@ -158,13 +158,11 @@ document.getElementById("saveButton").addEventListener("click", function () {
 document.getElementById("malonetextbutton").addEventListener("click", function () {
     loadContentIntoEditor(malonetext);
 });
-document.getElementById("malonetextbutton").addEventListener("click", function () {
+document.getElementById("orginaltextbutton").addEventListener("click", function () {
     loadContentIntoEditor(orginaltextbutton);
 });
 
-document.getElementById("malonetextbutton").addEventListener("click", function () {
-    loadContentIntoEditor(malonetext);
-});
+
 
 function loadContentIntoEditor(htmlContent) {
     var editorInstance = tinymce.get("contentInfoelement");
