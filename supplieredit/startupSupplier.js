@@ -163,7 +163,13 @@ function openSupplier(supplier){
 }
 
 function listGroups(activeGroups){
+        let activeGroupsid = [];
 
+        activeGroups.forEach(group => {
+            activeGroupsid.push(group.airtable);
+        });
+
+    
     // Hent containeren for leverandører
     const groupContainer = document.getElementById("grouplist");
     if (!groupContainer) {
@@ -193,7 +199,7 @@ function listGroups(activeGroups){
         groupElement.dataset.groupid = group.airtable;
 
         //hvis denne gruppen er i listen
-        if(activeGroups.includes(group.airtable)){
+        if(activeGroupsid.includes(group.airtable)){
             groupElement.classList.add("active");
         }
 
