@@ -151,7 +151,9 @@ function openSupplier(supplier){
 }
 
 document.getElementById("saveshorttextButton").addEventListener("click", function () {     
-    let shortdescription = document.getElementById("shorttextArea").value;   
+     // Hent innholdet fra TinyMCE editoren
+     let shortdescription = tinymce.get("shorttextArea").getContent();
+     
     // Lagre innholdet i databasen
     saveSupplierInfo(activeSupplier.airtable, {kortinfo: shortdescription});
 
