@@ -69,14 +69,26 @@ function filterSuppliers(suppliers) {
 }
 
 function sortSuppliers(suppliers) {
-   
     // Filtrer ut ugyldige eller tomme verdier (valgfritt)
     let filteredSuppliers = suppliers.filter(supplier => supplier.name && supplier.name.trim() !== "");
 
-    // Sorter leverandørene alfabetisk etter navn (case-insensitiv)
-    filteredSuppliers.sort((a, b) => a.name.localeCompare(b.name, 'no', { sensitivity: 'base' }));
+    filteredSuppliers.sort((a, b) => {
+        // Konverter 'sortering' til tall, eller sett en lav verdi for manglende verdier
+        const sortA = parseInt(a.sortering) || -9999;
+        const sortB = parseInt(b.sortering) || -9999;
+
+        // Først sorter i synkende rekkefølge etter 'sortering' (høyeste først)
+        if (sortA !== sortB) {
+            return sortB - sortA;
+        }
+
+        // Hvis sortering er lik, sorter alfabetisk etter navn
+        return a.name.localeCompare(b.name, 'no', { sensitivity: 'base' });
+    });
+
     return filteredSuppliers;
 }
+
 /*
 function listSuppliersinList(suppliers){
 
