@@ -25,7 +25,7 @@ function supplierResponse(data){
 
 
     const groups = data.fields.groupjson;
-    gGroups = JSON.parse(groups);
+    gGroups = convertGroupJsonStringsToObjects(groups);
 }
 
 document.getElementById("searchinput").addEventListener("input", function () {
@@ -323,6 +323,21 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
             if (!data.category) {
                 data.category = [];
             }
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
+}
+
+function convertGroupJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
 
             return data;
         } catch (error) {
