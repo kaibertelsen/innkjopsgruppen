@@ -307,7 +307,7 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
         }
     });
 }
-/*
+
 tinymce.init({
     selector: '#contentInfoelement, #shorttextArea', // 🚀 Initialiserer begge TinyMCE-feltene
     branding: false, // Fjerner "Build with TinyMCE"
@@ -324,38 +324,27 @@ tinymce.init({
     ],
     ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
 
+    // 🚀 Forskjellig høyde for hver editor
+    init_instance_callback: function (editor) {
+        if (editor.id === "contentInfoelement") {
+            editor.getContainer().style.height = "500px"; // Setter høyde for contentInfoelement
+        } else if (editor.id === "shorttextArea") {
+            editor.getContainer().style.height = "250px"; // Setter høyde for shorttextArea
+        }
+        console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
+    }, // ✅ Korrekt: Komma etter denne funksjonen!
+
     // 🚀 Setup for event listener
     setup: function (editor) {
-    
         editor.on('change', function () {
             handleEditorChange(editor.id);
         });
     }
 });
-*/
 
-tinymce.init({
-    selector: '#contentInfoelement, #shorttextArea', // 🚀 Initialiserer begge TinyMCE-feltene
-    branding: false, // Fjerner "Build with TinyMCE"
-    plugins: [
-        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
-    ],
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-    tinycomments_mode: 'embedded',
-    tinycomments_author: 'Author name',
 
-    // 🚀 Forskjellig høyde for hver editor
-    init_instance_callback: function (editor) {
-        if (editor.id === "contentInfoelement") {
-            editor.getContainer().style.height = "400px"; // Setter høyde for contentInfoelement
-        } else if (editor.id === "shorttextArea") {
-            editor.getContainer().style.height = "150px"; // Setter høyde for shorttextArea
-        }
 
-        console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
-    }
-});
+
 
 
 
