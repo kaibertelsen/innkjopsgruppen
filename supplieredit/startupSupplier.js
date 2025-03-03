@@ -150,7 +150,7 @@ function openSupplier(supplier){
 document.getElementById("saveButton").addEventListener("click", function () {
     // Hent innholdet fra TinyMCE editoren
     var editorContent = tinymce.get("contentInfoelement").getContent();
-    orginaltextbutton = editorContent;
+    orginaltext = editorContent;
     // Logg innholdet i konsollen (for debugging)
     console.log("Innhold som skal lagres:", editorContent);
 
