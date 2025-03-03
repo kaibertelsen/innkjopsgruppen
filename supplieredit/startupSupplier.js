@@ -74,8 +74,8 @@ function sortSuppliers(suppliers) {
 
     filteredSuppliers.sort((a, b) => {
         // Konverter 'sortering' til tall, eller sett en lav verdi for manglende verdier
-        const sortA = parseInt(a.sortering) || -9999;
-        const sortB = parseInt(b.sortering) || -9999;
+        const sortA = parseInt(a.sortering) || 0;
+        const sortB = parseInt(b.sortering) || 0;
 
         // Først sorter i synkende rekkefølge etter 'sortering' (høyeste først)
         if (sortA !== sortB) {
@@ -183,7 +183,8 @@ function listSuppliersinList(suppliers) {
 
         // Sett sorteringsnummer
         const sortnr = supplierElement.querySelector('.sortnr');
-        if (sortnr) sortnr.textContent = supplier.sortering || "Ukjent sortering";
+        if (sortnr) sortnr.textContent = supplier.sortering || "0";
+        supplierElement.dataset.sortering = supplier.sortering || 0;
 
         // Legg til klikk-event for åpning
         const button = supplierElement.querySelector('.openingbutton');
