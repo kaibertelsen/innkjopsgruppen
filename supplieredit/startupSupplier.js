@@ -342,15 +342,12 @@ tinymce.init({
     }
 });
 
-
-
 function handleEditorChange(editorId) {
 
     var editor = document.getElementById(editorId);
     editor.parentElement.querySelector(".savebuttontext").classList.add("active");
   
 }
-
 
 malonetext = `
 <p><span style="font-size: 14pt;"><strong>Generell informasjon:</strong></span><br>
