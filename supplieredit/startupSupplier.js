@@ -210,7 +210,7 @@ document.getElementById("malonetextbutton").addEventListener("click", function (
 });
 
 document.getElementById("orginaltextbutton").addEventListener("click", function () {
-    loadContentIntoEditor(orginaltext);
+    loadContentIntoEditor(tinymce.get("contentInfoelement"),orginaltext);
 
     // Fjern "active"-klassen fra "orginaltextbutton"
     document.getElementById("malonetextbutton").classList.remove("active");
