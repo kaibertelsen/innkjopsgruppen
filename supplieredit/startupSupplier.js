@@ -305,6 +305,7 @@ function handleDrop(event) {
 function handleDragEnd(event) {
     event.target.classList.remove("dragging");
 }
+////open leverandøren
 
 function openSupplier(supplier){
 
@@ -345,6 +346,9 @@ function openSupplier(supplier){
 
     const urltosupplierweb = document.getElementById("urltosupplierweb");
     urltosupplierweb.value = supplier.landingsside;
+
+    const presentationImageSupplier = document.getElementById("presentationImageSupplier");
+    presentationImageSupplier.src = supplier.image || "path/to/default/image.png";
   
 }
 
