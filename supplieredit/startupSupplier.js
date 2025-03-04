@@ -845,13 +845,14 @@ function convertOutputJsonStringsToObjects(jsonStrings) {
                 }
             }
 
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
+
             // Legg tilbake `suppliermailbody`-feltet
             data.suppliermailbody = suppliermailbodyValue;
             data.suppliersubject = suppliersubjectValue;
             data.description = descriptionValue;
 
-            // Parse JSON-strengen uten HTML-dataen
-            const data = JSON.parse(jsonString);
 
             return data;
         } catch (error) {
