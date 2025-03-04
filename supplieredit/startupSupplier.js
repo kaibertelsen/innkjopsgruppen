@@ -5,6 +5,7 @@ var maltotext;
 var orginaltext = "";
 var gGroups = [];
 var gCategorys = [];
+var gOutputs = [];
 
 function getSuppier(){     
 //hente leverandører
@@ -29,6 +30,11 @@ function supplierResponse(data){
 
     const categorys = data.fields.categoryjson;
     gCategorys = convertGroupJsonStringsToObjects(categorys);
+
+    const outputs = data.fields.outputjson;
+    gOutputs = convertGroupJsonStringsToObjects(outputs);
+
+
 }
 
 document.getElementById("searchinput").addEventListener("input", function () {
@@ -310,6 +316,11 @@ function handleDragEnd(event) {
 function openSupplier(supplier){
 
     activeSupplier = supplier;
+
+    //hente mer info om denne leverandøren
+
+    GETairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",supplier.airtable,"moreInfoSupplierResponse");
+
     console.log(supplier);
     //åpne leverandørsiden
     document.getElementById("supplierTagbutton").click();
@@ -349,8 +360,50 @@ function openSupplier(supplier){
 
     const presentationImageSupplier = document.getElementById("presentationImageSupplier");
     presentationImageSupplier.src = supplier.image || "path/to/default/image.png";
+    
+    //last inn outputs i select
+    const deliveryMethodSelector = document.getElementById("deliveryMethodSelector");
+    deliveryMethodSelector.innerHTML = "";
+    deliveryMethodSelector.options.add(new Option("Velg leveringsmetode", ""));
+    gOutputs.forEach(output => {
+        deliveryMethodSelector.options.add(new Option(output.Name, output.airtable));
+    });
   
 }
+
+function moreInfoSupplierResponse(data){
+
+    if(!data || !data.fields){
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields'");
+        return;
+    }
+
+   //legge til mer info om leverandøren
+   if(data.fields.output){
+    activeSupplier.output = data.fields.output;
+   }
+   
+    if(data.fields.emneleverandor){
+        activeSupplier.subjectmail = data.fields.emneleverandor;
+    }
+
+   if(data.fields.tilleverandor){   
+    activeSupplier.bodymail = data.fields.tilleverandor;
+   }
+
+   //opdater leverandøren
+   updateSupplierPage(activeSupplier);
+}
+
+function updateSupplierPage(supplier){
+    //tillegsinformasjon leverandør
+
+    // FINN RIKTIG Option-element basert på supplier.output og sett den som valgt
+    const deliveryMethodSelector = document.getElementById("deliveryMethodSelector");
+    deliveryMethodSelector.value = supplier.output || "";
+
+}
+
 
 function listGroups(activeGroups){
         let activeGroupsid = [];
@@ -687,6 +740,8 @@ function ruteresponse(data,id){
         supplierResponse(data);
     }else if(id == "responseSupplierDataUpdate"){
         responseSupplierDataUpdate(data);
+    }else if(id == "moreInfoSupplierResponse"){
+        moreInfoSupplierResponse(data);
     }
 }
 
