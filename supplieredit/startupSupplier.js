@@ -363,7 +363,7 @@ function listGroups(activeGroups){
     // Tøm container
     groupContainer.innerHTML = '';
 
-    const elementLibrary = document.getElementById("groupelementwrapper");
+    const elementLibrary = document.getElementById("elementlibrarywrapper");
     if (!elementLibrary) {
         console.error("Ingen 'elementlibrary' funnet.");
         return;
@@ -412,7 +412,7 @@ function listCategorys(activeCategorys){
     // Tøm container
     categoryContainer.innerHTML = '';
 
-    const elementLibrary = document.getElementById("categoryelementwrapper");
+    const elementLibrary = document.getElementById("elementlibrarywrapper");
     if (!elementLibrary) {
         console.error("Ingen 'elementlibrary' funnet.");
         return;
