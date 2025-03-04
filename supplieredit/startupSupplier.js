@@ -76,14 +76,11 @@ function filterSuppliers(suppliers) {
     });
 }
 
-
-
 document.getElementById("supplierFilterSelector").addEventListener("change", function() {
 
     // Kjør startupSupplierList med de filtrerte leverandørene
     startupSupplierList(gsuppliers);
 });
-
 
 function sortSuppliers(suppliers) {
     // Filtrer ut ugyldige eller tomme verdier (valgfritt)
@@ -307,8 +304,6 @@ function handleDragEnd(event) {
 }
 
 
-
-
 function openSupplier(supplier){
 
     activeSupplier = supplier;
@@ -424,9 +419,13 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
     if(this.checked){
         publicSwitshtext.textContent = "Publisert";
         saveSupplierInfo(activeSupplier.airtable, {skjult: false});
+        //save lokalt
+        activeSupplier.hidden = false;
     }else{
         publicSwitshtext.textContent = "Ikke publisert";
         saveSupplierInfo(activeSupplier.airtable, {skjult: true});
+        //save lokalt
+        activeSupplier.hidden = true;
     }
 });
 
