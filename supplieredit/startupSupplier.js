@@ -318,9 +318,9 @@ function openSupplier(supplier){
     activeSupplier = supplier;
 
     //hente mer info om denne leverandøren
-
     GETairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",supplier.airtable,"moreInfoSupplierResponse");
 
+   
     console.log(supplier);
     //åpne leverandørsiden
     document.getElementById("supplierTagbutton").click();
@@ -401,6 +401,14 @@ function updateSupplierPage(supplier){
     // FINN RIKTIG Option-element basert på supplier.output og sett den som valgt
     const deliveryMethodSelector = document.getElementById("deliveryMethodSelector");
     deliveryMethodSelector.value = supplier.output || "";
+
+    // finne discriptionMailOutput fra gOutputs
+    const supplierOutput = gOutputs.find(output => output.airtable === supplier.output); 
+    let description = supplierOutput ? supplierOutput.description : "";
+    
+    //laster inn i desctiptionMailOutput    
+    const descriptionMailOutput = document.getElementById("descriptionMailOutput");
+    descriptionMailOutput.textContent = description || "Ingen beskrivelse tilgjengelig";
 
 }
 
