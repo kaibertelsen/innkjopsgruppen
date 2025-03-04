@@ -401,7 +401,7 @@ function moreInfoSupplierResponse(data){
     }
 
     if(data.fields.guidfil){
-        activeSupplier.guidfil = data.fields.guidfil.url;
+        activeSupplier.guidfil = data.fields.guidfil;
     }
 
    //opdater leverandøren
