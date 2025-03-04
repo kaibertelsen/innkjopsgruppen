@@ -830,6 +830,9 @@ document.getElementById("uploadDocButton").addEventListener("click", function(ev
             // Gjør "Åpne dokument"-knappen synlig
             const openDocButton = document.getElementById("openDocButton");
             openDocButton.style.display = "inline-block";
+
+            // Aktiver lagreknappen
+            document.getElementById("saveDocButton").classList.add("active");
         });
     });
 });
@@ -843,14 +846,13 @@ document.getElementById("openDocButton").addEventListener("click", function() {
     }
 });
 
+document.getElementById("saveDocButton").addEventListener("click", function() { 
+    // Lagre URL-en til PDF-en i databasen
+    saveSupplierInfo(activeSupplier.airtable, {guidfil: uploadedDocURL});
 
-
-
-
-
-
-
-
+    // Deaktiver lagreknappen
+    this.classList.remove("active");
+}); 
 
 
 
