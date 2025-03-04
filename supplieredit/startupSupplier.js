@@ -4,6 +4,7 @@ var malonetext;
 var maltotext;
 var orginaltext = "";
 var gGroups = [];
+var gCategorys = [];
 
 function getSuppier(){     
 //hente leverandører
@@ -25,6 +26,9 @@ function supplierResponse(data){
 
     const groups = data.fields.groupjson;
     gGroups = convertGroupJsonStringsToObjects(groups);
+
+    const categorys = data.fields.categoryjson;
+    gCategorys = convertGroupJsonStringsToObjects(categorys);
 }
 
 document.getElementById("searchinput").addEventListener("input", function () {
@@ -336,6 +340,8 @@ function openSupplier(supplier){
 
 
     listGroups(supplier.group);
+
+    listCategorys(supplier.category);
   
 }
 
@@ -391,6 +397,68 @@ function listGroups(activeGroups){
 
 }
 
+function listCategorys(activeCategorys){
+    let activeCategorysid = [];
+    activeCategorys.forEach(category => {
+        activeCategorysid.push(category.airtable);
+    });
+    // Hent containeren for leverandører
+    const categoryContainer = document.getElementById("categorylist");
+    if (!categoryContainer) {
+        console.error("Ingen container funnet for visning av leverandører.");
+        return;
+    }
+  
+    // Tøm container
+    categoryContainer.innerHTML = '';
+
+    const elementLibrary = document.getElementById("categoryelementwrapper");
+    if (!elementLibrary) {
+        console.error("Ingen 'elementlibrary' funnet.");
+        return;
+    }
+
+    const nodeElement = elementLibrary.querySelector(".categorybuttom");
+    if (!nodeElement) {
+        console.error("Ingen '.groupbuttom' funnet i 'elementlibrary'.");
+        return;
+    }
+
+    gCategorys.forEach(category => {
+        const categoryElement = nodeElement.cloneNode(true);
+        categoryElement.textContent = category.name;
+        categoryElement.dataset.categoryid = category.airtable;
+
+        //hvis denne gruppen er i listen
+        if(activeCategorysid.includes(category.airtable)){
+            categoryElement.classList.add("active");
+        }
+
+        categoryElement.addEventListener("click", function() {
+            // Kjør funksjonen med den aktive leverandørlisten
+            categoryFilterTriggered(categoryElement);
+        });
+        categoryContainer.appendChild(categoryElement);
+    });
+
+}
+
+function categoryFilterTriggered(button) {
+    const allButtons = button.parentElement.querySelectorAll(".categorybuttom");    
+// Toggling av "active"-klassen på den klikkede knappen
+
+    if (button.classList.contains("active")) {
+        button.classList.remove("active"); // Fjern klassen hvis den allerede er satt
+    } else {
+        button.classList.add("active"); // Legg til klassen hvis den ikke er satt
+    }
+    // Hent alle aktive kategorier
+    const activeCategorys = Array.from(allButtons).filter(button => button.classList.contains("active"));   
+    const activeCategorysid = activeCategorys.map(category => category.dataset.categoryid);
+    saveSupplierInfo(activeSupplier.airtable, {kategoriers: activeCategorysid});
+
+}
+
 function groupFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll(".groupbuttom");   
 
@@ -436,9 +504,6 @@ document.getElementById("offerlable").addEventListener("blur", function() {
   //lagre lokalt
   activeSupplier.cuttext = this.value;
 });
-
-
-
 
 document.getElementById("saveshorttextButton").addEventListener("click", function () {     
      // Hent innholdet fra TinyMCE editoren
