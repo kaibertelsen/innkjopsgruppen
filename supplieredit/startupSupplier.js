@@ -647,9 +647,24 @@ document.getElementById("uploadButton").addEventListener("click", function(event
             const optimizedImageURL = info.cdnUrl + "-/format/auto/-/quality/smart/";
             console.log("Optimalisert bilde URL:", optimizedImageURL);
             document.getElementById("presentationImageSupplier").src = optimizedImageURL;
+            document.getElementById("saveImageButton").classList.add("active");
         });
     });
 });
+
+document.getElementById("saveImageButton").addEventListener("click", function() {
+    const imageElement = document.getElementById("presentationImageSupplier");
+    const imageURL = imageElement.src;  // Hent URL-en til bildet    
+    
+    // Lagre bildet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {image: imageURL});   
+
+    // Lagre bildet lokalt
+    activeSupplier.image = imageURL;
+
+    // Deaktiver lagreknappen
+    this.classList.remove("active");
+}); 
 
 
 function adjustEditorHeight() {
