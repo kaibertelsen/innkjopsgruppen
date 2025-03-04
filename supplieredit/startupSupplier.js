@@ -408,7 +408,7 @@ function updateSupplierPage(supplier){
     
     //laster inn i desctiptionMailOutput    
     const descriptionMailOutput = document.getElementById("descriptionMailOutput");
-    descriptionMailOutput.textContent = description || "Ingen beskrivelse tilgjengelig";
+    descriptionMailOutput.innerHTML = description || "Ingen beskrivelse tilgjengelig";
 
 }
 
