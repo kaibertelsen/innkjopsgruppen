@@ -384,11 +384,11 @@ function moreInfoSupplierResponse(data){
    }
    //til leverandøren
     if(data.fields.emneleverandor){
-        activeSupplier.subjectmail = data.fields.emneleverandor;
+        activeSupplier.suppliersubjectmail = data.fields.emneleverandor;
     }
 
    if(data.fields.tilleverandor){   
-    activeSupplier.bodymail = data.fields.tilleverandor;
+    activeSupplier.suppliermailbody = data.fields.tilleverandor;
    }
    //til kunden
     if(data.fields.emneselskap){
@@ -441,10 +441,10 @@ function updateSupplierPage(supplier){
         mailbodyelementLabel.textContent = "Innhold i mail til leverandør";
 
         //laster inn i mailSubjectfield
-        mailSubjectfield.value = supplier.subjectmail || "";
+        mailSubjectfield.value = supplier.suppliersubjectmail || supplierOutput.suppliersubject;
 
         //laster inn i mailbodyelement
-        loadContentIntoEditor(contentInfoelement,supplier.bodymail);
+        loadContentIntoEditor(contentInfoelement,supplier.suppliermailbody|| supplierOutput.suppliermailbody);
     }
     
    
@@ -772,7 +772,9 @@ document.getElementById("deliveryMethodSelector").addEventListener("change", fun
     const selectedValue = this.value; // Hent den valgte verdien
     
     // Lagre valgt leveringsmetode i databasen
-    saveSupplierInfo(activeSupplier.airtable, {output: [selectedValue]});   
+    saveSupplierInfo(activeSupplier.airtable, {output: [selectedValue]}); 
+    
+    //sjekk emnet og innholdet i mailen og legg til i databasen
 
     // Lagre valgt leveringsmetode lokalt
     activeSupplier.output = [selectedValue];
