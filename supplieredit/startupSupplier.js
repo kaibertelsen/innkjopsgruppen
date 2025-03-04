@@ -657,7 +657,7 @@ document.getElementById("saveImageButton").addEventListener("click", function() 
     const imageURL = imageElement.src;  // Hent URL-en til bildet    
     
     // Lagre bildet i databasen
-    saveSupplierInfo(activeSupplier.airtable, {image: imageURL});   
+    saveSupplierInfo(activeSupplier.airtable, {frontbilde: imageURL});   
 
     // Lagre bildet lokalt
     activeSupplier.image = imageURL;
