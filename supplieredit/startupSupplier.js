@@ -428,6 +428,18 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
     }
 });
 
+document.getElementById("offerlable").addEventListener("blur", function() {
+
+  // Lagre innholdet i databasen
+  saveSupplierInfo(activeSupplier.airtable, {rabatt: this.value});
+
+  //lagre lokalt
+  activeSupplier.cuttext = this.value;
+});
+
+
+
+
 document.getElementById("saveshorttextButton").addEventListener("click", function () {     
      // Hent innholdet fra TinyMCE editoren
      let shortdescription = tinymce.get("shorttextArea").getContent();
