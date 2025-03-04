@@ -625,7 +625,6 @@ document.getElementById("testlinkbuttom").addEventListener("click", function(eve
     window.open(finalURL, "_blank"); // Åpner linken i ny fane
 });
 
-
 function validateAndSaveURL(url) {
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
         alert("Vennligst skriv inn en gyldig URL som starter med http:// eller https://");
@@ -639,6 +638,20 @@ function validateAndSaveURL(url) {
 
 }
 
+document.getElementById("uploadButton").addEventListener("click", function(event) {
+    event.preventDefault(); // Hindrer at linken laster en ny side
+
+    // Åpner Uploadcare-filvelger
+    const widget = uploadcare.Widget("#uploadcareWidget");
+    widget.openDialog().done(function(file) {
+        file.done(function(info) {
+            console.log("Opplastet bilde URL:", info.cdnUrl);
+            
+            // Oppdater bildet med den nye URL-en
+            document.getElementById("presentationImageSupplier").src = info.cdnUrl;
+        });
+    });
+});
 
 function adjustEditorHeight() {
     var editorInstance = tinymce.get("contentInfoelement");
