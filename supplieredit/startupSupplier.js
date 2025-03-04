@@ -413,6 +413,8 @@ function updateSupplierPage(supplier){
 }
 
 
+
+
 function listGroups(activeGroups){
         let activeGroupsid = [];
 
@@ -727,6 +729,18 @@ document.getElementById("saveImageButton").addEventListener("click", function() 
     this.classList.remove("active");
 }); 
 
+document.getElementById("deliveryMethodSelector").addEventListener("change", function() {
+    const selectedValue = this.value; // Hent den valgte verdien
+    
+    // Lagre valgt leveringsmetode i databasen
+    saveSupplierInfo(activeSupplier.airtable, {output: [selectedValue]});   
+
+    // Lagre valgt leveringsmetode lokalt
+    activeSupplier.output = [selectedValue];
+
+    // oppdater beskrivelse
+    updateSupplierPage(activeSupplier);
+});
 
 function adjustEditorHeight() {
     var editorInstance = tinymce.get("contentInfoelement");
