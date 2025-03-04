@@ -433,6 +433,9 @@ function updateSupplierPage(supplier){
         //laster inn i mailSubjectfield
         mailSubjectfield.value = supplier.customersubjectmail || supplierOutput.customersubjectmail;
 
+        //synligjøre wrapper guideDocWrapper
+        document.getElementById("guideDocWrapper").style.display = "block";
+
         //laster inn i mailbodyelement
         loadContentIntoEditor(contentInfoelement,supplier.customermailbody || supplierOutput.customermailbody);
 
@@ -442,6 +445,9 @@ function updateSupplierPage(supplier){
 
         //laster inn i mailSubjectfield
         mailSubjectfield.value = supplier.suppliersubjectmail || supplierOutput.suppliersubject;
+
+        //synligjøre wrapper guideDocWrapper
+        document.getElementById("guideDocWrapper").style.display = "none";
 
         //laster inn i mailbodyelement
         loadContentIntoEditor(contentInfoelement,supplier.suppliermailbody|| supplierOutput.suppliermailbody);
