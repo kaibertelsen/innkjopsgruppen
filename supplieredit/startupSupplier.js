@@ -410,6 +410,14 @@ function updateSupplierPage(supplier){
     const descriptionMailOutput = document.getElementById("desctiptionMailOutput");
     descriptionMailOutput.innerHTML = description || "Ingen beskrivelse tilgjengelig";
 
+    //laster inn i mailSubjectfield
+    const mailSubjectfield = document.getElementById("mailSubjectfield");
+    mailSubjectfield.value = supplier.subjectmail || "";
+
+    //laster inn i mailbodyelement
+    const contentInfoelement = tinymce.get("mailbodyelement");
+    loadContentIntoEditor(contentInfoelement,supplier.bodymail);
+
 }
 
 
@@ -891,7 +899,7 @@ function convertOutputJsonStringsToObjects(jsonStrings) {
 
 
 tinymce.init({
-    selector: '#contentInfoelement, #shorttextArea', // 🚀 Initialiserer begge TinyMCE-feltene
+    selector: '#contentInfoelement, #shorttextArea,#mailbodyelement', // 🚀 Initialiserer begge TinyMCE-feltene
     branding: false, // Fjerner "Build with TinyMCE"
     plugins: [
         'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
@@ -912,6 +920,8 @@ tinymce.init({
             editor.getContainer().style.height = "550px"; // Setter høyde for contentInfoelement
         } else if (editor.id === "shorttextArea") {
             editor.getContainer().style.height = "250px"; // Setter høyde for shorttextArea
+        }else if (editor.id === "mailbodyelement") {
+            editor.getContainer().style.height = "550px"; // Setter høyde for shorttextArea
         }
         console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
     }, // ✅ Korrekt: Komma etter denne funksjonen!
