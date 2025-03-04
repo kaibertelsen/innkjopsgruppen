@@ -407,7 +407,7 @@ function updateSupplierPage(supplier){
     let description = supplierOutput ? supplierOutput.description : "";
     
     //laster inn i desctiptionMailOutput    
-    const descriptionMailOutput = document.getElementById("descriptionMailOutput");
+    const descriptionMailOutput = document.getElementById("desctiptionMailOutput");
     descriptionMailOutput.innerHTML = description || "Ingen beskrivelse tilgjengelig";
 
 }
