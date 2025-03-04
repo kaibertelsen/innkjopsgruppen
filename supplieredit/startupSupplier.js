@@ -342,6 +342,9 @@ function openSupplier(supplier){
     listGroups(supplier.group);
 
     listCategorys(supplier.category);
+
+    const urltosupplierweb = document.getElementById("urltosupplierweb");
+    urltosupplierweb.value = supplier.landingsside;
   
 }
 
@@ -591,6 +594,26 @@ function loadContentIntoEditor(element,htmlContent) {
     // 🚀 Juster høyden basert på innholdets faktiske størrelse
    // setTimeout(() => adjustEditorHeight(), 300); // Vent litt slik at innholdet rendres først
 }
+
+document.getElementById("urltosupplierweb").addEventListener("blur", function() {
+    console.log("Brukeren er ferdig med å skrive URL:", this.value);
+    validateAndSaveURL(this.value);
+});
+
+
+function validateAndSaveURL(url) {
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        alert("Vennligst skriv inn en gyldig URL som starter med http:// eller https://");
+        return;
+    }
+     // Lagre innholdet i databasen
+  saveSupplierInfo(activeSupplier.airtable, {landingsside: this.value});
+
+  //lagre lokalt
+  activeSupplier.landingsside = this.value;
+
+}
+
 
 function adjustEditorHeight() {
     var editorInstance = tinymce.get("contentInfoelement");
