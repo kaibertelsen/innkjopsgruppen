@@ -6,6 +6,7 @@ var orginaltext = "";
 var gGroups = [];
 var gCategorys = [];
 var gOutputs = [];
+let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
 
 function getSuppier(){     
 //hente leverandører
@@ -452,9 +453,12 @@ function updateSupplierPage(supplier){
         //laster inn i mailbodyelement
         loadContentIntoEditor(contentInfoelement,supplier.suppliermailbody|| supplierOutput.suppliermailbody);
     }
+
+    //hente guideDocURL
+    const guideDocURL = document.getElementById("guideDocURL");
+    guideDocURL.value = supplier.guideDocURL || "";
     
    
-
 }
 
 
@@ -815,7 +819,7 @@ document.getElementById("saveMailbodyButton").addEventListener("click", function
     }
 });
 
-let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
+
 
 document.getElementById("uploadDocButton").addEventListener("click", function(event) {
     event.preventDefault(); // Hindrer standard knapp-oppførsel
