@@ -783,6 +783,32 @@ document.getElementById("deliveryMethodSelector").addEventListener("change", fun
     updateSupplierPage(activeSupplier);
 });
 
+
+document.getElementById("saveMailbodyButton").addEventListener("click", function() {
+    const mailSubjectfield = document.getElementById("mailSubjectfieldinput").value;
+    const mailbodyelement = tinymce.get("mailbodyelement").getContent();    
+
+    // Lagre innholdet i databasen
+    if(activeSupplier.output[0] === "recJV491g6P1iUl8u"){   
+        saveSupplierInfo(activeSupplier.airtable, {emneselskap: mailSubjectfield, tilselskap: mailbodyelement});
+    }else{
+        saveSupplierInfo(activeSupplier.airtable, {emneleverandor: mailSubjectfield, tilleverandor: mailbodyelement});
+    }
+
+    // Deaktiver lagreknappen
+    this.classList.remove("active");
+
+    // Lagre innholdet lokalt
+    if(activeSupplier.output[0] === "recJV491g6P1iUl8u"){
+        activeSupplier.customersubjectmail = mailSubjectfield;
+        activeSupplier.customermailbody = mailbodyelement;
+    }
+    else{
+        activeSupplier.suppliersubjectmail = mailSubjectfield;
+        activeSupplier.suppliermailbody = mailbodyelement;
+    }
+});
+
 function adjustEditorHeight() {
     var editorInstance = tinymce.get("contentInfoelement");
 
