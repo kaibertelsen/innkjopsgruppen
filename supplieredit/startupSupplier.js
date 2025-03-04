@@ -48,25 +48,42 @@ function startupSupplierList(suppliers){
 function filterSuppliers(suppliers) {
     // Hent input-feltet
     const searchInput = document.getElementById("searchinput");
+    const supplierFilterSelector = document.getElementById("supplierFilterSelector");
 
     if (!searchInput) {
         console.error("Fant ikke input-feltet med id 'searchinput'");
         return suppliers;
     }
 
-    // Hent søketeksten og trim mellomrom
-    const searchText = searchInput.value.trim().toLowerCase();
-
-    // Hvis søketeksten er tom, returner hele listen
-    if (searchText === "") {
+    if (!supplierFilterSelector) {
+        console.error("Fant ikke select-feltet med id 'supplierFilterSelector'");
         return suppliers;
     }
 
-    // Filtrer leverandører basert på søketeksten
-    return suppliers.filter(supplier =>
-        supplier.name.toLowerCase().includes(searchText)
-    );
+    // Hent søketeksten og trim mellomrom
+    const searchText = searchInput.value.trim().toLowerCase();
+    // Hent valgt filterkategori
+    const selectedFilter = supplierFilterSelector.value;
+
+    return suppliers.filter(supplier => {
+        const matchesSearch = supplier.name.toLowerCase().includes(searchText);
+        const matchesFilter =
+            selectedFilter === "" || // Hvis "Alle" er valgt, vis alt
+            (selectedFilter === "visible" && !supplier.hidden) || // Synlig leverandør
+            (selectedFilter === "hidden" && supplier.hidden); // Skjult leverandør
+
+        return matchesSearch && matchesFilter; // Må matche begge kriteriene
+    });
 }
+
+
+
+document.getElementById("supplierFilterSelector").addEventListener("change", function() {
+
+    // Kjør startupSupplierList med de filtrerte leverandørene
+    startupSupplierList(gsuppliers);
+});
+
 
 function sortSuppliers(suppliers) {
     // Filtrer ut ugyldige eller tomme verdier (valgfritt)
