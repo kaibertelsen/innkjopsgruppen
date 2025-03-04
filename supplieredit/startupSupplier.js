@@ -400,6 +400,10 @@ function moreInfoSupplierResponse(data){
         activeSupplier.customermailbody = data.fields.tilselskap;
     }
 
+    if(data.fields.guidfil){
+        activeSupplier.guidfil = data.fields.guidfil.url;
+    }
+
    //opdater leverandøren
    updateSupplierPage(activeSupplier);
 }
