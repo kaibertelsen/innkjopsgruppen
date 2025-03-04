@@ -411,7 +411,7 @@ function updateSupplierPage(supplier){
     descriptionMailOutput.innerHTML = description || "Ingen beskrivelse tilgjengelig";
 
     //laster inn i mailSubjectfield
-    const mailSubjectfield = document.getElementById("mailSubjectfield");
+    const mailSubjectfield = document.getElementById("mailSubjectfieldinput");
     mailSubjectfield.value = supplier.subjectmail || "";
 
     //laster inn i mailbodyelement
