@@ -382,7 +382,7 @@ function moreInfoSupplierResponse(data){
    if(data.fields.output){
     activeSupplier.output = data.fields.output;
    }
-   
+   //til leverandøren
     if(data.fields.emneleverandor){
         activeSupplier.subjectmail = data.fields.emneleverandor;
     }
@@ -390,6 +390,14 @@ function moreInfoSupplierResponse(data){
    if(data.fields.tilleverandor){   
     activeSupplier.bodymail = data.fields.tilleverandor;
    }
+   //til kunden
+    if(data.fields.emneselskap){
+        activeSupplier.customersubjectmail = data.fields.emneselskap;
+    }
+
+    if(data.fields.tilselskap){
+        activeSupplier.customermailbody = data.fields.tilselskap;
+    }
 
    //opdater leverandøren
    updateSupplierPage(activeSupplier);
@@ -405,18 +413,41 @@ function updateSupplierPage(supplier){
     // finne discriptionMailOutput fra gOutputs
     const supplierOutput = gOutputs.find(output => output.airtable === supplier.output[0]); 
     let description = supplierOutput ? supplierOutput.description : "";
-    
-    //laster inn i desctiptionMailOutput    
-    const descriptionMailOutput = document.getElementById("desctiptionMailOutput");
+
+    // Sett beskrivelsen i HTML-elementet
+    const descriptionMailOutput = document.getElementById("desctiptionMailOutput");  
     descriptionMailOutput.innerHTML = description || "Ingen beskrivelse tilgjengelig";
 
-    //laster inn i mailSubjectfield
+    //hente elementer
     const mailSubjectfield = document.getElementById("mailSubjectfieldinput");
-    mailSubjectfield.value = supplier.subjectmail || "";
-
-    //laster inn i mailbodyelement
     const contentInfoelement = tinymce.get("mailbodyelement");
-    loadContentIntoEditor(contentInfoelement,supplier.bodymail);
+    const mailSubjectfieldLabel = document.getElementById("mailSubjectfieldLabel");
+    const mailbodyelementLabel = document.getElementById("mailbodyelementLabel");
+
+    //hvis supplier.output er denne verdien"recJV491g6P1iUl8u"
+    if(supplier.output[0] === "recJV491g6P1iUl8u"){
+
+        mailSubjectfieldLabel.textContent = "Emnet i mail til kunde";
+        mailbodyelementLabel.textContent = "Innhold i mail til kunde";
+
+        //laster inn i mailSubjectfield
+        mailSubjectfield.value = supplier.customersubjectmail || supplierOutput.customersubjectmail;
+
+        //laster inn i mailbodyelement
+        loadContentIntoEditor(contentInfoelement,supplier.customermailbody || supplierOutput.customermailbody);
+
+    }else{
+        mailSubjectfieldLabel.textContent = "Emnet i mail til leverandør";
+        mailbodyelementLabel.textContent = "Innhold i mail til leverandør";
+
+        //laster inn i mailSubjectfield
+        mailSubjectfield.value = supplier.subjectmail || "";
+
+        //laster inn i mailbodyelement
+        loadContentIntoEditor(contentInfoelement,supplier.bodymail);
+    }
+    
+   
 
 }
 
@@ -864,6 +895,30 @@ function convertOutputJsonStringsToObjects(jsonStrings) {
                 }
             }   
 
+
+            //Midlertidig fjern `customersubjectmail`-feltet hvis det finnes
+            let Kundetekstemnet = '';
+            if (jsonString.includes('"customersubjectmail":')) {
+                // Ekstraher `customersubjectmail`-feltet med en regex (forutsatt korrekt JSON-format)
+                const KundetekstemnetMatch = jsonString.match(/"customersubjectmail":\s*"(.*?)"(,|\})/s);
+                if (KundetekstemnetMatch) {
+                    Kundetekstemnet = KundetekstemnetMatch[1];  // Ekstraher verdien av `customersubjectmail`
+                    jsonString = jsonString.replace(/"customersubjectmail":\s*".*?"(,|\})/s, '"customersubjectmail":""$1');  // Fjern HTML-innholdet midlertidig    
+                }
+            }
+
+            //Midlertidig fjern `customermailbody`-feltet hvis det finnes
+            let Kundetekstbody = '';
+            if (jsonString.includes('"customermailbody":')) {
+                // Ekstraher `customermailbody`-feltet med en regex (forutsatt korrekt JSON-format)
+                const KundetekstbodyMatch = jsonString.match(/"customermailbody":\s*"(.*?)"(,|\})/s);
+                if (KundetekstbodyMatch) {
+                    Kundetekstbody = KundetekstbodyMatch[1];  // Ekstraher verdien av `customermailbody`
+                    jsonString = jsonString.replace(/"customermailbody":\s*".*?"(,|\})/s, '"customermailbody":""$1');  // Fjern HTML-innholdet midlertidig
+                }
+            }
+
+
             //Midlertidig fjern `description`-feltet hvis det finnes
             let descriptionValue = '';
             if (jsonString.includes('"description":')) {
@@ -882,6 +937,8 @@ function convertOutputJsonStringsToObjects(jsonStrings) {
             data.suppliermailbody = suppliermailbodyValue;
             data.suppliersubject = suppliersubjectValue;
             data.description = descriptionValue;
+            data.customersubjectmail = Kundetekstemnet;
+            data.customermailbody = Kundetekstbody;
 
 
             return data;
@@ -921,7 +978,7 @@ tinymce.init({
         } else if (editor.id === "shorttextArea") {
             editor.getContainer().style.height = "250px"; // Setter høyde for shorttextArea
         }else if (editor.id === "mailbodyelement") {
-            editor.getContainer().style.height = "550px"; // Setter høyde for shorttextArea
+            editor.getContainer().style.height = "250px"; // Setter høyde for shorttextArea
         }
         console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
     }, // ✅ Korrekt: Komma etter denne funksjonen!
