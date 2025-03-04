@@ -455,9 +455,7 @@ function updateSupplierPage(supplier){
     }
 
     //hente guideDocURL
-    const guideDocURL = document.getElementById("guideDocURL");
-    // Sett verdien til guideDocURL, men sjekk om guidfil finnes
-    document.getElementById("guideDocURL").value = supplier?.guidfil ?? "";
+    uploadedDocURL = supplier?.guidfil ?? "";
 
     
    
