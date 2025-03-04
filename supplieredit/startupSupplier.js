@@ -639,19 +639,18 @@ function validateAndSaveURL(url) {
 }
 
 document.getElementById("uploadButton").addEventListener("click", function(event) {
-    event.preventDefault(); // Hindrer at linken laster en ny side
+    event.preventDefault(); 
 
-    // Åpner Uploadcare-filvelger
     const widget = uploadcare.Widget("#uploadcareWidget");
     widget.openDialog().done(function(file) {
         file.done(function(info) {
-            console.log("Opplastet bilde URL:", info.cdnUrl);
-            
-            // Oppdater bildet med den nye URL-en
-            document.getElementById("presentationImageSupplier").src = info.cdnUrl;
+            const optimizedImageURL = info.cdnUrl + "-/format/auto/-/quality/smart/";
+            console.log("Optimalisert bilde URL:", optimizedImageURL);
+            document.getElementById("presentationImageSupplier").src = optimizedImageURL;
         });
     });
 });
+
 
 function adjustEditorHeight() {
     var editorInstance = tinymce.get("contentInfoelement");
