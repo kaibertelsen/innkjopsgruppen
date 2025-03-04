@@ -600,6 +600,27 @@ document.getElementById("urltosupplierweb").addEventListener("blur", function() 
     validateAndSaveURL(this.value);
 });
 
+document.getElementById("testlinkbuttom").addEventListener("click", function(event) {
+    event.preventDefault(); // Hindrer at linken går til #
+
+    const urlInput = document.getElementById("urltosupplierweb").value.trim();
+
+    if (!urlInput) {
+        alert("Vennligst skriv inn en URL først.");
+        return;
+    }
+
+    let finalURL = urlInput;
+    
+    // Sjekk om URL-en har http:// eller https://, hvis ikke legg til https://
+    if (!finalURL.startsWith("http://") && !finalURL.startsWith("https://")) {
+        finalURL = "https://" + finalURL;
+    }
+
+    console.log("Åpner link:", finalURL);
+    window.open(finalURL, "_blank"); // Åpner linken i ny fane
+});
+
 
 function validateAndSaveURL(url) {
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
