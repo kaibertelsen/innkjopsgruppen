@@ -32,7 +32,7 @@ function supplierResponse(data){
     gCategorys = convertGroupJsonStringsToObjects(categorys);
 
     const outputs = data.fields.outputjson;
-    gOutputs = convertGroupJsonStringsToObjects(outputs);
+    gOutputs = convertOutputJsonStringsToObjects(outputs);
 
 
 }
@@ -807,6 +807,65 @@ function convertGroupJsonStringsToObjects(jsonStrings) {
         }
     });
 }
+
+function convertOutputJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            
+            // Midlertidig fjern `suppliermailbody`-feltet hvis det finnes
+            let suppliermailbodyValue = '';
+            if (jsonString.includes('"suppliermailbody":')) {       
+                // Ekstraher `suppliermailbody`-feltet med en regex (forutsatt korrekt JSON-format)
+                const suppliermailbodyMatch = jsonString.match(/"suppliermailbody":\s*"(.*?)"(,|\})/s);
+                if (suppliermailbodyMatch) {
+                    suppliermailbodyValue = suppliermailbodyMatch[1];  // Ekstraher verdien av `suppliermailbody`
+                    jsonString = jsonString.replace(/"suppliermailbody":\s*".*?"(,|\})/s, '"suppliermailbody":""$1');  // Fjern HTML-innholdet midlertidig
+                }
+            }
+
+            // Midlertidig fjern `suppliersubject`-feltet hvis det finnes
+            let suppliersubjectValue = '';
+            if (jsonString.includes('"suppliersubject":')) {
+                // Ekstraher `suppliersubject`-feltet med en regex (forutsatt korrekt JSON-format)
+                const suppliersubjectMatch = jsonString.match(/"suppliersubject":\s*"(.*?)"(,|\})/s);
+                if (suppliersubjectMatch) {
+                    suppliersubjectValue = suppliersubjectMatch[1];  // Ekstraher verdien av `suppliersubject`
+                    jsonString = jsonString.replace(/"suppliersubject":\s*".*?"(,|\})/s, '"suppliersubject":""$1');  // Fjern HTML-innholdet midlertidig
+                }
+            }   
+
+            //Midlertidig fjern `description`-feltet hvis det finnes
+            let descriptionValue = '';
+            if (jsonString.includes('"description":')) {
+                // Ekstraher `description`-feltet med en regex (forutsatt korrekt JSON-format)
+                const descriptionMatch = jsonString.match(/"description":\s*"(.*?)"(,|\})/s);
+                if (descriptionMatch) {
+                    descriptionValue = descriptionMatch[1];  // Ekstraher verdien av `description`
+                    jsonString = jsonString.replace(/"description":\s*".*?"(,|\})/s, '"description":""$1');  // Fjern HTML-innholdet midlertidig
+                }
+            }
+
+            // Legg tilbake `suppliermailbody`-feltet
+            data.suppliermailbody = suppliermailbodyValue;
+            data.suppliersubject = suppliersubjectValue;
+            data.description = descriptionValue;
+
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
+}
+
+
+
+
+
+
 
 tinymce.init({
     selector: '#contentInfoelement, #shorttextArea', // 🚀 Initialiserer begge TinyMCE-feltene
