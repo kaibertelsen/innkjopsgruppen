@@ -297,12 +297,10 @@ function handleDrop(event) {
 
 }
 
-
 // 🔹 Funksjon for når dra-operasjonen er ferdig
 function handleDragEnd(event) {
     event.target.classList.remove("dragging");
 }
-
 
 function openSupplier(supplier){
 
@@ -324,6 +322,9 @@ function openSupplier(supplier){
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
     supplierlogo.src = supplier.logo;
+
+    const offerlable = document.getElementById("offerlable");
+    offerlable.value = supplier.cuttext
 
     var shorttextArea = tinymce.get("shorttextArea");
     loadContentIntoEditor(shorttextArea,supplier.kortinfo);
@@ -390,7 +391,6 @@ function listGroups(activeGroups){
 
 }
 
-
 function groupFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll(".groupbuttom");   
 
@@ -411,7 +411,6 @@ function groupFilterTriggered(button) {
 document.getElementById("backtolistbutton").addEventListener("click", function () {
     document.getElementById("supplierListTagbutton").click();
 });
-
 
 document.getElementById("publicSwitsh").addEventListener("click", function () {
     const publicSwitshtext = document.getElementById("publicSwitshtext");
