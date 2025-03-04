@@ -809,6 +809,45 @@ document.getElementById("saveMailbodyButton").addEventListener("click", function
     }
 });
 
+let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
+
+document.getElementById("uploadDocButton").addEventListener("click", function(event) {
+    event.preventDefault(); // Hindrer standard knapp-oppførsel
+    
+    // Åpner Uploadcare-filvelgeren for kun PDF-filer
+    const widget = uploadcare.Widget("#uploadcareDocWidget");
+    widget.openDialog().done(function(file) {
+        file.done(function(info) {
+            uploadedDocURL = info.cdnUrl; // Lagre PDF-URL
+            console.log("Opplastet PDF URL:", uploadedDocURL);
+            
+            // Gjør "Åpne dokument"-knappen synlig
+            const openDocButton = document.getElementById("openDocButton");
+            openDocButton.style.display = "inline-block";
+        });
+    });
+});
+
+// 🔹 Når brukeren klikker "Åpne dokument", åpne PDF i ny fane
+document.getElementById("openDocButton").addEventListener("click", function() {
+    if (uploadedDocURL) {
+        window.open(uploadedDocURL, "_blank"); // Åpner PDF i ny fane
+    } else {
+        alert("Ingen PDF lastet opp ennå.");
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 function adjustEditorHeight() {
     var editorInstance = tinymce.get("contentInfoelement");
 
