@@ -403,7 +403,7 @@ function updateSupplierPage(supplier){
     deliveryMethodSelector.value = supplier.output || "";
 
     // finne discriptionMailOutput fra gOutputs
-    const supplierOutput = gOutputs.find(output => output.airtable === supplier.output); 
+    const supplierOutput = gOutputs.find(output => output.airtable === supplier.output[0]); 
     let description = supplierOutput ? supplierOutput.description : "";
     
     //laster inn i desctiptionMailOutput    
