@@ -74,11 +74,12 @@ document.getElementById("makeNewSupplier").addEventListener("click", function (e
         }
     });
 
+    highestSortering++;
     // Opprett et nytt leverandør-objekt
     const newSupplier = {
         name: supplierName,
         skjult: true,
-        sortering: highestSortering+1,
+        sortering: highestSortering,
     }
     
     //sende til airtable
