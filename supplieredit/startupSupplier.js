@@ -84,6 +84,10 @@ document.getElementById("makeNewSupplier").addEventListener("click", function (e
     //sende til airtable
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",JSON.stringify(newSupplier),"responsNewSupplier");
 
+    // Tøm inputfeltet
+    document.getElementById("newSuppierName").value = "";
+    document.getElementById("Newsupplierwrapper").style.display = "none";
+
 });
 
 function responsNewSupplier(data){
