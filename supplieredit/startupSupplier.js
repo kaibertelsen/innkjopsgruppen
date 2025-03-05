@@ -46,14 +46,15 @@ document.getElementById("searchinput").addEventListener("input", function () {
 });
 
 document.getElementById("openNewsupplierwrapper").addEventListener("click", function () {
+    const wrapper = document.getElementById("Newsupplierwrapper");
 
-                //hvis Newsupplierwrapper ikke er synlig
-                if(document.getElementById("Newsupplierwrapper").style.display === "none"){
-                document.getElementById("Newsupplierwrapper").style.display = "block";
-                }else{
-                document.getElementById("Newsupplierwrapper").style.display = "none";
-                }
+    if (wrapper.style.display === "none" || wrapper.style.display === "") {
+        wrapper.style.display = "block";
+    } else {
+        wrapper.style.display = "none";
+    }
 });
+
 
 
 function startupSupplierList(suppliers){
