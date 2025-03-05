@@ -80,6 +80,7 @@ document.getElementById("makeNewSupplier").addEventListener("click", function (e
         name: supplierName,
         skjult: true,
         sortering: highestSortering,
+        klient: ["recwnwSGJ0GvRwKFU"]
     }
     
     //sende til airtable
@@ -101,9 +102,6 @@ function responsNewSupplier(data){
     }
 
 }
-
-
-
 
 function startupSupplierList(suppliers){
    // Filtrer leverandørene
@@ -1011,8 +1009,10 @@ function ruteresponse(data,id){
         moreInfoSupplierResponse(data);
     }else if(id == "respondconnections"){
         respondconnections(data);
+    }else if(id == "responsNewSupplier"){
+        responsNewSupplier(data);
     }
-
+    
     
 }
 
