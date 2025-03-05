@@ -641,6 +641,34 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
     }
 });
 
+document.getElementById("uploadLogoButton").addEventListener("click", function(event) {
+    event.preventDefault(); 
+
+    const widget = uploadcare.Widget("#logoUploadcareWidget");
+    widget.openDialog().done(function(file) {
+        file.done(function(info) {
+            const optimizedImageURL = info.cdnUrl + "-/format/auto/-/quality/smart/";
+            console.log("Optimalisert bilde URL:", optimizedImageURL);
+            document.getElementById("logoImageSupplier").src = optimizedImageURL;
+            document.getElementById("saveLogoButton").classList.add("active");
+        });
+    });
+});
+
+document.getElementById("saveLogoButton").addEventListener("click", function() {
+    const imageElement = document.getElementById("logoImageSupplier");
+    const imageURL = imageElement.src;  // Hent URL-en til bildet    
+    
+    // Lagre bildet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {logo: imageURL});   
+
+    // Lagre bildet lokalt
+    activeSupplier.image = imageURL;
+
+    // Deaktiver lagreknappen
+    this.classList.remove("active");
+}); 
+
 document.getElementById("offerlable").addEventListener("blur", function() {
 
   // Lagre innholdet i databasen
