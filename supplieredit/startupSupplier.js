@@ -684,6 +684,33 @@ document.getElementById("uploadLogoButton").addEventListener("click", function(e
     });
 });
 
+document.getElementById("supplierNameInput").addEventListener("blur", function() {
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {name: this.value});
+
+    // Lagre innholdet lokalt
+    activeSupplier.name = this.value;
+
+    startupSupplierList(gsuppliers);
+
+});
+
+document.getElementById("supplierNameOrgnr").addEventListener("blur", function() {
+    //kontroller at det kun er nummer
+    if (!/^\d+$/.test(this.value)) {
+        alert("Orgnr kan kun inneholde tall.");
+        this.value = activeSupplier.orgnr || "";
+        return;
+    }
+
+
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {orgnr: this.value}); 
+
+    // Lagre innholdet lokalt
+    activeSupplier.orgnr = this.value;
+});
+
 document.getElementById("urltosupplierweb").addEventListener("blur", function() {
    
 });
@@ -920,29 +947,7 @@ document.getElementById("saveMailbodyButton").addEventListener("click", function
     }
 });
 
-document.getElementById("supplierNameInput").addEventListener("blur", function() {
-    // Lagre innholdet i databasen
-    saveSupplierInfo(activeSupplier.airtable, {name: this.value});
 
-    // Lagre innholdet lokalt
-    activeSupplier.name = this.value;
-
-});
-
-document.getElementById("supplierNameOrgnr").addEventListener("blur", function() {
-    //kontroller at det kun er nummer
-    if (!/^\d+$/.test(this.value)) {
-        alert("Orgnr kan kun inneholde tall.");
-        this.value = activeSupplier.orgnr || "";
-        return;
-    }
-
-    // Lagre innholdet i databasen
-    saveSupplierInfo(activeSupplier.airtable, {orgnr: this.value}); 
-
-    // Lagre innholdet lokalt
-    activeSupplier.orgnr = this.value;
-});
 
 document.getElementById("uploadDocButton").addEventListener("click", function(event) {
     event.preventDefault(); // Hindrer standard knapp-oppførsel
