@@ -706,6 +706,19 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
     }
 });
 
+document.getElementById("deleteSupplierButton").addEventListener("click", function () {
+    if (confirm("Er du sikker på at du vil slette denne leverandøren?")) {
+        // Slett leverandøren fra databasen
+        DELETEairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",activeSupplier.airtable,"responseDeleteSupplier")
+        // Slett leverandøren fra den lokale listen
+        gsuppliers = gsuppliers.filter(supplier => supplier.airtable !== activeSupplier.airtable);
+    }
+});
+
+function responseDeleteSupplier(data){
+    console.log(data);
+}
+
 document.getElementById("uploadLogoButton").addEventListener("click", function(event) {
     event.preventDefault(); 
 
@@ -1048,6 +1061,8 @@ function ruteresponse(data,id){
         respondconnections(data);
     }else if(id == "responsNewSupplier"){
         responsNewSupplier(data);
+    }else if(id == "responseDeleteSupplier"){
+        responseDeleteSupplier(data);
     }
     
     
