@@ -608,6 +608,8 @@ function categoryFilterTriggered(button) {
     const activeCategorys = Array.from(allButtons).filter(button => button.classList.contains("active"));   
     const activeCategorysid = activeCategorys.map(category => category.dataset.categoryid);
     saveSupplierInfo(activeSupplier.airtable, {kategoriers: activeCategorysid});
+    //oppdater lokalt
+    activeSupplier.category = activeCategorys;
 
 }
 
@@ -625,7 +627,9 @@ function groupFilterTriggered(button) {
         const activeGroups = Array.from(allButtons).filter(button => button.classList.contains("active"));  
         const activeGroupsid = activeGroups.map(group => group.dataset.groupid);
         saveSupplierInfo(activeSupplier.airtable, {gruppe: activeGroupsid});
-    
+        //oppdater lokalt
+        activeSupplier.group = activeGroups;
+ 
 };
 
 document.getElementById("backtolistbutton").addEventListener("click", function () {
@@ -666,12 +670,12 @@ document.getElementById("saveLogoButton").addEventListener("click", function() {
     const imageElement = document.getElementById("logoImageSupplier");
     const imageURL = imageElement.src;  // Hent URL-en til bildet    
     
-    // Lagre bildet i databasen
+    // Lagre logo i databasen
     saveSupplierInfo(activeSupplier.airtable, {logo: imageURL});   
 
-    // Lagre bildet lokalt
-    activeSupplier.image = imageURL;
-
+    // Lagre logo lokalt
+    activeSupplier.logo = imageURL;
+    
     // Deaktiver lagreknappen
     this.classList.remove("active");
 }); 
@@ -691,6 +695,9 @@ document.getElementById("saveshorttextButton").addEventListener("click", functio
 
     // Lagre innholdet i databasen
     saveSupplierInfo(activeSupplier.airtable, {kortinfo: shortdescription});
+
+    //lagre lokalt
+    activeSupplier.kortinfo = shortdescription;
 
     // Deaktiver lagreknappen
     document.getElementById("saveshorttextButton").classList.remove("active");
@@ -716,6 +723,9 @@ document.getElementById("saveButton").addEventListener("click", function () {
     document.getElementById("saveButton").classList.remove("active");
     // Lagre innholdet i databasen
     saveSupplierInfo(activeSupplier.airtable, {info: editorContent});
+
+    //lagre lokalt
+    activeSupplier.info = editorContent;
     }
 
 });
