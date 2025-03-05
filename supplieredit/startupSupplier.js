@@ -65,11 +65,20 @@ document.getElementById("makeNewSupplier").addEventListener("click", function (e
         return;
     }
 
+    
+    //finne høyeste sortering i gsuppliers
+    let highestSortering = 0;
+    gsuppliers.forEach(supplier => {
+        if (supplier.sortering > highestSortering) {
+            highestSortering = supplier.sortering;
+        }
+    });
+
     // Opprett et nytt leverandør-objekt
     const newSupplier = {
         name: supplierName,
-        hidden: true,
-        sortering: 9999,
+        skjult: true,
+        sortering: highestSortering+1,
     }
     
     //sende til airtable
