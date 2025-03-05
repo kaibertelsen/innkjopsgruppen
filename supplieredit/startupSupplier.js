@@ -423,6 +423,10 @@ function updateSupplierPage(supplier){
     const descriptionMailOutput = document.getElementById("desctiptionMailOutput");  
     descriptionMailOutput.innerHTML = description || "Ingen beskrivelse tilgjengelig";
 
+    //tilknyttningsmailen
+    const connectinMailAdress = document.getElementById("connectinMailAdress");
+    connectinMailAdress.value = supplier.outputmail || "";
+
     //hente elementer
     const mailSubjectfield = document.getElementById("mailSubjectfieldinput");
     const contentInfoelement = tinymce.get("mailbodyelement");
