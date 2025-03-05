@@ -362,7 +362,7 @@ function openSupplier(supplier){
     supplierNameOrgnr.value = supplier.orgnr || "";
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
-    supplierlogo.src = supplier.logo;
+    supplierlogo.src = supplier.logo || "";
 
     const offerlable = document.getElementById("offerlable");
     offerlable.value = supplier.cuttext
@@ -384,7 +384,7 @@ function openSupplier(supplier){
     urltosupplierweb.value = supplier.landingsside;
 
     const presentationImageSupplier = document.getElementById("presentationImageSupplier");
-    presentationImageSupplier.src = supplier.image || "path/to/default/image.png";
+    presentationImageSupplier.src = supplier.image || "";
     
     //last inn outputs i select
     const deliveryMethodSelector = document.getElementById("deliveryMethodSelector");
