@@ -45,6 +45,17 @@ document.getElementById("searchinput").addEventListener("input", function () {
     startupSupplierList(gsuppliers);
 });
 
+document.getElementById("openNewsupplierwrapper").addEventListener("click", function () {
+
+                //hvis Newsupplierwrapper ikke er synlig
+                if(document.getElementById("Newsupplierwrapper").style.display === "none"){
+                document.getElementById("Newsupplierwrapper").style.display = "block";
+                }else{
+                document.getElementById("Newsupplierwrapper").style.display = "none";
+                }
+});
+
+
 function startupSupplierList(suppliers){
    // Filtrer leverandørene
    suppliers = filterSuppliers(suppliers);
@@ -332,7 +343,7 @@ function handleDragEnd(event) {
 function openSupplier(supplier){
 
     activeSupplier = supplier;
-    
+
     //Tømme connectionList
     resetConnectionList();
 
