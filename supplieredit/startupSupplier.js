@@ -597,22 +597,28 @@ function listCategorys(activeCategorys){
 }
 
 function categoryFilterTriggered(button) {
-    const allButtons = button.parentElement.querySelectorAll(".categorybuttom");    
-// Toggling av "active"-klassen på den klikkede knappen
+    const allButtons = button.parentElement.querySelectorAll(".categorybuttom");
 
-    if (button.classList.contains("active")) {
-        button.classList.remove("active"); // Fjern klassen hvis den allerede er satt
-    } else {
-        button.classList.add("active"); // Legg til klassen hvis den ikke er satt
-    }
+    // Toggle "active"-klassen på den klikkede knappen
+    button.classList.toggle("active");
+
     // Hent alle aktive kategorier
-    const activeCategorys = Array.from(allButtons).filter(button => button.classList.contains("active"));   
+    const activeCategorys = Array.from(allButtons).filter(btn => btn.classList.contains("active"));
     const activeCategorysid = activeCategorys.map(category => category.dataset.categoryid);
-    saveSupplierInfo(activeSupplier.airtable, {kategoriers: activeCategorysid});
-    //oppdater lokalt
-    activeSupplier.category = activeCategorys;
 
+    // Lagre til databasen
+    saveSupplierInfo(activeSupplier.airtable, { kategoriers: activeCategorysid });
+
+    // Oppdater lokalt
+    if (typeof gCategorys !== "undefined" && Array.isArray(gCategorys)) {
+        // Finn alle objektene i `gCategorys` som matcher `activeCategorysid`
+        activeSupplier.category = gCategorys.filter(category => activeCategorysid.includes(category.id));
+    } else {
+        console.warn("gCategorys er ikke definert eller ikke en array");
+        activeSupplier.category = [];
+    }
 }
+
 
 function groupFilterTriggered(button) {
     const allButtons = button.parentElement.querySelectorAll(".groupbuttom");   
