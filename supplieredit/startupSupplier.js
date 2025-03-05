@@ -232,6 +232,18 @@ function listSuppliersinList(suppliers) {
     });
 }
 
+function reCalcIndexSupplierlist(){
+    const supplierContainer = document.getElementById("supplierlistconteiner");
+    const suppliersList = [...supplierContainer.children];
+    //sette nytt nummer på sortering
+    suppliersList.forEach((supplier, index) => {
+        supplier.dataset.index = index;
+        supplier.querySelector('.sortnr').textContent = index + 1; // Viser original indeks
+    }
+    );  
+}
+
+
 // 🔹 Funksjon for når et element starter å dras
 function handleDragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.dataset.index);
@@ -305,6 +317,9 @@ function handleDrop(event) {
 
     // Lager på serveren
     saveSupplierInfo(draggingElement.dataset.airtable, {sortering: newSortering});
+
+    // Rekalkuler indeksene
+    reCalcIndexSupplierlist();
 
 }
 
