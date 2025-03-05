@@ -634,8 +634,16 @@ function groupFilterTriggered(button) {
         const activeGroups = Array.from(allButtons).filter(button => button.classList.contains("active"));  
         const activeGroupsid = activeGroups.map(group => group.dataset.groupid);
         saveSupplierInfo(activeSupplier.airtable, {gruppe: activeGroupsid});
-        //oppdater lokalt
-        activeSupplier.group = activeGroups;
+    
+        // Oppdater lokalt
+        if (typeof gGroups !== "undefined" && Array.isArray(gGroups)) {
+            // Finn alle objektene i `gGroups` som matcher `activeGroupsid`
+            activeSupplier.group = gGroups.filter(group => activeGroupsid.includes(group.airtable));
+        }
+        else {
+            console.warn("gGroups er ikke definert eller ikke en array");
+            activeSupplier.group = [];
+        }
  
 };
 
