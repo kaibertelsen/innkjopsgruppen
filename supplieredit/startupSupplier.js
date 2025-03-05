@@ -823,6 +823,20 @@ document.getElementById("saveMailbodyButton").addEventListener("click", function
     }
 });
 
+document.getElementById("connectinMailAdress").addEventListener("blur", function() {
+    const email = this.value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Enkel e-postvalidering
+
+    if (email && emailPattern.test(email)) {
+        //lagre på server
+        saveSupplierInfo(activeSupplier.airtable, {outputmail: email});
+
+        
+    } else if (email) {
+        alert("Vennligst skriv inn en gyldig e-postadresse.");
+        this.focus(); // Setter fokus tilbake på feltet
+    }
+});
 
 
 document.getElementById("uploadDocButton").addEventListener("click", function(event) {
