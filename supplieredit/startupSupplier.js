@@ -55,6 +55,40 @@ document.getElementById("openNewsupplierwrapper").addEventListener("click", func
     }
 });
 
+document.getElementById("makeNewSupplier").addEventListener("click", function (event) {
+    event.preventDefault(); // Forhindrer standard lenkehandling
+
+    const supplierName = document.getElementById("newSuppierName").value.trim();
+
+    if (supplierName === "") {
+        alert("Vennligst fyll inn leverandørnavn.");
+        return;
+    }
+
+    // Opprett et nytt leverandør-objekt
+    const newSupplier = {
+        name: supplierName,
+        hidden: true,
+        sortering: 9999,
+    }
+    
+    //sende til airtable
+    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",JSON.stringify(newSupplier),"responsNewSupplier");
+
+});
+
+function responsNewSupplier(data){
+
+    if(data.fields){
+        //oppdaterer lokalt
+        let newSupplier = convertSuppliersJsonStringsToObjects([data.fields.json]);
+        gsuppliers.push(newSupplier[0]);
+        startupSupplierList(gsuppliers);
+    }
+
+}
+
+
 
 
 function startupSupplierList(suppliers){
