@@ -121,12 +121,15 @@ async function patchAirtable(baseId,tableId,itemId,body,id){
       }
 }
     
-async function GETairtable(baseId,tableId,itemId,id){
+async function GETairtable(baseId,tableId,itemId,id,status){
+      let skipCache = "";
+      if(status == "skipCache"){
+        skipCache = "&skipCache=true"
+      }
 
-       
-        
+
         let token = MemberStack.getToken();
-        let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&rowId=${itemId}&token=${token}`);
+        let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&rowId=${itemId}&token=${token}${skipCache}`);
        
         if (!response.ok) {
           throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
