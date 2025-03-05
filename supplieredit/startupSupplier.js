@@ -1257,6 +1257,11 @@ tinymce.init({
         editor.on('change', function () {
             handleEditorChange(editor.id);
         });
+
+        editor.on('input', function () {
+            handleEditorChange(editor.id
+            );  // Kjør funksjonen når innholdet endres
+        });
     }
 });
 
