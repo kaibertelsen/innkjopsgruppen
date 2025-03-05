@@ -243,7 +243,6 @@ function reCalcIndexSupplierlist(){
     );  
 }
 
-
 // 🔹 Funksjon for når et element starter å dras
 function handleDragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.dataset.index);
@@ -417,6 +416,10 @@ function moreInfoSupplierResponse(data){
 
     if(data.fields.guidfil){
         activeSupplier.guidfil = data.fields.guidfil;
+    }
+
+    if(data.fields.outputmail){
+        activeSupplier.outputmail = data.fields.outputmail;
     }
 
    //opdater leverandøren
