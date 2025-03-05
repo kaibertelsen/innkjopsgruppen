@@ -355,8 +355,8 @@ function openSupplier(supplier){
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     publicSwitshtext.textContent = supplier.hidden ? "Ikke publisert" : "Publisert";
     
-    const suppliernamepage = supplierPageConteiner.querySelector(".suppliernamepage");
-    suppliernamepage.textContent = supplier.name;
+    const suppliernamepage = document.getElementById("supplierNameInput");
+    suppliernamepage.value = supplier.name;
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
     supplierlogo.src = supplier.logo;
@@ -681,6 +681,10 @@ document.getElementById("uploadLogoButton").addEventListener("click", function(e
     });
 });
 
+document.getElementById("urltosupplierweb").addEventListener("blur", function() {
+   
+});
+
 document.getElementById("saveLogoButton").addEventListener("click", function() {
     const imageElement = document.getElementById("logoImageSupplier");
     const imageURL = imageElement.src;  // Hent URL-en til bildet    
@@ -913,22 +917,13 @@ document.getElementById("saveMailbodyButton").addEventListener("click", function
     }
 });
 
-document.getElementById("connectinMailAdress").addEventListener("blur", function() {
-    const email = this.value.trim();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Enkel e-postvalidering
+document.getElementById("supplierNameInput").addEventListener("blur", function() {
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {name: this.value});
 
-    if (email && emailPattern.test(email)) {
-        //lagre på server
-        saveSupplierInfo(activeSupplier.airtable, {outputmail: email});
+    // Lagre innholdet lokalt
+    activeSupplier.name = this.value;
 
-        //lagre lokalt
-        activeSupplier.outputmail = email;
-
-        
-    } else if (email) {
-        alert("Vennligst skriv inn en gyldig e-postadresse.");
-        this.focus(); // Setter fokus tilbake på feltet
-    }
 });
 
 document.getElementById("uploadDocButton").addEventListener("click", function(event) {
