@@ -30,6 +30,15 @@ function supplierResponse(data){
     const groups = data.fields.groupjson;
     gGroups = convertGroupJsonStringsToObjects(groups);
 
+    //last inn kategorier i select supplierFilterGroup
+    const supplierFilterGroup = document.getElementById("supplierFilterGroup");
+    supplierFilterGroup.innerHTML = "";
+    supplierFilterGroup.options.add(new Option("Alle grupper", ""));
+    gGroups.forEach(group => {
+        supplierFilterGroup.options.add(new Option(group.Name, group.airtable));
+    });
+
+
     const categorys = data.fields.categoryjson;
     gCategorys = convertGroupJsonStringsToObjects(categorys);
 
