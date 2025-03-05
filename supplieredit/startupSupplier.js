@@ -612,7 +612,7 @@ function categoryFilterTriggered(button) {
     // Oppdater lokalt
     if (typeof gCategorys !== "undefined" && Array.isArray(gCategorys)) {
         // Finn alle objektene i `gCategorys` som matcher `activeCategorysid`
-        activeSupplier.category = gCategorys.filter(category => activeCategorysid.includes(category.id));
+        activeSupplier.category = gCategorys.filter(category => activeCategorysid.includes(category.airtable));
     } else {
         console.warn("gCategorys er ikke definert eller ikke en array");
         activeSupplier.category = [];
