@@ -358,6 +358,9 @@ function openSupplier(supplier){
     const suppliernamepage = document.getElementById("supplierNameInput");
     suppliernamepage.value = supplier.name;
 
+    const supplierNameOrgnr = document.getElementById("supplierNameOrgnr");
+    supplierNameOrgnr.value = supplier.orgnr || "";
+
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
     supplierlogo.src = supplier.logo;
 
@@ -924,6 +927,21 @@ document.getElementById("supplierNameInput").addEventListener("blur", function()
     // Lagre innholdet lokalt
     activeSupplier.name = this.value;
 
+});
+
+document.getElementById("supplierNameOrgnr").addEventListener("blur", function() {
+    //kontroller at det kun er nummer
+    if (!/^\d+$/.test(this.value)) {
+        alert("Orgnr kan kun inneholde tall.");
+        this.value = activeSupplier.orgnr || "";
+        return;
+    }
+
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {orgnr: this.value}); 
+
+    // Lagre innholdet lokalt
+    activeSupplier.orgnr = this.value;
 });
 
 document.getElementById("uploadDocButton").addEventListener("click", function(event) {
