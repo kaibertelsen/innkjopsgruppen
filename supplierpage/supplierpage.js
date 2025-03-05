@@ -1,8 +1,10 @@
+var GlobalConnections = [];
+
 function getconnections(supplierid){
    let body = airtablebodylistAND({supplierid:supplierid});
     Getlistairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"respondconnections");
 }
- var GlobalConnections = [];
+
 function respondconnections(data){
 
     var cleandata = rawdatacleaner(data);
@@ -41,6 +43,7 @@ function startConnectionList(data) {
     const uniqueConnections = new Set();
     const filteredData = [];
 
+    // Fjern duplikater
     data.forEach(connection => {
         const companyId = connection.company?.[0] || "";
         const supplierId = connection.supplier?.[0] || "";
@@ -78,7 +81,6 @@ function startConnectionList(data) {
     });
 }
 
-
 function formatNameList(nameList) {
     if (Array.isArray(nameList)) {
         // Hvis det er en array, returner det første elementet med "..."
@@ -93,9 +95,6 @@ function formatNameList(nameList) {
     }
 }
 
-
-
-
 function formatDate(inputDate) {
     const months = [
         "jan", "feb", "mar", "apr", "mai", "jun",
@@ -109,7 +108,6 @@ function formatDate(inputDate) {
 
     return `${day}.${month} ${year}`;
 }
-
 
 document.getElementById("xlsexportbutton").addEventListener("click", () => {
     // Feltene du vil hente
