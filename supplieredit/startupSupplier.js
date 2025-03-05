@@ -810,17 +810,26 @@ document.getElementById("testlinkbuttom").addEventListener("click", function(eve
 });
 
 function validateAndSaveURL(url) {
+    url = url.trim(); // Fjerner mellomrom i starten og slutten
+
+    // Hvis URL er tom, ikke gjør noe
+    if (url === "") {
+        return;
+    }
+
+    // Sjekk om URL starter med "http://" eller "https://"
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
         alert("Vennligst skriv inn en gyldig URL som starter med http:// eller https://");
         return;
     }
-     // Lagre innholdet i databasen
-  saveSupplierInfo(activeSupplier.airtable, {landingsside: this.value});
 
-  //lagre lokalt
-  activeSupplier.landingsside = this.value;
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeSupplier.airtable, { landingsside: url });
 
+    // Lagre lokalt
+    activeSupplier.landingsside = url;
 }
+
 
 document.getElementById("uploadButton").addEventListener("click", function(event) {
     event.preventDefault(); 
