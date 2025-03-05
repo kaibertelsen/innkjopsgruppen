@@ -11,7 +11,7 @@ var GlobalConnections = [];
 
 function getSuppier(){     
 //hente leverandører
-GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse","noCache");
+GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse","no-Cache");
 }
 
 function supplierResponse(data){
