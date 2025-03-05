@@ -173,61 +173,6 @@ function sortSuppliers(suppliers) {
     return filteredSuppliers;
 }
 
-/*
-function listSuppliersinList(suppliers){
-
-    // Hent containeren for leverandører
-    const supplierContainer = document.getElementById("supplierlistconteiner");
-    if (!supplierContainer) {
-        console.error("Ingen container funnet for visning av leverandører.");
-        return;
-    }
-  
-    // Tøm container
-    supplierContainer.innerHTML = '';
-
-    const elementLibrary = document.getElementById("elementlibrary");
-    if (!elementLibrary) {
-        console.error("Ingen 'elementlibrary' funnet.");
-        return;
-    }
-
-    const nodeElement = elementLibrary.querySelector(".supplier");
-    if (!nodeElement) {
-        console.error("Ingen '.suppliercard' funnet i 'elementlibrary'.");
-        return;
-    }
-
-    //sette counter
-    const counter = document.getElementById("counterlist");
-    counter.textContent = suppliers.length+"skt.";
-    counter.style.display = "block";
-    
-    suppliers.forEach(supplier => {
-        const supplierElement = nodeElement.cloneNode(true);
-
-        // Sett navn
-        const name = supplierElement.querySelector('.suppliername');
-        if (name) name.textContent = supplier.name || "Ukjent navn";
-        
-        // Sett navn
-        const sortnr = supplierElement.querySelector('.sortnr');
-        if (sortnr) sortnr.textContent = supplier.sortering || "Ukjent navn";
-
-        //leg til klikk event for knapp
-        const button = supplierElement.querySelector('.openingbutton');
-        button.addEventListener("click", function() {
-            // Kjør funksjonen med den aktive leverandørlisten
-            openSupplier(supplier);
-        });
-
-        // Legg til leverandøren i containeren
-        supplierContainer.appendChild(supplierElement);
-    });
-
-    
-}
-*/
 function listSuppliersinList(suppliers) {
     // Hent containeren for leverandører
     const supplierContainer = document.getElementById("supplierlistconteiner");
@@ -495,9 +440,12 @@ function updateSupplierPage(supplier){
     const deliveryMethodSelector = document.getElementById("deliveryMethodSelector");
     deliveryMethodSelector.value = supplier.output || "";
 
-    // finne discriptionMailOutput fra gOutputs
-    const supplierOutput = gOutputs.find(output => output.airtable === supplier.output[0]); 
-    let description = supplierOutput ? supplierOutput.description : "";
+    // Sjekk om supplier.output eksisterer og har minst ett element før du prøver å hente [0]
+    const supplierOutput = gOutputs.find(output => output.airtable === (supplier.output?.[0] || ""));
+
+    // Hvis supplierOutput er funnet, bruk description, ellers sett en tom streng
+    let description = supplierOutput?.description || "";
+
 
     // Sett beskrivelsen i HTML-elementet
     const descriptionMailOutput = document.getElementById("desctiptionMailOutput");  
@@ -906,7 +854,6 @@ document.getElementById("deliveryMethodSelector").addEventListener("change", fun
     updateSupplierPage(activeSupplier);
 });
 
-
 document.getElementById("saveMailbodyButton").addEventListener("click", function() {
     const mailSubjectfield = document.getElementById("mailSubjectfieldinput").value;
     const mailbodyelement = tinymce.get("mailbodyelement").getContent();    
@@ -946,7 +893,6 @@ document.getElementById("connectinMailAdress").addEventListener("blur", function
         this.focus(); // Setter fokus tilbake på feltet
     }
 });
-
 
 document.getElementById("uploadDocButton").addEventListener("click", function(event) {
     event.preventDefault(); // Hindrer standard knapp-oppførsel
@@ -1228,8 +1174,6 @@ Denne avtalen sikrer konkurransedyktige priser, også i høysesong, slik at din 
 
 <p>For spørsmål eller mer informasjon, kontakt <strong>{kontaktperson}</strong> - <strong>{kontaktinfo}</strong>.</p>
 `;
-
-
 
 document.getElementById("getconnectionsButton").addEventListener("click", function() { 
     getconnections(activeSupplier.airtable);
