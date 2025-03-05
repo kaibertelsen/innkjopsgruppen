@@ -978,6 +978,14 @@ document.getElementById("deliveryMethodSelector").addEventListener("change", fun
     updateSupplierPage(activeSupplier);
 });
 
+document.getElementById("connectinMailAdress").addEventListener("blur", function() {
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeSupplier.airtable, {outputmail: this.value});
+
+    // Lagre innholdet lokalt
+    activeSupplier.outputmail = this.value;
+});
+
 document.getElementById("saveMailbodyButton").addEventListener("click", function() {
     const mailSubjectfield = document.getElementById("mailSubjectfieldinput").value;
     const mailbodyelement = tinymce.get("mailbodyelement").getContent();    
