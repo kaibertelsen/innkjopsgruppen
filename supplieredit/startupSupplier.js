@@ -116,9 +116,10 @@ function startupSupplierList(suppliers){
 }
 
 function filterSuppliers(suppliers) {
-    // Hent input-feltet
+    // Hent input-feltet og filterelementene
     const searchInput = document.getElementById("searchinput");
     const supplierFilterSelector = document.getElementById("supplierFilterSelector");
+    const supplierFilterGroup = document.getElementById("supplierFilterGroup");
 
     if (!searchInput) {
         console.error("Fant ikke input-feltet med id 'searchinput'");
@@ -130,21 +131,36 @@ function filterSuppliers(suppliers) {
         return suppliers;
     }
 
+    if (!supplierFilterGroup) {
+        console.error("Fant ikke select-feltet med id 'supplierFilterGroup'");
+        return suppliers;
+    }
+
     // Hent søketeksten og trim mellomrom
     const searchText = searchInput.value.trim().toLowerCase();
     // Hent valgt filterkategori
     const selectedFilter = supplierFilterSelector.value;
+    // Hent valgt gruppefilter
+    const selectedGroup = supplierFilterGroup.value;
 
     return suppliers.filter(supplier => {
         const matchesSearch = supplier.name.toLowerCase().includes(searchText);
+        
         const matchesFilter =
             selectedFilter === "" || // Hvis "Alle" er valgt, vis alt
             (selectedFilter === "visible" && !supplier.hidden) || // Synlig leverandør
             (selectedFilter === "hidden" && supplier.hidden); // Skjult leverandør
 
-        return matchesSearch && matchesFilter; // Må matche begge kriteriene
+        // Sjekk om selectedGroup finnes i supplier.group (som er en array av objekter)
+        const matchesGroup = 
+            selectedGroup === "" || // Hvis ingen gruppe er valgt, vis alle
+            (Array.isArray(supplier.group) && 
+             supplier.group.some(groupObj => groupObj.airtable === selectedGroup));
+
+        return matchesSearch && matchesFilter && matchesGroup; // Må matche alle tre kriteriene
     });
 }
+
 
 document.getElementById("supplierFilterSelector").addEventListener("change", function() {
 
