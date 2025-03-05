@@ -409,7 +409,7 @@ function openSupplier(supplier){
     supplierNameOrgnr.value = supplier.orgnr || "";
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
-    supplierlogo.src = supplier.logo || "";
+    supplierlogo.src = supplier.logo || "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67c84fa2f53230648774dd1b_dummy-image-landscape-1024x585.jpg";
 
     const offerlable = document.getElementById("offerlable");
     offerlable.value = supplier.cuttext
@@ -431,7 +431,7 @@ function openSupplier(supplier){
     urltosupplierweb.value = supplier.landingsside;
 
     const presentationImageSupplier = document.getElementById("presentationImageSupplier");
-    presentationImageSupplier.src = supplier.image || "";
+    presentationImageSupplier.src = supplier.image || "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67c84fa2f53230648774dd1b_dummy-image-landscape-1024x585.jpg";
     
     //last inn outputs i select
     const deliveryMethodSelector = document.getElementById("deliveryMethodSelector");
