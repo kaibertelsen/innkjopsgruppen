@@ -1221,6 +1221,14 @@ function respondconnections(data){
 }
 
 function startConnectionList(data) {
+
+    //sjekke at det er data
+    if (!data || data.length === 0) {
+        resetConnectionList();
+        return;
+    }
+
+
     const list = document.getElementById("connectingList");
     if (!list) {
         console.error("List holder element not found");
