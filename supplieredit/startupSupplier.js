@@ -29,23 +29,29 @@ function supplierResponse(data){
 
     const groups = data.fields.groupjson;
     gGroups = convertGroupJsonStringsToObjects(groups);
+    loadeGroupSelector(gGroups);
 
-    //last inn kategorier i select supplierFilterGroup
-    const supplierFilterGroup = document.getElementById("supplierFilterGroup");
-    supplierFilterGroup.innerHTML = "";
-    supplierFilterGroup.options.add(new Option("Alle grupper", ""));
-    gGroups.forEach(group => {
-        supplierFilterGroup.options.add(new Option(group.Name, group.airtable));
-    });
-
-
+    
     const categorys = data.fields.categoryjson;
     gCategorys = convertGroupJsonStringsToObjects(categorys);
 
     const outputs = data.fields.outputjson;
     gOutputs = convertOutputJsonStringsToObjects(outputs);
 
+}
 
+function loadeGroupSelector(groups){
+    //last inn kategorier i select supplierFilterGroup
+    const supplierFilterGroup = document.getElementById("supplierFilterGroup");
+    supplierFilterGroup.innerHTML = "";
+
+    //sortere gruppene alfabetisk
+    groups.sort((a, b) => a.Name.localeCompare(b.Name, 'no', { sensitivity: 'base' }));
+
+    supplierFilterGroup.options.add(new Option("Alle grupper", ""));
+    groups.forEach(group => {
+        supplierFilterGroup.options.add(new Option(group.Name, group.airtable));
+    });
 }
 
 document.getElementById("searchinput").addEventListener("input", function () {
@@ -170,6 +176,11 @@ function filterSuppliers(suppliers) {
     });
 }
 
+document.getElementById("supplierFilterGroup").addEventListener("change", function() {
+
+    // Kjør startupSupplierList med de filtrerte leverandørene
+    startupSupplierList(gsuppliers);
+});
 
 document.getElementById("supplierFilterSelector").addEventListener("change", function() {
 
