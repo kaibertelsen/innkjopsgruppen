@@ -106,7 +106,7 @@ document.getElementById("makeNewSupplier").addEventListener("click", function (e
         skjult: true,
         sortering: highestSortering,
         klient: ["recwnwSGJ0GvRwKFU"],
-        ansvarlig: [userid]
+        creator: [userid]
     }
     
     //sende til airtable
