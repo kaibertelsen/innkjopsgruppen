@@ -210,7 +210,7 @@ function listSuppliersinList(suppliers) {
 
         // Sett sorteringsnummer
         const sortnr = supplierElement.querySelector('.sortnr');
-        if (sortnr) sortnr.textContent = supplier.sortering || "0";
+        if (sortnr) sortnr.textContent = index + 1; // Viser original indeks
         
 
         // Legg til klikk-event for åpning
