@@ -907,6 +907,9 @@ document.getElementById("connectinMailAdress").addEventListener("blur", function
         //lagre på server
         saveSupplierInfo(activeSupplier.airtable, {outputmail: email});
 
+        //lagre lokalt
+        activeSupplier.outputmail = email;
+
         
     } else if (email) {
         alert("Vennligst skriv inn en gyldig e-postadresse.");
