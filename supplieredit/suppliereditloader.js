@@ -25,6 +25,7 @@ cdnScripts.reduce((promise, script) => {
     MemberStack.onReady.then(function(member) {
         if (member.loggedIn){
             isLoggedin = true;
+            userid = member.airtable;
             getSuppier();
         }
     });

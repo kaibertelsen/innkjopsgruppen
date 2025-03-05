@@ -1,6 +1,7 @@
 var gsuppliers = [];
 var activeSupplier = {};
 var malonetext;
+var userid;
 var maltotext;
 var orginaltext = "";
 var gGroups = [];
@@ -16,11 +17,20 @@ GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplie
 
 function supplierResponse(data){
 
-   
     if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.supplierjson' som en array.");
         return; // Avbryt hvis data ikke er gyldig
     }
+
+    //sjekke om data.feilds.superAdmin array inneholder min brukerid
+    if(data.fields.superAdmin){
+        if(data.fields.superAdmin.includes(userid)){
+            document.getElementById("openNewsupplierwrapper").style.display = "block";
+        }else{  
+            return;
+        }
+    }
+
     // Konverter JSON-strenger til objekter
     const jsonStrings = data.fields.supplierjson;
     suppliers = convertSuppliersJsonStringsToObjects(jsonStrings);
@@ -95,7 +105,8 @@ document.getElementById("makeNewSupplier").addEventListener("click", function (e
         name: supplierName,
         skjult: true,
         sortering: highestSortering,
-        klient: ["recwnwSGJ0GvRwKFU"]
+        klient: ["recwnwSGJ0GvRwKFU"],
+        ansvarlig: [userid]
     }
     
     //sende til airtable
