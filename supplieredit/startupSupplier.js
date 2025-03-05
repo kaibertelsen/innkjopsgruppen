@@ -7,6 +7,7 @@ var gGroups = [];
 var gCategorys = [];
 var gOutputs = [];
 let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
+var GlobalConnections = [];
 
 function getSuppier(){     
 //hente leverandører
@@ -331,6 +332,9 @@ function handleDragEnd(event) {
 function openSupplier(supplier){
 
     activeSupplier = supplier;
+    
+    //Tømme connectionList
+    resetConnectionList();
 
     //hente mer info om denne leverandøren
     GETairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",supplier.airtable,"moreInfoSupplierResponse");
@@ -1165,14 +1169,13 @@ Denne avtalen sikrer konkurransedyktige priser, også i høysesong, slik at din 
 <p>For spørsmål eller mer informasjon, kontakt <strong>{kontaktperson}</strong> - <strong>{kontaktinfo}</strong>.</p>
 `;
 
-var GlobalConnections = [];
+
 
 document.getElementById("getconnectionsButton").addEventListener("click", function() { 
     getconnections(activeSupplier.airtable);
     document.getElementById("connectingList").style.display = "block";
 
 });
-
 
 function getconnections(supplierid){
    let body = airtablebodylistAND({supplierid:supplierid});
@@ -1189,8 +1192,6 @@ function respondconnections(data){
       
     startConnectionList(cleanedList);
 }
-
-
 
 function startConnectionList(data) {
     const list = document.getElementById("connectingList");
@@ -1253,6 +1254,11 @@ function startConnectionList(data) {
         // Legg til rad i listen
         list.appendChild(rowElement);
     });
+}
+
+function resetConnectionList() {
+    document.getElementById("connectingList").replaceChildren();
+    document.getElementById("connectioncounter").textContent = "0 stk. tilkoblede selskaper.";
 }
 
 function formatNameList(nameList) {
