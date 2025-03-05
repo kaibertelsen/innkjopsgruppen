@@ -707,11 +707,19 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
 });
 
 document.getElementById("deleteSupplierButton").addEventListener("click", function () {
+
     if (confirm("Er du sikker på at du vil slette denne leverandøren?")) {
         // Slett leverandøren fra databasen
         DELETEairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",activeSupplier.airtable,"responseDeleteSupplier")
         // Slett leverandøren fra den lokale listen
         gsuppliers = gsuppliers.filter(supplier => supplier.airtable !== activeSupplier.airtable);
+
+        //list leverandørene på nytt
+        startupSupplierList(gsuppliers);
+        // Gå tilbake til leverandørlisten
+        document.getElementById("supplierListTagbutton").click();
+
+
     }
 });
 
@@ -927,7 +935,6 @@ function validateAndSaveURL(url) {
     activeSupplier.landingsside = url;
 }
 
-
 document.getElementById("uploadButton").addEventListener("click", function(event) {
     event.preventDefault(); 
 
@@ -995,8 +1002,6 @@ document.getElementById("saveMailbodyButton").addEventListener("click", function
         activeSupplier.suppliermailbody = mailbodyelement;
     }
 });
-
-
 
 document.getElementById("uploadDocButton").addEventListener("click", function(event) {
     event.preventDefault(); // Hindrer standard knapp-oppførsel
