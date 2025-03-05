@@ -481,13 +481,13 @@ function updateSupplierPage(supplier){
         mailbodyelementLabel.textContent = "Innhold i mail til leverandør";
 
         //laster inn i mailSubjectfield
-        mailSubjectfield.value = supplier.suppliersubjectmail || supplierOutput.suppliersubject;
+        mailSubjectfield.value = supplier.suppliersubjectmail || supplierOutput.suppliersubject || "";
 
         //synligjøre wrapper guideDocWrapper
         document.getElementById("guideDocWrapper").style.display = "none";
 
         //laster inn i mailbodyelement
-        loadContentIntoEditor(contentInfoelement,supplier.suppliermailbody|| supplierOutput.suppliermailbody);
+        loadContentIntoEditor(contentInfoelement,supplier.suppliermailbody|| supplierOutput.suppliermailbody || "");
     }
 
     //hente guideDocURL
