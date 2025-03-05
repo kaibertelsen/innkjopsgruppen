@@ -462,7 +462,7 @@ function updateSupplierPage(supplier){
     const mailbodyelementLabel = document.getElementById("mailbodyelementLabel");
 
     //hvis supplier.output er denne verdien"recJV491g6P1iUl8u"
-    if(supplier.output[0] === "recJV491g6P1iUl8u"){
+    if(supplier.output?.[0] === "recJV491g6P1iUl8u"){
 
         mailSubjectfieldLabel.textContent = "Emnet i mail til kunde";
         mailbodyelementLabel.textContent = "Innhold i mail til kunde";
