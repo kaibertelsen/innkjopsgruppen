@@ -193,7 +193,7 @@ function listCustomer(data) {
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
         const besparelseCell = companyElement.querySelector(".besparelse");
         const altnameCell = companyElement.querySelector(".altname");
-        const incoiceintervall = companyElement.querySelector(".incoiceintervall");
+        const invoiceintervall = companyElement.querySelector(".invoiceintervall");
 
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
         // Sjekk at cashflowjson eksisterer og er en array
@@ -224,7 +224,7 @@ function listCustomer(data) {
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
-        incoiceintervall.textContent = company.incoiceintervall || "Årlig";
+        invoiceintervall.textContent = company.invoiceintervall || "Årlig";
         typeCell.textContent = company.type === "supplier" 
         ? "Leverandør" 
         : company.type === "customer" 
@@ -285,7 +285,7 @@ function listCustomer(data) {
             });
         });
 
-        incoiceintervall.addEventListener("click", () => {
+        invoiceintervall.addEventListener("click", () => {
             const groupOptions = [
                         {
                         text:"Årlig",
@@ -302,10 +302,10 @@ function listCustomer(data) {
                         ];
                         
     
-            triggerEditDropdown(incoiceintervall, company, "incoiceintervall", groupOptions, selectedOption => {
-                company.incoiceintervall = selectedOption.value;
-                incoiceintervall.textContent = selectedOption.text;
-                updateCompanyData(company.airtable, { incoiceintervall: selectedOption.value });
+            triggerEditDropdown(invoiceintervall, company, "invoiceintervall", groupOptions, selectedOption => {
+                company.invoiceintervall = selectedOption.value;
+                invoiceintervall.textContent = selectedOption.text;
+                updateCompanyData(company.airtable, { invoiceintervall: selectedOption.value });
             });
         });
 
