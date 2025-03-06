@@ -190,7 +190,7 @@ function loadLiquidityInvoiceOverview(data) {
         }
         ,   0);
     const sumthisyear = document.getElementById("sumthisyear");
-    sumthisyear.textContent = "Sum inneværende år. :"+sumAllIncoices.toLocaleString() + " kr";
+    sumthisyear.textContent = "Sum: "+sumAllIncoices.toLocaleString()/1000 + " K";
 
     // Finn høyeste verdi for å skalere høyden på elementene
     let maxkvales = data.reduce((acc, cur) => {
@@ -452,7 +452,7 @@ function loadLiquidityOverview(data) {
         }
         ,   0);
     
-        sumthisyear.textContent = "Sum abonnement for inneværende år. :"+sumAllIncoices.toLocaleString() + " kr";
+        sumthisyear.textContent = "Sum abonnement:"+sumAllIncoices.toLocaleString()/1000 + " K";
 
     }else{
         isValugroup = false;
@@ -475,7 +475,7 @@ function loadLiquidityOverview(data) {
         }
         ,   0);
         
-        sumthisyear.textContent = "Sum kickback for inneværende år. :"+sumAllIncoices.toLocaleString() + " kr";
+        sumthisyear.textContent = "Sum kickback:"+sumAllIncoices.toLocaleString()/1000 + " K";
 
 
     }
