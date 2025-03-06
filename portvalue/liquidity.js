@@ -48,11 +48,7 @@ function buildRefactoring(data) {
         let firstTermDate = new Date(mainDate);
         firstTermDate.setFullYear(currentYear);
 
-        // Hvis første termindato er i fremtiden, trekk den tilbake til samme måned i inneværende år
-        if (firstTermDate > new Date()) {
-            firstTermDate.setFullYear(currentYear - 1);
-        }
-
+        
         console.log(`Starter fakturering for ${company.Name} fra ${firstTermDate.toISOString().split("T")[0]}`);
 
         // Beregn antall terminer og terminbeløpet
