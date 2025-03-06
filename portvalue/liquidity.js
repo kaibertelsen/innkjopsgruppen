@@ -7,6 +7,11 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
         let monthlyValues = calculateMonthlyInvoiceValue(intervalllist);
         console.log(monthlyValues);
         loadLiquidityInvoiceOverview(monthlyValues);
+    }else if(document.getElementById("liquidityoverviewselector").value == "invoice"){
+        let intervalllist = buildRefactoring(klientdata);
+        let monthlyValues = calculateMonthlyInvoiceValue(intervalllist);
+        console.log(monthlyValues);
+        loadLiquidityInvoiceOverview(monthlyValues);
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
@@ -19,6 +24,14 @@ document.getElementById("liquiditytabbutton").addEventListener("click", () => {
 });
 
 function buildRefactoring(data) {
+    let sumAllIncoices = false
+
+    if (document.getElementById("liquidityoverviewselector").value == "invoice") {
+        sumAllIncoices = true;
+    }
+
+
+
     // Filtrer ut selskaper uten verdi i valuegroup
     let dataFiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
 
@@ -60,13 +73,28 @@ function buildRefactoring(data) {
             // Beregn termindato basert på første termindato
             let termDate = new Date(firstTermDate);
             termDate.setMonth(termDate.getMonth() + i * invoiceInterval);
-            /*
-            // ❌ Stopper fakturering KUN basert på exitdate
-            if (exitDate && termDate > exitDate) {
-                console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
-                break;
+            
+            if(sumAllIncoices){
+                //alt som skal faktureres
+
+                // ❌ Stopper fakturering KUN basert på exitdate
+                let invoiceExitDate = new Date(company.exitdate);
+                if (invoiceExitDate && termDate > invoiceExitDate) {
+                    console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
+                    break;
+                }
+
+            }else{
+                //fjern nysalg
+                //hvis termindato og maindate er lik, så er det nysalg
+                if(termDate.getTime() == mainDate.getTime()){
+                    continue;
+                }
             }
-            */
+
+
+           
+            
             let termin = {
                 company: company.Name,
                 companyvat: company.orgnr || "",
