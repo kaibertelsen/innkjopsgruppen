@@ -1,9 +1,9 @@
 document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
 
     
-    if (document.getElementById("liquidityoverviewselector").value == "valuegroup") {
+    if (document.getElementById("liquidityoverviewselector").value == "refactoring") {
         // hvis verdien er refactoring, så er det en annen byggemåte
-        buildRefactoring(data);
+        buildRefactoring(klientdata);
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
