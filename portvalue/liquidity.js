@@ -20,23 +20,33 @@ function buildRefactoring(data) {
     // Filtrer ut selskaper uten verdi i valuegroup
     let dataFiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
 
-    //lage et filter nå kun for test, slipp igjennom kun selskapet som heter Exposoft AS
-    dataFiltered = dataFiltered.filter(el => el.Name == "EXPOSOFT AS");
+    // Testfilter: Slipp kun gjennom "EXPOSOFT AS"
+    dataFiltered = dataFiltered.filter(el => el.Name?.toUpperCase() === "EXPOSOFT AS");
 
     let invoiceList = [];
 
     dataFiltered.forEach(function (company) {   
-
         let mainDate = new Date(company.invoicedate || company.winningdate);
         if (isNaN(mainDate.getTime())) {
-            console.warn(`Ugyldig faktureringsdato for selskap: ${company.companyname}`);
+            console.warn(`Ugyldig faktureringsdato for selskap: ${company.Name}`);
             return; // Hopper over selskapet hvis datoen er ugyldig
         }
 
         let exitDate = company.exitdate ? new Date(company.exitdate) : null;
-
         let invoiceInterval = Number(company.invoiceintrevall) || 12;
         let valueGroup = Number(company.valuegroup) || 0;
+
+        // Beregn første termindato i inneværende år
+        let currentYear = new Date().getFullYear();
+        let firstTermDate = new Date(mainDate);
+        firstTermDate.setFullYear(currentYear);
+
+        // Hvis første termindato er i fremtiden, trekk den tilbake til samme måned i inneværende år
+        if (firstTermDate > new Date()) {
+            firstTermDate.setFullYear(currentYear - 1);
+        }
+
+        console.log(`Starter fakturering for ${company.Name} fra ${firstTermDate.toISOString().split("T")[0]}`);
 
         // Beregn antall terminer og terminbeløpet
         let counter = 12 / invoiceInterval;
@@ -44,16 +54,16 @@ function buildRefactoring(data) {
 
         // Loop gjennom hver terminbeløp
         for (let i = 0; i < counter; i++) {
-            // Beregn termindato
-            let termDate = new Date(mainDate);
-            termDate.setMonth(termDate.getMonth() + i * invoiceInterval);   
+            // Beregn termindato basert på første termindato
+            let termDate = new Date(firstTermDate);
+            termDate.setMonth(termDate.getMonth() + i * invoiceInterval);
 
             // ❌ Stopper fakturering KUN basert på exitdate
             if (exitDate && termDate > exitDate) {
-                console.log(`Fakturering stopper for ${company.companyname} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
+                console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
                 break;
             }
-            //finne 
+
             let termin = {
                 company: company.Name,
                 companyid: company.airtable,
@@ -71,6 +81,7 @@ function buildRefactoring(data) {
 
     return invoiceList;
 }
+
 
 
 function calculateMonthlyValues(object) {
