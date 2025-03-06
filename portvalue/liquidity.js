@@ -85,7 +85,7 @@ function buildRefactoring(data) {
 
             if(exitDate){
                 termin.exitdate = exitDate.toISOString().split("T")[0];
-                termin.exitvalue = company.termAmount;
+                termin.exitvalue = termAmount;
             }
 
             invoiceList.push(termin);
@@ -124,7 +124,7 @@ function calculateMonthlyInvoiceValue(data) {
         const monthIndex = termDate.getMonth(); // Får 0-basert måned
         const year = termDate.getFullYear();
         const termAmount = parseFloat(obj.terminbelop);
-        const exitAmount = parseFloat(obj.exitvalue);
+        const exitAmount = parseFloat(obj.exitvalue) || 0;
 
         // Legg til terminbeløp for inneværende år
         if (year === currentYear) {
