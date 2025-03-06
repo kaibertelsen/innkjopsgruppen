@@ -1,12 +1,37 @@
 document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
-    loadLiquidityOverview(calculateMonthlyValues(klientdata))
+
+    
+    if (document.getElementById("liquidityoverviewselector").value == "valuegroup") {
+        // hvis verdien er refactoring, så er det en annen byggemåte
+        buildRefactoring(data);
+    }
+    else {
+        loadLiquidityOverview(calculateMonthlyValues(klientdata));
+    }
 });
+
 
 document.getElementById("liquiditytabbutton").addEventListener("click", () => {
     loadLiquidityOverview(calculateMonthlyValues(klientdata));
 });
 
+function buildRefactoring(data){
 
+    //filtrer vekk selskaper som ikke har verdi i valuegroup
+    let datafiltered = data.filter(function (el) {
+        return el.valuegroup != null;
+    });
+
+    //loope igjennom datafiltered for videre kalkulasjon
+    let invioislist = [];
+
+    datafiltered.forEach(function (company) {   
+       
+        console.log(company);
+
+    });
+
+}
 
 function calculateMonthlyValues(object) {
 
