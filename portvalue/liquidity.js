@@ -18,7 +18,6 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
     }
 });
 
-
 document.getElementById("liquiditytabbutton").addEventListener("click", () => {
     loadLiquidityOverview(calculateMonthlyValues(klientdata));
 });
@@ -162,6 +161,12 @@ function calculateMonthlyInvoiceValue(data) {
 }
 
 function loadLiquidityInvoiceOverview(data) {
+    let isInvoice = false;
+    if(document.getElementById("liquidityoverviewselector").value == "invoice"){
+        isInvoice = true;
+    }
+
+
     // Finn høyeste verdi for å skalere høyden på elementene
     let maxkvales = data.reduce((acc, cur) => {
         if (cur.terminbelop > acc) {
@@ -173,7 +178,7 @@ function loadLiquidityInvoiceOverview(data) {
         return acc;
     }
     , 0);   
-
+    
    
     let factorHeight = maxkvales / 400;
 
@@ -191,7 +196,7 @@ function loadLiquidityInvoiceOverview(data) {
     const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
     const lable1 = descriptionwrapper.querySelector('.lable1');
     const lable2 = descriptionwrapper.querySelector('.lable2');
-    if(document.getElementById("liquidityoverviewselector").value == "invoice"){
+    if(isInvoice){
         descriptionlable.textContent = "Faktureringsplan for inneværende år";
         lable1.textContent = "Fakturering";
         lable2.textContent = "Oppsigelser";
@@ -230,6 +235,20 @@ function loadLiquidityInvoiceOverview(data) {
         const second = monthElement.querySelector(".second");
         const secondText = monthElement.querySelector(".secondtextlable");
         let heightSecond = secondValue / factorHeight;
+
+        if(isInvoice){  
+
+        }else{
+            //hvis der er refakturering
+            //sette prosentlable
+            const procentvalue = monthElement.querySelector(".procentvalue");
+            let procent = 0;
+            if(firstValue > 0){
+                procent = (secondValue / firstValue) * 100;
+            }
+            procentvalue.textContent = procent.toFixed(2) + "%";
+            procentvalue.parentElement.style.display = "block";
+        }
 
         animateHeight(second, heightSecond); // Animer høyde
         animateCounter(secondText, 0, Math.round(secondValue / 1000), "", "K"); // Teller fra 0 til verdien
@@ -353,7 +372,6 @@ function findMaxValues(data) {
         maxValue // Høyeste verdi totalt
     };
 }
-
 
 function loadLiquidityOverview(data) {
     let isValugroup = true;
@@ -499,7 +517,6 @@ function hideTooltip(element) {
         element._tooltip = null; // Fjern referansen
     }
 }
-
 
 function animateHeight(element, targetHeight) {
     // Hent nåværende høyde
