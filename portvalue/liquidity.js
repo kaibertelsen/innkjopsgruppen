@@ -17,12 +17,9 @@ document.getElementById("liquiditytabbutton").addEventListener("click", () => {
 
 function buildRefactoring(data){
 
-    //filtrer vekk selskaper som ikke har verdi i valuegroup
-    let datafiltered = data.filter(function (el) {
-        return el.valuegroup != null;
-    });
+    let datafiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
 
-    //loope igjennom datafiltered for videre kalkulasjon
+
     let invioislist = [];
 
     datafiltered.forEach(function (company) {   
