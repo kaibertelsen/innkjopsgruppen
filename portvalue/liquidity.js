@@ -357,12 +357,12 @@ function findMaxValues(data) {
 
 function loadLiquidityOverview(data) {
     let isValugroup = true;
-    let maxkvales = 0;
+    let maxValue = 0;
     if (document.getElementById("liquidityoverviewselector").value == "valuegroup") {
         
 
          // Finn høyeste verdi for å skalere høyden på elementene
-            maxkvales = data.reduce((acc, cur) => {
+         maxValue = data.reduce((acc, cur) => {
             if (cur.valuegroup > acc) {
                 acc = cur.valuegroup;
             }
@@ -376,7 +376,7 @@ function loadLiquidityOverview(data) {
     }else{
         isValugroup = false;
         // Finn høyeste verdi for å skalere høyden på elementene
-        maxkvales = data.reduce((acc, cur) => {
+        maxValue = data.reduce((acc, cur) => {
             if (cur.kickback > acc) {
                 acc = cur.kickback;
             }
@@ -392,7 +392,7 @@ function loadLiquidityOverview(data) {
 
     
  
-    let factorHeight = maxkvales.maxValue / 400;
+    let factorHeight = maxValue / 400;
 
     let selectorvalue = document.getElementById("liquidityoverviewselector").value;
     let selectorvalueshadow = selectorvalue + "lastyear";
