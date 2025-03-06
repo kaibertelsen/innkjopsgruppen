@@ -176,12 +176,21 @@ function loadLiquidityInvoiceOverview(data) {
     
     const exportOverviewList = document.getElementById("exportOverviewList");
     exportOverviewList.parentElement.style.display = "flex";
-
+    
     let isInvoice = false;
     if(document.getElementById("liquidityoverviewselector").value == "invoice"){
         isInvoice = true;
+      
     }
 
+      //summere alt i terminbelop
+      let sumAllIncoices = data.reduce((acc, cur) => {
+        acc += cur.terminbelop;
+        return acc;
+        }
+        ,   0);
+    const sumthisyear = document.getElementById("sumthisyear");
+    sumthisyear.textContent = "Sum inneværende år. :"+sumAllIncoices.toLocaleString() + " kr";
 
     // Finn høyeste verdi for å skalere høyden på elementene
     let maxkvales = data.reduce((acc, cur) => {
@@ -418,7 +427,7 @@ function loadLiquidityOverview(data) {
     const exportOverviewList = document.getElementById("exportOverviewList");
     exportOverviewList.parentElement.style.display = "none";
 
-
+    const sumthisyear = document.getElementById("sumthisyear");
     let isValugroup = true;
     let maxValue = 0;
     if (document.getElementById("liquidityoverviewselector").value == "valuegroup") {
@@ -435,7 +444,16 @@ function loadLiquidityOverview(data) {
             return acc;
         }
         , 0);   
-        
+
+        //summere alt i terminbelop
+        let sumAllIncoices = data.reduce((acc, cur) => {
+        acc += cur.valuegroup;
+        return acc;
+        }
+        ,   0);
+    
+        sumthisyear.textContent = "Sum abonnement for inneværende år. :"+sumAllIncoices.toLocaleString() + " kr";
+
     }else{
         isValugroup = false;
         // Finn høyeste verdi for å skalere høyden på elementene
@@ -450,9 +468,19 @@ function loadLiquidityOverview(data) {
         }
         , 0);   
 
+        //summere alt i handel
+        let sumAllIncoices = data.reduce((acc, cur) => {
+        acc += cur.kickback;
+        return acc;
+        }
+        ,   0);
+        
+        sumthisyear.textContent = "Sum kickback for inneværende år. :"+sumAllIncoices.toLocaleString() + " kr";
+
 
     }
 
+    
     
  
     let factorHeight = maxValue / 400;
