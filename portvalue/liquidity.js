@@ -6,7 +6,7 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
         let intervalllist = buildRefactoring(klientdata);
         let monthlyValues = calculateMonthlyInvoiceValue(intervalllist);
         console.log(monthlyValues);
-       // loadLiquidityOverview(monthlyValues);
+        loadLiquidityInvoiceOverview(monthlyValues);
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
@@ -137,6 +137,79 @@ function calculateMonthlyInvoiceValue(data) {
 
 }
 
+function loadLiquidityInvoiceOverview(data) {
+    // Finn høyeste verdi for å skalere høyden på elementene
+    let maxkvales = data.reduce((acc, cur) => {
+        if (cur.terminbelop > acc) {
+            acc = cur.terminbelop;
+        }
+        if (cur.exitvalue > acc) {
+            acc = cur.exitvalue;
+        }
+        return acc;
+    }
+    , 0);   
+
+   
+    let factorHeight = maxkvales / 400;
+
+    let selectorvalue = document.getElementById("liquidityoverviewselector").value;
+    let selectorvalueshadow = selectorvalue + "lastyear";
+
+    const list = document.getElementById("monthliquidityoverview");
+    list.replaceChildren(); // Tømmer holderen for å unngå duplisering
+
+    const elementLibrary = document.getElementById("yearelementlibrary");
+    const nodeElement = elementLibrary.querySelector('.monthwrapper');
+
+    for (let month of data) {
+        // Klon månedselementet
+        const monthElement = nodeElement.cloneNode(true);
+
+        // Hent verdier
+        const firstValue = month.terminbelop || 0;
+        const secondValue = month.exitvalue || 0;
+
+        // Animasjon for første element
+        const first = monthElement.querySelector(".first");
+        const firstText = monthElement.querySelector(".firsttextlable");
+        let heightFirst = firstValue / factorHeight;
+
+        animateHeight(first, heightFirst); // Animer høyde
+        animateCounter(firstText, 0, Math.round(firstValue / 1000), "", "K"); // Teller fra 0 til verdien
+
+        // Mouseover for første element
+        first.addEventListener("mouseover", () => {
+            showTooltip(first, `${firstValue.toLocaleString()} kr`);
+        });
+        first.addEventListener("mouseout", () => {
+            hideTooltip(first);
+        });
+
+        // Animasjon for andre element
+        const second = monthElement.querySelector(".second");
+        const secondText = monthElement.querySelector(".secondtextlable");
+        let heightSecond = secondValue / factorHeight;
+
+        animateHeight(second, heightSecond); // Animer høyde
+        animateCounter(secondText, 0, Math.round(secondValue / 1000), "", "K"); // Teller fra 0 til verdien
+
+        // Mouseover for andre element
+        second.addEventListener("mouseover", () => {
+            showTooltip(second, `${secondValue.toLocaleString()} kr`);
+        });
+        second.addEventListener("mouseout", () => {
+            hideTooltip(second);
+        });
+
+        // Sett månedstekst
+        monthElement.querySelector(".monthtext").textContent = month.monthname;
+
+        // Legg til månedselementet i listen
+        list.appendChild(monthElement);
+    }
+}
+
 function calculateMonthlyValues(object) {
 
     let data = filterGroupCompany(object);
@@ -224,8 +297,6 @@ function calculateMonthlyValues(object) {
 
     return monthlyValues;
 }
-
-
 
 function findMaxValues(data) {
     let maxValue = 0;
