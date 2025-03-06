@@ -1,17 +1,26 @@
-document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
+var listname = "";
+var gTerminliste = [];
 
+document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
+    //finne inneværende år med format yyyy
+    let currentYear = new Date().getFullYear();
     
     if (document.getElementById("liquidityoverviewselector").value == "refactoring") {
         // hvis verdien er refactoring, så er det en annen byggemåte
         let intervalllist = buildRefactoring(klientdata);
+        gTerminliste = intervalllist;
         let monthlyValues = calculateMonthlyInvoiceValue(intervalllist);
         console.log(monthlyValues);
         loadLiquidityInvoiceOverview(monthlyValues);
+
+        listname = "Refakturering - "+currentYear;
     }else if(document.getElementById("liquidityoverviewselector").value == "invoice"){
         let intervalllist = buildRefactoring(klientdata);
+        gTerminliste = intervalllist;
         let monthlyValues = calculateMonthlyInvoiceValue(intervalllist);
         console.log(monthlyValues);
         loadLiquidityInvoiceOverview(monthlyValues);
+        listname = "Faktureringsplan - "+currentYear;
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
@@ -161,6 +170,11 @@ function calculateMonthlyInvoiceValue(data) {
 }
 
 function loadLiquidityInvoiceOverview(data) {
+
+    
+    const exportOverviewList = document.getElementById("exportOverviewList");
+    exportOverviewList.parentElement.style.display = "flex";
+
     let isInvoice = false;
     if(document.getElementById("liquidityoverviewselector").value == "invoice"){
         isInvoice = true;
@@ -246,7 +260,7 @@ function loadLiquidityInvoiceOverview(data) {
             if(firstValue > 0){
                 procent = (secondValue / firstValue) * 100;
             }
-            procentvalue.textContent = procent.toFixed(2) + "%";
+            procentvalue.textContent = procent.toFixed(1) + "%";
             procentvalue.parentElement.style.display = "block";
         }
 
@@ -268,6 +282,31 @@ function loadLiquidityInvoiceOverview(data) {
         list.appendChild(monthElement);
     }
 }
+
+
+
+document.getElementById("exportOverviewList").addEventListener("click", () => {
+   
+    // Mapping
+    const fieldMapping = {
+        termindate: "Termin dato",
+        company: "Navn",
+        companyvat: "Org.nr",
+        valuegroup: "Avtaleverdi",
+        terminbelop: "Terminbeløp",
+        termin: "Termin",
+        terminintervall: "Terminintervall",
+        maindate: "Første fakturadato",
+        exitdate: "Exit dato",
+        exitvalue: "Exit verdi",
+        companyid: "Airtable",
+    };
+    let list = gTerminliste;
+
+    // Eksporter til Excel
+    exportData(list, fieldMapping, listname);
+    
+});
 
 function calculateMonthlyValues(object) {
 
@@ -374,6 +413,11 @@ function findMaxValues(data) {
 }
 
 function loadLiquidityOverview(data) {
+
+    const exportOverviewList = document.getElementById("exportOverviewList");
+    exportOverviewList.parentElement.style.display = "none";
+
+
     let isValugroup = true;
     let maxValue = 0;
     if (document.getElementById("liquidityoverviewselector").value == "valuegroup") {
