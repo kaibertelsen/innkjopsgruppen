@@ -186,6 +186,22 @@ function loadLiquidityInvoiceOverview(data) {
     const elementLibrary = document.getElementById("yearelementlibrary");
     const nodeElement = elementLibrary.querySelector('.monthwrapper');
 
+    //beskrivelse av data
+    const descriptionwrapper = document.getElementById("descriptionwrapper");
+    const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
+    const lable1 = descriptionwrapper.querySelector('.lable1');
+    const lable2 = descriptionwrapper.querySelector('.lable2');
+    if(document.getElementById("liquidityoverviewselector").value == "invoice"){
+        descriptionlable.textContent = "Faktureringsplan for inneværende år";
+        lable1.textContent = "Fakturering";
+        lable2.textContent = "Oppsigelser";
+    }else{
+        descriptionlable.textContent = "Faktureringsverdi for inneværende år uten nysalg";
+        lable1.textContent = "Refakturering";
+        lable2.textContent = "Oppsigelser";
+    }
+
+
     for (let month of data) {
         // Klon månedselementet
         const monthElement = nodeElement.cloneNode(true);
@@ -353,6 +369,22 @@ function loadLiquidityOverview(data) {
 
     const elementLibrary = document.getElementById("yearelementlibrary");
     const nodeElement = elementLibrary.querySelector('.monthwrapper');
+
+    //beskrivelse av data
+    const descriptionwrapper = document.getElementById("descriptionwrapper");
+    const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
+    const lable1 = descriptionwrapper.querySelector('.lable1');
+    const lable2 = descriptionwrapper.querySelector('.lable2');
+    if(document.getElementById("liquidityoverviewselector").value == "valuegroup"){
+        descriptionlable.textContent = "Avtaleverdi for inneværende år, basert på fornyelsedato";
+        lable1.textContent = "Abonnement";
+        lable2.textContent = "Abonnement forrige år";
+    }else{
+        descriptionlable.textContent = "Kickback for inneværende år, basert på handelsdato";
+        lable1.textContent = "Kickback";
+        lable2.textContent = "Kickback forrige år";
+    }
+
 
     for (let month of data) {
         // Klon månedselementet
