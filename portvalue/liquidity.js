@@ -231,17 +231,6 @@ function findMaxValues(data) {
 }
 
 
-
-
-{
-    "monthname": "jan",
-    "kickback": 69754.48636000002,
-    "valuegroup": 1977090,
-    "kickbacklastyear": 21380.291040000015,
-    "valuegrouplastyear": 609390,
-    "monthnumber": 1
-}
-
 function loadLiquidityOverview(data) {
     let maxkvalues = findMaxValues(data);
 
