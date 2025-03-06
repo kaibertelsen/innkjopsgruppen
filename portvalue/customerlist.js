@@ -224,7 +224,7 @@ function listCustomer(data) {
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
-        incoiceintervall.textContent = company.invoiceintrevall || "Årlig";
+        incoiceintervall.textContent = company.incoiceintervall || "Årlig";
         typeCell.textContent = company.type === "supplier" 
         ? "Leverandør" 
         : company.type === "customer" 
@@ -282,6 +282,30 @@ function listCustomer(data) {
                 company.groupname = selectedOption.text;
                 groupCell.textContent = selectedOption.text;
                 updateCompanyData(company.airtable, { group: selectedOption.value, groupname: selectedOption.text });
+            });
+        });
+
+        incoiceintervall.addEventListener("click", () => {
+            const groupOptions = [
+                        {
+                        text:"Årlig",
+                        value:12
+                        },
+                        {
+                        text:"Halvårlig",
+                        value:6
+                        },
+                        {
+                        text:"Kvartalsvis",
+                        value:3
+                        }
+                        ];
+                        
+    
+            triggerEditDropdown(incoiceintervall, company, "incoiceintervall", groupOptions, selectedOption => {
+                company.incoiceintervall = selectedOption.value;
+                incoiceintervall.textContent = selectedOption.text;
+                updateCompanyData(company.airtable, { incoiceintervall: selectedOption.value });
             });
         });
 
