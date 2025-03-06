@@ -356,10 +356,43 @@ function findMaxValues(data) {
 
 
 function loadLiquidityOverview(data) {
-    let maxkvalues = findMaxValues(data);
+    let isValugroup = true;
+    let maxkvales = 0;
+    if (document.getElementById("liquidityoverviewselector").value == "kickback") {
+        isValugroup = false;
 
-   
-    let factorHeight = maxkvalues.maxValue / 400;
+         // Finn høyeste verdi for å skalere høyden på elementene
+            maxkvales = data.reduce((acc, cur) => {
+            if (cur.valuegroup > acc) {
+                acc = cur.valuegroup;
+            }
+            if (cur.valuegrouplastyear > acc) {
+                acc = cur.valuegrouplastyear;
+            }
+            return acc;
+        }
+        , 0);   
+        
+    }else{
+
+        // Finn høyeste verdi for å skalere høyden på elementene
+        maxkvales = data.reduce((acc, cur) => {
+            if (cur.kickback > acc) {
+                acc = cur.kickback;
+            }
+            if (cur.kickbacklastyear > acc) {
+                acc = cur.kickbacklastyear;
+            }
+            return acc;
+        }
+        , 0);   
+
+
+    }
+
+    
+ 
+    let factorHeight = maxkvales.maxValue / 400;
 
     let selectorvalue = document.getElementById("liquidityoverviewselector").value;
     let selectorvalueshadow = selectorvalue + "lastyear";
@@ -375,7 +408,8 @@ function loadLiquidityOverview(data) {
     const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
     const lable1 = descriptionwrapper.querySelector('.lable1');
     const lable2 = descriptionwrapper.querySelector('.lable2');
-    if(document.getElementById("liquidityoverviewselector").value == "valuegroup"){
+
+    if(isValugroup){
         descriptionlable.textContent = "Avtaleverdi for inneværende år, basert på fornyelsedato";
         lable1.textContent = "Abonnement";
         lable2.textContent = "Abonnement forrige år";
