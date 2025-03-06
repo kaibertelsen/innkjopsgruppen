@@ -38,12 +38,9 @@ function buildRefactoring(data) {
         sumAllIncoices = true;
     }
 
-
-
     // Filtrer ut selskaper uten verdi i valuegroup
-    let dataFiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
+    let dataFiltered = data.filter(el => el.valuegroup && el.valuegroup !== "0");
 
-  
     let invoiceList = [];
 
     dataFiltered.forEach(function (company) {   
@@ -284,7 +281,6 @@ function loadLiquidityInvoiceOverview(data) {
 }
 
 
-
 document.getElementById("exportOverviewList").addEventListener("click", () => {
    
     // Mapping
@@ -295,7 +291,7 @@ document.getElementById("exportOverviewList").addEventListener("click", () => {
         valuegroup: "Avtaleverdi",
         terminbelop: "Terminbeløp",
         termin: "Termin",
-        terminintervall: "Terminintervall",
+        terminintervall: "Intervall mnd.",
         maindate: "Første fakturadato",
         exitdate: "Exit dato",
         exitvalue: "Exit verdi",
