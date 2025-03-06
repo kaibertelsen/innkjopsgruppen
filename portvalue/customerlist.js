@@ -193,6 +193,7 @@ function listCustomer(data) {
         const valuegroupCell = companyElement.querySelector(".valutextgroup");
         const besparelseCell = companyElement.querySelector(".besparelse");
         const altnameCell = companyElement.querySelector(".altname");
+        const incoiceintervall = companyElement.querySelector(".incoiceintervall");
 
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
         // Sjekk at cashflowjson eksisterer og er en array
@@ -223,6 +224,7 @@ function listCustomer(data) {
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
+        incoiceintervall.textContent = company.invoiceintrevall || "Årlig";
         typeCell.textContent = company.type === "supplier" 
         ? "Leverandør" 
         : company.type === "customer" 

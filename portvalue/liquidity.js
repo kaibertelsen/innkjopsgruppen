@@ -63,7 +63,7 @@ function buildRefactoring(data) {
                 exitDate = null; // Nullstiller exitdato hvis den er ugyldig
             }
         }
-        let invoiceInterval = Number(company.invoiceintrevall) || 12;
+        let invoiceInterval = Number(company.invoiceintervall) || 12;
         let valueGroup = Number(company.valuegroup) || 0;
 
         // Beregn første termindato i inneværende år
