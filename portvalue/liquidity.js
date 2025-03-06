@@ -358,8 +358,8 @@ function findMaxValues(data) {
 function loadLiquidityOverview(data) {
     let isValugroup = true;
     let maxkvales = 0;
-    if (document.getElementById("liquidityoverviewselector").value == "kickback") {
-        isValugroup = false;
+    if (document.getElementById("liquidityoverviewselector").value == "valuegroup") {
+        
 
          // Finn høyeste verdi for å skalere høyden på elementene
             maxkvales = data.reduce((acc, cur) => {
@@ -374,7 +374,7 @@ function loadLiquidityOverview(data) {
         , 0);   
         
     }else{
-
+        isValugroup = false;
         // Finn høyeste verdi for å skalere høyden på elementene
         maxkvales = data.reduce((acc, cur) => {
             if (cur.kickback > acc) {
