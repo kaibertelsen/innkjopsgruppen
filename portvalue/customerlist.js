@@ -224,7 +224,16 @@ function listCustomer(data) {
         nameCell.textContent = company.Name || "Ingen navn";
         orgnrCell.textContent = company.orgnr || "Ingen org.nr";
         groupCell.textContent = company.groupname || "Ingen gruppe";
-        invoiceintervall.textContent = company.invoiceintervall || "Årlig";
+        //hvis company.invoiceintervall er 3 så vis kvartalsvis osv
+        let invoiceintervalltext = "Årlig";
+        if(company.invoiceintervall == 3){
+            invoiceintervalltext = "Kvartalsvis";
+        }else if(company.invoiceintervall == 6){    
+            invoiceintervalltext = "Halvårlig";
+        }
+
+        invoiceintervall.textContent = invoiceintervalltext;
+
         typeCell.textContent = company.type === "supplier" 
         ? "Leverandør" 
         : company.type === "customer" 
