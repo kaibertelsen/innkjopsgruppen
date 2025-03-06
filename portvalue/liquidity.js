@@ -4,6 +4,7 @@ var gTerminliste = [];
 document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
     //finne inneværende år med format yyyy
     let currentYear = new Date().getFullYear();
+    const exportLableDiscription = document.getElementById("exportLableDiscription");
     
     if (document.getElementById("liquidityoverviewselector").value == "refactoring") {
         // hvis verdien er refactoring, så er det en annen byggemåte
@@ -14,6 +15,9 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
         loadLiquidityInvoiceOverview(monthlyValues);
 
         listname = "Refakturering - "+currentYear;
+        
+        exportLableDiscription.textContent = "Last ned refakturering for inneværende år";
+
     }else if(document.getElementById("liquidityoverviewselector").value == "invoice"){
         let intervalllist = buildRefactoring(klientdata);
         gTerminliste = intervalllist;
@@ -21,6 +25,7 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
         console.log(monthlyValues);
         loadLiquidityInvoiceOverview(monthlyValues);
         listname = "Faktureringsplan - "+currentYear;
+        exportLableDiscription.textContent = "Last ned faktureringsplan for inneværende år";
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
