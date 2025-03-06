@@ -20,6 +20,9 @@ function buildRefactoring(data) {
     // Filtrer ut selskaper uten verdi i valuegroup
     let dataFiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
 
+    //lage et filter nå kun for test, slipp igjennom kun selskapet som heter Exposoft AS
+    dataFiltered = dataFiltered.filter(el => el.Name == "Exposoft AS");
+
     let invoiceList = [];
 
     dataFiltered.forEach(function (company) {   
@@ -50,13 +53,14 @@ function buildRefactoring(data) {
                 console.log(`Fakturering stopper for ${company.companyname} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
                 break;
             }
-
+            //finne 
             let termin = {
-                company: company.companyname,
+                company: company.Name,
                 companyid: company.airtable,
                 valuegroup: valueGroup,
                 terminbelop: termAmount,
                 termin: i + 1,
+                terminintervall: invoiceInterval,
                 termindate: termDate.toISOString().split("T")[0], // Formatert som YYYY-MM-DD
                 maindate: mainDate.toISOString().split("T")[0],
             };
