@@ -3,7 +3,8 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
     
     if (document.getElementById("liquidityoverviewselector").value == "refactoring") {
         // hvis verdien er refactoring, så er det en annen byggemåte
-        buildRefactoring(klientdata);
+        let intervalllist = buildRefactoring(klientdata);
+        console.log(intervalllist);
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
@@ -15,20 +16,58 @@ document.getElementById("liquiditytabbutton").addEventListener("click", () => {
     loadLiquidityOverview(calculateMonthlyValues(klientdata));
 });
 
-function buildRefactoring(data){
+function buildRefactoring(data) {
+    // Filtrer ut selskaper uten verdi i valuegroup
+    let dataFiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
 
-    let datafiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
+    let invoiceList = [];
 
+    dataFiltered.forEach(function (company) {   
 
-    let invioislist = [];
+        let mainDate = new Date(company.invoicedate || company.winningdate);
+        if (isNaN(mainDate.getTime())) {
+            console.warn(`Ugyldig faktureringsdato for selskap: ${company.companyname}`);
+            return; // Hopper over selskapet hvis datoen er ugyldig
+        }
 
-    datafiltered.forEach(function (company) {   
-       
-        console.log(company);
+        let exitDate = company.exitdate ? new Date(company.exitdate) : null;
 
+        let invoiceInterval = Number(company.invoiceintrevall) || 12;
+        let valueGroup = Number(company.valuegroup) || 0;
+
+        // Beregn antall terminer og terminbeløpet
+        let counter = 12 / invoiceInterval;
+        let termAmount = valueGroup / counter;
+
+        // Loop gjennom hver terminbeløp
+        for (let i = 0; i < counter; i++) {
+            // Beregn termindato
+            let termDate = new Date(mainDate);
+            termDate.setMonth(termDate.getMonth() + i * invoiceInterval);   
+
+            // ❌ Stopper fakturering KUN basert på exitdate
+            if (exitDate && termDate > exitDate) {
+                console.log(`Fakturering stopper for ${company.companyname} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
+                break;
+            }
+
+            let termin = {
+                company: company.companyname,
+                companyid: company.airtable,
+                valuegroup: valueGroup,
+                terminbelop: termAmount,
+                termin: i + 1,
+                termindate: termDate.toISOString().split("T")[0], // Formatert som YYYY-MM-DD
+                maindate: mainDate.toISOString().split("T")[0],
+            };
+
+            invoiceList.push(termin);
+        }
     });
 
+    return invoiceList;
 }
+
 
 function calculateMonthlyValues(object) {
 
