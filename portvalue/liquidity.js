@@ -32,7 +32,14 @@ function buildRefactoring(data) {
             return; // Hopper over selskapet hvis datoen er ugyldig
         }
 
-        let exitDate = company.exitdate ? new Date(company.exitdate) : null;
+        let exitDate = company.exitdate || company.exitRegisteredAt;
+        if (exitDate) {
+            exitDate = new Date(exitDate);
+            if (isNaN(exitDate.getTime())) {
+                console.warn(`Ugyldig exitdato for selskap: ${company.Name}`);
+                exitDate = null; // Nullstiller exitdato hvis den er ugyldig
+            }
+        }
         let invoiceInterval = Number(company.invoiceintrevall) || 12;
         let valueGroup = Number(company.valuegroup) || 0;
 
@@ -76,6 +83,11 @@ function buildRefactoring(data) {
                 maindate: mainDate.toISOString().split("T")[0],
             };
 
+            if(exitDate){
+                termin.exitdate = exitDate.toISOString().split("T")[0];
+                termin.exitvalue = company.termAmount;
+            }
+
             invoiceList.push(termin);
         }
     });
@@ -85,6 +97,44 @@ function buildRefactoring(data) {
 
 
     return invoiceList;
+}
+
+function calculateMonthlyInvoiceValue(data) {   
+    
+    const monthNames = [
+        "jan", "feb", "mar", "apr", "mai", "jun",
+        "jul", "aug", "sep", "okt", "nov", "des"
+    ];
+
+    // Resultatobjekt som grupperer verdier per måned
+    const monthlyValues = Array.from({ length: 12 }, (_, i) => ({
+        monthname: monthNames[i],
+        terminbelop: 0,
+        exitvalue: 0,
+        monthnumber: i + 1
+    }
+    )); 
+
+    const currentYear = new Date().getFullYear();
+
+    // Iterer gjennom dataene
+    data.forEach(obj => {
+        //summere terminbeløp per måned
+        const termDate = new Date(obj.termindate);
+        const monthIndex = termDate.getMonth(); // Får 0-basert måned
+        const year = termDate.getFullYear();
+        const termAmount = parseFloat(obj.terminbelop);
+        const exitAmount = parseFloat(obj.exitvalue);
+
+        // Legg til terminbeløp for inneværende år
+        if (year === currentYear) {
+            monthlyValues[monthIndex].terminbelop += termAmount;
+            monthlyValues[monthIndex].exitvalue += exitAmount;
+        }
+    });
+
+    return monthlyValues;
+
 }
 
 function calculateMonthlyValues(object) {
@@ -174,43 +224,6 @@ function calculateMonthlyValues(object) {
 
     return monthlyValues;
 }
-
-function calculateMonthlyInvoiceValue(data) {   
-    
-    const monthNames = [
-        "jan", "feb", "mar", "apr", "mai", "jun",
-        "jul", "aug", "sep", "okt", "nov", "des"
-    ];
-
-    // Resultatobjekt som grupperer verdier per måned
-    const monthlyValues = Array.from({ length: 12 }, (_, i) => ({
-        monthname: monthNames[i],
-        terminbelop: 0,
-        exitdate: 0,
-        monthnumber: i + 1
-    }
-    )); 
-
-    const currentYear = new Date().getFullYear();
-
-    // Iterer gjennom dataene
-    data.forEach(obj => {
-        //summere terminbeløp per måned
-        const termDate = new Date(obj.termindate);
-        const monthIndex = termDate.getMonth(); // Får 0-basert måned
-        const year = termDate.getFullYear();
-        const termAmount = parseFloat(obj.terminbelop);
-
-        // Legg til terminbeløp for inneværende år
-        if (year === currentYear) {
-            monthlyValues[monthIndex].terminbelop += termAmount;
-        }
-    });
-
-    return monthlyValues;
-
-}
-
 
 
 
