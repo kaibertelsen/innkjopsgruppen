@@ -4,7 +4,9 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
     if (document.getElementById("liquidityoverviewselector").value == "refactoring") {
         // hvis verdien er refactoring, så er det en annen byggemåte
         let intervalllist = buildRefactoring(klientdata);
-        console.log(intervalllist);
+        let monthlyValues = calculateMonthlyInvoiceValue(intervalllist);
+        console.log(monthlyValues);
+       // loadLiquidityOverview(monthlyValues);
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
@@ -20,9 +22,7 @@ function buildRefactoring(data) {
     // Filtrer ut selskaper uten verdi i valuegroup
     let dataFiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
 
-    // Testfilter: Slipp kun gjennom "EXPOSOFT AS"
-    dataFiltered = dataFiltered.filter(el => el.Name?.toUpperCase() === "EXPOSOFT AS");
-
+  
     let invoiceList = [];
 
     dataFiltered.forEach(function (company) {   
@@ -66,6 +66,7 @@ function buildRefactoring(data) {
 
             let termin = {
                 company: company.Name,
+                companyvat: company.orgnr || "",
                 companyid: company.airtable,
                 valuegroup: valueGroup,
                 terminbelop: termAmount,
@@ -79,10 +80,12 @@ function buildRefactoring(data) {
         }
     });
 
+    // Sorter terminene etter termindato
+    invoiceList.sort((a, b) => new Date(a.termindate) - new Date(b.termindate));
+
+
     return invoiceList;
 }
-
-
 
 function calculateMonthlyValues(object) {
 
@@ -172,6 +175,44 @@ function calculateMonthlyValues(object) {
     return monthlyValues;
 }
 
+function calculateMonthlyInvoiceValue(data) {   
+    
+    const monthNames = [
+        "jan", "feb", "mar", "apr", "mai", "jun",
+        "jul", "aug", "sep", "okt", "nov", "des"
+    ];
+
+    // Resultatobjekt som grupperer verdier per måned
+    const monthlyValues = Array.from({ length: 12 }, (_, i) => ({
+        monthname: monthNames[i],
+        terminbelop: 0,
+        exitdate: 0,
+        monthnumber: i + 1
+    }
+    )); 
+
+    const currentYear = new Date().getFullYear();
+
+    // Iterer gjennom dataene
+    data.forEach(obj => {
+        //summere terminbeløp per måned
+        const termDate = new Date(obj.termindate);
+        const monthIndex = termDate.getMonth(); // Får 0-basert måned
+        const year = termDate.getFullYear();
+        const termAmount = parseFloat(obj.terminbelop);
+
+        // Legg til terminbeløp for inneværende år
+        if (year === currentYear) {
+            monthlyValues[monthIndex].terminbelop += termAmount;
+        }
+    });
+
+    return monthlyValues;
+
+}
+
+
+
 
 function findMaxValues(data) {
     let maxValue = 0;
@@ -189,6 +230,17 @@ function findMaxValues(data) {
     };
 }
 
+
+
+
+{
+    "monthname": "jan",
+    "kickback": 69754.48636000002,
+    "valuegroup": 1977090,
+    "kickbacklastyear": 21380.291040000015,
+    "valuegrouplastyear": 609390,
+    "monthnumber": 1
+}
 
 function loadLiquidityOverview(data) {
     let maxkvalues = findMaxValues(data);
