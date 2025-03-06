@@ -21,7 +21,7 @@ function buildRefactoring(data) {
     let dataFiltered = data.filter(el => el.valuegroup !== null && el.valuegroup !== "");
 
     //lage et filter nå kun for test, slipp igjennom kun selskapet som heter Exposoft AS
-    dataFiltered = dataFiltered.filter(el => el.Name == "Exposoft AS");
+    dataFiltered = dataFiltered.filter(el => el.Name == "EXPOSOFT AS");
 
     let invoiceList = [];
 
