@@ -64,13 +64,13 @@ function buildRefactoring(data) {
             // Beregn termindato basert på første termindato
             let termDate = new Date(firstTermDate);
             termDate.setMonth(termDate.getMonth() + i * invoiceInterval);
-
+            /*
             // ❌ Stopper fakturering KUN basert på exitdate
             if (exitDate && termDate > exitDate) {
                 console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
                 break;
             }
-
+            */
             let termin = {
                 company: company.Name,
                 companyvat: company.orgnr || "",
