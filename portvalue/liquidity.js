@@ -46,6 +46,9 @@ function buildRefactoring(data) {
     // Filtrer ut selskaper uten verdi i valuegroup
     let dataFiltered = data.filter(el => el.valuegroup && el.valuegroup !== "0");
 
+    //filtrer ut selskaper som er gått konkurs
+    dataFiltered = dataFiltered.filter(el => el.insolvency != "TRUE");
+
     let invoiceList = [];
 
     dataFiltered.forEach(function (company) {   
@@ -102,8 +105,6 @@ function buildRefactoring(data) {
                 }
             }
 
-
-           
             
             let termin = {
                 company: company.Name,
@@ -117,13 +118,23 @@ function buildRefactoring(data) {
                 maindate: mainDate.toISOString().split("T")[0],
             };
 
-            if(exitDate){
-                termin.exitdate = exitDate.toISOString().split("T")[0];
-                termin.exitvalue = termAmount;
-            }
 
             invoiceList.push(termin);
         }
+
+        //hvis exitRegisteredAt er satt, så legg denne i 
+        let exitRegisteredAt = new Date(company.exitRegisteredAt);
+        if(exitRegisteredAt && exitRegisteredAt.getFullYear() == currentYear){
+            let exitTermin = {
+                company: company.Name,
+                companyvat: company.orgnr || "",
+                companyid: company.airtable,
+                exitvalue: valueGroup,
+                exitdate: exitRegisteredAt.toISOString().split("T")[0], // Formatert som YYYY-MM-DD
+            };
+            invoiceList.push(exitTermin);
+        }
+
     });
 
     // Sorter terminene etter termindato
