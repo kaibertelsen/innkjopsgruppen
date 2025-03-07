@@ -46,8 +46,8 @@ function buildRefactoring(data) {
     // Filtrer ut selskaper uten verdi i valuegroup
     let dataFiltered = data.filter(el => el.valuegroup && el.valuegroup !== "0");
 
-    //filtrer ut selskaper som er gått konkurs
-    dataFiltered = dataFiltered.filter(el => el.insolvency != "TRUE");
+    //filtrer ut selskaper som er gått konkurs insolvency = true
+    dataFiltered = dataFiltered.filter(el => el.insolvency == false);
 
     let invoiceList = [];
 
