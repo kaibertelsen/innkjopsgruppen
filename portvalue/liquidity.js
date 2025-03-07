@@ -246,11 +246,11 @@ function loadLiquidityInvoiceOverview(data) {
     const lable1 = descriptionwrapper.querySelector('.lable1');
     const lable2 = descriptionwrapper.querySelector('.lable2');
     if(isInvoice){
-        descriptionlable.textContent = "Faktureringsplan for inneværende år";
+        descriptionlable.textContent = "Faktureringsplan for inneværende år, konkurser er fjernet";
         lable1.textContent = "Fakturering";
         lable2.textContent = "Oppsigelser";
     }else{
-        descriptionlable.textContent = "Faktureringsverdi for inneværende år uten nysalg";
+        descriptionlable.textContent = "Faktureringsverdi for inneværende år. Nysalg og konkurser er fjernet";
         lable1.textContent = "Refakturering";
         lable2.textContent = "Oppsigelser";
     }
