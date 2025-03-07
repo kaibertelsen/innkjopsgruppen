@@ -237,7 +237,6 @@ function listCustomer(data) {
         let insolvencytext = "Aktiv";
         if(company.insolvency){
             insolvencytext = "Konkurs";
-            insolvency.style.color = "red";
         }
         insolvency.textContent = insolvencytext;
 
