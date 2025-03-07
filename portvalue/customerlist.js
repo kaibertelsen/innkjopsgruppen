@@ -751,10 +751,10 @@ function triggerEditDropdown(cell, company, field, options, onSave) {
     const originalDisplay = getComputedStyle(cell).display;
 
     const select = document.createElement("select");
+    select.classList.add("selectstatdardclass");
 
     options.forEach(option => {
         const optionElement = document.createElement("option");
-        optionElement.classList.add("selectstatdardclass");
         optionElement.value = option.value;
         optionElement.textContent = option.text;
 
