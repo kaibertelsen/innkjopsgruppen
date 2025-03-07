@@ -166,29 +166,34 @@ function calculateMonthlyInvoiceValue(data) {
     data.forEach(obj => {
 
         //hvis det er faltura verdier
-        if (!obj.termindate) {
-            
-        
+        if (obj.termindate) {
         //summere terminbeløp per måned
-        const termDate = new Date(obj.termindate);
-        const monthIndex = termDate.getMonth(); // Får 0-basert måned
-        const year = termDate.getFullYear();
-        const termAmount = parseFloat(obj.terminbelop);
-        const exitAmount = parseFloat(obj.exitvalue) || 0;
-        }else if(!obj.exitdate){
+            const termDate = new Date(obj.termindate);
+            const monthIndex = termDate.getMonth(); // Får 0-basert måned
+            const year = termDate.getFullYear();
+            const termAmount = parseFloat(obj.terminbelop);
+            const exitAmount = parseFloat(obj.exitvalue) || 0;
+            // Legg til terminbeløp for inneværende år
+            if (year === currentYear) {
+                monthlyValues[monthIndex].terminbelop += termAmount;
+                monthlyValues[monthIndex].exitvalue += exitAmount;
+            }
+
+        }else if(obj.exitdate){
             //det er exitbeløp
             const termDate = new Date(obj.exitdate);
             const monthIndex = termDate.getMonth(); // Får 0-basert måned
             const year = termDate.getFullYear();
             const termAmount = 0;
             const exitAmount = parseFloat(obj.exitvalue) || 0;
+
+             // Legg til terminbeløp for inneværende år
+            if (year === currentYear) {
+                monthlyValues[monthIndex].terminbelop += termAmount;
+                monthlyValues[monthIndex].exitvalue += exitAmount;
+            }
         }
 
-        // Legg til terminbeløp for inneværende år
-        if (year === currentYear) {
-            monthlyValues[monthIndex].terminbelop += termAmount;
-            monthlyValues[monthIndex].exitvalue += exitAmount;
-        }
     });
 
     return monthlyValues;
