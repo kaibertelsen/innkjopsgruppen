@@ -153,7 +153,16 @@ function listCustomer(data) {
             // Returner true hvis alle kriteriene er oppfylt
             return isValueGroupZero && isNotInExcludedGroups;
         });
+    }else if (selectedFilter === "insolvency"){
+        filteredData = data.filter(company => {
+            // Sjekk om insolvency er true
+            const isInsolvency = company.insolvency;
+    
+            // Returner true hvis alle kriteriene er oppfylt
+            return isInsolvency;
+        });
     }
+
     
 
     const dateSelector = document.getElementById("listdateselector");
