@@ -58,7 +58,7 @@ function buildRefactoring(data) {
             return; // Hopper over selskapet hvis datoen er ugyldig
         }
 
-        let exitDate = company.exitdate || company.exitRegisteredAt;
+        let exitDate = company.exitRegisteredAt || company.exitdate;
         if (exitDate) {
             exitDate = new Date(exitDate);
             if (isNaN(exitDate.getTime())) {
@@ -130,7 +130,7 @@ function buildRefactoring(data) {
                 companyvat: company.orgnr || "",
                 companyid: company.airtable,
                 exitvalue: valueGroup,
-                exitdate: exitRegisteredAt.toISOString().split("T")[0], // Formatert som YYYY-MM-DD
+                exitdate: exitDate.toISOString().split("T")[0], // Formatert som YYYY-MM-DD
             };
             invoiceList.push(exitTermin);
         }
@@ -175,7 +175,7 @@ function calculateMonthlyInvoiceValue(data) {
         const year = termDate.getFullYear();
         const termAmount = parseFloat(obj.terminbelop);
         const exitAmount = parseFloat(obj.exitvalue) || 0;
-        }else{
+        }else if(!obj.exitdate){
             //det er exitbeløp
             const termDate = new Date(obj.exitdate);
             const monthIndex = termDate.getMonth(); // Får 0-basert måned
