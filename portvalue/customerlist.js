@@ -194,6 +194,7 @@ function listCustomer(data) {
         const besparelseCell = companyElement.querySelector(".besparelse");
         const altnameCell = companyElement.querySelector(".altname");
         const invoiceintervall = companyElement.querySelector(".invoiceintervall");
+        const insolvency = companyElement.querySelector(".insolvency");
 
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
         // Sjekk at cashflowjson eksisterer og er en array
@@ -233,6 +234,12 @@ function listCustomer(data) {
         }
 
         invoiceintervall.textContent = invoiceintervalltext;
+        let insolvencytext = "Aktiv";
+        if(company.insolvency){
+            insolvencytext = "Konkurs";
+            insolvency.style.color = "red";
+        }
+        insolvency.textContent = insolvencytext;
 
         typeCell.textContent = company.type === "supplier" 
         ? "Leverandør" 
@@ -315,6 +322,25 @@ function listCustomer(data) {
                 company.invoiceintervall = selectedOption.value;
                 invoiceintervall.textContent = selectedOption.text;
                 updateCompanyData(company.airtable, { invoiceintervall: selectedOption.value });
+            });
+        });
+
+        insolvency.addEventListener("click", () => {
+            const groupOptions = [
+                        {
+                        text:"Aktiv",
+                        value:false
+                        },
+                        {
+                        text:"Konkurs",
+                        value:true
+                        }
+                        ];
+
+            triggerEditDropdown(insolvency, company, "insolvency", groupOptions, selectedOption => {
+                company.insolvency = selectedOption.value;
+                insolvency.textContent = selectedOption.text;
+                updateCompanyData(company.airtable, { insolvency: selectedOption.value });
             });
         });
 
