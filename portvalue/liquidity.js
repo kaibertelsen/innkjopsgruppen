@@ -68,7 +68,7 @@ function buildRefactoring(data) {
             return; // Hopper over selskapet hvis datoen er ugyldig
         }
 
-        let exitDate = company.exitRegisteredAt || company.exitdate;
+        let exitDate = company.exitRegisteredAt || company.exit;
         if (exitDate) {
             exitDate = new Date(exitDate);
             if (isNaN(exitDate.getTime())) {
@@ -97,12 +97,12 @@ function buildRefactoring(data) {
             let termDate = new Date(firstTermDate);
             termDate.setMonth(termDate.getMonth() + i * invoiceInterval);
             
-                // ❌ Stopper fakturering basert på exitdate
-                let invoiceExitDate = new Date(company.exitdate);
-                if (invoiceExitDate && termDate > invoiceExitDate) {
-                    console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
-                    break;
-                }
+            // ❌ Stopper fakturering basert på exitdate
+            let invoiceExitDate = new Date(company.exit);
+            if (invoiceExitDate && termDate > invoiceExitDate) {
+                 console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
+                 break;
+            }
             
  
             let termin = {
