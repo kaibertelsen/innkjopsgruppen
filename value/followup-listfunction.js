@@ -404,7 +404,15 @@ function responseNoteFromServer(data) {
 function listNotes(notes) {
 
 
-let noteContainer = activeNoteConterner;
+    //sorter notatene etter dato
+    notes.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA - dateB;
+    });
+
+
+    let noteContainer = activeNoteConterner;
     noteContainer.replaceChildren();
 
     const noteLibrary = document.getElementById("elementholderfollowup");
@@ -421,24 +429,65 @@ let noteContainer = activeNoteConterner;
         const noteRow = noteElement.cloneNode(true);
         
         const noteDate = noteRow.querySelector(".date");
-        noteDate.textContent = note.date || "Ingen dato";
+        //Formater dato til 10.mar 2025 eller 10.mar 2025 10:00
+        let date = formatDateNote (note.date);
+        noteDate.textContent = date;
 
         const noteUsername = noteRow.querySelector(".username");
-        noteUsername.textContent = note.username || "Ukjent";
+        noteUsername.textContent = note.username || "Ukjent bruker";
 
         const noteText = noteRow.querySelector(".notecontent");
-        var quill = new Quill(noteText, {
-            theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
-          });
+        
+
         // Sett HTML-innhold i Quill
-        const htmlContent = note.content || "";
-        quill.clipboard.dangerouslyPasteHTML(htmlContent);
+        let htmlContent = note.content || "";
+        
+       
+
+        const deleteButton = noteRow.querySelector(".notedeletebutton");
+
+        if(userairtableid != note.userid[0]){
+            //det er ikke denne brukeren som har skrevet dette 
+            deleteButton.style.display = "none";
+            noteText.innerHTML = htmlContent;   
+
+        }else{
+            //det er denne brukeren som har skrevet dette
+            deleteButton.style.display = "inline-block";
+
+            var quill = new Quill(noteText, {
+                theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
+            });
+            quill.clipboard.dangerouslyPasteHTML(htmlContent);
+
+            deleteButton.addEventListener("click", () => {
+                //deleteNoteFromServer(note.airtable);
+                noteRow.remove();
+            });
+        }
 
         fragment.appendChild(noteRow);
+
     });
 
     noteContainer.appendChild(fragment);
 }
+
+function formatDateNote(isoDate) {
+    const months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"];
+    
+    let date = new Date(isoDate);
+    
+    let day = date.getUTCDate();
+    let month = months[date.getUTCMonth()];
+    let year = date.getUTCFullYear();
+    
+    let hours = date.getUTCHours();
+    let minutes = date.getUTCMinutes().toString().padStart(2, "0");
+
+    return `${day}.${month} ${year} - ${hours}:${minutes}`;
+}
+
 
 // Funksjon for å lagre oppdatert notat
 function saveFollowupNote(noteContainer, airtableId) {
