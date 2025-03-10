@@ -240,6 +240,8 @@ function listCustomer(data) {
             invoiceintervalltext = "Kvartalsvis";
         }else if(company.invoiceintervall == 6){    
             invoiceintervalltext = "Halvårlig";
+        }else if(company.invoiceintervall == 1){    
+            invoiceintervalltext = "Månedlig";
         }
 
         invoiceintervall.textContent = invoiceintervalltext;
