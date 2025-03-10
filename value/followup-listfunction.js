@@ -401,22 +401,32 @@ function listNotes(notes) {
 let noteContainer = activeNoteConterner;
     noteContainer.replaceChildren();
 
-    if (notes.length === 0) {
-        // Ingen notater funnet
-        let noNotes = document.createElement("p");
-        noNotes.textContent = "Ingen notater funnet.";
-        noteContainer.appendChild(noNotes); // Legg til teksten i noteContainer
-    } else {
-        // Notater funnet
-        notes.forEach(note => {
-            let noteElement = document.createElement("div");
-            noteElement.classList.add("note");
-            noteElement.textContent = note.followupnote;
-            noteContainer.appendChild(noteElement); // Legg til notatet i noteContainer
-        });
+    const noteLibrary = document.getElementById("elementholderfollowup");
+    const noteElement = noteLibrary.querySelector('.noterowelementcontent');
 
+    if (!noteElement) {
+        console.error("Malen '.noteelement' ble ikke funnet.");
+        return;
     }
-    noteContainer.style.display = "block";
+
+    const fragment = document.createDocumentFragment();
+
+    notes.forEach(note => {
+        const noteRow = noteElement.cloneNode(true);
+        
+        const noteDate = noteRow.querySelector(".date");
+        noteDate.textContent = note.date || "Ingen dato";
+
+        const noteUsername = noteRow.querySelector(".username");
+        noteUsername.textContent = note.username || "Ukjent";
+
+        const noteText = noteRow.querySelector(".notecontent");
+        noteText.textContent = note.note || "Ingen tekst";
+
+        fragment.appendChild(noteRow);
+    });
+
+    noteContainer.appendChild(fragment);
 }
 
 // Funksjon for å lagre oppdatert notat
