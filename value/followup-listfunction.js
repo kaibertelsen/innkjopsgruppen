@@ -384,7 +384,8 @@ function getNoteFromServer(company) {
 }
 
 function responseNoteFromServer(data) { 
-    console.log("Notat hentet fra server:", data);
+    let notes = data.data.map(item => item.fields); // Hent ut notatene fra responsen
+    console.log("Notater:", notes);
 }
 
 // Funksjon for å lagre oppdatert notat
