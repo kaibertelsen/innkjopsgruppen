@@ -1,3 +1,5 @@
+var activeNoteConterner = null;
+
 function startFollowinglistElement(data) {
     listarray = data;
     const list = document.getElementById("elementfollowinguplist");
@@ -185,6 +187,8 @@ function startFollowinglistElement(data) {
         if (company.followupnote) {
             notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b35d007835010a0b68f_note-gul.svg')";
         }
+
+        const noteconteinerlistwrapper = rowElement.querySelector(".noteconteinerlistwrapper");
        
         let clickCount = 0; // Teller for klikk
         notebutton.addEventListener("click", () => {
@@ -195,10 +199,12 @@ function startFollowinglistElement(data) {
                 noteContainer.style.display = "block";
                 adjustTextareaHeight(textarea);
                 getNoteFromServer(company);
+                activeNoteConterner = noteconteinerlistwrapper
             } else if (clickCount === 2) {
                 // Andre klikk
                 noteContainer.style.display = "none"
                 clickCount = 0;
+                activeNoteConterner = null;
             }
         });
 
@@ -379,13 +385,36 @@ function adjustTextareaHeight(textarea) {
 function getNoteFromServer(company) {
     // Hent notat fra serveren
     body = airtablebodylistAND({companyairtable:company.airtable});
-   
     Getlistairtable("app1WzN1IxEnVu3m0","tbldHZ9ZDxKlXO8NU",body,"responseNoteFromServer");
 }
 
 function responseNoteFromServer(data) { 
     let notes = data.data.map(item => item.fields); // Hent ut notatene fra responsen
     console.log("Notater:", notes);
+
+    listNotes(notes);
+}
+
+function listNotes(notes) {
+
+
+let noteContainer = activeNoteConterner;
+noteContainer.replaceChildren();
+
+if (notes.length === 0) {
+    // Ingen notater funnet
+    let noNotes = document.createElement("p");
+    noNotes.textContent = "Ingen notater funnet.";
+    noteContainer.appendChild(noNotes); // Legg til teksten i noteContainer
+} else {
+    // Notater funnet
+    notes.forEach(note => {
+        let noteElement = document.createElement("div");
+        noteElement.classList.add("note");
+        noteElement.textContent = note.followupnote;
+        noteContainer.appendChild(noteElement); // Legg til notatet i noteContainer
+    });
+
 }
 
 // Funksjon for å lagre oppdatert notat
