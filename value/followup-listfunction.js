@@ -445,7 +445,7 @@ function listNotes(notes) {
        
         const notefooter = noteRow.querySelector(".notefooter");
         const deleteButton = noteRow.querySelector(".delete");
-        const saveButton = noteRow.querySelector(".save");
+        
 
         if(userairtableid != note.userairtable){
             //det er ikke denne brukeren som har skrevet dette 
@@ -461,17 +461,21 @@ function listNotes(notes) {
             });
             quill.clipboard.dangerouslyPasteHTML(htmlContent);
 
+            //Håndtere lagring når en er ferdig å skrive i notatet
+            quill.on('text-change', function(delta, oldDelta, source) {
+                if (source === 'user') {
+                    // Lagre notatet
+                    const body = {
+                        content: quill.root.innerHTML
+                    };
+                   // PATCHairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", note.airtable, JSON.stringify(body), "responseupdateNoteFromServer");
+                }
+            });
+
             deleteButton.addEventListener("click", () => {
                 //deleteNoteFromServer(note.airtable);
                 noteRow.remove();
             });
-
-            saveButton.addEventListener("click", () => {
-                //saveNoteToServer(note.airtable, quill.root.innerHTML);
-            }
-            );
-
-
         }
 
         fragment.appendChild(noteRow);
