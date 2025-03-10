@@ -322,7 +322,11 @@ function listCustomer(data) {
                         {
                         text:"Kvartalsvis",
                         value:3
-                        }
+                        },
+                        {
+                            text:"Månedlig",
+                            value:1
+                            }
                         ];
                         
     
