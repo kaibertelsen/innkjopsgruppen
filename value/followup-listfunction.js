@@ -446,7 +446,7 @@ function listNotes(notes) {
 
         const deleteButton = noteRow.querySelector(".notedeletebutton");
 
-        if(userairtableid != note.userid[0]){
+        if(userairtableid != note.userid){
             //det er ikke denne brukeren som har skrevet dette 
             deleteButton.style.display = "none";
             noteText.innerHTML = htmlContent;   
