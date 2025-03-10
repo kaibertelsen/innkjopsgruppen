@@ -454,7 +454,7 @@ function listNotes(notes) {
 
         }else{
             //det er denne brukeren som har skrevet dette
-            notefooter.style.display = "block";
+            notefooter.style.display = "flex";
 
             var quill = new Quill(noteText, {
                 theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
