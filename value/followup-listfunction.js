@@ -1,5 +1,11 @@
 var activeNoteConterner = null;
 
+  var quill = new Quill('#editor', {
+    theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
+  });
+
+
+
 function startFollowinglistElement(data) {
     listarray = data;
     const list = document.getElementById("elementfollowinguplist");
@@ -421,7 +427,12 @@ let noteContainer = activeNoteConterner;
         noteUsername.textContent = note.username || "Ukjent";
 
         const noteText = noteRow.querySelector(".notecontent");
-        noteText.textContent = note.note || "Ingen tekst";
+        var quill = new Quill(noteText, {
+            theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
+          });
+        // Sett HTML-innhold i Quill
+        const htmlContent = note.note || "";
+        quill.clipboard.dangerouslyPasteHTML(htmlContent);
 
         fragment.appendChild(noteRow);
     });
