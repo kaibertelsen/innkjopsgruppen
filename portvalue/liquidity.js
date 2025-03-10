@@ -49,6 +49,18 @@ function buildRefactoring(data) {
     //filtrer ut selskaper som er gått konkurs insolvency = true
     dataFiltered = dataFiltered.filter(el => el.insolvency == false);
 
+    //filtrerer vekk selskaper som er nysalg dvs. det er mindre en 12 mnd. siden vunnetdato
+    dataFiltered = dataFiltered.filter(el => {
+        let winningDate = new Date(el.winningdate);
+        let currentDate = new Date();
+        let diff = currentDate - winningDate;
+        let diffDays = diff / (1000 * 60 * 60 * 24);
+        if (diffDays < 365) {
+            return false;
+        }
+        return true;
+    });
+
     let invoiceList = [];
 
     dataFiltered.forEach(function (company) {   
@@ -89,19 +101,11 @@ function buildRefactoring(data) {
             
             if(sumAllIncoices){
                 //alt som skal faktureres
-
                 // ❌ Stopper fakturering KUN basert på exitdate
                 let invoiceExitDate = new Date(company.exitdate);
                 if (invoiceExitDate && termDate > invoiceExitDate) {
                     console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
                     break;
-                }
-
-            }else{
-                //fjern nysalg
-                //hvis termindato og maindate er lik, så er det nysalg
-                if(termDate.getTime() == mainDate.getTime()){
-                    continue;
                 }
             }
 
