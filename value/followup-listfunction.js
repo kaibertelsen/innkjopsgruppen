@@ -401,20 +401,21 @@ function listNotes(notes) {
 let noteContainer = activeNoteConterner;
 noteContainer.replaceChildren();
 
-if (notes.length === 0) {
-    // Ingen notater funnet
-    let noNotes = document.createElement("p");
-    noNotes.textContent = "Ingen notater funnet.";
-    noteContainer.appendChild(noNotes); // Legg til teksten i noteContainer
-} else {
-    // Notater funnet
-    notes.forEach(note => {
-        let noteElement = document.createElement("div");
-        noteElement.classList.add("note");
-        noteElement.textContent = note.followupnote;
-        noteContainer.appendChild(noteElement); // Legg til notatet i noteContainer
-    });
+    if (notes.length === 0) {
+        // Ingen notater funnet
+        let noNotes = document.createElement("p");
+        noNotes.textContent = "Ingen notater funnet.";
+        noteContainer.appendChild(noNotes); // Legg til teksten i noteContainer
+    } else {
+        // Notater funnet
+        notes.forEach(note => {
+            let noteElement = document.createElement("div");
+            noteElement.classList.add("note");
+            noteElement.textContent = note.followupnote;
+            noteContainer.appendChild(noteElement); // Legg til notatet i noteContainer
+        });
 
+    }
 }
 
 // Funksjon for å lagre oppdatert notat
