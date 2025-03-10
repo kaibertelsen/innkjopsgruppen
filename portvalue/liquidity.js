@@ -100,10 +100,17 @@ function buildRefactoring(data) {
             
             // ❌ Stopper fakturering basert på exitdate
             let invoiceExitDate = new Date(company.exit);
-            if (invoiceExitDate && termDate > invoiceExitDate) {
-                 console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
-                 break;
+
+            if (invoiceExitDate && (
+                termDate > invoiceExitDate || 
+                (termDate.getFullYear() === invoiceExitDate.getFullYear() &&
+                termDate.getMonth() === invoiceExitDate.getMonth() &&
+                termDate.getDate() === invoiceExitDate.getDate())
+            )) {
+                console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${invoiceExitDate.toISOString().split("T")[0]}`);
+                break;
             }
+
             
  
             let termin = {
