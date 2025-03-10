@@ -57,6 +57,7 @@ function buildRefactoring(data) {
             return winningDate.getFullYear() < currentYear;
         });
     }
+
     
     let invoiceList = [];
 
@@ -96,17 +97,14 @@ function buildRefactoring(data) {
             let termDate = new Date(firstTermDate);
             termDate.setMonth(termDate.getMonth() + i * invoiceInterval);
             
-            if(sumAllIncoices){
-                //alt som skal faktureres
-                // ❌ Stopper fakturering KUN basert på exitdate
+                // ❌ Stopper fakturering basert på exitdate
                 let invoiceExitDate = new Date(company.exitdate);
                 if (invoiceExitDate && termDate > invoiceExitDate) {
                     console.log(`Fakturering stopper for ${company.Name} ved exitdate: ${exitDate.toISOString().split("T")[0]}`);
                     break;
                 }
-            }
-
             
+ 
             let termin = {
                 company: company.Name,
                 companyvat: company.orgnr || "",
@@ -122,6 +120,10 @@ function buildRefactoring(data) {
 
             invoiceList.push(termin);
         }
+
+
+
+        //loope gjennom alle 12 mnd og finne ut når exit er for deretter trekke fra 
 
         //hvis exitRegisteredAt er satt, så legg denne i 
         let exitRegisteredAt = new Date(company.exitRegisteredAt);
