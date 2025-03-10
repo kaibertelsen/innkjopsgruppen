@@ -399,7 +399,7 @@ function listNotes(notes) {
 
 
 let noteContainer = activeNoteConterner;
-noteContainer.replaceChildren();
+    noteContainer.replaceChildren();
 
     if (notes.length === 0) {
         // Ingen notater funnet
@@ -416,6 +416,7 @@ noteContainer.replaceChildren();
         });
 
     }
+    noteContainer.style.display = "block";
 }
 
 // Funksjon for å lagre oppdatert notat
