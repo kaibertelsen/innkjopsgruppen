@@ -49,18 +49,19 @@ function buildRefactoring(data) {
     //filtrer ut selskaper som er gått konkurs insolvency = true
     dataFiltered = dataFiltered.filter(el => el.insolvency == false);
 
-    //filtrerer vekk selskaper som er nysalg dvs. det er mindre en 12 mnd. siden vunnetdato
-    dataFiltered = dataFiltered.filter(el => {
-        let winningDate = new Date(el.winningdate);
-        let currentDate = new Date();
-        let diff = currentDate - winningDate;
-        let diffDays = diff / (1000 * 60 * 60 * 24);
-        if (diffDays < 365) {
-            return false;
-        }
-        return true;
-    });
-
+    if(!sumAllIncoices){
+        //filtrerer vekk selskaper som er nysalg dvs. det er mindre en 12 mnd. siden vunnetdato
+        dataFiltered = dataFiltered.filter(el => {
+            let winningDate = new Date(el.winningdate);
+            let currentDate = new Date();
+            let diff = currentDate - winningDate;
+            let diffDays = diff / (1000 * 60 * 60 * 24);
+            if (diffDays < 365) {
+                return false;
+            }
+            return true;
+        });
+    }
     let invoiceList = [];
 
     dataFiltered.forEach(function (company) {   
