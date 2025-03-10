@@ -431,7 +431,7 @@ let noteContainer = activeNoteConterner;
             theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
           });
         // Sett HTML-innhold i Quill
-        const htmlContent = note.note || "";
+        const htmlContent = note.content || "";
         quill.clipboard.dangerouslyPasteHTML(htmlContent);
 
         fragment.appendChild(noteRow);
