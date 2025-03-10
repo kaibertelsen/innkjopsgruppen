@@ -194,6 +194,7 @@ function startFollowinglistElement(data) {
                 // Første klikk
                 noteContainer.style.display = "block";
                 adjustTextareaHeight(textarea);
+                getNoteFromServer(company);
             } else if (clickCount === 2) {
                 // Andre klikk
                 noteContainer.style.display = "none"
@@ -370,10 +371,21 @@ function createStatusDropdown(rowElement, statusElement, company) {
 
 // Funksjon for dynamisk høydejustering
 function adjustTextareaHeight(textarea) {
+
     textarea.style.height = "auto";
     textarea.style.height = (textarea.scrollHeight + 2) + "px";
 }
 
+function getNoteFromServer(company) {
+    // Hent notat fra serveren
+    body = airtablebodylistAND({companyairtable:company.airtable});
+   
+    Getlistairtable("app1WzN1IxEnVu3m0","tbldHZ9ZDxKlXO8NU",JSON.stringify(body),"responseNoteFromServer");
+}
+
+function responseNoteFromServer(data) { 
+    console.log("Notat hentet fra server:", data);
+}
 
 // Funksjon for å lagre oppdatert notat
 function saveFollowupNote(noteContainer, airtableId) {
