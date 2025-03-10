@@ -58,13 +58,7 @@ function buildRefactoring(data) {
         });
     }
 
-    //firtrerer vekk alle exit fra tidligere år
-    dataFiltered = dataFiltered.filter(el => {
-        let exitDate = new Date(el.exit);
-        let currentYear = new Date().getFullYear();
-        return exitDate.getFullYear() == currentYear;
-    }
-    );
+ 
     
     let invoiceList = [];
 
