@@ -484,6 +484,9 @@ function findMaxValues(data) {
 
 function loadLiquidityOverview(data) {
 
+    const averageProcentElement = document.getElementById("percentSoFar");
+    averageProcentElement.innerHTML = "";
+
     const exportOverviewList = document.getElementById("exportOverviewList");
     exportOverviewList.parentElement.style.display = "none";
 
