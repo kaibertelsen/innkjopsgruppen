@@ -227,7 +227,7 @@ function loadLiquidityInvoiceOverview(data) {
       
     }
 
-      //summere alt i terminbelop
+    //summere alt i terminbelop
       let sumAllIncoices = data.reduce((acc, cur) => {
         acc += cur.terminbelop;
         return acc;
@@ -236,6 +236,7 @@ function loadLiquidityInvoiceOverview(data) {
     const sumthisyear = document.getElementById("sumthisyear");
     sumthisyear.textContent = "Sum: "+ Math.round(sumAllIncoices / 1000).toLocaleString() + " K";
 
+   
     // Finn høyeste verdi for å skalere høyden på elementene
     let maxkvales = data.reduce((acc, cur) => {
         if (cur.terminbelop > acc) {
@@ -276,6 +277,8 @@ function loadLiquidityInvoiceOverview(data) {
         lable2.textContent = "Oppsigelser";
     }
 
+    let procentValues = [];
+
 
     for (let month of data) {
         // Klon månedselementet
@@ -306,18 +309,21 @@ function loadLiquidityInvoiceOverview(data) {
         const secondText = monthElement.querySelector(".secondtextlable");
         let heightSecond = secondValue / factorHeight;
 
-        if(isInvoice){  
+        
+        //sette prosentlable
+        const procentvalue = monthElement.querySelector(".procentvalue");
+        let procent = 0;
+        if(firstValue > 0){
+            procent = (secondValue / firstValue) * 100;
+        }
+        procentvalue.textContent = procent.toFixed(1) + "%";
+        procentvalue.parentElement.style.display = "block";
 
-        }else{
-            //hvis der er refakturering
-            //sette prosentlable
-            const procentvalue = monthElement.querySelector(".procentvalue");
-            let procent = 0;
-            if(firstValue > 0){
-                procent = (secondValue / firstValue) * 100;
-            }
-            procentvalue.textContent = procent.toFixed(1) + "%";
-            procentvalue.parentElement.style.display = "block";
+        //hvis prosent er i en måned
+        let monthIndex = new Date().getMonth();
+        
+        if(month.monthnumber < monthIndex){
+            procentValues.push(procent);
         }
 
         animateHeight(second, heightSecond); // Animer høyde
@@ -337,6 +343,13 @@ function loadLiquidityInvoiceOverview(data) {
         // Legg til månedselementet i listen
         list.appendChild(monthElement);
     }
+
+    //finne gjennomsnittlig prosent
+    let sumProcent = procentValues.reduce((acc, cur) => acc + cur, 0);
+    let averageProcent = sumProcent / procentValues.length;
+
+    const averageProcentElement = document.getElementById("percentSoFar");
+    averageProcentElement.textContent = "Gjennomsnittlig prosent hitttil i år (uten unneværende mnd.): "+averageProcent.toFixed(1) + "%";
 }
 
 
