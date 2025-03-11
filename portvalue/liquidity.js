@@ -320,8 +320,8 @@ function loadLiquidityInvoiceOverview(data) {
         procentvalue.textContent = procent.toFixed(1) + "%";
         procentvalue.parentElement.style.display = "block";
 
-        //hvis prosent er i en måned
-        let monthIndex = new Date().getMonth();
+        
+        let monthIndex = month.monthnumber;
         
         if(month.monthnumber < monthIndex){
             procentValues.push(procent);
