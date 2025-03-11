@@ -154,13 +154,7 @@ function startFollowinglistElement(data) {
                     tooltip.remove(); // Fjern tooltip når musen forlater ikonet
                 });
             });
-        
-
-
-        
-        
-        
-
+    
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
         if (company.followupnote) {
@@ -398,6 +392,14 @@ function listNotes(notes) {
     }
 
     const fragment = document.createDocumentFragment();
+
+        //lage et forslag til nytt notat
+        const newNote = {
+            date: new Date().toISOString(),
+            username: "Bruker",
+            content: "Nytt notat"
+        };
+        notes.push(newNote);
 
     notes.forEach(note => {
         const noteRow = noteElement.cloneNode(true);
