@@ -234,7 +234,8 @@ function loadLiquidityInvoiceOverview(data) {
         }
         ,   0);
     const sumthisyear = document.getElementById("sumthisyear");
-    sumthisyear.textContent = "Sum: "+ Math.round(sumAllIncoices / 1000).toLocaleString() + " K";
+    sumthisyear.innerHTML = "Sum: <strong>" + Math.round(sumAllIncoices / 1000).toLocaleString() + " K</strong>";
+        
 
    
     // Finn høyeste verdi for å skalere høyden på elementene
