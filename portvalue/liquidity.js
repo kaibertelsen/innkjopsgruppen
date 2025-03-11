@@ -58,7 +58,8 @@ function buildRefactoring(data) {
         });
 
         //filtrerer ut selskaper som er leverandører    
-        dataFiltered = dataFiltered.filter(el => el.type == "supplier");
+        dataFiltered = dataFiltered.filter(el => el?.type?.toLowerCase() !== "supplier");
+
     }
 
  
@@ -264,6 +265,7 @@ function loadLiquidityInvoiceOverview(data) {
     const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
     const lable1 = descriptionwrapper.querySelector('.lable1');
     const lable2 = descriptionwrapper.querySelector('.lable2');
+    
     if(isInvoice){
         descriptionlable.textContent = "Faktureringsplan for inneværende år, konkurser er fjernet";
         lable1.textContent = "Fakturering";
