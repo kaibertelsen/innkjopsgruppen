@@ -404,12 +404,13 @@ function responseNoteFromServer(data) {
 function listNotes(notes) {
 
 
-    //sorter notatene etter dato
+    //sorter notatene etter dato nyest først
     notes.sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
-        return dateA - dateB;
+        return dateB - dateA;
     });
+    
 
 
     let noteContainer = activeNoteConterner;
@@ -464,7 +465,7 @@ function listNotes(notes) {
             });
             
             deleteButton.addEventListener("click", () => {
-                //deleteNoteFromServer(note.airtable);
+                deleteNoteFromServer(note.airtable);
                 noteRow.remove();
             });
         }
@@ -487,6 +488,14 @@ function saveUpdateNote(note, airtableId) {
 
 function responseupdateNote(data) {
     console.log("Notat oppdatert", data);
+}
+
+function deleteNoteFromServer(airtableId) {
+    DELETEairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", airtableId, "responseDeleteNote");
+}
+
+function responseDeleteNote(data) {
+    console.log("Notat slettet", data);
 }
 
 function formatDateNote(isoDate) {
