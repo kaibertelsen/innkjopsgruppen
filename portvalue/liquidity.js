@@ -56,6 +56,9 @@ function buildRefactoring(data) {
             let currentYear = new Date().getFullYear();
             return winningDate.getFullYear() < currentYear;
         });
+
+        //filtrerer ut selskaper som er leverandører    
+        dataFiltered = dataFiltered.filter(el => el.type == "supplier");
     }
 
  
@@ -266,7 +269,7 @@ function loadLiquidityInvoiceOverview(data) {
         lable1.textContent = "Fakturering";
         lable2.textContent = "Oppsigelser";
     }else{
-        descriptionlable.textContent = "Faktureringsverdi for inneværende år. Nysalg og konkurser er fjernet";
+        descriptionlable.textContent = "Faktureringsverdi for inneværende år. Nysalg, konkurser og leverandører er fjernet";
         lable1.textContent = "Refakturering";
         lable2.textContent = "Oppsigelser";
     }
