@@ -1,11 +1,5 @@
 var activeNoteConterner = null;
 
-  var quill = new Quill('#editor', {
-    theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
-  });
-
-
-
 function startFollowinglistElement(data) {
     listarray = data;
     const list = document.getElementById("elementfollowinguplist");
@@ -169,27 +163,6 @@ function startFollowinglistElement(data) {
 
         // Håndterer notat-knappen
         const notebutton = rowElement.querySelector(".notebutton");
-        const noteContainer = rowElement.querySelector(".noteholder");
-        noteContainer.style.display = "none";
-
-        const savebutton = rowElement.querySelector(".savebutton");
-        savebutton.style.display = "none";
-        savebutton.addEventListener("click", () => {
-            saveFollowupNote(noteContainer, company.airtable);
-        });
-
-        const textarea = noteContainer.querySelector(".textareanote");
-        textarea.value = company.followupnote || "";
-
-        textarea.addEventListener("change", function () {
-            saveFollowupNote(noteContainer, company.airtable);
-        });
-    
-        textarea.addEventListener("input", function () {
-            savebutton.style.display = "inline-block";
-        });
-    
-        
         if (company.followupnote) {
             notebutton.style.backgroundImage = "url('https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67419b35d007835010a0b68f_note-gul.svg')";
         }
@@ -203,7 +176,7 @@ function startFollowinglistElement(data) {
             if (clickCount === 1) {
                 // Første klikk
                 noteContainer.style.display = "block";
-                adjustTextareaHeight(textarea);
+                //adjustTextareaHeight(textarea);
                 getNoteFromServer(company);
                 activeNoteConterner = noteconteinerlistwrapper
             } else if (clickCount === 2) {
@@ -439,7 +412,6 @@ function listNotes(notes) {
 
         const noteText = noteRow.querySelector(".notecontent");
         
-
         // Sett HTML-innhold i Quill
         let htmlContent = note.content || "";
         
