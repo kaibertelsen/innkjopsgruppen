@@ -349,7 +349,7 @@ function loadLiquidityInvoiceOverview(data) {
     let averageProcent = sumProcent / procentValues.length;
 
     const averageProcentElement = document.getElementById("percentSoFar");
-    averageProcentElement.textContent = "Gjennomsnittlig prosent hitttil i år (uten unneværende mnd.): "+averageProcent.toFixed(1) + "%";
+    averageProcentElement.textContent = "Snittprosent hittil i år (uten inneværende mnd.): "+averageProcent.toFixed(1) + "%";
 }
 
 
