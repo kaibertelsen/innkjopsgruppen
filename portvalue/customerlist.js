@@ -49,6 +49,7 @@ function listCustomer(data) {
             return hasPositiveValueGroup && noExpiredExitDate;
         });
     } else if (selectedFilter === "supplier"){
+        const currentDate = new Date();
        
         filteredData = data.filter(company => {
              // Sjekk om valuegroup er større enn 0
