@@ -48,6 +48,19 @@ function listCustomer(data) {
             // Inkluder selskapet kun hvis begge kriteriene er oppfylt
             return hasPositiveValueGroup && noExpiredExitDate;
         });
+    } else if (selectedFilter === "supplier"){
+       
+        filteredData = data.filter(company => {
+             // Sjekk om valuegroup er større enn 0
+             const hasPositiveValueGroup = company.valuegroup && !isNaN(parseFloat(company.valuegroup)) && parseFloat(company.valuegroup) > 0;
+    
+             // Sjekk om det ikke finnes en exit-dato eller om exit-datoen er fremtidig
+             const noExpiredExitDate = !company.exit || (new Date(company.exit) >= currentDate);
+    
+            // Inkluder selskapet kun hvis begge kriteriene er oppfylt
+            return hasPositiveValueGroup && noExpiredExitDate && company.type === "supplier";
+        });
+
     } else if (selectedFilter === "kickback") {
         filteredData = data.filter(company =>
             company.cashflowjson && company.cashflowjson.some(cashflow => 
