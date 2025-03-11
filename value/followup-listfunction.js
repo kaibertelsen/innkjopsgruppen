@@ -442,19 +442,17 @@ function listNotes(notes) {
         // Sett HTML-innhold i Quill
         let htmlContent = note.content || "";
         
-       
-        const notefooter = noteRow.querySelector(".notefooter");
         const deleteButton = noteRow.querySelector(".delete");
         
 
         if(userairtableid != note.userairtable){
             //det er ikke denne brukeren som har skrevet dette 
-            notefooter.style.display = "none";
             noteText.innerHTML = htmlContent;   
+            deleteButton.style.display = "none";
 
         }else{
             //det er denne brukeren som har skrevet dette
-            notefooter.style.display = "flex";
+            deleteButton.style.display = "block";
 
             var quill = new Quill(noteText, {
                 theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
