@@ -463,13 +463,9 @@ function listNotes(notes) {
 
             //Håndtere lagring når en er ferdig å skrive i notatet
             quill.on('text-change', function(delta, oldDelta, source) {
-                if (source === 'user') {
-                    // Lagre notatet
-                    const body = {
-                        content: quill.root.innerHTML
-                    };
-                   // PATCHairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", note.airtable, JSON.stringify(body), "responseupdateNoteFromServer");
-                }
+                // Lagre notatet når det endres
+                    saveUpdateNote(quill.root.innerHTML, note.airtable);
+                
             });
 
             deleteButton.addEventListener("click", () => {
@@ -483,6 +479,17 @@ function listNotes(notes) {
     });
 
     noteContainer.appendChild(fragment);
+}
+
+function saveUpdateNote(note, airtableId) {
+    const body = {
+        content: note
+    };
+    console.log("body",body);
+  //  PATCHairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", airtableId, JSON.stringify(body), "responseupdateNote");
+
+
+
 }
 
 function formatDateNote(isoDate) {
