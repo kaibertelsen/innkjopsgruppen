@@ -168,20 +168,20 @@ function startFollowinglistElement(data) {
         }
 
         const noteconteinerlistwrapper = rowElement.querySelector(".noteconteinerlistwrapper");
-       
+        
         let clickCount = 0; // Teller for klikk
         notebutton.addEventListener("click", () => {
             clickCount++;
             
             if (clickCount === 1) {
                 // Første klikk
-                noteContainer.style.display = "block";
+                noteconteinerlistwrapper.style.display = "block";
                 //adjustTextareaHeight(textarea);
                 getNoteFromServer(company);
                 activeNoteConterner = noteconteinerlistwrapper
             } else if (clickCount === 2) {
                 // Andre klikk
-                noteContainer.style.display = "none"
+                noteconteinerlistwrapper.style.display = "none"
                 clickCount = 0;
                 activeNoteConterner = null;
             }
