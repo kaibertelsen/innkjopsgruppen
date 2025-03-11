@@ -463,7 +463,6 @@ function listNotes(notes) {
                 saveUpdateNote(quill.root.innerHTML, note.airtable);
             });
             
-
             deleteButton.addEventListener("click", () => {
                 //deleteNoteFromServer(note.airtable);
                 noteRow.remove();
@@ -482,10 +481,12 @@ function saveUpdateNote(note, airtableId) {
         content: note
     };
     console.log("body",body);
-  //  PATCHairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", airtableId, JSON.stringify(body), "responseupdateNote");
+   PATCHairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", airtableId, JSON.stringify(body), "responseupdateNote");
+}
 
 
-
+function responseupdateNote(data) {
+    console.log("Notat oppdatert", data);
 }
 
 function formatDateNote(isoDate) {
