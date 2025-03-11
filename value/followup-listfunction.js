@@ -461,12 +461,10 @@ function listNotes(notes) {
             });
             quill.clipboard.dangerouslyPasteHTML(htmlContent);
 
-            //Håndtere lagring når en er ferdig å skrive i notatet
-            quill.on('text-change', function(delta, oldDelta, source) {
-                // Lagre notatet når det endres
-                    saveUpdateNote(quill.root.innerHTML, note.airtable);
-                
+            quill.root.addEventListener("blur", function() {
+                saveUpdateNote(quill.root.innerHTML, note.airtable);
             });
+            
 
             deleteButton.addEventListener("click", () => {
                 //deleteNoteFromServer(note.airtable);
