@@ -399,50 +399,69 @@ function listNotes(notes) {
             username: "Bruker",
             content: "Nytt notat"
         };
-        notes.push(newNote);
+        //legg dette først i listen 
+        notes.unshift(newNote);
 
     notes.forEach(note => {
         const noteRow = noteElement.cloneNode(true);
         
         const noteDate = noteRow.querySelector(".date");
-        //Formater dato til 10.mar 2025 eller 10.mar 2025 10:00
-        let date = formatDateNote (note.date);
-        noteDate.textContent = date;
-
         const noteUsername = noteRow.querySelector(".username");
-        noteUsername.textContent = note.username || "Ukjent bruker";
-
         const noteText = noteRow.querySelector(".notecontent");
         
-        // Sett HTML-innhold i Quill
-        let htmlContent = note.content || "";
+        
         
         const deleteButton = noteRow.querySelector(".delete");
         
 
-        if(userairtableid != note.userairtable){
-            //det er ikke denne brukeren som har skrevet dette 
-            noteText.innerHTML = htmlContent;   
-            deleteButton.style.display = "none";
+        //sjekk om dette er et nytt notat, ved å sjekke om det foreligger en airtable id
+        if(!note.airtable){
+            //det er et nytt notat
+            var quill = new Quill(noteText, {
+                theme: 'snow', // 'snow' = enkel, 'bubble' = mer minimalistisk
+                placeholder: "Skriv notat her..."
+            });
+           
+            quill.root.addEventListener("blur", function() {
+                saveNewNote(quill.root.innerHTML);
+            });
+
 
         }else{
-            //det er denne brukeren som har skrevet dette
-            deleteButton.style.display = "block";
 
-            var quill = new Quill(noteText, {
-                theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
-            });
-            quill.clipboard.dangerouslyPasteHTML(htmlContent);
+             //Formater dato til 10.mar 2025 eller 10.mar 2025 10:00
+            let date = formatDateNote (note.date);
+            noteDate.textContent = date;
+            noteUsername.textContent = note.username || "Ukjent bruker";
+            // Sett HTML-innhold i Quill
+            let htmlContent = note.content || "";
 
-            quill.root.addEventListener("blur", function() {
-                saveUpdateNote(quill.root.innerHTML, note.airtable);
-            });
-            
-            deleteButton.addEventListener("click", () => {
-                deleteNoteFromServer(note.airtable);
-                noteRow.remove();
-            });
-        }
+
+            if(userairtableid != note.userairtable){
+                //det er ikke denne brukeren som har skrevet dette 
+                noteText.innerHTML = htmlContent;   
+                deleteButton.style.display = "none";
+
+            }else{
+                //det er denne brukeren som har skrevet dette
+                deleteButton.style.display = "block";
+
+                var quill = new Quill(noteText, {
+                    theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
+                });
+                quill.clipboard.dangerouslyPasteHTML(htmlContent);
+
+                quill.root.addEventListener("blur", function() {
+                    saveUpdateNote(quill.root.innerHTML, note.airtable);
+                });
+                
+                deleteButton.addEventListener("click", () => {
+                    deleteNoteFromServer(note.airtable);
+                    noteRow.remove();
+                });
+            }
+        }    
+
 
         fragment.appendChild(noteRow);
 
@@ -450,7 +469,17 @@ function listNotes(notes) {
 
     noteContainer.appendChild(fragment);
 }
+function saveNewNote(note) {
+    const body = {
+        content: note
+    };
+    POSTairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", JSON.stringify(body), "responseNewNote");
+}   
 
+function responseNewNote(data) {
+    console.log("Notat lagret", data);
+    //oppdater notatlisten lokalt
+}
 function saveUpdateNote(note, airtableId) {
     const body = {
         content: note
