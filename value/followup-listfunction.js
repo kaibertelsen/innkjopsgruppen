@@ -453,6 +453,8 @@ function listNotes(notes,company) {
             if(userairtableid != note.userairtable){
                 //det er ikke denne brukeren som har skrevet dette 
                 noteText.innerHTML = htmlContent;   
+                //sette padding til 10px
+                noteText.style.padding = "10px";
                 deleteButton.style.display = "none";
 
             }else{
