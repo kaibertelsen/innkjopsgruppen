@@ -45,12 +45,9 @@ function respondcustomerlist(data,id){
         
         //setter kundenavn
         document.getElementById("customernametext").innerHTML = data.fields.Name;
-        
-        
-        //laste ned alle besparelseslinjene på dette selskapet  
-         var  companylines = makecompanylines(data);
-        
 
+        var  companylines = makecompanylines(data);
+        
         // Konverter JSON-strenger til objekter
         const jsonStrings = data.fields.cashflowjson;
         let cashflowjson = convertJsonStringsToObjects(jsonStrings);
@@ -58,7 +55,10 @@ function respondcustomerlist(data,id){
         companydatalines = cashflowjson;
         mainrootcompanylist(companydatalines);
 
-        //ansattefordeler(data);
+        
+        let users = data.fields.brukerjson;
+        users = convertJsonStringsToObjects(users);
+        
         
         //vis content
         document.getElementById("contentscreen").style.display = "block";
