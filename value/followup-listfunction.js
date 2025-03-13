@@ -424,6 +424,9 @@ function listNotes(notes,company) {
                 saveNewNote(quill.root.innerHTML,company);
             });
 
+            deleteButton.style.display = "none";
+            noteDate.textContent = "Nytt notat";
+            noteUsername.textContent = "";
 
         }else{
 
@@ -471,7 +474,8 @@ function saveNewNote(note,company) {
     const body = {
         company: [company.airtable],
         content: note,
-        user: [userairtableid]
+        user: [userairtableid],
+        date: new Date().toISOString
     };
     POSTairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", JSON.stringify(body), "responseNewNote");
 }   
