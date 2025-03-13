@@ -262,7 +262,7 @@ function daysUntil(targetDate) {
 
  }
 
- function filteredRemoveFollowup(data) {
+function filteredRemoveFollowup(data) {
     let array = [];
     for (let company of data) {
         if (company.followupstatus !== "REMOVE") {
@@ -272,7 +272,7 @@ function daysUntil(targetDate) {
     return array;
 }
 
- function filteredHideFollowup(data, status) {
+function filteredHideFollowup(data, status) {
     let array = []; // Tom liste for filtrerte selskaper
 
     for (let company of data) {

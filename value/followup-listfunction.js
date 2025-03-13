@@ -358,6 +358,7 @@ function adjustTextareaHeight(textarea) {
 }
 
 function getNoteFromServer(company) {
+    activeCompany = company;
     // Hent notat fra serveren
     body = airtablebodylistAND({companyairtable:company.airtable});
     Getlistairtable("app1WzN1IxEnVu3m0","tbldHZ9ZDxKlXO8NU",body,"responseNoteFromServer");
@@ -367,7 +368,7 @@ function responseNoteFromServer(data) {
     let notes = data.data.map(item => item.fields); // Hent ut notatene fra responsen
     console.log("Notater:", notes);
 
-    listNotes(notes,company);
+    listNotes(notes,activeCompany);
 }
 
 function listNotes(notes,company) {
@@ -472,7 +473,6 @@ function saveNewNote(note,company) {
         content: note,
         user: [userairtableid]
     };
-    activeCompany = company;
     POSTairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", JSON.stringify(body), "responseNewNote");
 }   
 
