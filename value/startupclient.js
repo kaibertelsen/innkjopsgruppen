@@ -92,7 +92,9 @@ function employerOptunity(data){
     }else{
         companydetailswrapper.style.display = "block"; 
         //vis teksten
-        messagecompanydetalj.innerHTML = document.getElementById("customernametext").innerHTML+" har "+ansattbrukere.length+" stk. ansatte som bruker innkjøpsGRUPPEN sine private avtaler. Å ha fornøyde ansatte er svært økonomisk og vi er glade for at vi kan være med a bidra.";
+        messagecompanydetalj.innerHTML = document.getElementById("customernametext").innerHTML + 
+    " har " + ansattbrukere.length + 
+    " stk. ansatte som bruker innkjøpsGRUPPEN sine private avtaler.<br>Å ha fornøyde ansatte er svært økonomisk og vi er glade for at vi kan være med å bidra.";
 
     }
 
