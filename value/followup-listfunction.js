@@ -1,4 +1,6 @@
 var activeNoteConterner = null;
+var newNotholder = null;
+var activeCompany = null;
 
 function startFollowinglistElement(data) {
     listarray = data;
@@ -395,23 +397,17 @@ function listNotes(notes,company) {
 
         //lage et forslag til nytt notat
         const newNote = {
-            date: new Date().toISOString(),
-            username: "Bruker",
-            company: [company.airtable],
-            userairtable: userairtableid
+            date: new Date().toISOString()
         };
+        newNotholder = newNote;
         //legg dette først i listen 
-        notes.unshift(newNote);
+        notes.unshift(newNotholder);
 
     notes.forEach(note => {
         const noteRow = noteElement.cloneNode(true);
-        
         const noteDate = noteRow.querySelector(".date");
         const noteUsername = noteRow.querySelector(".username");
         const noteText = noteRow.querySelector(".notecontent");
-        
-        
-        
         const deleteButton = noteRow.querySelector(".delete");
         
 
@@ -424,7 +420,7 @@ function listNotes(notes,company) {
             });
            
             quill.root.addEventListener("blur", function() {
-                saveNewNote(quill.root.innerHTML);
+                saveNewNote(quill.root.innerHTML,company);
             });
 
 
@@ -470,17 +466,22 @@ function listNotes(notes,company) {
 
     noteContainer.appendChild(fragment);
 }
-function saveNewNote(note) {
+function saveNewNote(note,company) {
     const body = {
-        content: note
+        company: [company.airtable],
+        content: note,
+        user: [userairtableid]
     };
+    activeCompany = company;
     POSTairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", JSON.stringify(body), "responseNewNote");
 }   
 
 function responseNewNote(data) {
     console.log("Notat lagret", data);
-    //oppdater notatlisten lokalt
-}
+    //sjekke at det er airtable id
+    if(data.id){
+        getNoteFromServer(activeCompany);
+    }
 function saveUpdateNote(note, airtableId) {
     const body = {
         content: note
