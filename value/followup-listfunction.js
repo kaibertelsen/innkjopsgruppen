@@ -362,7 +362,7 @@ function getNoteFromServer(company) {
     activeCompany = company;
     // Hent notat fra serveren
     body = airtablebodylistAND({companyairtable:company.airtable});
-    Getlistairtable("app1WzN1IxEnVu3m0","tbldHZ9ZDxKlXO8NU",body,"responseNoteFromServer");
+    GetlistairtableNoCache("app1WzN1IxEnVu3m0","tbldHZ9ZDxKlXO8NU",body,"responseNoteFromServer");
 }
 
 function responseNoteFromServer(data) { 

@@ -45,6 +45,26 @@ async function Getlistairtable(baseId,tableId,body,id){
 
 }
 
+async function GetlistairtableNoCache(baseId,tableId,body,id){
+  let token = MemberStack.getToken();
+  let response = await fetch(`https://expoapi-zeta.vercel.app/api/search?baseId=${baseId}&tableId=${tableId}&token=${token}&skipCache=true`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body
+  });
+
+  if (!response.ok) {
+  throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
+  }else {
+  let data = await response.json();
+  apireturn({success: true, data: data, id: id});
+  }
+
+}
+
+
 async function POSTairtable(baseId,tableId,body,id){
     let token = MemberStack.getToken();
     let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`, {
@@ -193,6 +213,7 @@ async function sendDataToZapierWebhook(data,url,id) {
     apireturn({success: true, data: data, id: id});
   }
 }
+
 
 
 function apireturn(response){
