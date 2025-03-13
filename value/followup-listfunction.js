@@ -428,6 +428,9 @@ function listNotes(notes,company) {
             noteDate.textContent = "Nytt notat";
             noteUsername.textContent = "";
 
+            let noteParent = noteText.parentElement;
+            noteParent.style.bordercolor = "green";
+
         }else{
 
              //Formater dato til 10.mar 2025 eller 10.mar 2025 10:00
