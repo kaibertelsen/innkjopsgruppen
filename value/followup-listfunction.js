@@ -165,6 +165,7 @@ function startFollowinglistElement(data) {
         }
 
         const noteconteinerlistwrapper = rowElement.querySelector(".noteconteinerlistwrapper");
+        noteconteinerlistwrapper.style.display = "none";
         
         let clickCount = 0; // Teller for klikk
         notebutton.addEventListener("click", () => {
