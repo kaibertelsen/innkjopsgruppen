@@ -474,15 +474,16 @@ function listNotes(notes,company) {
 
     noteContainer.appendChild(fragment);
 }
-function saveNewNote(note,company) {
+function saveNewNote(note, company) {
     const body = {
         company: [company.airtable],
         content: note,
         user: [userairtableid],
-        date: new Date().toISOString
+        date: new Date().toISOString() 
     };
     POSTairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", JSON.stringify(body), "responseNewNote");
-}   
+}
+
 
 function responseNewNote(data) {
     console.log("Notat lagret", data);
