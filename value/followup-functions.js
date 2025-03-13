@@ -460,7 +460,14 @@ async function GetlistairtableNoCache(baseId,tableId,body,id){
     throw new Error(`HTTP-feil! status: ${response.status} - ${response.statusText}`);
     }else {
     let data = await response.json();
-    apireturn({success: true, data: data, id: id});
+    apireturnPre({success: true, data: data, id: id});
     }
   
+}
+function apireturnPre(response){
+    if(response.success){
+        apireturn(response.data,response.id);
+    }else{
+        console.log(response);
+    }
   }
