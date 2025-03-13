@@ -86,7 +86,7 @@ function employerOptunity(data){
     //hvis dette er ingen så skule brukerliste
     const messagecompanydetalj = document.getElementById("messagecompanydetalj");
     const companydetailswrapper = document.getElementById("companydetailswrapper");
-    if(ansattbrukere.length == 0){
+    if(ansattbrukere.length < 3){
         companydetailswrapper.style.display = "none"; 
         messagecompanydetalj.innerHTML = "";
     }else{
