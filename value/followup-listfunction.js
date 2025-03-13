@@ -368,7 +368,7 @@ function getNoteFromServer(company) {
 function responseNoteFromServer(data) { 
     let notes = data.data.map(item => item.fields); // Hent ut notatene fra responsen
     console.log("Notater:", notes);
-    activeNotes = notes;
+    
 
     listNotes(notes,activeCompany);
 }
@@ -391,6 +391,7 @@ function listNotes(notes,company) {
 
     //fjerne alle notater som ikke inneholder airtable id
     notes = notes.filter(note => note.airtable);
+    activeNotes = notes;
 
     const noteLibrary = document.getElementById("elementholderfollowup");
     const noteElement = noteLibrary.querySelector('.noterowelementcontent');
