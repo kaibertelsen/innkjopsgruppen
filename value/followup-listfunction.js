@@ -1,6 +1,7 @@
 var activeNoteConterner = null;
 var newNotholder = null;
 var activeCompany = null;
+var activeNotes = [];
 
 function startFollowinglistElement(data) {
     listarray = data;
@@ -367,6 +368,7 @@ function getNoteFromServer(company) {
 function responseNoteFromServer(data) { 
     let notes = data.data.map(item => item.fields); // Hent ut notatene fra responsen
     console.log("Notater:", notes);
+    activeNotes = notes;
 
     listNotes(notes,activeCompany);
 }
@@ -489,7 +491,8 @@ function responseNewNote(data) {
     console.log("Notat lagret", data);
     //sjekke at det er airtable id
     if(data.id){
-        getNoteFromServer(activeCompany);
+        activeNotes.push(data.fields);
+        listNotes(activeNotes,activeCompany);
     }
 }
 function saveUpdateNote(note, airtableId) {

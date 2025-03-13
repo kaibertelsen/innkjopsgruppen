@@ -25,7 +25,7 @@ function rawdatacleaner(data){
         }
     return array;
 }
-//
+
 async function Getlistairtable(baseId,tableId,body,id){
     let token = MemberStack.getToken();
     let response = await fetch(`https://expoapi-zeta.vercel.app/api/search?baseId=${baseId}&tableId=${tableId}&token=${token}`, {
@@ -171,7 +171,6 @@ async function POSTairtablepublicLink(body,id) {
   }
 
 }
-
 
 async function sendDataToZapierWebhook(data,url,id) {
     
