@@ -429,7 +429,8 @@ function listNotes(notes,company) {
             noteUsername.textContent = "";
 
             let noteParent = noteText.parentElement;
-            noteParent.style.bordercolor = "green";
+            noteParent.style.borderColor = "green";
+
 
         }else{
 
