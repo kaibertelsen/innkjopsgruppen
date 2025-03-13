@@ -55,9 +55,11 @@ function respondcustomerlist(data,id){
         companydatalines = cashflowjson;
         mainrootcompanylist(companydatalines);
 
-        
+
         let users = data.fields.brukerjson;
         users = convertJsonStringsToObjects(users);
+
+        employerOptunity(users);
         
         
         //vis content
@@ -68,6 +70,32 @@ function respondcustomerlist(data,id){
 
         //sende beskjed om at denne linken er åpnet
         sendresponsData(data.fields);
+}
+
+function employerOptunity(data){
+    
+    //filtrer ut un de brukerne som har rolle = "ansatt"
+    let ansattbrukere = [];
+   
+    for(var i = 0;i<data.length;i++){
+        if(data[i].rolle == "ansatt"){
+            ansattbrukere.push(data[i]);
+        }
+    }
+
+    //hvis dette er ingen så skule brukerliste
+    const messagecompanydetalj = document.getElementById("messagecompanydetalj");
+    const companydetailswrapper = document.getElementById("companydetailswrapper");
+    if(ansattbrukere.length == 0){
+        companydetailswrapper.style.display = "none"; 
+        messagecompanydetalj.innerHTML = "";
+    }else{
+        companydetailswrapper.style.display = "block"; 
+        //vis teksten
+        messagecompanydetalj.innerHTML = document.getElementById("customernametext").innerHTML+" har "+ansattbrukere.length+" stk. ansatte som bruker innkjøpsGRUPPEN sine private avtaler. Å ha fornøyde ansatte er svært økonomisk og vi er glade for at vi kan være med a bidra.";
+
+    }
+
 }
 
 function sendresponsData(data) {
