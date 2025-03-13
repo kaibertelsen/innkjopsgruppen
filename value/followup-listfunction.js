@@ -172,7 +172,7 @@ function startFollowinglistElement(data) {
             
             if (clickCount === 1) {
                 // Første klikk
-                noteconteinerlistwrapper.style.display = "block";
+                noteconteinerlistwrapper.style.display = "grid";
                 //adjustTextareaHeight(textarea);
                 getNoteFromServer(company);
                 activeNoteConterner = noteconteinerlistwrapper
