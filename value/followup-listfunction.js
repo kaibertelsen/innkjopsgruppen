@@ -365,10 +365,10 @@ function responseNoteFromServer(data) {
     let notes = data.data.map(item => item.fields); // Hent ut notatene fra responsen
     console.log("Notater:", notes);
 
-    listNotes(notes);
+    listNotes(notes,company);
 }
 
-function listNotes(notes) {
+function listNotes(notes,company) {
 
 
     //sorter notatene etter dato nyest først
@@ -397,7 +397,8 @@ function listNotes(notes) {
         const newNote = {
             date: new Date().toISOString(),
             username: "Bruker",
-            content: "Nytt notat"
+            company: [company.airtable],
+            userairtable: userairtableid
         };
         //legg dette først i listen 
         notes.unshift(newNote);
