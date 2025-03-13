@@ -388,6 +388,10 @@ function listNotes(notes,company) {
     let noteContainer = activeNoteConterner;
     noteContainer.replaceChildren();
 
+
+    //fjerne alle notater som ikke inneholder airtable id
+    notes = notes.filter(note => note.airtable);
+
     const noteLibrary = document.getElementById("elementholderfollowup");
     const noteElement = noteLibrary.querySelector('.noterowelementcontent');
 
