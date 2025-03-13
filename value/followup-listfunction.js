@@ -482,6 +482,7 @@ function responseNewNote(data) {
     if(data.id){
         getNoteFromServer(activeCompany);
     }
+}
 function saveUpdateNote(note, airtableId) {
     const body = {
         content: note
