@@ -519,6 +519,10 @@ function deleteNoteFromServer(airtableId) {
 
 function responseDeleteNote(data) {
     console.log("Notat slettet", data);
+
+    // Fjern notatet fra listen
+    activeNotes = activeNotes.filter(note => note.airtable !== data.id);
+
 }
 
 function formatDateNote(isoDate) {
