@@ -656,6 +656,9 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
             if (!data.category) {
                 data.category = [];
             }
+            if (!data.attachment) {
+                data.attachment = [];
+            }
 
             return data;
         } catch (error) {

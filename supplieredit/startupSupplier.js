@@ -1132,6 +1132,10 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
                 data.category = [];
             }
 
+            if (!data.attachment) {
+                data.attachment = [];
+            }
+
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
