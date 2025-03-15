@@ -231,7 +231,7 @@ function listSuppliersinList(suppliers) {
     // Tøm container
     supplierContainer.innerHTML = '';
 
-    const elementLibrary = document.getElementById("elementlibrary");
+    const elementLibrary = document.getElementById("elementlibrarywrapper");
     if (!elementLibrary) {
         console.error("Ingen 'elementlibrary' funnet.");
         return;
