@@ -539,6 +539,10 @@ function loadAttachmentList(attachments) {
         return;
     }
 
+    //sorter etter dato seinest øverst
+    attachments.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+
     attachments.forEach(attachment => {
         const attachmentElement = nodeElement.cloneNode(true);
 
