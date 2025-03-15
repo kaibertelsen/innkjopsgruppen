@@ -521,8 +521,8 @@ function loadContentIntoEditor(element,htmlContent) {
 function loadAttachmentList(attachments) {
     
     // Hent containeren for leverandører
-    const loadAttachment = document.getElementById("loadAttachment");
-    if (!loadAttachment) {
+    const attachmentList = document.getElementById("attachmentList");
+    if (!attachmentList) {
         console.error("Ingen container funnet for visning av leverandører.");
         return;
     }
@@ -568,7 +568,7 @@ function loadAttachmentList(attachments) {
         });
 
         attachmentElement.textContent = attachment.name;
-        loadAttachment.appendChild(attachmentElement);
+        attachmentList.appendChild(attachmentElement);
     }); 
 
 
