@@ -569,10 +569,11 @@ function loadAttachmentList(attachments) {
             DELETEairtable("app1WzN1IxEnVu3m0","tbl1S960yWTmWT6M1",attachment.airtable,"responseDeleteAttachment");
             // Slett PDF fra den lokale listen
             activeSupplier.attachment = activeSupplier.attachment.filter(attachment => attachment.airtable !== attachment.airtable);
-            //oppdater listen
-            deleteattatchmentbutton.parentElement.parentElement.remove();
-            //finne attachment i listen og slette
+            //finne denne attachment i listen og slette
             attachments = attachments.filter(attachment => attachment.airtable !== attachment.airtable);
+          
+            //oppdater listen
+            loadAttachmentList(attachments);
         });
 
         attachmentList.appendChild(attachmentElement);
