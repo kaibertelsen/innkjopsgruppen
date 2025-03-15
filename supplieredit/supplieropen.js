@@ -568,9 +568,9 @@ function loadAttachmentList(attachments) {
             // Slett PDF fra databasen
             DELETEairtable("app1WzN1IxEnVu3m0","tbl1S960yWTmWT6M1",attachment.airtable,"responseDeleteAttachment");
             // Slett PDF fra den lokale listen
-            activeSupplier.attachment = activeSupplier.attachment.filter(attachment => attachment.airtable !== attachment.airtable);
+            activeSupplier.attachment = activeSupplier.attachment.filter(a => a.airtable !== attachment.airtable);
             //finne denne attachment i listen og slette
-            gAttachments = gAttachments.filter(attachment => attachment.airtable !== attachment.airtable);
+            gAttachments = gAttachments.filter(a => a.airtable !== attachment.airtable);
           
             //oppdater listen
             loadAttachmentList(gAttachments);
