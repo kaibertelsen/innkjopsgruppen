@@ -571,6 +571,8 @@ function loadAttachmentList(attachments) {
             activeSupplier.attachment = activeSupplier.attachment.filter(attachment => attachment.airtable !== attachment.airtable);
             //oppdater listen
             deleteattatchmentbutton.parentElement.parentElement.remove();
+            //finne attachment i listen og slette
+            attachments = attachments.filter(attachment => attachment.airtable !== attachment.airtable);
         });
 
         attachmentList.appendChild(attachmentElement);
