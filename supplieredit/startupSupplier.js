@@ -9,6 +9,7 @@ var gCategorys = [];
 var gOutputs = [];
 let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
 var GlobalConnections = [];
+var attachments = [];
 
 function getSuppier(){     
 //hente leverandører
@@ -392,6 +393,8 @@ function ruteresponse(data,id){
         responsNewSupplier(data);
     }else if(id == "responseDeleteSupplier"){
         responseDeleteSupplier(data);
+    }else if(id == "responseAttachmentUpload"){
+        responseAttachmentUpload(data);
     }
     
     

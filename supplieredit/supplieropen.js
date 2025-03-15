@@ -43,7 +43,7 @@ function openSupplier(supplier){
     orginaltext = supplier.info;
 
     loadAttachmentList(supplier.attachment);
-
+    attachments = supplier.attachment;
     listGroups(supplier.group);
 
     listCategorys(supplier.category);
@@ -526,6 +526,8 @@ function loadAttachmentList(attachments) {
         console.error("Ingen container funnet for visning av leverandører.");
         return;
     }
+    attachmentList.innerHTML = '';
+
     const elementlibrary = document.getElementById("elementlibrarywrapper");
     if (!elementlibrary) {
         console.error("Ingen 'elementlibrary' funnet.");
@@ -570,6 +572,32 @@ function loadAttachmentList(attachments) {
         attachmentList.appendChild(attachmentElement);
     }); 
 
+
+}
+
+document.getElementById("uploadAttcButton").addEventListener("click", function(event) {
+    event.preventDefault(); // Hindrer standard knapp-oppførsel
+
+    // Åpner Uploadcare-filvelgeren for kun PDF-filer
+    const widget = uploadcare.Widget("#uploadcareDocWidget");
+    widget.openDialog().done(function(file) {
+        file.done(function(info) {
+            uploadedDocURL = info.cdnUrl; // Lagre PDF-URL
+            console.log("Opplastet PDF URL:", uploadedDocURL);
+            
+            // Laster opp PDF til databasen
+            POSTairtable("app1WzN1IxEnVu3m0","tbl1S960yWTmWT6M1",JSON.stringify({name: info.name, url: uploadedDocURL, user: [userid]}),"responseAttachmentUpload");
+        
+        });
+    });
+
+});
+
+function responseAttachmentUpload(data){
+    console.log(data);
+    // Legg til PDF i listen
+    attachments.push(data.fields);
+    loadAttachmentList(attachments);
 
 }
 
@@ -715,6 +743,12 @@ document.getElementById("uploadDocButton").addEventListener("click", function(ev
         });
     });
 });
+
+
+
+
+
+
 
 // 🔹 Når brukeren klikker "Åpne dokument", åpne PDF i ny fane
 document.getElementById("openDocButton").addEventListener("click", function() {
