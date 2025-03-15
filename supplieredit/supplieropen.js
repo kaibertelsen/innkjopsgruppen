@@ -541,7 +541,7 @@ function loadAttachmentList(attachments) {
         const attachmentElement = nodeElement.cloneNode(true);
 
         const dateElement = attachmentElement.querySelector(".date");
-        const date = new Date(attachment.createdTime);
+        const date = new Date(attachment.date);
         const formattedDate = date.toLocaleDateString("nb-NO", { year: "numeric", month: "2-digit", day: "2-digit" });
         dateElement.textContent = formattedDate;
 
