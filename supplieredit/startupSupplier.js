@@ -9,7 +9,7 @@ var gCategorys = [];
 var gOutputs = [];
 let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
 var GlobalConnections = [];
-var attachments = [];
+var gAttachments = [];
 
 function getSuppier(){     
 //hente leverandører

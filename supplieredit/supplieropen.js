@@ -43,7 +43,7 @@ function openSupplier(supplier){
     orginaltext = supplier.info;
 
     loadAttachmentList(supplier.attachment);
-    attachments = supplier.attachment;
+    gAttachments = supplier.attachment;
     listGroups(supplier.group);
 
     listCategorys(supplier.category);
@@ -570,10 +570,10 @@ function loadAttachmentList(attachments) {
             // Slett PDF fra den lokale listen
             activeSupplier.attachment = activeSupplier.attachment.filter(attachment => attachment.airtable !== attachment.airtable);
             //finne denne attachment i listen og slette
-            attachments = attachments.filter(attachment => attachment.airtable !== attachment.airtable);
+            gAttachments = gAttachments.filter(attachment => attachment.airtable !== attachment.airtable);
           
             //oppdater listen
-            loadAttachmentList(attachments);
+            loadAttachmentList(gAttachments);
         });
 
         attachmentList.appendChild(attachmentElement);
@@ -607,8 +607,8 @@ function responseAttachmentUpload(data){
     // Legg til PDF i listen
     let attachment = data.fields.json;
     attachment = JSON.parse(attachment);
-    attachments.push(attachment);
-    loadAttachmentList(attachments);
+    gAttachments.push(attachment);
+    loadAttachmentList(gAttachments);
 
 }
 
