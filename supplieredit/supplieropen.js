@@ -598,7 +598,9 @@ document.getElementById("uploadAttcButton").addEventListener("click", function(e
 function responseAttachmentUpload(data){
     console.log(data);
     // Legg til PDF i listen
-    attachments.push(data.fields);
+    let attachment = data.fields.json;
+    attachment = JSON.parse(attachment);
+    attachments.push(attachment);
     loadAttachmentList(attachments);
 
 }
