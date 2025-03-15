@@ -579,7 +579,7 @@ document.getElementById("uploadAttcButton").addEventListener("click", function(e
     event.preventDefault(); // Hindrer standard knapp-oppførsel
 
     // Åpner Uploadcare-filvelgeren for kun PDF-filer
-    const widget = uploadcare.Widget("#uploadcareDocWidget");
+    const widget = uploadcare.Widget("#attachmentwignet");
     widget.openDialog().done(function(file) {
         file.done(function(info) {
             uploadedDocURL = info.cdnUrl; // Lagre PDF-URL
