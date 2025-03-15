@@ -396,6 +396,5 @@ function ruteresponse(data,id){
     }else if(id == "responseAttachmentUpload"){
         responseAttachmentUpload(data);
     }
-    
-    
+
 }

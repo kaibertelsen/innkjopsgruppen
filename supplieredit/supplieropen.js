@@ -588,7 +588,7 @@ document.getElementById("uploadAttcButton").addEventListener("click", function(e
             let body = {name: info.name, url: uploadedDocURL, user: [userid], supplier: [activeSupplier.airtable]};
             
             // Laster opp PDF til databasen
-            POSTairtable("app1WzN1IxEnVu3m0","tbl1S960yWTmWT6M1",JSON.stringify(body),"responseAttachmentUpload");
+            POSTNewRowairtable("app1WzN1IxEnVu3m0","tbl1S960yWTmWT6M1",JSON.stringify(body),"responseAttachmentUpload");
         
         });
     });
