@@ -584,9 +584,11 @@ document.getElementById("uploadAttcButton").addEventListener("click", function(e
         file.done(function(info) {
             uploadedDocURL = info.cdnUrl; // Lagre PDF-URL
             console.log("Opplastet PDF URL:", uploadedDocURL);
+
+            let body = {name: info.name, url: uploadedDocURL, user: [userid], supplier: [activeSupplier.airtable]};
             
             // Laster opp PDF til databasen
-            POSTairtable("app1WzN1IxEnVu3m0","tbl1S960yWTmWT6M1",JSON.stringify({name: info.name, url: uploadedDocURL, user: [userid]}),"responseAttachmentUpload");
+            POSTairtable("app1WzN1IxEnVu3m0","tbl1S960yWTmWT6M1",JSON.stringify(body),"responseAttachmentUpload");
         
         });
     });
