@@ -567,7 +567,6 @@ function loadAttachmentList(attachments) {
             deleteattatchmentbutton.parentElement.parentElement.remove();
         });
 
-        attachmentElement.textContent = attachment.name;
         attachmentList.appendChild(attachmentElement);
     }); 
 
