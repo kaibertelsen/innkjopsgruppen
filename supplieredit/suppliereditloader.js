@@ -12,6 +12,7 @@ function loadScript(url) {
 const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/supplieredit/startupSupplier.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/supplieredit/supplieropen.js",
     "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/export/export.js"
 ];
