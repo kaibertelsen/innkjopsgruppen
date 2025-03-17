@@ -72,15 +72,7 @@ document.getElementById("searchinput").addEventListener("input", function () {
     startupSupplierList(gsuppliers);
 });
 
-document.getElementById("openNewsupplierwrapper").addEventListener("click", function () {
-    const wrapper = document.getElementById("Newsupplierwrapper");
 
-    if (wrapper.style.display === "none" || wrapper.style.display === "") {
-        wrapper.style.display = "block";
-    } else {
-        wrapper.style.display = "none";
-    }
-});
 
 document.getElementById("makeNewSupplier").addEventListener("click", function (event) {
     event.preventDefault(); // Forhindrer standard lenkehandling
