@@ -26,7 +26,7 @@ function customerResponse(data){
     //sjekke om data.feilds.superAdmin array inneholder min brukerid
     if(data.fields.superAdmin){
         if(data.fields.superAdmin.includes(userid)){
-            document.getElementById("openNewsupplierwrapper").style.display = "block";
+            
         }else{  
             return;
         }
