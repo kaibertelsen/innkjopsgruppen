@@ -27,7 +27,7 @@ cdnScripts.reduce((promise, script) => {
         if (member.loggedIn){
             isLoggedin = true;
             userid = member.airtableid;
-            getSuppier();
+            getCustomer();
         }
     });
 

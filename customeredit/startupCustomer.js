@@ -11,14 +11,14 @@ let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
 var GlobalConnections = [];
 var gAttachments = [];
 
-function getSuppier(){     
+function getCustomer(){     
 //hente kunder
 GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec1QGUGBMVaqxhp1","customerResponse","skipCache");
 }
 
 function customerResponse(data){
 
-    if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
+    if (!data || !data.fields || !data.fields.membersjson || !Array.isArray(data.fields.membersjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.supplierjson' som en array.");
         return; // Avbryt hvis data ikke er gyldig
     }

@@ -354,7 +354,6 @@ function loadLiquidityInvoiceOverview(data) {
 
 }
 
-
 document.getElementById("exportOverviewList").addEventListener("click", () => {
    
     // Mapping
