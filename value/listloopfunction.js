@@ -27,12 +27,8 @@ function listElements(data,list,type){
         //felles
         const c1 = clonerow.getElementsByClassName("c1")[0];
 
-        if(data[i]?.suppliertext){
-            c1.innerHTML = data[i].suppliertext;
-           }else{
-            c1.innerHTML = data[i].suppliername;
+        c1.innerHTML = data[i]?.suppliertext || data[i]?.suppliername || "-";
         
-        }
         if(type == 1){
             const c2 = clonerow.getElementsByClassName("c2")[0];
             const c3 = clonerow.getElementsByClassName("c3")[0];
