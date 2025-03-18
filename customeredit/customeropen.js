@@ -1,3 +1,6 @@
+document.getElementById("backtolistbutton").addEventListener("click", function () {
+    document.getElementById("supplierListTagbutton").click();
+});
 
 function openCustomer(customer){
 
@@ -66,19 +69,6 @@ function openCustomer(customer){
 }
 
 
-
-
-
-
-
-
-
-
-
-document.getElementById("backtolistbutton").addEventListener("click", function () {
-    document.getElementById("supplierListTagbutton").click();
-});
-
 document.getElementById("publicSwitsh").addEventListener("click", function () {
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     // sjekke om den er checked
@@ -124,10 +114,24 @@ document.getElementById("uploadLogoButton").addEventListener("click", function(e
         file.done(function(info) {
             const optimizedImageURL = info.cdnUrl + "-/format/auto/-/quality/smart/";
             console.log("Optimalisert bilde URL:", optimizedImageURL);
-            document.getElementById("logoImageSupplier").src = optimizedImageURL;
+            document.getElementById("logoImageCustomer").src = optimizedImageURL;
             document.getElementById("saveLogoButton").classList.add("active");
         });
     });
+});
+
+document.getElementById("saveLogoButton").addEventListener("click", function() {
+    const imageElement = document.getElementById("logoImageCustomer");
+    const imageURL = imageElement.src;  // Hent URL-en til bildet    
+    
+    // Lagre logo i databasen
+    saveSupplierInfo(activeCustomer.airtable, {logourl: imageURL});   
+
+    // Lagre logo lokalt
+    activeCustomer.logo = imageURL;
+    
+    // Deaktiver lagreknappen
+    this.classList.remove("active");
 });
 
 document.getElementById("supplierNameInput").addEventListener("blur", function() {
@@ -159,25 +163,13 @@ document.getElementById("supplierNameOrgnr").addEventListener("blur", function()
 
 
 
-document.getElementById("saveLogoButton").addEventListener("click", function() {
-    const imageElement = document.getElementById("logoImageSupplier");
-    const imageURL = imageElement.src;  // Hent URL-en til bildet    
-    
-    // Lagre logo i databasen
-    saveSupplierInfo(activeSupplier.airtable, {logo: imageURL});   
-
-    // Lagre logo lokalt
-    activeSupplier.logo = imageURL;
-    
-    // Deaktiver lagreknappen
-    this.classList.remove("active");
-}); 
+ 
 
 
 
-function saveSupplierInfo(supplierId, body) {
+function saveSupplierInfo(itemId, body) {
 
-    patchAirtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",supplierId,JSON.stringify(body),"responseSupplierDataUpdate");
+    patchAirtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",itemId,JSON.stringify(body),"responseSupplierDataUpdate");
 
 }
 
