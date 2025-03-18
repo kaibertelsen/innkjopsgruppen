@@ -109,13 +109,13 @@ document.getElementById("searchinput").addEventListener("input", function () {
 
 //
 function startupCustomerList(customers){
-   // Filtrer leverandørene
+   // Filtrer
    customers = filterList(customers);
 
-   // Sorter leverandørene alfabetisk
-   customers = sortSuppliers(customers);
+   // Sorter alfabetisk
+   customers = sortList(customers);
 
-   // List kundene i listen
+   // List
    listDatainList(customers)
 
 }
