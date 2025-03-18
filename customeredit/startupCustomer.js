@@ -37,7 +37,7 @@ function customerResponse(data){
     const jsonStrings = data.fields.membersjson;
     
     let customers = convertCustomerJsonStringsToObjects(jsonStrings);
-    gcustomers = customers;
+    gCustomers = customers;
     startupCustomerList(customers);
 
     const groups = data.fields.groupjson;
