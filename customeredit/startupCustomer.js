@@ -89,15 +89,15 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
 
 function loadeGroupSelector(groups){
     //last inn kategorier i select supplierFilterGroup
-    const supplierFilterGroup = document.getElementById("supplierFilterGroup");
-    supplierFilterGroup.innerHTML = "";
+    const listFilterGroupSelector = document.getElementById("listFilterGroupSelector");
+    listFilterGroupSelector.innerHTML = "";
 
     //sortere gruppene alfabetisk
     groups.sort((a, b) => a.Name.localeCompare(b.Name, 'no', { sensitivity: 'base' }));
 
-    supplierFilterGroup.options.add(new Option("Alle grupper", ""));
+    listFilterGroupSelector.options.add(new Option("Alle grupper", ""));
     groups.forEach(group => {
-        supplierFilterGroup.options.add(new Option(group.Name, group.airtable));
+        listFilterGroupSelector.options.add(new Option(group.Name, group.airtable));
     });
 }
 
