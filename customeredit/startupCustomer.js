@@ -194,7 +194,7 @@ function listDatainList(data) {
 
     // Sett counter
     const counter = document.getElementById("counterlist");
-    counter.textContent = suppliers.length + " stk.";
+    counter.textContent = data.length + " stk.";
     counter.style.display = "block";
 
     data.forEach((item, index) => {
