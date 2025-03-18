@@ -14,7 +14,7 @@ function openCustomer(customer){
     publicSwitsh.checked = customer.inactive ? false : true;
 
     const publicSwitshtext = document.getElementById("publicSwitshtext");
-    publicSwitshtext.textContent = customer.inactive ? "Deaktivert" : "Active";
+    publicSwitshtext.textContent = customer.inactive ? "Deaktivert" : "Aktivert";
     
     const suppliernamepage = document.getElementById("supplierNameInput");
     suppliernamepage.value = customer.Name || "";
