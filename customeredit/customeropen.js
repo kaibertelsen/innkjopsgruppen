@@ -81,7 +81,7 @@ function listUsersOnCustomer(customer){
     const listContainer = document.getElementById("userListConteiner");
     listContainer.innerHTML = "";
 
-    const nodeElement = document.getElementById("elementlibrary").querySelector('.user');
+    const nodeElement = document.getElementById("elementlibrarywrapper").querySelector('.user');
     
     if (!nodeElement) {
         console.error("Template element not found");
