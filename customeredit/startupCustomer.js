@@ -152,11 +152,11 @@ document.getElementById("listFilterGroupSelector").addEventListener("change", fu
 function sortList(data) {
  
     // Sorter alfabetisk etter 'name'
-    filteredData.sort((a, b) => 
-        a.name.localeCompare(b.name, 'no', { sensitivity: 'base' })
+    data.sort((a, b) => 
+        a.Name.localeCompare(b.Name, 'no', { sensitivity: 'base' })
     );
 
-    return filteredData;
+    return data;
 }
 
 function listDatainList(data) {
