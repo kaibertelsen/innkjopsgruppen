@@ -96,7 +96,7 @@ function loadeGroupSelector(groups){
 document.getElementById("searchinput").addEventListener("input", function () {
 
     // Kjør startupSupplierList med de filtrerte leverandørene
-    startupCustomerList(gsuppliers);
+    startupCustomerList(gCustomers);
 });
 
 //
