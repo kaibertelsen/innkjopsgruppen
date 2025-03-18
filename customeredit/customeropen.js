@@ -73,15 +73,15 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     // sjekke om den er checked
     if(this.checked){
-        publicSwitshtext.textContent = "Publisert";
-        saveSupplierInfo(activeSupplier.airtable, {skjult: false});
+        publicSwitshtext.textContent = "Aktivert";
+        saveSupplierInfo(activeCustomer.airtable, {inactive: false});
         //save lokalt
-        activeSupplier.hidden = false;
+        activeCustomer.inactive = false;
     }else{
-        publicSwitshtext.textContent = "Ikke publisert";
-        saveSupplierInfo(activeSupplier.airtable, {skjult: true});
+        publicSwitshtext.textContent = "Deaktivert";
+        saveSupplierInfo(activeCustomer.airtable, {inactive: true});
         //save lokalt
-        activeSupplier.hidden = true;
+        activeCustomer.inactive = true;
     }
 });
 
