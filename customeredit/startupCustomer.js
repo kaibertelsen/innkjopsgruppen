@@ -79,7 +79,6 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
     });
 }
 
-
 function loadeGroupSelector(groups){
     //last inn kategorier i select supplierFilterGroup
     const listFilterGroupSelector = document.getElementById("listFilterGroupSelector");
@@ -151,9 +150,7 @@ document.getElementById("listFilterGroupSelector").addEventListener("change", fu
 });
 
 function sortList(data) {
-    // Filtrer ut ugyldige eller tomme verdier (valgfritt)
-    let filteredData = data.filter(item => item.name && item.name.trim() !== "");
-
+ 
     // Sorter alfabetisk etter 'name'
     filteredData.sort((a, b) => 
         a.name.localeCompare(b.name, 'no', { sensitivity: 'base' })
