@@ -33,6 +33,14 @@ function openCustomer(customer){
     customerGroupSelector.value = customer.group;
 
 
+    listUsersOnCustomer(customer);
+   
+
+
+
+
+
+
     /*
     const offerlable = document.getElementById("offerlable");
     offerlable.value = supplier.cuttext
@@ -68,6 +76,56 @@ function openCustomer(customer){
   
 }
 
+function listUsersOnCustomer(customer){
+
+    const listContainer = document.getElementById("userListConteiner");
+    listContainer.innerHTML = "";
+
+    const nodeElement = document.getElementById("elementlibrary").querySelector('.user');
+    
+    if (!nodeElement) {
+        console.error("Template element not found");
+        return;
+    }
+
+     //list alle brukere på dette selskapet
+     customer.bruker.forEach(user => {
+
+        const rowElement = nodeElement.cloneNode(true);
+        
+        const userName = rowElement.querySelector(".username");
+        userName.textContent = user.navn || "Ukjent navn";
+
+        const userRoll = rowElement.querySelector(".rolle");
+        userRoll.textContent = user.rolle || "Ukjent rolle";
+
+        const userEmail = rowElement.querySelector(".usermail");
+        userEmail.textContent = user.epost || "Ukjent e-post";
+
+        const removeuserbutton = rowElement.querySelector(".removeuserbutton");
+        removeuserbutton.addEventListener("click", function() {
+            removeUserFromCustomer(user, customer);
+        });
+
+
+    }
+    );
+}
+
+function removeUserFromCustomer(user, customer) {
+
+    //en alert for å bekrefte at brukeren skal fjernes
+    if (!confirm(`Er du sikker på at du vil fjerne ${user.navn} fra ${customer.Name}?`)) {
+        return;
+    }
+    // Fjern brukeren fra kundens brukerliste
+    const updatedUsers = customer.bruker.filter(existingUser => existingUser.epost !== user.epost);
+    customer.bruker = updatedUsers;
+
+    // Lagre endringene i databasen
+    saveSupplierInfo(customer.airtable, {bruker: updatedUsers});
+}
+
 
 document.getElementById("publicSwitsh").addEventListener("click", function () {
     const publicSwitshtext = document.getElementById("publicSwitshtext");
@@ -84,7 +142,6 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
         activeCustomer.inactive = true;
     }
 });
-
 
 document.getElementById("customerNameInput").addEventListener("blur", function() {
     // Lagre innholdet i databasen
@@ -112,7 +169,6 @@ document.getElementById("customerNameOrgnr").addEventListener("blur", function()
     // Lagre innholdet lokalt
     activeCustomer.orgnr = this.value;
 });
-
 
 document.getElementById("uploadLogoButton").addEventListener("click", function(event) {
     event.preventDefault(); 
