@@ -88,8 +88,8 @@ function listUsersOnCustomer(customer){
         return;
     }
 
-     //list alle brukere på dette selskapet
-     customer.bruker.forEach(user => {
+    //list alle brukere på dette selskapet
+    customer.bruker.forEach(user => {
 
         const rowElement = nodeElement.cloneNode(true);
         
@@ -107,6 +107,7 @@ function listUsersOnCustomer(customer){
             removeUserFromCustomer(user, customer);
         });
 
+        listContainer.appendChild(rowElement);
 
     }
     );
