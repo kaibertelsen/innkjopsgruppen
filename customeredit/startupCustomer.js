@@ -137,8 +137,7 @@ function filterList(data) {
 
     // Hent søketeksten og trim mellomrom
     const searchText = searchInput.value.trim().toLowerCase();
-    // Hent valgt filterkategori
-    const selectedFilter = FilterSelector.value;
+
     // Hent valgt gruppefilter
     const selectedGroup = FilterGroup.value;
 
