@@ -88,6 +88,9 @@ function listUsersOnCustomer(customer){
         return;
     }
 
+    //sorter etter rolle deretter alfabetisk på navn
+    customer.bruker.sort((a, b) => a.rolle.localeCompare(b.rolle) || a.navn.localeCompare(b.navn));
+
     //list alle brukere på dette selskapet
     customer.bruker.forEach(user => {
 
