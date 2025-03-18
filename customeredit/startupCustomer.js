@@ -122,6 +122,10 @@ function startupCustomerList(customers){
 
 }
 
+document.getElementById("listFilterGroupSelector").addEventListener("change", function() {
+    startupCustomerList(gCustomers);
+});
+
 function filterList(data) {
     // Hent input-feltet og filterelementene
     const searchInput = document.getElementById("searchinput");
@@ -148,16 +152,12 @@ function filterList(data) {
         
         // Sjekk om selectedGroup finnes i customer.group (som er en array av objekter)
         const matchesGroup = 
-            selectedGroup === "" || // Hvis ingen gruppe er valgt, vis alle
-            (Array.isArray(item.group) && item.group.some(groupObj => groupObj.airtable === selectedGroup));
+            selectedGroup === "" || selectedGroup === item.group;
 
         return matchesSearch && matchesGroup; // Må matche kriteriene
     });
 }
 
-document.getElementById("listFilterGroupSelector").addEventListener("change", function() {
-    startupCustomerList(gCustomers);
-});
 
 function sortList(data) {
  
