@@ -107,7 +107,7 @@ function listUsersOnCustomer(customer){
 
         const removeuserbutton = rowElement.querySelector(".removeuserbutton");
         removeuserbutton.addEventListener("click", function() {
-            removeUserFromCustomer(user, customer);
+            removeUserFromCustomer(user, customer,rowElement);
         });
 
         listContainer.appendChild(rowElement);
@@ -116,7 +116,7 @@ function listUsersOnCustomer(customer){
     );
 }
 
-function removeUserFromCustomer(user, customer) {
+function removeUserFromCustomer(user, customer,rowElement) {
 
     //en alert for å bekrefte at brukeren skal fjernes
     if (!confirm(`Er du sikker på at du vil fjerne ${user.navn} fra ${customer.Name}?`)) {
@@ -128,6 +128,9 @@ function removeUserFromCustomer(user, customer) {
 
     // Lagre endringene i databasen
     saveSupplierInfo(customer.airtable, {bruker: updatedUsers});
+
+    // Fjern raden fra brukerlisten
+    rowElement.remove();
 }
 
 
