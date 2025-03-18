@@ -1,42 +1,35 @@
 
-function openSupplier(supplier){
+function openCustomer(customer){
 
-    activeSupplier = supplier;
-
-    //Tømme connectionList
-    resetConnectionList();
-
-    //hente mer info om denne leverandøren
-    GETairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",supplier.airtable,"moreInfoSupplierResponse");
+    activeCustomer = customer;
 
    
-    console.log(supplier);
-    //åpne leverandørsiden
-    document.getElementById("supplierTagbutton").click();
+   
+    //åpne 
+    document.getElementById("itemTagbutton").click();
 
     const supplierPageConteiner = document.getElementById("supplierPageConteiner");
 
     const publicSwitsh = document.getElementById("publicSwitsh");
-    publicSwitsh.checked = supplier.hidden ? false : true;
+    publicSwitsh.checked = supplier.inactive ? false : true;
 
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     publicSwitshtext.textContent = supplier.hidden ? "Ikke publisert" : "Publisert";
     
     const suppliernamepage = document.getElementById("supplierNameInput");
-    suppliernamepage.value = supplier.name;
+    suppliernamepage.value = supplier.Name || "";
 
     const supplierNameOrgnr = document.getElementById("supplierNameOrgnr");
     supplierNameOrgnr.value = supplier.orgnr || "";
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
     supplierlogo.src = supplier.logo || "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67c84fa2f53230648774dd1b_dummy-image-landscape-1024x585.jpg";
-
+/*
     const offerlable = document.getElementById("offerlable");
     offerlable.value = supplier.cuttext
 
     var shorttextArea = tinymce.get("shorttextArea");
     loadContentIntoEditor(shorttextArea,supplier.kortinfo);
-
 
     const contentInfoelement = tinymce.get("contentInfoelement");
     loadContentIntoEditor(contentInfoelement,supplier.info);
@@ -61,6 +54,8 @@ function openSupplier(supplier){
     gOutputs.forEach(output => {
         deliveryMethodSelector.options.add(new Option(output.Name, output.airtable));
     });
+
+    */
   
 }
 

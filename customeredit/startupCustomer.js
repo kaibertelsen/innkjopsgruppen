@@ -1,5 +1,5 @@
 var gsuppliers = [];
-var activeSupplier = {};
+var activeCustomer = {};
 var malonetext;
 var userid;
 var maltotext;
@@ -201,7 +201,7 @@ function listDatainList(data) {
         const button = itemElement.querySelector('.openingbutton');
         if (button) {
             button.addEventListener("click", function () {
-                openSupplier(item);
+                openCustomer(item);
             });
         }
 
