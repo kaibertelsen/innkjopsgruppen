@@ -145,7 +145,7 @@ document.getElementById("saveLogoButton").addEventListener("click", function() {
 
 document.getElementById("customerGroupSelector").addEventListener("change", function() {    
   //lagre gruppe i databasen
-    saveSupplierInfo(activeCustomer.airtable, {group: [this.value]});
+    saveSupplierInfo(activeCustomer.airtable, {gruppe: [this.value]});
 
     // Lagre gruppe lokalt  
     activeCustomer.group = this.value;
