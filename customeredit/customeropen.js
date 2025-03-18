@@ -24,6 +24,12 @@ function openCustomer(customer){
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
     supplierlogo.src = customer.logo || "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67c84fa2f53230648774dd1b_dummy-image-landscape-1024x585.jpg";
+
+    const customerGroupSelector = document.getElementById("customerGroupSelector");
+    //finner hvilke gruppe selskapet tilhører og velg den i selector
+    customerGroupSelector.value = customer.group;
+
+
     /*
     const offerlable = document.getElementById("offerlable");
     offerlable.value = supplier.cuttext

@@ -82,14 +82,24 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
 function loadeGroupSelector(groups){
     //last inn kategorier i select supplierFilterGroup
     const listFilterGroupSelector = document.getElementById("listFilterGroupSelector");
-    listFilterGroupSelector.innerHTML = "";
-
     //sortere gruppene alfabetisk
     groups.sort((a, b) => a.Name.localeCompare(b.Name, 'no', { sensitivity: 'base' }));
+    loadSelector(listFilterGroupSelector, groups, "airtable", "Name", "Alle grupper");
 
-    listFilterGroupSelector.options.add(new Option("Alle grupper", ""));
-    groups.forEach(group => {
-        listFilterGroupSelector.options.add(new Option(group.Name, group.airtable));
+    const customerGroupSelector = document.getElementById("customerGroupSelector");
+    loadSelector(customerGroupSelector, groups, "airtable", "Name", "Velg gruppe");
+}
+
+function loadSelector(select, data, value, text, defaultText) {
+    // Tøm select
+    select.innerHTML = "";
+
+    // Legg til default-valg
+    select.options.add(new Option(defaultText, ""));
+
+    // Legg til valg
+    data.forEach(item => {
+        select.options.add(new Option(item[text], item[value]));
     });
 }
 
