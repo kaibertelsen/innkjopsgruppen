@@ -19,10 +19,10 @@ function openCustomer(customer){
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     publicSwitshtext.textContent = customer.inactive ? "Deaktivert" : "Aktivert";
     
-    const suppliernamepage = document.getElementById("supplierNameInput");
+    const suppliernamepage = document.getElementById("customerNameInput");
     suppliernamepage.value = customer.Name || "";
 
-    const supplierNameOrgnr = document.getElementById("supplierNameOrgnr");
+    const supplierNameOrgnr = document.getElementById("customerNameOrgnr");
     supplierNameOrgnr.value = customer.orgnr || "";
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
