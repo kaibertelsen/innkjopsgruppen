@@ -44,13 +44,6 @@ function customerResponse(data){
     gGroups = convertGroupJsonStringsToObjects(groups);
     loadeGroupSelector(gGroups);
 
-    
-    const categorys = data.fields.categoryjson;
-    gCategorys = convertGroupJsonStringsToObjects(categorys);
-/*
-    const outputs = data.fields.outputjson;
-    gOutputs = convertOutputJsonStringsToObjects(outputs);
-*/
 }
 
 function convertCustomerJsonStringsToObjects(jsonStrings) {
