@@ -10,7 +10,7 @@ var gOutputs = [];
 let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
 var GlobalConnections = [];
 var gAttachments = [];
-var gcustomers = [];
+var gCustomers = [];
 
 function getCustomer(){     
 //hente kunder
@@ -104,160 +104,93 @@ function loadeGroupSelector(groups){
 document.getElementById("searchinput").addEventListener("input", function () {
 
     // Kjør startupSupplierList med de filtrerte leverandørene
-    startupSupplierList(gsuppliers);
+    startupCustomerList(gsuppliers);
 });
 
-
-document.getElementById("makeNewSupplier").addEventListener("click", function (event) {
-    event.preventDefault(); // Forhindrer standard lenkehandling
-
-    const supplierName = document.getElementById("newSuppierName").value.trim();
-
-    if (supplierName === "") {
-        alert("Vennligst fyll inn leverandørnavn.");
-        return;
-    }
-
-    
-    //finne høyeste sortering i gsuppliers
-    let highestSortering = 0;
-    gsuppliers.forEach(supplier => {
-        if (supplier.sortering > highestSortering) {
-            highestSortering = supplier.sortering;
-        }
-    });
-
-    highestSortering++;
-    // Opprett et nytt leverandør-objekt
-    const newSupplier = {
-        name: supplierName,
-        skjult: true,
-        sortering: highestSortering,
-        klient: ["recwnwSGJ0GvRwKFU"],
-        creator: [userid]
-    }
-    
-    //sende til airtable
-    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",JSON.stringify(newSupplier),"responsNewSupplier");
-
-    // Tøm inputfeltet
-    document.getElementById("newSuppierName").value = "";
-    document.getElementById("Newsupplierwrapper").style.display = "none";
-
-});
-
-function responsNewSupplier(data){
-
-    if(data.fields){
-        //oppdaterer lokalt
-        let newSupplier = convertSuppliersJsonStringsToObjects([data.fields.json]);
-        gsuppliers.push(newSupplier[0]);
-        startupSupplierList(gsuppliers);
-    }
-
-}
-
-function startupCustomerList(suppliers){
+//
+function startupCustomerList(customers){
    // Filtrer leverandørene
-   suppliers = filterSuppliers(suppliers);
+   customers = filterList(customers);
 
    // Sorter leverandørene alfabetisk
-   suppliers = sortSuppliers(suppliers);
+   customers = sortSuppliers(customers);
 
-   // List leverandørene i listen
-   listSuppliersinList(suppliers)
+   // List kundene i listen
+   listDatainList(customers)
 
 }
 
-function filterSuppliers(suppliers) {
+function filterList(data) {
     // Hent input-feltet og filterelementene
     const searchInput = document.getElementById("searchinput");
-    const supplierFilterSelector = document.getElementById("supplierFilterSelector");
-    const supplierFilterGroup = document.getElementById("supplierFilterGroup");
+    const FilterGroup = document.getElementById("listFilterGroupSelector");
 
     if (!searchInput) {
         console.error("Fant ikke input-feltet med id 'searchinput'");
-        return suppliers;
+        return data;
     }
 
     if (!supplierFilterSelector) {
         console.error("Fant ikke select-feltet med id 'supplierFilterSelector'");
-        return suppliers;
+        return data;
     }
 
     if (!supplierFilterGroup) {
         console.error("Fant ikke select-feltet med id 'supplierFilterGroup'");
-        return suppliers;
+        return data;
     }
 
     // Hent søketeksten og trim mellomrom
     const searchText = searchInput.value.trim().toLowerCase();
     // Hent valgt filterkategori
-    const selectedFilter = supplierFilterSelector.value;
+    const selectedFilter = FilterSelector.value;
     // Hent valgt gruppefilter
-    const selectedGroup = supplierFilterGroup.value;
+    const selectedGroup = FilterGroup.value;
 
-    return suppliers.filter(supplier => {
-        const matchesSearch = supplier.name.toLowerCase().includes(searchText);
+    return data.filter(item => {
+        const matchesSearch = item.Name.toLowerCase().includes(searchText);
         
-        const matchesFilter =
-            selectedFilter === "" || // Hvis "Alle" er valgt, vis alt
-            (selectedFilter === "visible" && !supplier.hidden) || // Synlig leverandør
-            (selectedFilter === "hidden" && supplier.hidden); // Skjult leverandør
-
-        // Sjekk om selectedGroup finnes i supplier.group (som er en array av objekter)
+        // Sjekk om selectedGroup finnes i customer.group (som er en array av objekter)
         const matchesGroup = 
             selectedGroup === "" || // Hvis ingen gruppe er valgt, vis alle
-            (Array.isArray(supplier.group) && 
-             supplier.group.some(groupObj => groupObj.airtable === selectedGroup));
+            (Array.isArray(item.group) && item.group.some(groupObj => groupObj.airtable === selectedGroup));
 
-        return matchesSearch && matchesFilter && matchesGroup; // Må matche alle tre kriteriene
+        return matchesSearch && matchesGroup; // Må matche kriteriene
     });
 }
-
+//
 document.getElementById("supplierFilterGroup").addEventListener("change", function() {
-
     // Kjør startupSupplierList med de filtrerte leverandørene
-    startupSupplierList(gsuppliers);
+    startupCustomerList(gCustomers);
 });
 
 document.getElementById("supplierFilterSelector").addEventListener("change", function() {
-
     // Kjør startupSupplierList med de filtrerte leverandørene
-    startupSupplierList(gsuppliers);
+    startupCustomerList(gCustomers);
 });
 
-function sortSuppliers(suppliers) {
+function sortList(data) {
     // Filtrer ut ugyldige eller tomme verdier (valgfritt)
-    let filteredSuppliers = suppliers.filter(supplier => supplier.name && supplier.name.trim() !== "");
+    let filteredData = data.filter(item => item.name && item.name.trim() !== "");
 
-    filteredSuppliers.sort((a, b) => {
-        // Konverter 'sortering' til tall, eller sett en lav verdi for manglende verdier
-        const sortA = parseInt(a.sortering) || 0;
-        const sortB = parseInt(b.sortering) || 0;
+    // Sorter alfabetisk etter 'name'
+    filteredData.sort((a, b) => 
+        a.name.localeCompare(b.name, 'no', { sensitivity: 'base' })
+    );
 
-        // Først sorter i synkende rekkefølge etter 'sortering' (høyeste først)
-        if (sortA !== sortB) {
-            return sortB - sortA;
-        }
-
-        // Hvis sortering er lik, sorter alfabetisk etter navn
-        return a.name.localeCompare(b.name, 'no', { sensitivity: 'base' });
-    });
-
-    return filteredSuppliers;
+    return filteredData;
 }
 
-function listSuppliersinList(suppliers) {
+function listDatainList(data) {
     // Hent containeren for leverandører
-    const supplierContainer = document.getElementById("supplierlistconteiner");
-    if (!supplierContainer) {
+    const listContainer = document.getElementById("listconteiner");
+    if (!listContainer) {
         console.error("Ingen container funnet for visning av leverandører.");
         return;
     }
 
     // Tøm container
-    supplierContainer.innerHTML = '';
+    listContainer.innerHTML = '';
 
     const elementLibrary = document.getElementById("elementlibrarywrapper");
     if (!elementLibrary) {
@@ -276,38 +209,26 @@ function listSuppliersinList(suppliers) {
     counter.textContent = suppliers.length + " stk.";
     counter.style.display = "block";
 
-    suppliers.forEach((supplier, index) => {
-        const supplierElement = nodeElement.cloneNode(true);
-        supplierElement.setAttribute("draggable", "true"); // Gjør elementet dra-bart
-        supplierElement.dataset.index = index; // Lagre original indeks
-        supplierElement.dataset.sortering = supplier.sortering || 0; // Lagre sorteringsverdi
-        supplierElement.dataset.airtable = supplier.airtable; // Lagre Airtable-ID
+    data.forEach((item, index) => {
+        const itemElement = nodeElement.cloneNode(true);
+        itemElement.setAttribute("draggable", "true"); // Gjør elementet dra-bart
+        itemElement.dataset.index = index; // Lagre original indeks
+        itemElement.dataset.airtable = data.airtable; // Lagre Airtable-ID
 
         // Sett navn
-        const name = supplierElement.querySelector('.suppliername');
-        if (name) name.textContent = supplier.name || "Ukjent navn";
-
-        // Sett sorteringsnummer
-        const sortnr = supplierElement.querySelector('.sortnr');
-        if (sortnr) sortnr.textContent = index + 1; // Viser original indeks
-        
+        const name = itemElement.querySelector('.suppliername');
+        if (name) name.textContent = data.Name || "Ukjent navn";
 
         // Legg til klikk-event for åpning
-        const button = supplierElement.querySelector('.openingbutton');
+        const button = itemElement.querySelector('.openingbutton');
         if (button) {
             button.addEventListener("click", function () {
-                openSupplier(supplier);
+                openSupplier(item);
             });
         }
 
-        // 🎯 Dra-og-slipp event listeners
-        supplierElement.addEventListener("dragstart", handleDragStart);
-        supplierElement.addEventListener("dragover", handleDragOver);
-        supplierElement.addEventListener("drop", handleDrop);
-        supplierElement.addEventListener("dragend", handleDragEnd);
-
         // Legg til leverandøren i containeren
-        supplierContainer.appendChild(supplierElement);
+        listContainer.appendChild(itemElement);
     });
 }
 
