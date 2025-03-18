@@ -10,6 +10,7 @@ var gOutputs = [];
 let uploadedDocURL = ""; // Variabel for å lagre URL-en til PDF-en
 var GlobalConnections = [];
 var gAttachments = [];
+var gcustomers = [];
 
 function getCustomer(){     
 //hente kunder
@@ -33,11 +34,11 @@ function customerResponse(data){
     }
 
     // Konverter JSON-strenger til objekter
-    const jsonStrings = data.fields.supplierjson;
-    /*
-    suppliers = convertSuppliersJsonStringsToObjects(jsonStrings);
-    gsuppliers = suppliers;
-    startupSupplierList(suppliers);
+    const jsonStrings = data.fields.membersjson;
+    
+    let customers = convertCustomerJsonStringsToObjects(jsonStrings);
+    gcustomers = customers;
+    startupCustomerList(customers);
 
     const groups = data.fields.groupjson;
     gGroups = convertGroupJsonStringsToObjects(groups);
@@ -46,11 +47,45 @@ function customerResponse(data){
     
     const categorys = data.fields.categoryjson;
     gCategorys = convertGroupJsonStringsToObjects(categorys);
-
+/*
     const outputs = data.fields.outputjson;
     gOutputs = convertOutputJsonStringsToObjects(outputs);
 */
 }
+
+function convertCustomerJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
+
+
+            // Sørg for at "group" og "category" alltid er arrays
+            if (!data.cashflowjson) {
+                data.cashflowjson = [];
+            }
+
+            if (!data.bruker) {
+                data.bruker = [];
+            }
+
+            if (!data.invitasjon) {
+                data.invitasjon = [];
+            }
+
+            if (!data.connection) {
+                data.connection = [];
+            }
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
+}
+
 
 function loadeGroupSelector(groups){
     //last inn kategorier i select supplierFilterGroup
@@ -71,7 +106,6 @@ document.getElementById("searchinput").addEventListener("input", function () {
     // Kjør startupSupplierList med de filtrerte leverandørene
     startupSupplierList(gsuppliers);
 });
-
 
 
 document.getElementById("makeNewSupplier").addEventListener("click", function (event) {
@@ -123,7 +157,7 @@ function responsNewSupplier(data){
 
 }
 
-function startupSupplierList(suppliers){
+function startupCustomerList(suppliers){
    // Filtrer leverandørene
    suppliers = filterSuppliers(suppliers);
 
