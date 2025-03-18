@@ -11,20 +11,20 @@ function openCustomer(customer){
     const supplierPageConteiner = document.getElementById("supplierPageConteiner");
 
     const publicSwitsh = document.getElementById("publicSwitsh");
-    publicSwitsh.checked = supplier.inactive ? false : true;
+    publicSwitsh.checked = customer.inactive ? false : true;
 
     const publicSwitshtext = document.getElementById("publicSwitshtext");
-    publicSwitshtext.textContent = supplier.hidden ? "Ikke publisert" : "Publisert";
+    publicSwitshtext.textContent = customer.inactive ? "Deaktivert" : "Active";
     
     const suppliernamepage = document.getElementById("supplierNameInput");
-    suppliernamepage.value = supplier.Name || "";
+    suppliernamepage.value = customer.Name || "";
 
     const supplierNameOrgnr = document.getElementById("supplierNameOrgnr");
-    supplierNameOrgnr.value = supplier.orgnr || "";
+    supplierNameOrgnr.value = customer.orgnr || "";
 
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
-    supplierlogo.src = supplier.logo || "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67c84fa2f53230648774dd1b_dummy-image-landscape-1024x585.jpg";
-/*
+    supplierlogo.src = customer.logo || "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67c84fa2f53230648774dd1b_dummy-image-landscape-1024x585.jpg";
+    /*
     const offerlable = document.getElementById("offerlable");
     offerlable.value = supplier.cuttext
 
