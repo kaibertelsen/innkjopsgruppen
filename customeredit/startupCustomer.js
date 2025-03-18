@@ -130,12 +130,7 @@ function filterList(data) {
         return data;
     }
 
-    if (!supplierFilterSelector) {
-        console.error("Fant ikke select-feltet med id 'supplierFilterSelector'");
-        return data;
-    }
-
-    if (!supplierFilterGroup) {
+    if (!FilterGroup) {
         console.error("Fant ikke select-feltet med id 'supplierFilterGroup'");
         return data;
     }
@@ -158,14 +153,8 @@ function filterList(data) {
         return matchesSearch && matchesGroup; // Må matche kriteriene
     });
 }
-//
-document.getElementById("supplierFilterGroup").addEventListener("change", function() {
-    // Kjør startupSupplierList med de filtrerte leverandørene
-    startupCustomerList(gCustomers);
-});
 
-document.getElementById("supplierFilterSelector").addEventListener("change", function() {
-    // Kjør startupSupplierList med de filtrerte leverandørene
+document.getElementById("listFilterGroupSelector").addEventListener("change", function() {
     startupCustomerList(gCustomers);
 });
 
