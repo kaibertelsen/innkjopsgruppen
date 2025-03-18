@@ -85,26 +85,34 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
     }
 });
 
-document.getElementById("deleteSupplierButton").addEventListener("click", function () {
 
-    if (confirm("Er du sikker på at du vil slette denne leverandøren?")) {
-        // Slett leverandøren fra databasen
-        DELETEairtable("app1WzN1IxEnVu3m0","tblrHVyx6SDNljNvQ",activeSupplier.airtable,"responseDeleteSupplier")
-        // Slett leverandøren fra den lokale listen
-        gsuppliers = gsuppliers.filter(supplier => supplier.airtable !== activeSupplier.airtable);
+document.getElementById("customerNameInput").addEventListener("blur", function() {
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeCustomer.airtable, {Name: this.value});
 
-        //list leverandørene på nytt
-        startupSupplierList(gsuppliers);
-        // Gå tilbake til leverandørlisten
-        document.getElementById("supplierListTagbutton").click();
+    // Lagre innholdet lokalt
+    activeCustomer.Name = this.value;
 
+    startupCustomerList(gCustomers);
 
-    }
 });
 
-function responseDeleteSupplier(data){
-    console.log(data);
-}
+document.getElementById("customerNameOrgnr").addEventListener("blur", function() {
+    //kontroller at det kun er nummer
+    if (!/^\d+$/.test(this.value)) {
+        alert("Orgnr kan kun inneholde tall.");
+        this.value = activeSupplier.orgnr || "";
+        return;
+    }
+
+
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeCustomer.airtable, {orgnr: this.value});
+
+    // Lagre innholdet lokalt
+    activeCustomer.orgnr = this.value;
+});
+
 
 document.getElementById("uploadLogoButton").addEventListener("click", function(event) {
     event.preventDefault(); 
@@ -134,32 +142,9 @@ document.getElementById("saveLogoButton").addEventListener("click", function() {
     this.classList.remove("active");
 });
 
-document.getElementById("supplierNameInput").addEventListener("blur", function() {
-    // Lagre innholdet i databasen
-    saveSupplierInfo(activeSupplier.airtable, {name: this.value});
-
-    // Lagre innholdet lokalt
-    activeSupplier.name = this.value;
-
-    startupSupplierList(gsuppliers);
-
-});
-
-document.getElementById("supplierNameOrgnr").addEventListener("blur", function() {
-    //kontroller at det kun er nummer
-    if (!/^\d+$/.test(this.value)) {
-        alert("Orgnr kan kun inneholde tall.");
-        this.value = activeSupplier.orgnr || "";
-        return;
-    }
 
 
-    // Lagre innholdet i databasen
-    saveSupplierInfo(activeSupplier.airtable, {orgnr: this.value}); 
 
-    // Lagre innholdet lokalt
-    activeSupplier.orgnr = this.value;
-});
 
 
 
