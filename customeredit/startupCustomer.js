@@ -176,7 +176,7 @@ function listDatainList(data) {
         return;
     }
 
-    const nodeElement = elementLibrary.querySelector(".supplier");
+    const nodeElement = elementLibrary.querySelector(".customer");
     if (!nodeElement) {
         console.error("Ingen '.supplier' funnet i 'elementlibrary'.");
         return;
@@ -194,8 +194,8 @@ function listDatainList(data) {
         itemElement.dataset.airtable = data.airtable; // Lagre Airtable-ID
 
         // Sett navn
-        const name = itemElement.querySelector('.suppliername');
-        if (name) name.textContent = data.Name || "Ukjent navn";
+        const name = itemElement.querySelector('.customername');
+        if (name) name.textContent = item.Name || "Ukjent navn";
 
         // Legg til klikk-event for åpning
         const button = itemElement.querySelector('.openingbutton');
@@ -221,89 +221,6 @@ function reCalcIndexSupplierlist(){
     );  
 }
 
-// 🔹 Funksjon for når et element starter å dras
-function handleDragStart(event) {
-    event.dataTransfer.setData("text/plain", event.target.dataset.index);
-    event.target.classList.add("dragging");
-}
-
-// 🔹 Funksjon for når et element dras over et annet element
-function handleDragOver(event) {
-    event.preventDefault(); // Hindrer standard oppførsel
-    const draggingElement = document.querySelector(".dragging");
-    const dropTarget = event.target.closest(".supplier");
-    
-    if (dropTarget && draggingElement !== dropTarget) {
-        const supplierContainer = document.getElementById("supplierlistconteiner");
-        const children = [...supplierContainer.children];
-        const draggingIndex = children.indexOf(draggingElement);
-        const targetIndex = children.indexOf(dropTarget);
-        
-        if (draggingIndex > targetIndex) {
-            supplierContainer.insertBefore(draggingElement, dropTarget);
-        } else {
-            supplierContainer.insertBefore(draggingElement, dropTarget.nextSibling);
-        }
-    }
-}
-
-// Funksjon som håndterer når et element slippes
-function handleDrop(event) {
-    event.preventDefault();
-    
-    const draggingElement = document.querySelector(".dragging");
-    if (!draggingElement) return;
-    
-    draggingElement.classList.remove("dragging");
-
-    const supplierContainer = document.getElementById("supplierlistconteiner");
-    const suppliersList = [...supplierContainer.children];
-
-    // Hent elementet over og under
-    const previousElement = draggingElement.previousElementSibling;
-    const nextElement = draggingElement.nextElementSibling;
-
-    let newSortering;
-
-    // Hent sorteringsverdier fra over og under
-    const previousSortering = previousElement ? parseFloat(previousElement.dataset.sortering) : null;
-    const nextSortering = nextElement ? parseFloat(nextElement.dataset.sortering) : null;
-
-    // Beregn ny sorteringsverdi
-    if (previousSortering !== null && nextSortering !== null) {
-        newSortering = (previousSortering + nextSortering) / 2;
-    } else if (previousSortering !== null) {
-        newSortering = previousSortering + 1; // Hvis det er første element, legg til 1
-    } else if (nextSortering !== null && nextElement == null) {
-        newSortering = nextSortering - 1; // Hvis det er siste element, trekk fra 1
-    } else if (previousSortering == null) {
-        newSortering = nextSortering + 1; // Hvis det er det første elementet i listen
-    } else {
-        newSortering = 1000; // Standardverdi hvis ingen andre verdier finnes
-    }
-
-    // Oppdater dataset og synlig sorteringsnummer
-    draggingElement.dataset.sortering = newSortering;
-    const sortnr = draggingElement.querySelector('.sortnr');
-    if (sortnr) sortnr.textContent = newSortering.toFixed(1); // Viser ny sortering
-
-    console.log(`Ny sortering: ${newSortering}`);
-
-    //oppdatere lokalt o gsuppliers array finne den på bakgrun av dataset.airtable
-    gsuppliers.find(supplier => supplier.airtable === draggingElement.dataset.airtable).sortering = newSortering;
-
-    // Lager på serveren
-    saveSupplierInfo(draggingElement.dataset.airtable, {sortering: newSortering});
-
-    // Rekalkuler indeksene
-    reCalcIndexSupplierlist();
-
-}
-
-// 🔹 Funksjon for når dra-operasjonen er ferdig
-function handleDragEnd(event) {
-    event.target.classList.remove("dragging");
-}
 
 function ruteresponse(data,id){
 
