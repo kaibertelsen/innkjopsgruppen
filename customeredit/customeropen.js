@@ -126,8 +126,11 @@ function removeUserFromCustomer(user, customer,rowElement) {
     const updatedUsers = customer.bruker.filter(existingUser => existingUser.epost !== user.epost);
     customer.bruker = updatedUsers;
 
+    //skal kun ha airtable til brukerne i updatedUsers
+    const updatedUsersAirtable = updatedUsers.map(user => user.airtable);
+
     // Lagre endringene i databasen
-    saveSupplierInfo(customer.airtable, {bruker: updatedUsers});
+    saveSupplierInfo(customer.airtable, {bruker: updatedUsersAirtable});
 
     // Fjern raden fra brukerlisten
     rowElement.remove();
