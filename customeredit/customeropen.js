@@ -445,7 +445,7 @@ function respondconnections(data){
       
     startConnectionList(cleanedList);
 
-    document.getElementById("addconnectionsButton").style.display = "block";
+    document.getElementById("addconnectionsButton").style.display = "inline-block";
 }
 
 function startConnectionList(data) {
