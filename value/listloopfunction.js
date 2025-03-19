@@ -28,7 +28,7 @@ function listElements(data,list,type){
         const c1 = clonerow.getElementsByClassName("c1")[0];
 
         c1.innerHTML = data[i]?.suppliertext || data[i]?.suppliername || "-";
-        
+
         if(type == 1){
             const c2 = clonerow.getElementsByClassName("c2")[0];
             const c3 = clonerow.getElementsByClassName("c3")[0];
@@ -151,6 +151,12 @@ function mergesuppiersCachflow(data){
     
         for (var i = 0;i<data.length;i++){
             //denne skal kun slå sammen handelstyper
+
+            //ikke ta med denne data om data[i].suppliername[0] ikke finnes
+            if(!data[i].suppliername[0]){
+                continue;
+            }
+            //finne suppliername
          
             var objects = findObjectsProperty("suppliername",data[i].suppliername[0],mergearray);
             let cut;

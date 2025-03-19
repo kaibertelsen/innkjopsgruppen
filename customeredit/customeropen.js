@@ -277,6 +277,8 @@ document.getElementById("addMoreUser").addEventListener("click", function() {
  
 });
 
+
+
 function userResponse(data){
     // Skjule loading spinner
     document.getElementById("userloadingscreen").style.display = "none";
@@ -419,7 +421,6 @@ function convertGroupJsonStringsToObjects(jsonStrings) {
     });
 }
 
-
 document.getElementById("getconnectionsButton").addEventListener("click", function() { 
     getconnections(activeCustomer.airtable);
     document.getElementById("connectingList").style.display = "block";
@@ -548,6 +549,40 @@ function resetConnectionList() {
     document.getElementById("connectingList").replaceChildren();
     document.getElementById("connectioncounter").textContent = "0 stk. tilkoblede selskaper.";
 }
+
+document.getElementById("addconnectionsButton").addEventListener("click", function() {  
+    //
+     // Hvise loading spinner
+     document.getElementById("connectionloadingscreen").style.display = "block";
+
+     // Hente Alle leverandører fra Airtable
+     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse","skipCache");
+
+});
+
+function supplierResponse(data){
+    // Skjule loading spinner
+    document.getElementById("userloadingscreen").style.display = "none";
+    document.getElementById("addMoreUser").style.display = "none";
+
+    // Sjekk om data.fields.membersjson eksisterer og er en array
+    if (!data || !data.fields || !data.fields.userjson || !Array.isArray(data.fields.userjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.userjson' som en array.");
+        return;
+    }
+
+    // Konverter JSON-strenger til objekter
+    const jsonStrings = data.fields.userjson;
+    const users = convertUserJsonStringsToObjects(jsonStrings);
+    gUsers = users;
+
+    const newUserConteiner = document.getElementById("newUserConteiner");
+    newUserConteiner.style.display = "block";
+
+}
+
+
+
 
 function formatNameList(nameList) {
     if (Array.isArray(nameList)) {

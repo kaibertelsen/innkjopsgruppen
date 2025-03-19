@@ -252,6 +252,8 @@ function ruteresponse(data,id){
         userResponse(data);
     }else if(id == "responseDeleteConnection"){
         responseDeleteConnection(data);
+    }else if(id == "supplierResponse"){
+        supplierResponse(data);
     }
 
 }
