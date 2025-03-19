@@ -55,9 +55,12 @@ function respondcustomerlist(data,id){
         companydatalines = cashflowjson;
         mainrootcompanylist(companydatalines);
 
-
-        let users = data.fields.brukerjson;
-        users = convertJsonStringsToObjects(users);
+        let users = [];
+        //sjekke om det finner brukere på data.fields.brukerjson
+        if(data.fields?.brukerjson){
+            users = data.fields.brukerjson;
+            users = convertJsonStringsToObjects(users);
+        }   
 
         employerOptunity(users);
         
