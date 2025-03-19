@@ -522,6 +522,23 @@ function startConnectionList(data) {
     });
 }
 
+function removeConnection(connection, rowElement) {
+    // Spør brukeren om de er sikre på at de vil fjerne tilkoblingen
+    if (!confirm(`Er du sikker på at du vil fjerne tilkoblingen til ${connection.suppliername[0]}?`)) {
+        return;
+    }
+
+    // Fjern tilkoblingen fra databasen
+    deleteAirtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",connection.airtable);
+
+    // Fjern raden fra listen
+    rowElement.remove();
+
+    // Oppdater telleren for antall tilkoblede selskaper
+    document.getElementById("connectioncounter").textContent = document.getElementById("connectingList").childElementCount + " stk. tilkoblede selskaper.";
+
+}
+
 function resetConnectionList() {
     document.getElementById("connectingList").replaceChildren();
     document.getElementById("connectioncounter").textContent = "0 stk. tilkoblede selskaper.";
