@@ -254,6 +254,11 @@ function ruteresponse(data,id){
         responseDeleteConnection(data);
     }else if(id == "supplierResponse"){
         supplierResponse(data);
+    }else if(id == "responseNewConnection"){
+        responseNewConnection(data);
     }
+
+
+    
 
 }
