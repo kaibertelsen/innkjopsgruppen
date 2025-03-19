@@ -684,7 +684,7 @@ function selectSupplier(supplier) {
     dropdownc.style.display = "none";
 
     //opprett en ny tilkobling i databasen
-    let body = airtablebodylistAND({firmaid:activeCustomer.airtable,leverandorid:supplier.airtable});
+    let body = airtablebodylistAND({company:[activeCustomer.airtable],supplier:[supplier.airtable]});
     POSTairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"responseNewConnection");
 
 }
