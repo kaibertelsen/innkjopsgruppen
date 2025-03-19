@@ -938,7 +938,7 @@ function convertOutputJsonStringsToObjects(jsonStrings) {
         }
     });
 }
-
+/*
 tinymce.init({
     selector: '#contentInfoelement, #shorttextArea,#mailbodyelement', // 🚀 Initialiserer begge TinyMCE-feltene
     branding: false, // Fjerner "Build with TinyMCE"
@@ -979,6 +979,42 @@ tinymce.init({
         });
     }
 });
+*/
+tinymce.init({
+    selector: '#contentInfoelement, #shorttextArea, #mailbodyelement',
+    branding: false,
+    plugins: [
+        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media',
+        'searchreplace', 'table', 'visualblocks', 'wordcount'
+    ], 
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | numlist bullist indent outdent | emoticons charmap | removeformat',
+    
+    init_instance_callback: function (editor) {
+        if (editor.id === "contentInfoelement") {
+            editor.getContainer().style.height = "550px";
+        } else if (editor.id === "shorttextArea") {
+            editor.getContainer().style.height = "250px";
+        } else if (editor.id === "mailbodyelement") {
+            editor.getContainer().style.height = "250px";
+        }
+        console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
+    },
+
+    setup: function (editor) {
+        editor.on('change', function () {
+            handleEditorChange(editor.id);
+        });
+
+        editor.on('input', function () {
+            handleEditorChange(editor.id);
+        });
+    }
+});
+
+
+
+
+
 
 function handleEditorChange(editorId) {
 
