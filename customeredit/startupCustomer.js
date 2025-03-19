@@ -248,6 +248,8 @@ function ruteresponse(data,id){
         responseDeleteSupplier(data);
     }else if(id == "responseAttachmentUpload"){
         responseAttachmentUpload(data);
+    }else if(id == "userResponse"){
+        userResponse(data);
     }
 
 }
