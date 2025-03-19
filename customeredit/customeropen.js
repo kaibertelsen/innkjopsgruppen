@@ -291,6 +291,10 @@ function userResponse(data){
     const jsonStrings = data.fields.userjson;
     const users = convertUserJsonStringsToObjects(jsonStrings);
     gUsers = users;
+
+    const newUserConteiner = document.getElementById("newUserConteiner");
+    newUserConteiner.style.display = "block";
+    
 }
 
 
