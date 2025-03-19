@@ -524,7 +524,8 @@ function startConnectionList(data) {
 
 function removeConnection(connection, rowElement) {
     // Spør brukeren om de er sikre på at de vil fjerne tilkoblingen
-    if (!confirm(`Er du sikker på at du vil fjerne tilkoblingen til ${connection.suppliername[0]}?`)) {
+    let suppliername = connection.suppliername?.[0] || "Ukjent leverandør";
+    if (!confirm(`Er du sikker på at du vil fjerne tilkoblingen til ${suppliername}?`)) {
         return;
     }
 
