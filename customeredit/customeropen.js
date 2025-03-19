@@ -10,7 +10,11 @@ function openCustomer(customer){
 
     activeCustomer = customer;
 
-   
+   //tømme userlist
+    document.getElementById("userListConteiner").innerHTML = "";
+
+    //tømme connectingList
+    document.getElementById("connectingList").innerHTML = "";
    
     //åpne 
     document.getElementById("itemTagbutton").click();
@@ -446,6 +450,7 @@ function respondconnections(data){
     startConnectionList(cleanedList);
 
     document.getElementById("addconnectionsButton").style.display = "inline-block";
+    document.getElementById("getconnectionsButton").style.display = "none";
 }
 
 function startConnectionList(data) {
@@ -686,7 +691,7 @@ function selectSupplier(supplier) {
     dropdownc.style.display = "none";
 
     //opprett en ny tilkobling i databasen
-    let body = {company:[activeCustomer.airtable],supplier:[supplier.airtable]};
+    let body = {company:[activeCustomer.airtable],supplier:[supplier.airtable],bruker:[userid]};
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",JSON.stringify(body),"responseNewConnection");
 
 }
