@@ -475,7 +475,7 @@ function startConnectionList(data) {
 
     // Bruk et sett for å lagre unike kombinasjoner av company[0] + supplier[0]
     const uniqueConnections = new Set();
-    const filteredData = [];
+    let filteredData = [];
     /*
     // Fjern duplikater
     data.forEach(connection => {
