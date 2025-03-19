@@ -680,7 +680,7 @@ inputFieldc.addEventListener("input", function () {
 });
 
 function selectSupplier(supplier) {
-    inputFieldc.value = supplier.navn;
+    inputFieldc.value = supplier.name;
     dropdownc.style.display = "none";
 
     //opprett en ny tilkobling i databasen
