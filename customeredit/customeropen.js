@@ -530,14 +530,17 @@ function removeConnection(connection, rowElement) {
     }
 
     // Fjern tilkoblingen fra databasen
-    deleteAirtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",connection.airtable);
-
+    DELETEairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",connection.airtable,"responseDeleteConnection");
     // Fjern raden fra listen
     rowElement.remove();
 
     // Oppdater telleren for antall tilkoblede selskaper
     document.getElementById("connectioncounter").textContent = document.getElementById("connectingList").childElementCount + " stk. tilkoblede selskaper.";
 
+}
+
+function responseDeleteConnection(data){
+    console.log(data);
 }
 
 function resetConnectionList() {
