@@ -15,7 +15,12 @@ function openCustomer(customer){
 
     //tømme connectingList
     document.getElementById("connectingList").innerHTML = "";
-   
+
+    document.getElementById("addconnectionsButton").style.display = "inline-block";
+
+    document.getElementById("newConnectionConteiner").style.display = "none";
+
+
     //åpne 
     document.getElementById("itemTagbutton").click();
 
@@ -710,14 +715,6 @@ document.addEventListener("click", function (event) {
         dropdownc.style.display = "none";
     }
 });
-
-
-
-
-
-
-
-
 
 
 
