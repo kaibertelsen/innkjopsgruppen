@@ -152,10 +152,10 @@ function mergesuppiersCachflow(data){
         for (var i = 0;i<data.length;i++){
             //denne skal kun slå sammen handelstyper
 
-            //ikke ta med denne data om data[i].suppliername[0] ikke finnes
-            if(!data[i].suppliername[0]){
+            if (!data[i]?.suppliername?.[0]) {
                 continue;
             }
+            
             //finne suppliername
          
             var objects = findObjectsProperty("suppliername",data[i].suppliername[0],mergearray);
