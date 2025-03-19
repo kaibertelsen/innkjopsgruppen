@@ -508,7 +508,7 @@ function startConnectionList(data) {
         // Populer raden med data
         rowElement.querySelector(".date").textContent = formatDate(connection.lastmodified) || "Ingen dato";
         rowElement.querySelector(".supplier").textContent = connection.suppliername?.[0] || "";
-        rowElement.querySelector(".person").textContent = connection.companybrukernavn?.[0] || "";
+        rowElement.querySelector(".person").textContent = connection.brukernavn?.[0] || "";
 
         const removeButton = rowElement.querySelector(".removebutton");
         removeButton.addEventListener("click", function() {
