@@ -492,12 +492,10 @@ function startConnectionList(data) {
     // Oppdater telleren for antall unike tilkoblinger
     document.getElementById("connectioncounter").textContent = filteredData.length + " stk. tilkoblede selskaper.";
 
-    // Sorter data etter suppliername
-    filteredData.sort((a, b) => 
-        (a.suppliername[0] || "").localeCompare(b.suppliername[0] || "", 'no', { sensitivity: 'base' })
+    const sortedData = data.sort((a, b) => 
+        (a.suppliername?.[0] || "").localeCompare(b.suppliername?.[0] || "", 'no', { sensitivity: 'base' })
     );
     
-   
 
     GlobalConnections = filteredData;
     // Populer listen med unike data
