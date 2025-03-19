@@ -1,4 +1,5 @@
 var gUsers = [];
+var gSuppliers = [];
 
 document.getElementById("backtolistbutton").addEventListener("click", function () {
     document.getElementById("supplierListTagbutton").click();
@@ -566,17 +567,18 @@ function supplierResponse(data){
     document.getElementById("addMoreUser").style.display = "none";
 
     // Sjekk om data.fields.membersjson eksisterer og er en array
-    if (!data || !data.fields || !data.fields.userjson || !Array.isArray(data.fields.userjson)) {
+    if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.userjson' som en array.");
         return;
     }
 
     // Konverter JSON-strenger til objekter
-    const jsonStrings = data.fields.userjson;
-    const users = convertUserJsonStringsToObjects(jsonStrings);
-    gUsers = users;
+    const jsonStrings = data.fields.supplierjson;
+    const suppliers = convertSupplierJsonStringsToObjects(jsonStrings);
+    gSuppliers = suppliers;
+  
 
-    const newUserConteiner = document.getElementById("newUserConteiner");
+    const newUserConteiner = document.getElementById("newConnectionConteiner");
     newUserConteiner.style.display = "block";
 
 }
