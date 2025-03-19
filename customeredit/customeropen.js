@@ -372,6 +372,9 @@ function selectUser(user) {
     // Lagre endringene i databasen
     const updatedUsersAirtable = activeCustomer.bruker.map(user => user.airtable);
     saveSupplierInfo(activeCustomer.airtable, {bruker: updatedUsersAirtable});
+
+    // Oppdater brukerlisten
+    listUsersOnCustomer(activeCustomer);
 }
 
 // Skjul dropdown hvis man klikker utenfor
