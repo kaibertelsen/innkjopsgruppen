@@ -294,9 +294,22 @@ function userResponse(data){
 
     const newUserConteiner = document.getElementById("newUserConteiner");
     newUserConteiner.style.display = "block";
-    
+
 }
 
+function convertUserJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
+}
 
 document.getElementById("customerGroupSelector").addEventListener("change", function() {    
   //lagre gruppe i databasen
