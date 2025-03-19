@@ -492,8 +492,9 @@ function startConnectionList(data) {
     // Oppdater telleren for antall unike tilkoblinger
     document.getElementById("connectioncounter").textContent = filteredData.length + " stk. tilkoblede selskaper.";
 
-    // Sorter data etter `lastmodified` (nyeste først)
-    filteredData.sort((a, b) => new Date(b.lastmodified) - new Date(a.lastmodified));
+    // Sorter data etter suppliername
+    filteredData.sort((a, b) => a.suppliername[0].localeCompare(b.suppliername[0], 'no', { sensitivity: 'base' }));
+   
 
     GlobalConnections = filteredData;
     // Populer listen med unike data
@@ -507,8 +508,13 @@ function startConnectionList(data) {
 
         // Populer raden med data
         rowElement.querySelector(".date").textContent = formatDate(connection.lastmodified) || "Ingen dato";
-        rowElement.querySelector(".company").textContent = connection.companyname?.[0] || "";
+        rowElement.querySelector(".supplier").textContent = connection.suppliername?.[0] || "";
         rowElement.querySelector(".person").textContent = connection.companybrukernavn?.[0] || "";
+
+        const removeButton = rowElement.querySelector(".removebutton");
+        removeButton.addEventListener("click", function() {
+            removeConnection(connection, rowElement);
+        });
 
         // Legg til rad i listen
         list.appendChild(rowElement);
