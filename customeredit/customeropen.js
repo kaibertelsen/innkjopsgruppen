@@ -655,7 +655,7 @@ inputFieldc.addEventListener("input", function () {
         supplier.name.toLowerCase().includes(query)
     );
 
-    if (filteredUsers.length === 0) {
+    if (filteredSupplier.length === 0) {
         dropdownc.style.display = "none";
         return;
     }
