@@ -25,6 +25,15 @@ function openCustomer(customer){
     const supplierNameOrgnr = document.getElementById("customerNameOrgnr");
     supplierNameOrgnr.value = customer.orgnr || "";
 
+    const customerAdress = document.getElementById("customerAdress");
+    customerAdress.value = customer.adresse || "";
+
+    const inputpostnumber = document.getElementById("inputpostnumber");
+    inputpostnumber.value = customer.postnr || "";
+
+    const inputpostplace = document.getElementById("inputpostplace");
+    inputpostplace.value = customer.poststed || "";
+
     const supplierlogo = supplierPageConteiner.querySelector(".supplierlogo");
     supplierlogo.src = customer.logo || "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/67c84fa2f53230648774dd1b_dummy-image-landscape-1024x585.jpg";
 
@@ -179,6 +188,56 @@ document.getElementById("customerNameOrgnr").addEventListener("blur", function()
     // Lagre innholdet lokalt
     activeCustomer.orgnr = this.value;
 });
+
+document.getElementById("customerAdress").addEventListener("blur", function() {
+    //kontroller at det er mer en 3 tegn
+    if (this.value.length < 3) {
+        alert("Adresse må inneholde minst 3 tegn.");
+        this.value = activeSupplier.adresse || "";
+        return;
+    }
+   
+
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeCustomer.airtable, {adresse: this.value});
+
+    // Lagre innholdet lokalt
+    activeCustomer.adresse = this.value;
+});
+
+document.getElementById("inputpostnumber").addEventListener("blur", function() {
+    //kontroller at det er 4 tegn og kun nummer
+    if (!/^\d{4}$/.test(this.value)) {
+        alert("Postnummer må være 4 siffer.");
+        this.value = activeSupplier.postnr || "";
+        return;
+    }
+   
+
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeCustomer.airtable, {postnr: this.value});
+
+    // Lagre innholdet lokalt
+    activeCustomer.postnr = this.value;
+});
+
+document.getElementById("inputpostplace").addEventListener("blur", function() {
+    //kontroller at det er mer en 3 tegn
+    if (this.value.length < 3) {
+        alert("Poststed må inneholde minst 3 tegn.");
+        this.value = activeSupplier.poststed || "";
+        return;
+    }   
+
+    // Lagre innholdet i databasen
+    saveSupplierInfo(activeCustomer.airtable, {poststed: this.value});
+
+    // Lagre innholdet lokalt
+    activeCustomer.poststed = this.value;
+});
+
+
+
 
 document.getElementById("uploadLogoButton").addEventListener("click", function(event) {
     event.preventDefault(); 
