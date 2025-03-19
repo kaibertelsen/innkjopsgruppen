@@ -563,8 +563,8 @@ document.getElementById("addconnectionsButton").addEventListener("click", functi
 
 function supplierResponse(data){
     // Skjule loading spinner
-    document.getElementById("userloadingscreen").style.display = "none";
-    document.getElementById("addMoreUser").style.display = "none";
+    document.getElementById("connectionloadingscreen").style.display = "none";
+    document.getElementById("addconnectionsButton").style.display = "none";
 
     // Sjekk om data.fields.membersjson eksisterer og er en array
     if (!data || !data.fields || !data.fields.supplierjson || !Array.isArray(data.fields.supplierjson)) {
