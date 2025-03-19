@@ -444,6 +444,8 @@ function respondconnections(data){
     gConnection = cleanedList;
       
     startConnectionList(cleanedList);
+
+    document.getElementById("addconnectionsButton").style.display = "block";
 }
 
 function startConnectionList(data) {
