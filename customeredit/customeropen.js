@@ -1,3 +1,5 @@
+var gUsers = [];
+
 document.getElementById("backtolistbutton").addEventListener("click", function () {
     document.getElementById("supplierListTagbutton").click();
 });
@@ -237,8 +239,6 @@ document.getElementById("inputpostplace").addEventListener("blur", function() {
 });
 
 
-
-
 document.getElementById("uploadLogoButton").addEventListener("click", function(event) {
     event.preventDefault(); 
 
@@ -267,6 +267,32 @@ document.getElementById("saveLogoButton").addEventListener("click", function() {
     this.classList.remove("active");
 });
 
+document.getElementById("addMoreUser").addEventListener("click", function() {
+    // Hvise loading spinner
+    document.getElementById("userloadingscreen").style.display = "block";
+
+    // Hente brukerdata fra Airtable
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec09B6SVzHVF3y0b","userResponse","skipCache");
+
+ 
+});
+
+function userResponse(data){
+    // Skjule loading spinner
+    document.getElementById("userloadingscreen").style.display = "none";
+
+    // Sjekk om data.fields.membersjson eksisterer og er en array
+    if (!data || !data.fields || !data.fields.userjson || !Array.isArray(data.fields.userjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.userjson' som en array.");
+        return;
+    }
+
+    // Konverter JSON-strenger til objekter
+    const jsonStrings = data.fields.userjson;
+    const users = convertUserJsonStringsToObjects(jsonStrings);
+    gUsers = users;
+}
+
 
 document.getElementById("customerGroupSelector").addEventListener("change", function() {    
   //lagre gruppe i databasen
@@ -276,11 +302,6 @@ document.getElementById("customerGroupSelector").addEventListener("change", func
     activeCustomer.group = this.value;
 });
 
-
-
-
-
- 
 
 
 
