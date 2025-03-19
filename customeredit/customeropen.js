@@ -699,8 +699,8 @@ function responseNewConnection(data){
 
 // Skjul dropdown hvis man klikker utenfor
 document.addEventListener("click", function (event) {
-    if (!inputField.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = "none";
+    if (!inputFieldc.contains(event.target) && !dropdownc.contains(event.target)) {
+        dropdownc.style.display = "none";
     }
 });
 
