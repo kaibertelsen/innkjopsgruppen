@@ -476,7 +476,7 @@ function startConnectionList(data) {
     // Bruk et sett for å lagre unike kombinasjoner av company[0] + supplier[0]
     const uniqueConnections = new Set();
     const filteredData = [];
-
+    /*
     // Fjern duplikater
     data.forEach(connection => {
         const companyId = connection.company?.[0] || "";
@@ -488,11 +488,11 @@ function startConnectionList(data) {
             filteredData.push(connection);
         }
     });
-
+    */
     // Oppdater telleren for antall unike tilkoblinger
     document.getElementById("connectioncounter").textContent = filteredData.length + " stk. tilkoblede selskaper.";
 
-    const sortedData = data.sort((a, b) => 
+    filteredData = data.sort((a, b) => 
         (a.suppliername?.[0] || "").localeCompare(b.suppliername?.[0] || "", 'no', { sensitivity: 'base' })
     );
     
