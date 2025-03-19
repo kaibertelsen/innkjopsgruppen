@@ -360,6 +360,12 @@ function selectUser(user) {
     inputField.value = user.navn;
     dropdown.style.display = "none";
 
+    //Sjekke om brukeren allerede er lagt til
+    const existingUser = activeCustomer.bruker.find(existingUser => existingUser.epost === user.epost);
+    if (existingUser) {
+        alert("Denne brukeren er allerede lagt til.");
+        return;
+    }
     // Legg til brukeren i kundens brukerliste
     activeCustomer.bruker.push(user);
 
