@@ -461,7 +461,7 @@ function startConnectionList(data) {
 
     list.replaceChildren(); // Rens listen før ny data legges til
 
-    const elementLibrary = document.getElementById("elementlibrary");
+    const elementLibrary = document.getElementById("elementlibrarywrapper");
     if (!elementLibrary) {
         console.error("Element library not found");
         return;
