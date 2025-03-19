@@ -313,8 +313,10 @@ function convertUserJsonStringsToObjects(jsonStrings) {
 }
 
    
+const inputField = document.getElementById("inputUserSearch");
 const dropdown = document.getElementById("dropdown");
-document.getElementById("inputUserSearch").addEventListener("input", function () {
+
+inputField.addEventListener("input", function () {
     const query = this.value.toLowerCase();
     dropdown.innerHTML = "";
 
