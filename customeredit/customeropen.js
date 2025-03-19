@@ -280,6 +280,7 @@ document.getElementById("addMoreUser").addEventListener("click", function() {
 function userResponse(data){
     // Skjule loading spinner
     document.getElementById("userloadingscreen").style.display = "none";
+    document.getElementById("addMoreUser").style.display = "none";
 
     // Sjekk om data.fields.membersjson eksisterer og er en array
     if (!data || !data.fields || !data.fields.userjson || !Array.isArray(data.fields.userjson)) {
@@ -310,6 +311,81 @@ function convertUserJsonStringsToObjects(jsonStrings) {
         }
     });
 }
+
+   
+const dropdown = document.getElementById("dropdown");
+document.getElementById("inputUserSearch").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    dropdown.innerHTML = "";
+
+    if (query.length === 0) {
+        dropdown.style.display = "none";
+        return;
+    }
+
+    // Filtrer brukere basert på 'navn' eller 'epost'
+    const filteredUsers = gUsers.filter(user => 
+        user.navn.toLowerCase().includes(query) || 
+        user.epost.toLowerCase().includes(query)
+    );
+
+    if (filteredUsers.length === 0) {
+        dropdown.style.display = "none";
+        return;
+    }
+
+    dropdown.style.display = "block";
+
+    // Generer dropdown-elementer
+    filteredUsers.forEach(user => {
+        const div = document.createElement("div");
+        div.classList.add("dropdown-item");
+
+        div.innerHTML = `
+            <span class="user-name">${user.navn}</span>
+            <span class="user-email">${user.epost}</span>
+        `;
+
+        div.addEventListener("click", function () {
+            selectUser(user);
+        });
+
+        dropdown.appendChild(div);
+    });
+});
+
+function selectUser(user) {
+    alert(`Valgt bruker: ${user.navn} (E-post: ${user.epost})`);
+    inputField.value = user.navn;
+    dropdown.style.display = "none";
+}
+
+// Skjul dropdown hvis man klikker utenfor
+document.addEventListener("click", function (event) {
+    if (!inputField.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 document.getElementById("customerGroupSelector").addEventListener("change", function() {    
   //lagre gruppe i databasen
