@@ -357,9 +357,15 @@ inputField.addEventListener("input", function () {
 });
 
 function selectUser(user) {
-    alert(`Valgt bruker: ${user.navn} (E-post: ${user.epost})`);
     inputField.value = user.navn;
     dropdown.style.display = "none";
+
+    // Legg til brukeren i kundens brukerliste
+    activeCustomer.bruker.push(user);
+
+    // Lagre endringene i databasen
+    const updatedUsersAirtable = activeCustomer.bruker.map(user => user.airtable);
+    saveSupplierInfo(activeCustomer.airtable, {bruker: updatedUsersAirtable});
 }
 
 // Skjul dropdown hvis man klikker utenfor
