@@ -638,8 +638,8 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 }
 
   
-const inputFieldc = document.getElementById("inputUserSearch");
-const dropdownc = document.getElementById("dropdown");
+const inputFieldc = document.getElementById("inputConnectionSearch");
+const dropdownc = document.getElementById("dropdownConnection");
 
 inputFieldc.addEventListener("input", function () {
     const query = this.value.toLowerCase();
