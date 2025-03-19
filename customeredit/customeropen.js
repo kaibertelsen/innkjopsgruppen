@@ -489,8 +489,6 @@ function startConnectionList(data) {
         }
     });
     */
-    // Oppdater telleren for antall unike tilkoblinger
-    document.getElementById("connectioncounter").textContent = filteredData.length + " stk. tilkoblede selskaper.";
 
     filteredData = data.sort((a, b) => 
         (a.suppliername?.[0] || "").localeCompare(b.suppliername?.[0] || "", 'no', { sensitivity: 'base' })
@@ -520,6 +518,9 @@ function startConnectionList(data) {
         // Legg til rad i listen
         list.appendChild(rowElement);
     });
+
+     // Oppdater telleren for antall tilkoblede selskaper
+     document.getElementById("connectioncounter").textContent = document.getElementById("connectingList").childElementCount + " stk. tilkoblede selskaper.";
 }
 
 function removeConnection(connection, rowElement) {
