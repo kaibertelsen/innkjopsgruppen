@@ -427,7 +427,7 @@ document.getElementById("getconnectionsButton").addEventListener("click", functi
 });
 
 function getconnections(customerid){
-   let body = airtablebodylistAND({customerid:customerid});
+   let body = airtablebodylistAND({firmaid:customerid});
     Getlistairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"respondconnections");
 }
 
