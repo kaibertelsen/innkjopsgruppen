@@ -385,25 +385,6 @@ document.addEventListener("click", function (event) {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 document.getElementById("customerGroupSelector").addEventListener("change", function() {    
   //lagre gruppe i databasen
     saveSupplierInfo(activeCustomer.airtable, {gruppe: [this.value]});
@@ -411,8 +392,6 @@ document.getElementById("customerGroupSelector").addEventListener("change", func
     // Lagre gruppe lokalt  
     activeCustomer.group = this.value;
 });
-
-
 
 
 function saveSupplierInfo(itemId, body) {
@@ -441,15 +420,14 @@ function convertGroupJsonStringsToObjects(jsonStrings) {
 }
 
 
-
 document.getElementById("getconnectionsButton").addEventListener("click", function() { 
-    getconnections(activeSupplier.airtable);
+    getconnections(activeCustomer.airtable);
     document.getElementById("connectingList").style.display = "block";
 
 });
 
-function getconnections(supplierid){
-   let body = airtablebodylistAND({supplierid:supplierid});
+function getconnections(customer){
+   let body = airtablebodylistAND({customerid:customerid});
     Getlistairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"respondconnections");
 }
 
