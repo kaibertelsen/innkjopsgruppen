@@ -687,7 +687,7 @@ function selectSupplier(supplier) {
 
     //opprett en ny tilkobling i databasen
     let body = {company:[activeCustomer.airtable],supplier:[supplier.airtable]};
-    POSTairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",JSON.stringify(body),"responseNewConnection");
+    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",JSON.stringify(body),"responseNewConnection");
 
 }
 
