@@ -1,5 +1,6 @@
 var gUsers = [];
 var gSuppliers = [];
+var gConnection = [];
 
 document.getElementById("backtolistbutton").addEventListener("click", function () {
     document.getElementById("supplierListTagbutton").click();
@@ -440,6 +441,7 @@ function respondconnections(data){
     const cleanedList = cleandata.filter(company => 
         company.company && company.company.length > 0
     );
+    gConnection = cleanedList;
       
     startConnectionList(cleanedList);
 }
@@ -634,6 +636,83 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
         }
     });
 }
+
+  
+const inputFieldc = document.getElementById("inputUserSearch");
+const dropdownc = document.getElementById("dropdown");
+
+inputFieldc.addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    dropdownc.innerHTML = "";
+
+    if (query.length === 0) {
+        dropdownc.style.display = "none";
+        return;
+    }
+
+    // Filtrer brukere basert på 'navn' eller 'epost'
+    const filteredSupplier = gSuppliers.filter(supplier => 
+        supplier.name.toLowerCase().includes(query)
+    );
+
+    if (filteredUsers.length === 0) {
+        dropdownc.style.display = "none";
+        return;
+    }
+
+    dropdownc.style.display = "block";
+
+    // Generer dropdown-elementer
+    filteredSupplier.forEach(supplier => {
+        const div = document.createElement("div");
+        div.classList.add("dropdown-item");
+
+        div.innerHTML = `
+            <span class="user-name">${supplier.name}</span>
+        `;
+
+        div.addEventListener("click", function () {
+            selectSupplier(supplier);
+        });
+
+        dropdownc.appendChild(div);
+    });
+});
+
+function selectSupplier(supplier) {
+    inputFieldc.value = supplier.navn;
+    dropdownc.style.display = "none";
+
+    //opprett en ny tilkobling i databasen
+    let body = airtablebodylistAND({firmaid:activeCustomer.airtable,leverandorid:supplier.airtable});
+    POSTairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"responseNewConnection");
+
+}
+
+function responseNewConnection(data){
+
+     //oppdater tilkoblingslisten
+    gConnection.push(data.fields);
+    startConnectionList(gConnection);   
+    console.log(data);
+}
+
+// Skjul dropdown hvis man klikker utenfor
+document.addEventListener("click", function (event) {
+    if (!inputField.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+
+
+
+
+
+
+
+
+
 
 
 function formatNameList(nameList) {
