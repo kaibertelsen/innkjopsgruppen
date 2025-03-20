@@ -28,7 +28,6 @@ function listCustomer(data) {
         );
     }
 
-
     // Filtrer basert på valgt kundegruppe
     let filteredData = data;
     const selectedFilter = selector.value;
@@ -218,6 +217,7 @@ function listCustomer(data) {
         const altnameCell = companyElement.querySelector(".altname");
         const invoiceintervall = companyElement.querySelector(".invoiceintervall");
         const insolvency = companyElement.querySelector(".insolvency");
+        const winbackDatecell = companyElement.querySelector(".winback");
 
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
         // Sjekk at cashflowjson eksisterer og er en array
@@ -278,6 +278,11 @@ function listCustomer(data) {
             ? company.winningdate.split("T")[0]
             : "Ingen dato";
         winningDateCell.textContent = winningDate;
+
+        const winbackDate = company.winback
+            ? company.winback.split("T")[0]
+            : "Ingen dato";
+        winbackDatecell.textContent = winbackDate;
 
         const invoiceDate = company.invoicedate
         ? company.invoicedate.split("T")[0]
@@ -395,6 +400,10 @@ function listCustomer(data) {
 
         winningDateCell.addEventListener("click", () => {
             triggerEditDate(winningDateCell, company, "winningdate");
+        });
+
+        winbackDatecell.addEventListener("click", () => {
+            triggerEditDate(winbackDatecell, company, "winback");
         });
 
         invoiceDateCell.addEventListener("click", () => {
