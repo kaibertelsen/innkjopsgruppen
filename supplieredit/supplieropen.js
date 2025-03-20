@@ -1053,6 +1053,7 @@ Denne avtalen sikrer konkurransedyktige priser, også i høysesong, slik at din 
 document.getElementById("getconnectionsButton").addEventListener("click", function() { 
     getconnections(activeSupplier.airtable);
     document.getElementById("connectingList").style.display = "block";
+    document.getElementById("loadingconnections").style.display = "block";
 
 });
 
@@ -1070,6 +1071,7 @@ function respondconnections(data){
     );
       
     startConnectionList(cleanedList);
+    document.getElementById("loadingconnections").style.display = "none";
 }
 
 function startConnectionList(data) {
