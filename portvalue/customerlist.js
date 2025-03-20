@@ -20,6 +20,8 @@ function listCustomer(data) {
     // Sjekk verdien i tekstfeltet
     let searchField = document.getElementById("searchcustomer");
     let searchValue = searchField ? searchField.value.toLowerCase() : ""; // Søkestreng fra tekstfeltet
+    const listdateselector = document.getElementById("listdateselector");
+    listdateselector.style.display = "block";
 
     // Filtrer data basert på søkestrengen
     if (searchValue) {
@@ -174,8 +176,26 @@ function listCustomer(data) {
             // Returner true hvis alle kriteriene er oppfylt
             return isInsolvency;
         });
-    }
+    }else if (selectedFilter === "winback"){
+        const filteredData = data.filter(company => {
+            // Sjekk om winback-feltet finnes og er en gyldig dato
+            if (!company.winback) return false;
+        
+            const winbackDate = new Date(company.winback);
+            if (isNaN(winbackDate.getTime())) return false; // Sikrer at datoen er gyldig
+        
+            // Beregn differansen i dager
+            const currentDate = new Date();
+            const diffTime = currentDate.getTime() - winbackDate.getTime();
+            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+        
+            // Gyldig hvis det er mindre enn 365 dager siden winback-datoen
+            return diffDays < 365;
+        });
 
+        //skul periode filter
+        listdateselector.style.display = "none";
+    }
     
 
     const dateSelector = document.getElementById("listdateselector");
