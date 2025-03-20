@@ -177,7 +177,7 @@ function listCustomer(data) {
             return isInsolvency;
         });
     }else if (selectedFilter === "winback"){
-        const filteredData = data.filter(company => {
+         filteredData = data.filter(company => {
             // Sjekk om winback-feltet finnes og er en gyldig dato
             if (!company.winback) return false;
         
