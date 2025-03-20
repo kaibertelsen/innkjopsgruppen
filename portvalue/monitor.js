@@ -8,13 +8,10 @@ function updateKlientdata(){
 function startAutoUpdate() {
     // Kjør updateKlientdata() umiddelbart
     downloadKlient();
-//10 * 60 * 1000
-    // Sett opp et intervall som kjører funksjonen hvert 10. minutt (10 * 60 * 1000 ms)
     setInterval(() => {
         downloadKlient();
     }, 5 * 60 * 1000);
 }
-
 
 function downloadKlient(){
     let shareId = getTokenFromURL("shareId");
