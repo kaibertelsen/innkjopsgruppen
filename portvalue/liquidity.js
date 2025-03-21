@@ -522,6 +522,9 @@ function loadLiquidityExitOverview(data) {
 
     const lable2 = descriptionwrapper.querySelector('.lable2');
     lable2.textContent = "Ugyldige oppsigelser";
+    
+    const colorbox2 = lable2.parentElement.querySelector('.colorbox');
+    colorbox2.style.backgroundColor = "red";
    
 
     let procentValues = [];
