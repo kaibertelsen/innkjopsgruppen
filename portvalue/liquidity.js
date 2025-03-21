@@ -26,6 +26,12 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
         loadLiquidityInvoiceOverview(monthlyValues);
         listname = "Faktureringsplan - "+currentYear;
         exportLableDiscription.textContent = "Last ned faktureringsplan for inneværende år";
+    }else if(document.getElementById("liquidityoverviewselector").value == "exit"){
+        //dette er oppsigelsesoversikten
+        let exitlist = buildExitoverview(data);
+        //loadLiquidityInvoiceOverview(monthlyValues);
+        listname = "Faktureringsplan - "+currentYear;
+        exportLableDiscription.textContent = "Last ned faktureringsplan for inneværende år";
     }
     else {
         loadLiquidityOverview(calculateMonthlyValues(klientdata));
@@ -376,6 +382,54 @@ document.getElementById("exportOverviewList").addEventListener("click", () => {
     exportData(list, fieldMapping, listname);
     
 });
+
+function buildExitoverview(data) {
+    // Filtrer ut selskaper uten verdi i valuegroup, som er konkurs, eller uten registrert oppsigelsesdato
+    let dataFiltered = data.filter(el => 
+        el.valuegroup && el.valuegroup !== "0" &&
+        el.insolvency === false &&
+        el.exitRegisteredAt
+    );
+
+    let exitList = [];
+
+    dataFiltered.forEach(function (company) {
+        // Hent og valider oppsigelsesdato
+        let exitRegisteredAt = new Date(company.exitRegisteredAt || company.exit);
+        if (isNaN(exitRegisteredAt.getTime())) {
+            console.warn(`Ugyldig exitdato for selskap: ${company.Name}`);
+            return; // Hopp over selskapet hvis datoen er ugyldig
+        }
+
+        // Hent og beregn neste fornyelsesdato
+        let winningDate = new Date(company.winningdate);
+        let nextWinningDate = new Date(winningDate);
+        nextWinningDate.setFullYear(nextWinningDate.getFullYear() + 1);
+
+        // Sjekk om oppsigelsen kom mer enn 90 dager før fornyelse
+        let diff = nextWinningDate - exitRegisteredAt;
+        let diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        let valid = diffDays > 90;
+
+        exitList.push({
+            company: company.Name,
+            companyvat: company.orgnr || "",
+            companyid: company.airtable,
+            exitvalue: company.valuegroup,
+            exitRegisteredAt: exitRegisteredAt.toISOString().split("T")[0],
+            validexit: valid
+        });
+    });
+
+    // Sorter etter oppsigelsesdato
+    exitList.sort((a, b) => new Date(a.exitRegisteredAt) - new Date(b.exitRegisteredAt));
+
+    return exitList;
+}
+
+
+
+
 
 function calculateMonthlyValues(object) {
 
