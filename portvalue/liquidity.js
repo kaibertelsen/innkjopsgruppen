@@ -28,7 +28,7 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
         exportLableDiscription.textContent = "Last ned faktureringsplan for inneværende år";
     }else if(document.getElementById("liquidityoverviewselector").value == "exit"){
         //dette er oppsigelsesoversikten
-        let exitlist = buildExitoverview(data);
+        let exitlist = buildExitoverview(klientdata);
         //loadLiquidityInvoiceOverview(monthlyValues);
         listname = "Faktureringsplan - "+currentYear;
         exportLableDiscription.textContent = "Last ned faktureringsplan for inneværende år";
