@@ -383,7 +383,7 @@ document.getElementById("exportOverviewList").addEventListener("click", () => {
             companyvat: "Org.nr",
             exitvalue: "Avtaleverdi",
             companyid: "Airtable",
-            validexit: "Gyldig oppsigelse"
+            validexitText: "Gyldig oppsigelse"
         };
         list = gExitList;
         
@@ -442,6 +442,7 @@ function buildExitoverview(data) {
         let diff = nextWinningDate - exitRegisteredAt;
         let diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
         let valid = diffDays > 90;
+        let validText = valid ? "Ja" : "Nei";
 
 
         exitList.push({
@@ -450,7 +451,8 @@ function buildExitoverview(data) {
             companyid: company.airtable,
             exitvalue: company.valuegroup,
             exitRegisteredAt: exitRegisteredAt.toISOString().split("T")[0],
-            validexit: valid
+            validexit: valid,
+            validexitText: validText
         });
 
         
