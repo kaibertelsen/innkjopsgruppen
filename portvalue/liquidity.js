@@ -257,6 +257,8 @@ function loadLiquidityInvoiceOverview(data) {
     }
     , 0);   
     
+    //legge på 20% for å få litt luft
+    maxkvales = maxkvales + (maxkvales * 0.2);
    
     let factorHeight = maxkvales / 400;
 
@@ -860,7 +862,6 @@ function loadLiquidityOverview(data) {
     }
 }
 
-// Funksjon for å vise tooltip
 function showTooltip(element, text) {
     let tooltip = document.createElement("div");
     tooltip.className = "tooltip";
@@ -875,14 +876,14 @@ function showTooltip(element, text) {
     tooltip.style.pointerEvents = "none";
     tooltip.style.zIndex = "1000";
 
-    // Plasser tooltip i nærheten av elementet
     const rect = element.getBoundingClientRect();
-    tooltip.style.top = `${rect.top - 25}px`;
-    tooltip.style.left = `${rect.left + rect.width / 2 - 30}px`;
+    tooltip.style.top = `${rect.top + window.scrollY - 25}px`;
+    tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2 - 30}px`;
 
     document.body.appendChild(tooltip);
-    element._tooltip = tooltip; // Lagre referansen til tooltip
+    element._tooltip = tooltip; // Lagre referansen
 }
+
 
 // Funksjon for å skjule tooltip
 function hideTooltip(element) {
