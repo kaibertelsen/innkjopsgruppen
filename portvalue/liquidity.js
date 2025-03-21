@@ -507,6 +507,9 @@ function loadLiquidityExitOverview(data) {
         return acc;
     }
     , 0);   
+
+    //legge på 20% for å få litt luft
+    maxkvales = maxkvales + (maxkvales * 0.2);
     
     let factorHeight = maxkvales / 400;
 
@@ -778,7 +781,8 @@ function loadLiquidityOverview(data) {
     }
 
     
-    
+    //legge på 20% for å få litt luft
+    maxValue = maxValue + (maxValue * 0.2);
  
     let factorHeight = maxValue / 400;
 
