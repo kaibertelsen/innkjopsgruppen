@@ -565,8 +565,9 @@ function loadLiquidityExitOverview(data) {
         //sette prosentlable
         const procentvalue = monthElement.querySelector(".procentvalue");
         let procent = 0;
+        let sumValueProcent = firstValue + secondValue;
         if(firstValue > 0){
-            procent = (secondValue / firstValue) * 100;
+            procent = (secondValue / sumValueProcent) * 100;
         }
         procentvalue.textContent = procent.toFixed(1) + "%";
         procentvalue.parentElement.style.display = "block";
@@ -601,7 +602,7 @@ function loadLiquidityExitOverview(data) {
     let averageProcent = sumProcent / procentValues.length;
 
     const averageProcentElement = document.getElementById("percentSoFar");
-    averageProcentElement.innerHTML = "Snittprosent hittil i år (uten inneværende mnd.): <strong>" + averageProcent.toFixed(1) + "%</strong>";
+    averageProcentElement.innerHTML = "Snittprosent ugyldige oppsigelser hittil i år (uten inneværende mnd.): <strong>" + averageProcent.toFixed(1) + "%</strong>";
 
 }
 
