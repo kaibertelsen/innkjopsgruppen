@@ -407,6 +407,10 @@ function listCustomer(data) {
         lossreasonCell.addEventListener("click", () => {
             const lossreasonOptions = [
                 {
+                text:"Ingen",
+                value:"-"
+                },
+                {
                 text:"Konkurs",
                 value:"Konkurs"
                 },
