@@ -119,6 +119,7 @@ function calculatingSaleDashboard(data) {
 
     salesCompany = [];
     exitCompany = [];
+    winbackCompany = [];
     
 
     const selector = document.getElementById("dashboarddateselector");
@@ -146,6 +147,7 @@ function calculatingSaleDashboard(data) {
             if (winbackDate >= startDate && winbackDate <= endDate) {
                 result.winback.count++;
                 result.winback.valuegroup += valuegroupNumber; 
+                winbackCompany.push(obj);
             }
         }
 

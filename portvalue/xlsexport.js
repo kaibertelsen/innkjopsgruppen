@@ -113,11 +113,11 @@ document.getElementById("exportexitcompany").addEventListener("click", () => {
 });
 
 
-document.getElementById("exportsupplierCompany").addEventListener("click", () => {
+document.getElementById("exportwinbackCompany").addEventListener("click", () => {
     const dashboardGroupSelector = document.getElementById("dashboarddateselector");
     const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
-    let name = "Dashboard-Leverandør kunder-"+dashboardGroupText;
-    exportDashBoardSaleexit(sumSupplierCompanys,name);
+    let name = "Dashboard-Vunnet-tilbake-"+dashboardGroupText;
+    exportDashBoardSaleexit(winbackCompany,name);
 });
 
 

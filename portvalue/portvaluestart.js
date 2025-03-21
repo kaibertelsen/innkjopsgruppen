@@ -4,6 +4,7 @@ var sumPorteCompanys = [];
 var sumAbonnementCompanys = [];
 var sumKickbackCompanys = []
 var sumSupplierCompanys = [];
+var sumWinbackCompanys = [];
 
 var salesCompany = [];
 var exitCompany = [];
