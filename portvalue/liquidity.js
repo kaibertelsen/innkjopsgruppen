@@ -1,5 +1,6 @@
 var listname = "";
 var gTerminliste = [];
+var gExitList = [];
 
 document.getElementById("liquidityoverviewselector").addEventListener("change", () => {
     //finne inneværende år med format yyyy
@@ -29,6 +30,8 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
     }else if(document.getElementById("liquidityoverviewselector").value == "exit"){
         //dette er oppsigelsesoversikten
         let exitlist = buildExitoverview(klientdata);
+        gExitList = [];
+        gExitList = exitlist;
         let monthlyValues = calculateMonthlyExitValue(exitlist);
         loadLiquidityExitOverview(monthlyValues);
         listname = "Oppsigelses oversikt - "+currentYear;
@@ -367,22 +370,40 @@ function loadLiquidityInvoiceOverview(data) {
 
 document.getElementById("exportOverviewList").addEventListener("click", () => {
    
-    // Mapping
-    const fieldMapping = {
-        termindate: "Termin dato",
-        company: "Navn",
-        companyvat: "Org.nr",
-        valuegroup: "Avtaleverdi",
-        terminbelop: "Terminbeløp",
-        termin: "Termin",
-        terminintervall: "Intervall mnd.",
-        maindate: "Første fakturadato",
-        exitdate: "Exit dato",
-        exitvalue: "Exit verdi",
-        companyid: "Airtable",
-    };
-    let list = gTerminliste;
+    const liquidityoverviewselector = document.getElementById("liquidityoverviewselector");
+    let selectorvalue = liquidityoverviewselector.value;
 
+    let list = [];
+    let fieldMapping = {};
+    if(selectorvalue == "exit"){
+        //hvis det er exitlisten
+        fieldMapping = {
+            exitRegisteredAt: "Dato oppsigelse registrert",
+            company: "Navn",
+            companyvat: "Org.nr",
+            exitvalue: "Avtaleverdi",
+            companyid: "Airtable",
+            validexit: "Gyldig oppsigelse"
+        };
+        list = gExitList;
+        
+    }else{
+        // Mapping
+        fieldMapping = {
+            termindate: "Termin dato",
+            company: "Navn",
+            companyvat: "Org.nr",
+            valuegroup: "Avtaleverdi",
+            terminbelop: "Terminbeløp",
+            termin: "Termin",
+            terminintervall: "Intervall mnd.",
+            maindate: "Første fakturadato",
+            exitdate: "Exit dato",
+            exitvalue: "Exit verdi",
+            companyid: "Airtable",
+        };
+        list = gTerminliste;
+    }
     // Eksporter til Excel
     exportData(list, fieldMapping, listname);
     
@@ -406,6 +427,12 @@ function buildExitoverview(data) {
             return; // Hopp over selskapet hvis datoen er ugyldig
         }
 
+        //hvis det er exitRegisteredAt er i år så gå videre
+        let currentYear = new Date().getFullYear();
+        if(exitRegisteredAt.getFullYear() !== currentYear){
+            return;
+        }
+
         // Hent og beregn neste fornyelsesdato
         let winningDate = new Date(company.winningdate);
         let nextWinningDate = new Date(winningDate);
@@ -416,6 +443,7 @@ function buildExitoverview(data) {
         let diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
         let valid = diffDays > 90;
 
+
         exitList.push({
             company: company.Name,
             companyvat: company.orgnr || "",
@@ -424,6 +452,10 @@ function buildExitoverview(data) {
             exitRegisteredAt: exitRegisteredAt.toISOString().split("T")[0],
             validexit: valid
         });
+
+        
+
+
     });
 
     // Sorter etter oppsigelsesdato
@@ -611,8 +643,6 @@ function loadLiquidityExitOverview(data) {
     averageProcentElement.innerHTML = "Snittprosent ugyldige oppsigelser hittil i år (uten inneværende mnd.): <strong>" + averageProcent.toFixed(1) + "%</strong>";
 
 }
-
-
 
 
 function calculateMonthlyValues(object) {
