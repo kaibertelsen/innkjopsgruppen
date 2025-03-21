@@ -82,10 +82,10 @@ function loadDashboardporte(data) {
 }
 
 function loadDashboardsale(data) {
-
+  
     //vunnet tilbake
-    let winbackvalue = data.winbackvalue/1000;
-    let winbackcount = data.winbackcount;
+    let winbackvalue = data.winback.valuegroup/1000;
+    let winbackcount = data.winback.count;
     animateCounter("dachboardportvaluewinback", 0, winbackvalue, "", "");
     animateCounter("dachboardportcountwinback", 0, winbackcount, "", "");
     
