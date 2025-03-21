@@ -473,28 +473,37 @@ function loadLiquidityExitOverview(data) {
     const exportOverviewList = document.getElementById("exportOverviewList");
     exportOverviewList.parentElement.style.display = "flex";
     
-   
     //summere verdier for hele året
-      let sumYear = data.reduce((acc, cur) => {
-        acc += cur.exitvalue;
+      let sumValid = data.reduce((acc, cur) => {
+        acc += cur.validExitValue;
         return acc;
         }
         ,   0);
-    const sumthisyear = document.getElementById("sumthisyear");
-    sumthisyear.innerHTML = "Sum: <strong>" + Math.round(sumYear / 1000).toLocaleString() + " K</strong>";
-        
 
-   
+        let sumInvalid = data.reduce((acc, cur) => {
+            acc += cur.invalidExitValue;
+            return acc;
+            }
+            ,   0);
+    const sumthisyear = document.getElementById("sumthisyear");
+    sumthisyear.innerHTML = 
+    "✅ Gyldige: <strong>" + Math.round(sumValid / 1000).toLocaleString() + " K</strong><br>" +
+    "❌ Ugyldige: <strong>" + Math.round(sumInvalid / 1000).toLocaleString() + " K</strong>";
+
+        
     // Finn høyeste verdi for å skalere høyden på elementene
     let maxkvales = data.reduce((acc, cur) => {
-        if (cur.exitvalue > acc) {
-            acc = cur.exitvalue;
+        if (cur.validExitValue > acc) {
+            acc = cur.validExitValue;
+        }
+
+        if (cur.invalidExitValue > acc) {
+            acc = cur.invalidExitValue;
         }
         return acc;
     }
     , 0);   
     
-   
     let factorHeight = maxkvales / 400;
 
     const list = document.getElementById("monthliquidityoverview");
