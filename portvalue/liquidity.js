@@ -29,8 +29,9 @@ document.getElementById("liquidityoverviewselector").addEventListener("change", 
     }else if(document.getElementById("liquidityoverviewselector").value == "exit"){
         //dette er oppsigelsesoversikten
         let exitlist = buildExitoverview(klientdata);
-        //loadLiquidityInvoiceOverview(monthlyValues);
-        listname = "Faktureringsplan - "+currentYear;
+        let monthlyValues = calculateMonthlyExitValue(exitlist);
+        loadLiquidityExitOverview(monthlyValues);
+        listname = "Oppsigelses oversikt - "+currentYear;
         exportLableDiscription.textContent = "Last ned faktureringsplan for inneværende år";
     }
     else {
@@ -427,6 +428,168 @@ function buildExitoverview(data) {
     return exitList;
 }
 
+function calculateMonthlyExitValue(data) {   
+    
+    const monthNames = [
+        "jan", "feb", "mar", "apr", "mai", "jun",
+        "jul", "aug", "sep", "okt", "nov", "des"
+    ];
+
+    // Resultatobjekt som grupperer verdier per måned
+    const monthlyValues = Array.from({ length: 12 }, (_, i) => ({
+        monthname: monthNames[i],
+        validExitValue: 0,
+        invalidExitValue: 0,
+        monthnumber: i + 1
+    }
+    )); 
+
+    const currentYear = new Date().getFullYear();
+
+    // Iterer gjennom dataene
+    data.forEach(obj => {
+        const termDate = new Date(obj.exitRegisteredAt);
+        const monthIndex = termDate.getMonth(); // Får 0-basert måned
+        const year = termDate.getFullYear();
+        const exitValue = parseFloat(obj.exitvalue) || 0;
+
+        if (obj.validexit && year === currentYear) {
+            //gyldig oppsigelse og inneværende å
+            monthlyValues[monthIndex].validExitValue += exitValue;
+        }else if(year === currentYear){
+            //ugyldig oppsigelse og inneværende år
+            monthlyValues[monthIndex].invalidExitValue += exitValue;
+        }
+
+    });
+
+    return monthlyValues;
+
+}
+
+function loadLiquidityExitOverview(data) {
+
+    
+    const exportOverviewList = document.getElementById("exportOverviewList");
+    exportOverviewList.parentElement.style.display = "flex";
+    
+   
+    //summere verdier for hele året
+      let sumYear = data.reduce((acc, cur) => {
+        acc += cur.exitvalue;
+        return acc;
+        }
+        ,   0);
+    const sumthisyear = document.getElementById("sumthisyear");
+    sumthisyear.innerHTML = "Sum: <strong>" + Math.round(sumYear / 1000).toLocaleString() + " K</strong>";
+        
+
+   
+    // Finn høyeste verdi for å skalere høyden på elementene
+    let maxkvales = data.reduce((acc, cur) => {
+        if (cur.exitvalue > acc) {
+            acc = cur.exitvalue;
+        }
+        return acc;
+    }
+    , 0);   
+    
+   
+    let factorHeight = maxkvales / 400;
+
+    const list = document.getElementById("monthliquidityoverview");
+    list.replaceChildren(); // Tømmer holderen for å unngå duplisering
+
+    const elementLibrary = document.getElementById("yearelementlibrary");
+    const nodeElement = elementLibrary.querySelector('.monthwrapper');
+
+    //beskrivelse av data
+    const descriptionwrapper = document.getElementById("descriptionwrapper");
+    const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
+    descriptionlable.innerHTML = "Oppsigelser for inneværende år.<br>Gyldig er oppsigelser som er mer enn 90 dager før fornyelse.";
+
+    const lable1 = descriptionwrapper.querySelector('.lable1');
+    lable1.textContent = "Gyldige oppsigelser";
+
+    const lable2 = descriptionwrapper.querySelector('.lable2');
+    lable2.textContent = "Ugyldige oppsigelser";
+   
+
+    let procentValues = [];
+
+
+    for (let month of data) {
+        // Klon månedselementet
+        const monthElement = nodeElement.cloneNode(true);
+
+        // Hent verdier
+        const firstValue = month.validExitValue || 0;
+        const secondValue = month.invalidExitValue || 0;
+
+        // Animasjon for første element
+        const first = monthElement.querySelector(".first");
+        const firstText = monthElement.querySelector(".firsttextlable");
+        let heightFirst = firstValue / factorHeight;
+
+        animateHeight(first, heightFirst); // Animer høyde
+        animateCounter(firstText, 0, Math.round(firstValue / 1000), "", "K"); // Teller fra 0 til verdien
+
+        // Mouseover for første element
+        first.addEventListener("mouseover", () => {
+            showTooltip(first, `${firstValue.toLocaleString()} kr`);
+        });
+        first.addEventListener("mouseout", () => {
+            hideTooltip(first);
+        });
+
+        // Animasjon for andre element
+        const second = monthElement.querySelector(".second");
+        const secondText = monthElement.querySelector(".secondtextlable");
+        let heightSecond = secondValue / factorHeight;
+
+        
+        //sette prosentlable
+        const procentvalue = monthElement.querySelector(".procentvalue");
+        let procent = 0;
+        if(firstValue > 0){
+            procent = (secondValue / firstValue) * 100;
+        }
+        procentvalue.textContent = procent.toFixed(1) + "%";
+        procentvalue.parentElement.style.display = "block";
+
+        //hvis prosent er i en måned
+        let monthIndex = new Date().getMonth()+1;
+        
+        if(month.monthnumber < monthIndex){
+            procentValues.push(procent);
+        }
+
+        animateHeight(second, heightSecond); // Animer høyde
+        animateCounter(secondText, 0, Math.round(secondValue / 1000), "", "K"); // Teller fra 0 til verdien
+
+        // Mouseover for andre element
+        second.addEventListener("mouseover", () => {
+            showTooltip(second, `${secondValue.toLocaleString()} kr`);
+        });
+        second.addEventListener("mouseout", () => {
+            hideTooltip(second);
+        });
+
+        // Sett månedstekst
+        monthElement.querySelector(".monthtext").textContent = month.monthname;
+
+        // Legg til månedselementet i listen
+        list.appendChild(monthElement);
+    }
+
+    //finne gjennomsnittlig prosent
+    let sumProcent = procentValues.reduce((acc, cur) => acc + cur, 0);
+    let averageProcent = sumProcent / procentValues.length;
+
+    const averageProcentElement = document.getElementById("percentSoFar");
+    averageProcentElement.innerHTML = "Snittprosent hittil i år (uten inneværende mnd.): <strong>" + averageProcent.toFixed(1) + "%</strong>";
+
+}
 
 
 
