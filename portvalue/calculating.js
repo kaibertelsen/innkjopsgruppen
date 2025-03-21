@@ -114,6 +114,7 @@ function calculatingPorteDashboard(objects, monthsBack = 12) {
 
 function calculatingSaleDashboard(data) {
 
+    //Filtrerer om gruppe er valgt
     let objects = filterGroupCompany(data);
 
     salesCompany = [];
@@ -126,6 +127,7 @@ function calculatingSaleDashboard(data) {
 
     // Resultatobjekt for å lagre summeringene
     const result = {
+        winback: { count: 0, valuegroup: 0, kickback: 0 },
         winning: { count: 0, valuegroup: 0, kickback: 0 },
         exit: { count: 0, valuegroup: 0, kickback: 0 },
         total:{ count: 0, valuegroup: 0, kickback: 0 }
@@ -137,21 +139,22 @@ function calculatingSaleDashboard(data) {
         if (valuegroupNumber <= 0) return; // Hopp over objektet hvis valuegroup <= 0
         result.total.count++;
         result.total.valuegroup += valuegroupNumber;
+
+        //Håndterer vunnettilbake
+        if (obj.winback) {
+            const winbackDate = new Date(obj.winback);
+            if (winbackDate >= startDate && winbackDate <= endDate) {
+                result.winback.count++;
+                result.winback.valuegroup += valuegroupNumber; 
+            }
+        }
+
         // Håndter winningdate
         if (obj.winningdate) {
             const winningDate = new Date(obj.winningdate);
             if (winningDate >= startDate && winningDate <= endDate) {
                 result.winning.count++;
                 result.winning.valuegroup += valuegroupNumber;
-                /* //skal ikke summere kickback på salg
-                if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
-                    obj.cashflowjson.forEach(cashflow => {
-                        if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
-                            result.winning.kickback += parseFloat(cashflow.kickbackvalue);
-                        }
-                    });
-                }
-                */
                 salesCompany.push(obj);
             }
         }
@@ -162,15 +165,6 @@ function calculatingSaleDashboard(data) {
             if (exitDate >= startDate && exitDate <= endDate) {
                 result.exit.count++;
                 result.exit.valuegroup += valuegroupNumber;
-               /*
-                if (obj.cashflowjson && Array.isArray(obj.cashflowjson)) {
-                    obj.cashflowjson.forEach(cashflow => {
-                        if (cashflow.kickbackvalue && !isNaN(cashflow.kickbackvalue)) {
-                            result.exit.kickback += parseFloat(cashflow.kickbackvalue);
-                        }
-                    });
-                }
-                */
                exitCompany.push(obj);
             }
         }

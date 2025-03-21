@@ -83,8 +83,11 @@ function loadDashboardporte(data) {
 
 function loadDashboardsale(data) {
 
-    let counttotal = data.total.count;
+    //vunnet tilbake
+
     
+
+    let counttotal = data.total.count;
     let countsale = data.winning.count;
     let valuesale = (data.winning.valuegroup + data.winning.kickback)/1000;
     let procentsale = (countsale/counttotal)*100;
