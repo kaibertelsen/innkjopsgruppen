@@ -553,7 +553,9 @@ function loadLiquidityExitOverview(data) {
 
         // Animasjon for andre element
         const second = monthElement.querySelector(".second");
+        second.classlist.add("readcolor");
         const secondText = monthElement.querySelector(".secondtextlable");
+        secondText.style.fontWeight = "bold";
         let heightSecond = secondValue / factorHeight;
 
         
