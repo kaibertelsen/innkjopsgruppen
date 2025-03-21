@@ -70,7 +70,7 @@ function loadDashboardporte(data) {
 
 
     //supplier
-    
+    /*
     let countSupplier = data.countSupplierCompany;
     let sumSupplier = data.sumSupplierCompany/1000;
     let snittSupplier = (data.sumSupplierCompany / countSupplier) / 1000;
@@ -78,15 +78,18 @@ function loadDashboardporte(data) {
     animateCounter("dachboardportvaluesupplier", 0, sumSupplier, "", " ");
     animateCounter("dachboardportvaluesuppliercount", 0, countSupplier, "", " ");
     animateCounter("dachboardportprocentsupplier", 0, snittSupplier, "", " ");
-
+*/
 }
 
 function loadDashboardsale(data) {
 
     //vunnet tilbake
-
+    let winbackvalue = data.winbackvalue/1000;
+    let winbackcount = data.winbackcount;
+    animateCounter("dachboardportvaluewinback", 0, winbackvalue, "", "");
+    animateCounter("dachboardportcountwinback", 0, winbackcount, "", "");
     
-
+    //salg
     let counttotal = data.total.count;
     let countsale = data.winning.count;
     let valuesale = (data.winning.valuegroup + data.winning.kickback)/1000;
