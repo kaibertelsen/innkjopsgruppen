@@ -239,6 +239,9 @@ function listCustomer(data) {
         const insolvency = companyElement.querySelector(".insolvency");
         const winbackDatecell = companyElement.querySelector(".winback");
 
+        const lossreasonCell = companyElement.querySelector(".lossreason");
+        lossreasonCell.textContent = company.lossreason || "-";
+
         let totals = { value: 0, cut: 0, kickback: 0,bistand:0,analyse:0};
         // Sjekk at cashflowjson eksisterer og er en array
         if (Array.isArray(company.cashflowjson)) {
@@ -284,6 +287,9 @@ function listCustomer(data) {
             insolvencytext = "Konkurs";
         }
         insolvency.textContent = insolvencytext;
+
+
+        
 
         typeCell.textContent = company.type === "supplier" 
         ? "Leverandør" 
@@ -396,6 +402,42 @@ function listCustomer(data) {
                 updateCompanyData(company.airtable, { insolvency: selectedOption.value });
             });
         });
+
+
+        lossreasonCell.addEventListener("click", () => {
+            const lossreasonOptions = [
+                {
+                text:"Konkurs",
+                value:"Konkurs"
+                },
+                {
+                text:"For dyrt",
+                value:"For dyrt"
+                },
+                {
+                text:"Ikke oppnådd besparelse",
+                value:"Ikke oppnådd besparelse"
+                },
+                {
+                text:"Ikke sendt dokumenter",
+                value:"Ikke sendt dokumenter"
+                },
+                {
+                text:"Byttet DL",
+                value:"Byttet DL"
+                },
+                {
+                text:"Ønsker ikke å bytte leverandør",
+                value:"Ønsker ikke å bytte leverandør"
+                }
+                ];
+
+            triggerEditDropdown(lossreasonCell, company, "lossreason", lossreasonOptions, selectedOption => {
+                company.insolvency = selectedOption.value;
+                lossreasonCell.textContent = selectedOption.text;
+                updateCompanyData(company.airtable, { lossreason: selectedOption.value });
+            });
+        });     
 
         typeCell.addEventListener("click", () => {
             const groupOptions = [
