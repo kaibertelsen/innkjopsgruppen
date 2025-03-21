@@ -258,7 +258,7 @@ function loadLiquidityInvoiceOverview(data) {
     , 0);   
     
     //legge på 20% for å få litt luft
-    maxkvales = maxkvales + (maxkvales * 0.2);
+    maxkvales = maxkvales + (maxkvales * 0.1);
    
     let factorHeight = maxkvales / 400;
 
@@ -509,7 +509,7 @@ function loadLiquidityExitOverview(data) {
     , 0);   
 
     //legge på 20% for å få litt luft
-    maxkvales = maxkvales + (maxkvales * 0.2);
+    maxkvales = maxkvales + (maxkvales * 0.1);
     
     let factorHeight = maxkvales / 400;
 
@@ -782,7 +782,7 @@ function loadLiquidityOverview(data) {
 
     
     //legge på 20% for å få litt luft
-    maxValue = maxValue + (maxValue * 0.2);
+    maxValue = maxValue + (maxValue * 0.1);
  
     let factorHeight = maxValue / 400;
 
