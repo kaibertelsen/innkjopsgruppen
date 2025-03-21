@@ -274,6 +274,8 @@ function loadLiquidityInvoiceOverview(data) {
     const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
     const lable1 = descriptionwrapper.querySelector('.lable1');
     const lable2 = descriptionwrapper.querySelector('.lable2');
+    const colorbox2 = lable2.parentElement.querySelector('.colorbox');
+    colorbox2.style.backgroundColor = "#cbcccb";
     
     if(isInvoice){
         descriptionlable.textContent = "Faktureringsplan for inneværende år, konkurser er fjernet";
@@ -525,7 +527,6 @@ function loadLiquidityExitOverview(data) {
     
     const colorbox2 = lable2.parentElement.querySelector('.colorbox');
     colorbox2.style.backgroundColor = "red";
-   
 
     let procentValues = [];
 
@@ -793,6 +794,12 @@ function loadLiquidityOverview(data) {
     const descriptionlable = descriptionwrapper.querySelector('.descriptionlable');
     const lable1 = descriptionwrapper.querySelector('.lable1');
     const lable2 = descriptionwrapper.querySelector('.lable2');
+
+    const colorbox2 = lable2.parentElement.querySelector('.colorbox');
+    colorbox2.style.backgroundColor = "#cbcccb";
+    
+
+
 
     if(isValugroup){
         descriptionlable.textContent = "Avtaleverdi for inneværende år, basert på fornyelsedato";
