@@ -487,8 +487,8 @@ function loadLiquidityExitOverview(data) {
             ,   0);
     const sumthisyear = document.getElementById("sumthisyear");
     sumthisyear.innerHTML = 
-    "✅ Gyldige: <strong>" + Math.round(sumValid / 1000).toLocaleString() + " K</strong><br>" +
-    "❌ Ugyldige: <strong>" + Math.round(sumInvalid / 1000).toLocaleString() + " K</strong>";
+    "✅ Gyldige oppsigelser: <strong>" + Math.round(sumValid / 1000).toLocaleString() + " K</strong><br>" +
+    "❌ Ugyldige oppsigelser: <strong>" + Math.round(sumInvalid / 1000).toLocaleString() + " K</strong>";
 
         
     // Finn høyeste verdi for å skalere høyden på elementene
