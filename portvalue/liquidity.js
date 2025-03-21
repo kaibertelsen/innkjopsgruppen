@@ -387,7 +387,7 @@ function buildExitoverview(data) {
     // Filtrer ut selskaper uten verdi i valuegroup, som er konkurs, eller uten registrert oppsigelsesdato
     let dataFiltered = data.filter(el => 
         el.valuegroup && el.valuegroup !== "0" &&
-        el.insolvency === false &&
+        (!el.insolvency || el.insolvency === false || el.insolvency === "") &&
         el.exitRegisteredAt
     );
 
