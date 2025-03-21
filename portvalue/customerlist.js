@@ -973,6 +973,8 @@ function updateCompanyData(companyId, fieldValue) {
                 dashboardNeedsUpdate = true;
             }else if(field === "exitRegisteredAt"){
                 dashboardNeedsUpdate = true;
+            }else if(field === "winback"){
+                dashboardNeedsUpdate = true;
             }
         }
 
