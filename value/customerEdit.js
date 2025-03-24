@@ -51,7 +51,7 @@ searchInputCs.addEventListener("input", function () {
             searchInputCs.value = supplier.name || supplier.leverandornavn;
             dropdownCs.innerHTML = "";
             dropdownCs.style.display = "none";
-            console.log("Valgt leverandør:", supplier);
+            companySupplierSearch(supplier);
         });
         dropdownCs.appendChild(item);
     });
@@ -59,6 +59,16 @@ searchInputCs.addEventListener("input", function () {
     dropdownCs.style.display = "block";
 });
 
+
+function companySupplierSearch(supplier) {
+//Sjekke om denne leverandøren har en standard rabatt
+if (supplier.defaultcut) {
+   //sett input number til default rabatt
+   document.getElementById("cutvalueInput").value = supplier.defaultcut/100+"%";
+   
+}
+console.log(supplier);
+}
 
 const cutInputCp = document.getElementById("cutvalueInput");
 
