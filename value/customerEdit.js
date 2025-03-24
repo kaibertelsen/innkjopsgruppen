@@ -128,6 +128,9 @@ cutInputCp.addEventListener("input", function () {
 
     this.value = value;
 
+    //resett inputfield
+    
+
 });
 
 
@@ -148,12 +151,15 @@ function handleGroupSelection(value) {
     switch (value) {
         case "1":
             console.log("Vis felt for prosentbesparelse");
+            cutInputCp.value = "%";
             break;
         case "2":
             console.log("Vis felt for besparelse per liter");
+            cutInputCp.value = "øre/l";
             break;
         case "3":
             console.log("Vis felt for besparelse per m³");
+            cutInputCp.value = "kr/m³";
             break;
         default:
             console.log("Ugyldig valg");
