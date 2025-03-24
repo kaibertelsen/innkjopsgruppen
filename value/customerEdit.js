@@ -83,7 +83,7 @@ function companySupplierSearch(supplier) {
 
         //
         const saveCompanySettings = document.getElementById("saveCompanySettings");
-        saveCompanySettings.style.display = "block";
+        saveCompanySettings.style.display = "inline-block";
 
     //sjekke om leverandøren har volumrabetter
     if(!supplier.quantity){
