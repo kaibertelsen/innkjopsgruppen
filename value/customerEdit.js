@@ -186,12 +186,15 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
     companycutsettings.push(saveBody);
     SelectedCompanyInFirstTab.cutsettings = companycutsettings;
 
-    //lager på server
+    //lager på server for selskap
+    let body = {cutsettings:JSON.stringify(companycutsettings)};
+    PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",SelectedCompanyInFirstTab.airtable,JSON.stringify(body),"respondCompanyCutSettings");
 
 
     console.log(JSON.stringify(saveBody));
 
     //Lagre innstillingene
+    
     //Lukk dropdown
     dropdownCs.innerHTML = "";
     dropdownCs.style.display = "none";
@@ -200,3 +203,7 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
     selector.style.display = "none";
     saveCompanySettings.style.display = "none";
 });
+
+function respondCompanyCutSettings(data){
+    console.log(data);
+}
