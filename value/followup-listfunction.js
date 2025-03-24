@@ -485,13 +485,15 @@ function listNotes(notes,company) {
                     saveUpdateNote(quill.root.innerHTML, note.airtable);
                 });
                 
+                //når en starter å taste så hvis toolbar
+                quill.root.addEventListener("focus", function() {
+                    toolbar.style.display = "block";
+                });
+
                 // Toggle toolbar med knapp
                 const toolbarButton = noteRow.querySelector(".toggletoolbar");
                 toolbarButton.addEventListener("click", function () {
-                    const toolbar = noteRow.querySelector(".ql-toolbar");
-                    if (toolbar) {
                         toolbar.style.display = (toolbar.style.display === "none") ? "block" : "none";
-                    }
                 });
                 
                 
