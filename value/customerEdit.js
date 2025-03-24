@@ -106,6 +106,23 @@ cutInputCp.addEventListener("input", function () {
         return;
     }
 
+    //setter på ending etter hva som er valgt i selector
+    const selector = document.getElementById("groupCutcompanySelector");
+    const selectedValue = selector.value;
+    switch (selectedValue) {
+        case "1":
+            value = value + "%";
+            break;
+        case "2":
+            value = value + "øre/l";
+            break;
+        case "3":
+            value = value + "kr/m³";
+            break;
+        default:
+            console.error("Ugyldig valg");
+    }
+
 });
 
 
