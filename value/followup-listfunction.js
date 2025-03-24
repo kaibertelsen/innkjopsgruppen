@@ -439,6 +439,9 @@ function listNotes(notes,company) {
             let noteParent = noteText.parentElement;
             noteParent.style.borderColor = "green";
 
+            const toolbarButton = noteRow.querySelector(".toggletoolbar");
+            toolbarButton.style.display = "none";
+
 
         }else{
 
@@ -456,22 +459,41 @@ function listNotes(notes,company) {
                 //sette padding til 10px
                 noteText.style.padding = "10px";
                 deleteButton.style.display = "none";
+                const toolbarButton = noteRow.querySelector(".toggletoolbar");
+                toolbarButton.style.display = "none";
 
             }else{
                 //det er denne brukeren som har skrevet dette
                 deleteButton.style.display = "block";
 
                 var quill = new Quill(noteText, {
-                    theme: 'snow', // 'snow' = enkel, 'bubble' = mer minimalistisk
+                    theme: 'snow',
                     modules: {
-                        toolbar: false
+                        toolbar: true // Viktig for at den skal bli generert
                     }
                 });
+                
+                // Skjul toolbar med en gang etter initialisering
+                const toolbar = noteRow.querySelector(".ql-toolbar");
+                if (toolbar) {
+                    toolbar.style.display = "none";
+                }
+                
                 quill.clipboard.dangerouslyPasteHTML(htmlContent);
-
+                
                 quill.root.addEventListener("blur", function() {
                     saveUpdateNote(quill.root.innerHTML, note.airtable);
                 });
+                
+                // Toggle toolbar med knapp
+                const toolbarButton = noteRow.querySelector(".toggletoolbar");
+                toolbarButton.addEventListener("click", function () {
+                    const toolbar = noteRow.querySelector(".ql-toolbar");
+                    if (toolbar) {
+                        toolbar.style.display = (toolbar.style.display === "none") ? "block" : "none";
+                    }
+                });
+                
                 
                 deleteButton.addEventListener("click", () => {
                     deleteNoteFromServer(note.airtable);
