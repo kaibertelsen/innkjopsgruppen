@@ -69,8 +69,6 @@ cutInputCp.addEventListener("input", function () {
         return;
     }
 
-    const number = parseInt(value, 10);
-    this.value = number.toLocaleString("no-NO") + " kr";
 });
 
 
