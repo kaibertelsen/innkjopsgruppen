@@ -123,6 +123,8 @@ cutInputCp.addEventListener("input", function () {
             console.error("Ugyldig valg");
     }
 
+    this.value = value;
+
 });
 
 
