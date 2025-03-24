@@ -23,6 +23,15 @@ function placeEditorWrapperBack() {
 const searchInputCs = document.getElementById("searchSupplierCompanysettings");
 const dropdownCs = document.getElementById("dropdownCompanysettings");
 
+const cutInput = document.getElementById("cutvalueInput");
+cutInput.style.display = "none";
+
+const selector = document.getElementById("groupCutcompanySelector");
+selector.style.display = "none";
+
+const saveCompanySettings = document.getElementById("saveCompanySettings");
+saveCompanySettings.style.display = "none";
+
 searchInputCs.addEventListener("input", function () {
     const searchTerm = searchInputCs.value.toLowerCase().trim();
     dropdownCs.innerHTML = ""; // Tøm tidligere treff
@@ -61,21 +70,30 @@ searchInputCs.addEventListener("input", function () {
 
 
 function companySupplierSearch(supplier) {
-//Sjekke om denne leverandøren har en standard rabatt
-if (supplier.defaultcut) {
-   //sett input number til default rabatt
-   document.getElementById("cutvalueInput").value = supplier.defaultcut*100+"%";
+    //Sjekke om denne leverandøren har en standard rabatt
+    if (supplier.defaultcut) {
+    //sett input number til default rabatt
+    const cutInput = document.getElementById("cutvalueInput");
+    cutInput.value = supplier.defaultcut * 100 + "%";
+    cutInput.style.display = "block";
 
-   //sjekke om leverandøren har volumrabetter
-   if(!supplier.quantity){
-    //har ikke mengderabatter
-    const selector = document.getElementById("groupCutcompanySelector");
-    selector.value = 1;
-    selector.disabled = true;
+    //gjøre selector
+        const selector = document.getElementById("groupCutcompanySelector");
+        selector.style.display = "block";
+
+        //
+        const saveCompanySettings = document.getElementById("saveCompanySettings");
+        saveCompanySettings.style.display = "block";
+
+    //sjekke om leverandøren har volumrabetter
+    if(!supplier.quantity){
+        //har ikke mengderabatter
+        const selector = document.getElementById("groupCutcompanySelector");
+        selector.value = 1;
+        selector.disabled = true;
+    }
     
-   }
-   
-}
+    }
 console.log(supplier);
 }
 
