@@ -122,3 +122,134 @@ var datoarray = periodArrayCleaner("maindate","seconddate",selector,data);
   moreAbouteCompany();
 }
 
+
+
+
+function filterFunction() {
+    var input, filter, div, a, i;
+    input = document.getElementById("dropdownInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("dropdownMenu");
+    a = div.getElementsByTagName("a");
+
+    // Show the dropdown menu
+    div.classList.add("show");
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
+
+const debounceFilterFunction = debounce(filterFunction, 300);
+
+function clearDropdown() {
+    var dropdownMenu = document.getElementById("dropdownMenu");
+    dropdownMenu.innerHTML = '';
+}
+
+function loadDropdown(data) {
+    var dropdownMenu = document.getElementById("dropdownMenu");
+    clearDropdown(); // Clear existing options first
+    data.forEach(item => {
+        var a = document.createElement("a");
+        a.href = "#";
+        a.textContent = item.name;
+        a.dataset.id = item.id; // Store id in a data attribute
+        a.onclick = function() {
+            handleItemClick(item);
+        };
+        dropdownMenu.appendChild(a);
+    });
+}
+
+function handleItemClick(item) {
+    // Your function logic here
+   // alert("You clicked on " + name + " with ID " + id);
+    companySelected(item);
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('#dropdownInput')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+
+function filterFunctionsupplier() {
+    var input, filter, div, a, i;
+    input = document.getElementById("dropdownInputsupplier");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("dropdownMenusupplier");
+    a = div.getElementsByTagName("a");
+    //resette supplierid
+    input.dataset.airtable = "";
+    // Show the dropdown menu
+    div.classList.add("show");
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+
+function clearDropdownsupplier() {
+    var dropdownMenu = document.getElementById("dropdownMenusupplier");
+    dropdownMenu.innerHTML = '';
+}
+
+function loadDropdownsupplier(data) {
+    var dropdownMenu = document.getElementById("dropdownMenusupplier");
+    clearDropdownsupplier(); // Clear existing options first
+    data.forEach(item => {
+        var a = document.createElement("a");
+        a.href = "#";
+        a.textContent = item.name;
+        a.dataset.id = item.id; // Store id in a data attribute
+        var cut = false;
+        if(item?.defaultcut){
+        cut = item.defaultcut;
+        }
+        a.onclick = function() {
+            handleItemClicksupplier(item.id, item.name, cut);
+        };
+        dropdownMenu.appendChild(a);
+    });
+}
+
+function handleItemClicksupplier(id, name, cut) {
+    // Your function logic here
+    //alert("You clicked on " + name + " with ID " + id);
+    supplierSelected(id,name,cut);
+   
+}
+
+
+
