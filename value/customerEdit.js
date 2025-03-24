@@ -65,6 +65,13 @@ function companySupplierSearch(supplier) {
 if (supplier.defaultcut) {
    //sett input number til default rabatt
    document.getElementById("cutvalueInput").value = supplier.defaultcut*100+"%";
+
+   //sjekke om leverandøren har volumrabetter
+   if(!supplier.quantity){
+    //har ikke mengderabatter
+    document.getElementById("groupCutcompanySelector").value = 1;
+    document.getElementById("cutvalueInput").disabled = false;
+   }
    
 }
 console.log(supplier);
