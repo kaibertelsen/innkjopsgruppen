@@ -80,7 +80,6 @@ function companySupplierSearch(supplier) {
     //gjøre selector
         const selector = document.getElementById("groupCutcompanySelector");
         selector.style.display = "block";
-
         //
         const saveCompanySettings = document.getElementById("saveCompanySettings");
         saveCompanySettings.style.display = "inline-block";
@@ -91,7 +90,10 @@ function companySupplierSearch(supplier) {
         const selector = document.getElementById("groupCutcompanySelector");
         selector.value = 1;
         selector.disabled = true;
-    }
+    }else{
+        //har mengderabatter
+        const selector = document.getElementById("groupCutcompanySelector");
+        selector.disabled = false;
     
     }
 console.log(supplier);
