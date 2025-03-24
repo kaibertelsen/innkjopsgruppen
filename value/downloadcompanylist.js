@@ -1,3 +1,6 @@
+var SelectedCompanyInFirstTab = null;
+
+
 function loadInAllCompanyes(){
     let klientid = "rec1QGUGBMVaqxhp1";
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"respondAllCompanyes");
@@ -62,12 +65,13 @@ async function fetchAndParseJSON(url) {
     }
 }
 
-function companySelected(id,name){
+function companySelected(company){
   //laste ned alle besparelseslinjene på dette selskapet 
-  document.getElementById("customernametext").innerHTML = name;
+  document.getElementById("customernametext").innerHTML = company.name;
   document.getElementById("companyvolumwrapper").style.display = "block";
 
-  companyId = id;
+  companyId = company.airtable;
+  SelectedCompanyInFirstTab = company;
   let body = bodyFindlist(id,"customerid");
  	Getlistairtable(baseid,"tbly9xd4ho0Z9Mvlv",body,"respondcustomerlist");
   

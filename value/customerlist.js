@@ -77,7 +77,7 @@ function startvaluelist(data, load, sortname, descending) {
         name.textContent = company.Name;
         name.addEventListener("click", () => {
             historylog = "customerList";
-            handleCompanyClick(company.Name, company.airtable);
+            handleCompanyClick(company);
         });
 
   

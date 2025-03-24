@@ -176,14 +176,20 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
 
 
     const saveBody = {
-        fields: {
             "leverandør": supplier.airtable,
             "cut": cutValueFinal,
             "group": groupSettingSelect.value
-        }
     };
 
-    console.log("Lagre innstillinger:", saveBody);
+    //sjekke om sleskapet har en array med flere settinger
+    let companycutsettings = SelectedCompanyInFirstTab.cutsettings || [];
+    companycutsettings.push(saveBody);
+    SelectedCompanyInFirstTab.cutsettings = companycutsettings;
+
+    //lager på server
+
+
+    console.log(JSON.stringify(saveBody));
 
     //Lagre innstillingene
     //Lukk dropdown

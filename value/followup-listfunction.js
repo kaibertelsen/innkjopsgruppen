@@ -600,8 +600,8 @@ function responseupdateFollowingUpNote(data) {
 
 
 // Funksjon for å håndtere klikk på selskapets navn
-function handleCompanyClick(name, airtableId) {
-    companySelected(airtableId, name);
+function handleCompanyClick(company) {
+    companySelected(company);
     document.getElementById("besparelsebutton").click();
     //synligjør en tilbakeknapp 
     document.getElementById("backbuttonCustomer").style.display = "inline-block";
