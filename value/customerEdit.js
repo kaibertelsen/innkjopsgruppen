@@ -69,8 +69,10 @@ if (supplier.defaultcut) {
    //sjekke om leverandøren har volumrabetter
    if(!supplier.quantity){
     //har ikke mengderabatter
-    document.getElementById("groupCutcompanySelector").value = 1;
-    document.getElementById("cutvalueInput").disabled = false;
+    const selector = document.getElementById("groupCutcompanySelector");
+    selector.value = 1;
+    selector.disabled = true;
+    
    }
    
 }
