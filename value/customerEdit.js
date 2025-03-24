@@ -165,3 +165,32 @@ function handleGroupSelection(value) {
             console.log("Ugyldig valg");
     }
 }
+
+document.getElementById("saveCompanySettings").addEventListener("click", function () {
+    const cutValue = cutInputCp.value;
+    const supplierName = searchInputCs.value;
+    const supplier = supplierlistbuffer.find(supplier => supplier.name === supplierName);
+    const cutValueNumber = parseFloat(cutValue.replace(/[^\d.]/g, ""));
+    const cutValueText = cutValue.replace(/\d/g, "");
+    const cutValueFinal = cutValueNumber + cutValueText;
+
+
+    const saveBody = {
+        fields: {
+            "leverandør": supplier.airtable,
+            "cut": cutValueFinal,
+            "group": groupSettingSelect.value
+        }
+    };
+
+    console.log("Lagre innstillinger:", saveBody);
+    
+    //Lagre innstillingene
+    //Lukk dropdown
+    dropdownCs.innerHTML = "";
+    dropdownCs.style.display = "none";
+    cutInputCp.value = "";
+    cutInputCp.style.display = "none";
+    selector.style.display = "none";
+    saveCompanySettings.style.display = "none";
+}
