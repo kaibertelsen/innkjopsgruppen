@@ -184,7 +184,7 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
     };
 
     console.log("Lagre innstillinger:", saveBody);
-    
+
     //Lagre innstillingene
     //Lukk dropdown
     dropdownCs.innerHTML = "";
@@ -193,4 +193,4 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
     cutInputCp.style.display = "none";
     selector.style.display = "none";
     saveCompanySettings.style.display = "none";
-}
+});
