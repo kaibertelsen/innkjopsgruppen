@@ -462,7 +462,10 @@ function listNotes(notes,company) {
                 deleteButton.style.display = "block";
 
                 var quill = new Quill(noteText, {
-                    theme: 'snow' // 'snow' = enkel, 'bubble' = mer minimalistisk
+                    theme: 'snow', // 'snow' = enkel, 'bubble' = mer minimalistisk
+                    modules: {
+                        toolbar: false
+                    }
                 });
                 quill.clipboard.dangerouslyPasteHTML(htmlContent);
 
