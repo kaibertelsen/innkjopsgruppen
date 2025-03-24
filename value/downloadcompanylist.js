@@ -72,7 +72,7 @@ function companySelected(company){
 
   companyId = company.airtable;
   SelectedCompanyInFirstTab = company;
-  let body = bodyFindlist(id,"customerid");
+  let body = bodyFindlist(company.airtable,"customerid");
  	Getlistairtable(baseid,"tbly9xd4ho0Z9Mvlv",body,"respondcustomerlist");
   
   //tømm data ang ansattportal
