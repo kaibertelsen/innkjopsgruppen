@@ -72,31 +72,32 @@ searchInputCs.addEventListener("input", function () {
 function companySupplierSearch(supplier) {
     //Sjekke om denne leverandøren har en standard rabatt
     if (supplier.defaultcut) {
-    //sett input number til default rabatt
-    const cutInput = document.getElementById("cutvalueInput");
-    cutInput.value = supplier.defaultcut * 100 + "%";
-    cutInput.style.display = "block";
+        //sett input number til default rabatt
+        const cutInput = document.getElementById("cutvalueInput");
+        cutInput.value = supplier.defaultcut * 100 + "%";
+        cutInput.style.display = "block";
 
-    //gjøre selector
-        const selector = document.getElementById("groupCutcompanySelector");
-        selector.style.display = "block";
-        //
-        const saveCompanySettings = document.getElementById("saveCompanySettings");
-        saveCompanySettings.style.display = "inline-block";
+        //gjøre selector
+            const selector = document.getElementById("groupCutcompanySelector");
+            selector.style.display = "block";
+            //
+            const saveCompanySettings = document.getElementById("saveCompanySettings");
+            saveCompanySettings.style.display = "inline-block";
 
-    //sjekke om leverandøren har volumrabetter
-    if(!supplier.quantity){
-        //har ikke mengderabatter
-        const selector = document.getElementById("groupCutcompanySelector");
-        selector.value = 1;
-        selector.disabled = true;
-    }else{
-        //har mengderabatter
-        const selector = document.getElementById("groupCutcompanySelector");
-        selector.disabled = false;
-    
+        //sjekke om leverandøren har volumrabetter
+        if(!supplier.quantity){
+            //har ikke mengderabatter
+            const selector = document.getElementById("groupCutcompanySelector");
+            selector.value = 1;
+            selector.disabled = true;
+        }else{
+            //har mengderabatter
+            const selector = document.getElementById("groupCutcompanySelector");
+            selector.disabled = false;
+        
+        }
+    console.log(supplier);
     }
-console.log(supplier);
 }
 
 const cutInputCp = document.getElementById("cutvalueInput");
