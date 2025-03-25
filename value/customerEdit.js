@@ -208,6 +208,7 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
 });
 
 function respondCompanyCutSettings(data){
-    SelectedCompanyInFirstTab.cutsettings.push(data.fields);
+    let datajson = JSON.parse(data.fields.json);
+    SelectedCompanyInFirstTab.cutsettings.push(datajson);
     listcompanycutsettings(SelectedCompanyInFirstTab.cutsettings);
 }
