@@ -39,7 +39,7 @@ function startFollowinglistElement(data) {
         companyNameLabel.style.cursor = "pointer";
         companyNameLabel.addEventListener("click", () => {
             historylog = "followupList";
-            handleCompanyClick(company.Name, company.airtable);
+            handleCompanyClick(company);
         });
 
        // Håndterer klikk på "status"-elementet
