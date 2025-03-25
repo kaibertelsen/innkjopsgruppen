@@ -78,7 +78,7 @@ function makesaveObject(data, importid) {
     const customCut = data.cutsettings?.find(cut => cut.supplier === suplierid);
 
     if (customCut && customCut.cut != null) {
-        fields.localcut = Number(customCut.cut);
+        fields.localcut = Number(customCut.cut)/100;
     }
 
     return fields;
