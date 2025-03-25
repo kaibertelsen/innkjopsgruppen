@@ -195,11 +195,6 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
             "user": [userairtableid]
     };
 
-    //sjekke om sleskapet har en array med flere settinger
-    let companycutsettings = SelectedCompanyInFirstTab.cutsettings || [];
-    companycutsettings.push(saveBody);
-    SelectedCompanyInFirstTab.cutsettings = companycutsettings;
-
     //lager på server for selskapet
     POSTairtable("app1WzN1IxEnVu3m0","tbljS13MOpiiyCWPJ",JSON.stringify(saveBody),"respondCompanyCutSettings");
     
