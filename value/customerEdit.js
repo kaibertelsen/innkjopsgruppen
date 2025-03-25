@@ -103,35 +103,47 @@ function companySupplierSearch(supplier) {
 const cutInputCp = document.getElementById("cutvalueInput");
 
 cutInputCp.addEventListener("input", function () {
-    let value = this.value.replace(/[^\d]/g, ""); // Fjern alt som ikke er tall
-    if (value === "") {
+    let rawValue = this.value;
+
+    // Tillat bare tall og ett desimaltegn (punktum eller komma)
+    rawValue = rawValue.replace(/[^0-9.,]/g, "");
+
+    // Hvis både punktum og komma finnes, fjern den ene
+    if ((rawValue.match(/[.,]/g) || []).length > 1) {
+        rawValue = rawValue.slice(0, -1); // fjern siste tegn
+    }
+
+    // Normaliser til punktum som desimaltegn
+    rawValue = rawValue.replace(",", ".");
+
+    // Hvis tomt, resett og avslutt
+    if (rawValue === "") {
         this.value = "";
         return;
     }
 
-    //setter på ending etter hva som er valgt i selector
+    // Sett på riktig enhet
     const selector = document.getElementById("groupCutcompanySelector");
     const selectedValue = selector.value;
+    let displayValue = rawValue;
+
     switch (selectedValue) {
         case "1":
-            value = value + "%";
+            displayValue += "%";
             break;
         case "2":
-            value = value + "øre/l";
+            displayValue += "øre/l";
             break;
         case "3":
-            value = value + "kr/m³";
+            displayValue += "kr/m³";
             break;
         default:
             console.error("Ugyldig valg");
     }
 
-    this.value = value;
-
-    //resett inputfield
-    
-
+    this.value = displayValue;
 });
+
 
 
 const groupSettingSelect = document.getElementById("groupCutcompanySelector");
