@@ -146,8 +146,15 @@ function controllcompany(data,row,rooting,irow){
           rowElement.classList.add("find");
           
           let airtable = companyobject.airtable;
-          var cobject = {name:name,quantity:qantity,cuttsettings:cutsettings,kundenr:kundenr,orgnr:orgnr,airtable:airtable,note:note,value:value,rowindex:irow};
+          var cobject = {name:name,quantity:qantity,kundenr:kundenr,orgnr:orgnr,airtable:airtable,note:note,value:value,rowindex:irow};
           
+          //hvis companyobject har .cutsettings
+            if (companyobject.cutsettings) {
+                cobject.cutsettings = companyobject.cutsettings;
+            }
+
+
+
           foundCompany.push(cobject);
          
         // Legg til value
