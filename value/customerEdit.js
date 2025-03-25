@@ -184,13 +184,15 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
     const supplier = supplierlistbuffer.find(supplier => supplier.name === supplierName);
     const cutValueNumber = parseFloat(cutValue.replace(/[^\d.]/g, ""));
     const cutValueText = cutValue.replace(/\d/g, "");
-    const cutValueFinal = cutValueNumber + cutValueText;
+    const cutValueFinal = cutValueNumber;
 
 
     const saveBody = {
-            "leverandør": supplier.airtable,
+            "company": [SelectedCompanyInFirstTab.airtable],
+            "supplier": [supplier.airtable],
             "cut": cutValueFinal,
-            "group": groupSettingSelect.value
+            "group": groupSettingSelect.value,
+            "user": [userairtableid]
     };
 
     //sjekke om sleskapet har en array med flere settinger
@@ -198,14 +200,8 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
     companycutsettings.push(saveBody);
     SelectedCompanyInFirstTab.cutsettings = companycutsettings;
 
-    //lager på server for selskap
-    let body = {cutsettings:JSON.stringify(companycutsettings)};
-    PATCHairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",SelectedCompanyInFirstTab.airtable,JSON.stringify(body),"respondCompanyCutSettings");
-
-
-    console.log(JSON.stringify(saveBody));
-
-    //Lagre innstillingene
+    //lager på server for selskapet
+    POSTairtable("app1WzN1IxEnVu3m0","tbljS13MOpiiyCWPJ",JSON.stringify(saveBody),"respondCompanyCutSettings");
     
     //Lukk dropdown
     dropdownCs.innerHTML = "";
