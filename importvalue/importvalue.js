@@ -78,12 +78,7 @@ function makesaveObject(data, importid) {
     const customCut = data.cutsettings?.find(cut => cut.supplier === suplierid);
 
     if (customCut && customCut.cut != null) {
-        fields.cut = customCut.cut;
-
-        // legg gjerne også til mode hvis det finnes
-        if (customCut.mode) {
-            fields.cutmode = customCut.mode;
-        }
+        fields.localcut = Number(customCut.cut);
     }
 
     return fields;
