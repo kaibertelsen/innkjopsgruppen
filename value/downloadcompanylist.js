@@ -90,7 +90,7 @@ function listcompanycutsettings(data){
     cutsettingsConteiner.innerHTML = "";
 
     const cutsettingselementlibrary = document.getElementById("cutsettingselementlibrary");
-    const nodeelement = cutsettingselementlibrary.content.querySelector(".cutsettingsrow");
+    const nodeelement = cutsettingselementlibrary.querySelector(".cutsettingsrow");
 
     data.forEach(item => {
         const cutsettingsrow = nodeelement.cloneNode(true);
