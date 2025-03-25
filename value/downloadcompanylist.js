@@ -66,17 +66,65 @@ async function fetchAndParseJSON(url) {
 }
 
 function companySelected(company){
-  //laste ned alle besparelseslinjene på dette selskapet 
-  document.getElementById("customernametext").innerHTML = company.name;
-  document.getElementById("companyvolumwrapper").style.display = "block";
+    //laste ned alle besparelseslinjene på dette selskapet 
+    document.getElementById("customernametext").innerHTML = company.name;
+    document.getElementById("companyvolumwrapper").style.display = "block";
 
-  companyId = company.airtable;
-  SelectedCompanyInFirstTab = company;
-  let body = bodyFindlist(company.airtable,"customerid");
- 	Getlistairtable(baseid,"tbly9xd4ho0Z9Mvlv",body,"respondcustomerlist");
+    companyId = company.airtable;
+    SelectedCompanyInFirstTab = company;
+    let body = bodyFindlist(company.airtable,"customerid");
+    Getlistairtable(baseid,"tbly9xd4ho0Z9Mvlv",body,"respondcustomerlist");
   
-  //tømm data ang ansattportal
-clearcompanyDetaljes();
+    //tømm data ang ansattportal
+    clearcompanyDetaljes();
+
+    //list companycutsettings
+    if(company.cutsettings){
+        listcompanycutsettings(company.cutsettings);
+    }
+}
+
+function listcompanycutsettings(data){
+    
+    const cutsettingsConteiner = document.getElementById("companysettingslist");
+    cutsettingsConteiner.innerHTML = "";
+
+    const cutsettingselementlibrary = document.getElementById("cutsettingselementlibrary");
+    const nodeelement = cutsettingselementlibrary.content.querySelector(".cutsettingsrow");
+
+    data.forEach(item => {
+        const cutsettingsrow = nodeelement.cloneNode(true);
+
+        const supplier = cutsettingsrow.querySelector(".supplier");
+        supplier.textContent = item.suppliername || "";
+
+        const cut = cutsettingsrow.querySelector(".cut");
+        let mode = "";
+        if(item.mode == "1"){
+            mode = "%";
+        }else if(item.mode == "2"){
+            mode = "øre/l";
+        }else if(item.mode == "3"){
+            mode = "kr/m³";
+        }
+        cut.textContent = item.cut + " " + mode;
+
+        const user = cutsettingsrow.querySelector(".user");
+        user.textContent = item.username || "";
+
+        const deletebutton = cutsettingsrow.querySelector(".deletebutton");
+        deletebutton.addEventListener("click", () => {
+            // Slett elementet fra arrayen
+            const index = data.indexOf(item);
+            data.splice(index, 1);
+            
+            // Oppdater visningen
+            listcompanycutsettings(data);
+        });
+
+        cutsettingsConteiner.appendChild(cutsettingsrow);
+    });
+
 }
 
 const companysettingsConteiner = document.getElementById("companysettingsConteiner");
