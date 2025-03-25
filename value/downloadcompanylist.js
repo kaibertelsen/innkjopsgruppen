@@ -92,6 +92,13 @@ function listcompanycutsettings(data){
     const cutsettingselementlibrary = document.getElementById("cutsettingselementlibrary");
     const nodeelement = cutsettingselementlibrary.querySelector(".cutsettingsrowelement");
 
+    //hvis det er mer en 0 elementer
+    const companycutlableheader = document.getElementById("companycutlableheader");
+    if(data.length>0){
+        companycutlableheader.style.display = "block";
+    }else{
+        companycutlableheader.style.display = "none";
+    }
     data.forEach(item => {
         const cutsettingsrow = nodeelement.cloneNode(true);
 
