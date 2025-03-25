@@ -191,7 +191,7 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
             "company": [SelectedCompanyInFirstTab.airtable],
             "supplier": [supplier.airtable],
             "cut": cutValueFinal,
-            "group": groupSettingSelect.value,
+            "mode": groupSettingSelect.value,
             "user": [userairtableid]
     };
 
