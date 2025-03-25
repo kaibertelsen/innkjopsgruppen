@@ -213,5 +213,6 @@ document.getElementById("saveCompanySettings").addEventListener("click", functio
 });
 
 function respondCompanyCutSettings(data){
-    console.log(data);
+    SelectedCompanyInFirstTab.cutsettings.push(data.fields);
+    listcompanycutsettings(SelectedCompanyInFirstTab.cutsettings);
 }
