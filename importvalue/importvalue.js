@@ -1,4 +1,10 @@
 function importcontrolledcompanyes(){
+
+    //sjekke om supplierid er satt
+    if(suplierid == ""){
+        alert("Leverandør er ikke satt.");
+        return;
+    }
     
     if(isValidDate(datestart.value)&&isValidDate(dateend.value)){
     //1
@@ -46,14 +52,7 @@ function returNewMultiImport(data){
 }
 
 function makesaveObject(data, importid) {
-    //hvis suppilerid er tom eller undefined så stopp og vis en alert
-    if (!data.supplier) {
-        alert("Leverandør er ikke definert");
-        return;
-    }
-
-
-
+   
     const fields = {
         supplier: [suplierid],
         customer: [data.airtable],
