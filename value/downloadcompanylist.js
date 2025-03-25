@@ -114,6 +114,11 @@ function listcompanycutsettings(data){
 
         const deletebutton = cutsettingsrow.querySelector(".delete");
         deletebutton.addEventListener("click", () => {
+
+            // Lagre endringene på server
+            DELETEairtable("app1WzN1IxEnVu3m0","tbljS13MOpiiyCWPJ",item.airtable,"deleteCompanyCutSettings");
+
+
             // Slett elementet fra arrayen
             const index = data.indexOf(item);
             data.splice(index, 1);
@@ -121,8 +126,7 @@ function listcompanycutsettings(data){
             // Oppdater visningen
             listcompanycutsettings(data);
 
-            // Lagre endringene på server
-            DELETEairtable("app1WzN1IxEnVu3m0","tbljS13MOpiiyCWPJ",data.airtable,"deleteCompanyCutSettings");
+            
         });
 
         cutsettingsConteiner.appendChild(cutsettingsrow);
