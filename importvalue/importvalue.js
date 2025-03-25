@@ -240,3 +240,57 @@ function quantityunitSelectorchange(selector) {
 
           gQuantityUnitName = quantityObject.unit
 }
+
+
+function controlSupplierQuantity(suppliers, supplierid) {
+    var supplier = findObjectProperty("airtable", supplierid, suppliers);
+  
+    
+    var quantityWrapper = document.getElementById("quantitywrapper");
+    var quantityName = document.getElementById("quantityname");
+    var quantityuntiWrapper = document.getElementById("quantityuntiwrapper");
+    quantityArray = [];
+  
+      if (supplier?.quantity) {
+        quantityWrapper.style.display = "block";
+        quantityName.textContent = supplier.quantityname[0]+" ("+supplier.quantityunit[0]+")";
+        quantityId = supplier.quantity[0];
+        gQuantityUnitName = supplier.quantityunit[0];
+        
+         
+           for (var i = 0;i<supplier.quantity.length;i++){
+           quantityArray.push({
+              name:supplier.quantityname[i],
+              unit:supplier.quantityunit[i],
+              airtable:supplier.quantity[i] 
+              });
+          }
+  
+  
+          if(supplier.quantity.length>1){
+          //det er flere registrerte her 
+          quantityuntiWrapper.style.display = "block";
+              
+          let selectorOptions = supplier.quantity.map((quantity, i) => ({
+          text: supplier.quantityname[i],
+          value: quantity
+          }));
+      
+          let selectElement = document.getElementById("quantityunitselector");
+          selectElement.innerHTML = "";
+              selectorOptions.forEach(option => {
+                  let opt = document.createElement("option");
+                  opt.text = option.text;
+                  opt.value = option.value;
+                  selectElement.add(opt);
+              });
+          }else{
+              quantityuntiWrapper.style.display = "none";
+          }
+  
+      } else {
+          quantityuntiWrapper.style.display = "none";
+          quantityWrapper.style.display = "none";
+      }
+  }
+  
