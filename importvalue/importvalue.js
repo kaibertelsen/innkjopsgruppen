@@ -75,14 +75,15 @@ function makesaveObject(data, importid) {
 
         if(gQuantityUnitName == "Liter" && customCut.mode == "2"){
             //besparelsesmodus øre/liter
-            fields.localsavingsperquantity = Number(customCut.cut);
+            fields.localsavingsperquantity = Number(customCut.cut)/100;
         }else if(gQuantityUnitName == "m3" && customCut.mode == "3"){
-            //besparelsesmodus øre/m3
+            //besparelsesmodus kr/m3
             fields.localsavingsperquantity = Number(customCut.cut);
         } else if(customCut.mode == "1"){
             //prosent besparelse
             fields.localcut = Number(customCut.cut)/100;
         }  
+
     }
 
     if (quantityId !== "") {
