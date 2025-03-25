@@ -46,8 +46,8 @@ function returNewMultiImport(data){
 }
 
 function makesaveObject(data, importid) {
-    //hvis suppilerid er tom så stopp og vis en alert
-    if (data.supplier === "") {
+    //hvis suppilerid er tom eller undefined så stopp og vis en alert
+    if (!data.supplier) {
         alert("Leverandør er ikke definert");
         return;
     }
