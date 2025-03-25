@@ -433,6 +433,9 @@ function listCustomer(data) {
                 {
                 text:"Ønsker ikke å bytte leverandør",
                 value:"Ønsker ikke å bytte leverandør"
+                },{
+                text:"Vil ikke",
+                value:"Vil ikke"
                 }
                 ];
 
