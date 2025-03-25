@@ -120,6 +120,9 @@ function listcompanycutsettings(data){
             
             // Oppdater visningen
             listcompanycutsettings(data);
+
+            // Lagre endringene på server
+            DELETEairtable("app1WzN1IxEnVu3m0","tbljS13MOpiiyCWPJ",data.airtable,"deleteCompanyCutSettings");
         });
 
         cutsettingsConteiner.appendChild(cutsettingsrow);
@@ -127,6 +130,9 @@ function listcompanycutsettings(data){
 
 }
 
+function deleteCompanyCutSettings(data){
+    console.log(data);
+}
 const companysettingsConteiner = document.getElementById("companysettingsConteiner");
 companysettingsConteiner.style.display = "none";
 
