@@ -1,3 +1,4 @@
+var gQuantityUnitName = "";
 function importcontrolledcompanyes(){
 
     //sjekke om supplierid er satt
@@ -66,6 +67,24 @@ function makesaveObject(data, importid) {
         type: "handel"
     };
 
+     // 👉 Legg til cutsetting hvis kunde har en lokal avtale med denne leverandøren
+     const customCut = data.cutsettings?.find(cut => cut.supplier === suplierid);
+
+    if (customCut && customCut.cut != null) {
+        //sjekke om det er % eller liter
+
+        if(gQuantityUnitName == "Liter" && customCut.mode == "2"){
+            //besparelsesmodus øre/liter
+            fields.localsavingsperquantity = Number(customCut.cut);
+        }else if(gQuantityUnitName == "m3" && customCut.mode == "3"){
+            //besparelsesmodus øre/m3
+            fields.localsavingsperquantity = Number(customCut.cut);
+        } else if(customCut.mode == "1"){
+            //prosent besparelse
+            fields.localcut = Number(customCut.cut)/100;
+        }  
+    }
+
     if (quantityId !== "") {
         fields.supplierquantity = [quantityId];
     }
@@ -74,12 +93,7 @@ function makesaveObject(data, importid) {
         fields.quantity = data.quantity;
     }
 
-    // 👉 Legg til cutsetting hvis kunde har en lokal avtale med denne leverandøren
-    const customCut = data.cutsettings?.find(cut => cut.supplier === suplierid);
-
-    if (customCut && customCut.cut != null) {
-        fields.localcut = Number(customCut.cut)/100;
-    }
+   
 
     return fields;
 }
@@ -214,3 +228,14 @@ function findObjectCName(property,value,array){
      }   
     return false;
     }
+
+function quantityunitSelectorchange(selector) {
+
+        let quantityObject = findObjectProperty("airtable",selector.value,quantityArray);
+          let selectedText = quantityObject.name+" ("+quantityObject.unit+")";
+          var quantityName = document.getElementById("quantityname");
+          quantityName.textContent = selectedText;
+          quantityId = selector.value;
+
+          gQuantityUnitName = quantityObject.unit
+}
