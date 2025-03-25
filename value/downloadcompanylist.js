@@ -112,7 +112,7 @@ function listcompanycutsettings(data){
         const user = cutsettingsrow.querySelector(".user");
         user.textContent = item.username || "";
 
-        const deletebutton = cutsettingsrow.querySelector(".deletebutton");
+        const deletebutton = cutsettingsrow.querySelector(".delete");
         deletebutton.addEventListener("click", () => {
             // Slett elementet fra arrayen
             const index = data.indexOf(item);
