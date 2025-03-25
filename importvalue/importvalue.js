@@ -29,37 +29,7 @@ function returnsaveimport(data,id){
 
 
     multisave(saveObject, baseid, "tbly9xd4ho0Z9Mvlv", "returNewMultiImport");
-  /*
-    const records = saveObject
-
-    const batchSize = 10;
-    const delay = 300; // delay in milliseconds
-
-    const sendBatch = async (batch) => {
-    const body = batch;
-    console.log(body);
-    POSTairtable(baseid,"tbly9xd4ho0Z9Mvlv",JSON.stringify(body),"returnsavevalue");
-    sendpacks ++
-    };
-
-
-    const delayExecution = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-    };
-
-    const processBatches = async () => {
-        for (let i = 0; i < records.length; i += batchSize) {
-            const batch = records.slice(i, i + batchSize);
-            await sendBatch(batch);
-            if (i + batchSize < records.length) {
-            await delayExecution(delay);
-            }
-        }
-    };
-
-    processBatches();
-
-*/
+  
     document.getElementById("importstatuswrapper").style.display = "block";
     document.getElementById("aftercontrollelement").style.display = "none";
 
@@ -75,20 +45,43 @@ function returNewMultiImport(data){
 
 }
 
-function makesaveObject(data,importid){
-        //lage save object
-        var fields = {supplier:[suplierid],customer:[data.airtable],customernr:data.kundenr,import:[importid],value:data.value,tracking:"webimporter",rowindex:data.rowindex,note:data.note,dachboard:["recfJZ0PCPOrWcBLq"],type:"handel"};
-        
-        if(quantityId != ""){
+function makesaveObject(data, importid) {
+    const fields = {
+        supplier: [suplierid],
+        customer: [data.airtable],
+        customernr: data.kundenr,
+        import: [importid],
+        value: data.value,
+        tracking: "webimporter",
+        rowindex: data.rowindex,
+        note: data.note,
+        dachboard: ["recfJZ0PCPOrWcBLq"],
+        type: "handel"
+    };
+
+    if (quantityId !== "") {
         fields.supplierquantity = [quantityId];
-        }
-        
-        if(data.quantity != ""){
+    }
+
+    if (data.quantity !== "") {
         fields.quantity = data.quantity;
+    }
+
+    // 👉 Legg til cutsetting hvis kunde har en lokal avtale med denne leverandøren
+    const customCut = data.cutsettings?.find(cut => cut.supplier === suplierid);
+
+    if (customCut && customCut.cut != null) {
+        fields.cut = customCut.cut;
+
+        // legg gjerne også til mode hvis det finnes
+        if (customCut.mode) {
+            fields.cutmode = customCut.mode;
         }
-        
-        return fields
+    }
+
+    return fields;
 }
+
 
 function controllcompany(data,row,rooting,irow){
 
@@ -153,7 +146,7 @@ function controllcompany(data,row,rooting,irow){
           rowElement.classList.add("find");
           
           let airtable = companyobject.airtable;
-          var cobject = {name:name,quantity:qantity,kundenr:kundenr,orgnr:orgnr,airtable:airtable,note:note,value:value,rowindex:irow};
+          var cobject = {name:name,quantity:qantity,cuttsettings:cutsettings,kundenr:kundenr,orgnr:orgnr,airtable:airtable,note:note,value:value,rowindex:irow};
           
           foundCompany.push(cobject);
          
