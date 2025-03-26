@@ -42,7 +42,7 @@ function listElements(data,list,type){
                     }
                 //dette er en volum enhet og ikke kroner
                 let quantityunitLable = data[i].supplierquantityunit;
-                if (data[i].quantityunit == "Liter"){
+                if (data[i].supplierquantityunit == "Liter"){
                     //forkortelse til "L"
                     quantityunitLable = "(L)";
                 }
