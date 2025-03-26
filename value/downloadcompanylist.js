@@ -201,34 +201,32 @@ function groupSuppliersCashflow(data) {
     data.forEach(item => {
       if (item.type !== "handel") return; // hopper over ikke-handel-linjer
   
-      // Finn unikt nøkkel basert på supplier, cut og supplierquantityunit
+      // Unik nøkkel basert på supplier, cut og supplierquantityunit
       const key = `${item.supplier}__${item.cut}__${item.supplierquantityunit}`;
   
-      const existing = grouped.find(
-        g =>
-          g._key === key
-      );
+      const existing = grouped.find(g => g._key === key);
   
       if (existing) {
         existing.value += Number(item.value);
-        existing.cut += Number(item.cut);
+        existing.cutvalue += Number(item.cut);
         existing.lines += 1;
       } else {
-        grouped.push({
-          _key: key, // intern nøkkel, kan fjernes etterpå hvis ønskelig
-          supplier: item.supplier,
-          cut: Number(item.cut),
-          supplierquantityunit: item.supplierquantityunit,
+        // Kopier alle felt fra første item og legg til ekstra felt
+        const first = {
+          ...item,
+          _key: key,
           value: Number(item.value),
-          lines: 1,
-          airtable: item.airtable
-        });
+          cutvalue: Number(item.cut),
+          lines: 1
+        };
+        grouped.push(first);
       }
     });
   
-    // Valgfritt: fjerne _key før return
+    // Fjern _key før return
     return grouped.map(({ _key, ...rest }) => rest);
-}
+  }
+  
 
 
 
