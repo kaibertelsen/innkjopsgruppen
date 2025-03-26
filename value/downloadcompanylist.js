@@ -216,7 +216,7 @@ function groupSuppliersCashflow(data) {
           ...item,
           _key: key,
           value: Number(item.value),
-          cutvalue: Number(item.cut),
+          cutvalue: Number(item.cutvalue),
           lines: 1
         };
         grouped.push(first);
