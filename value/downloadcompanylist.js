@@ -170,7 +170,7 @@ function mainrootcompanylist(data){
     // Filtrere ut alle som har "handel" som type
     let handleList = filterlist.filter(item => item.type === "handel");
 
-    let sum1 = listcompanyinview(groupCahflow);
+    let sum1 = listcompanyinview(mergesuppiersCachflow(handleList));
     //liste opp bistand
     let sum2 = listcompanybistand(findObjectsProperty("type","bistand",filterlist));
     //lister opp analyse
@@ -202,13 +202,13 @@ function groupSuppliersCashflow(data) {
       if (item.type !== "handel") return; // hopper over ikke-handel-linjer
   
       // Unik nøkkel basert på supplier, cut og supplierquantityunit
-      const key = `${item.supplier}__${item.cut}__${item.supplierquantityunit}`;
+      const key = `${item.supplier}__${item.defaultcut}__${item.supplierquantityunit}`;
   
       const existing = grouped.find(g => g._key === key);
   
       if (existing) {
         existing.value += Number(item.value);
-        existing.cutvalue += Number(item.cut);
+        existing.cutvalue += Number(item.cutvalue);
         existing.lines += 1;
       } else {
         // Kopier alle felt fra første item og legg til ekstra felt
@@ -226,7 +226,6 @@ function groupSuppliersCashflow(data) {
     // Fjern _key før return
     return grouped.map(({ _key, ...rest }) => rest);
   }
-  
 
 
 
