@@ -77,7 +77,7 @@ function listElements(data,list,type){
             }
 
             const c4 = clonerow.getElementsByClassName("c4")[0];
-            let besparelse = data[i].cutvalue;
+            let besparelse = data[i].cutvalue || 0;
             c4.innerHTML = valutalook(round(besparelse))+" Kr";
             gcut = gcut+besparelse;
                         
