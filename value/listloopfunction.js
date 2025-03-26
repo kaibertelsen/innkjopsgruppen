@@ -22,8 +22,7 @@ function listElements(data,list,type){
         clonerow.classList.remove("mal");
         clonerow.classList.add("copy")
         clonerow.dataset.index = i;
-                    
-                    
+                         
         //felles
         const c1 = clonerow.getElementsByClassName("c1")[0];
 
@@ -147,7 +146,7 @@ function listElements(data,list,type){
             buttonline.style.display = "flex"; 
             buttonline.id = findid;
             buttonline.onclick = function() {
-            findLines(suppliername,dataid,clonerow.id,constantcut);
+            findLines(data[i],clonerow);
             };
             editline.style.display = "none"; 
         }else{
@@ -166,8 +165,7 @@ function listElements(data,list,type){
             
     return {sumvalue:gvalue,sumcutvalue:gcut,sumbvalue:bvalue,sumavalue:avalue};         
 }
-
-
+/*
 function mergesuppiersCachflow(data){
  
     var mergearray = [];
@@ -226,4 +224,96 @@ function mergesuppiersCachflow(data){
             
         }
     return sortArrayABC("suppliername",mergearray);
+}
+*/
+function groupSuppliersCashflow(data) {
+    if (!Array.isArray(data) || data.length === 0) return data;
+  
+    const grouped = [];
+  
+    const getValue = v => Array.isArray(v) ? v[0] : v;
+  
+    data.forEach(item => {
+      if (item.type !== "handel") return;
+  
+      const supplier = getValue(item.supplier);
+      const defaultcut = getValue(item.defaultcut);
+      const unit = getValue(item.supplierquantityunit);
+      const localcut = getValue(item.localcut);
+  
+      const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
+  
+      const existing = grouped.find(g => g._key === key);
+  
+      if (existing) {
+        existing.value += Number(item.value);
+        existing.cutvalue += Number(item.cutvalue);
+        existing.lines += 1;
+        existing.dataline.push(item); // legg til original linje
+      } else {
+        const first = {
+          ...item,
+          _key: key,
+          value: Number(item.value),
+          cutvalue: Number(item.cutvalue),
+          lines: 1,
+          dataline: [item] // start med én linje
+        };
+        grouped.push(first);
+      }
+    });
+  
+    return grouped.map(({ _key, ...rest }) => rest);
+}
+  
+function findLines(data,element){
+
+
+let subviewlist = element.querySelector(".subviewlist");
+    //sjekk om denne er synlig eller ikke toogle den
+    if(subviewlist.style.display == "block"){
+        subviewlist.style.display = "none";
+    } else{
+    subviewlist.style.display = "block";
+    }
+
+    removeAllChildNodes(subviewlist);
+
+    let dataLine = data.dataline;
+    console.log(dataLine);
+
+
+
+/*
+
+
+    var open = true;
+//sjekke om vinduet er åpen på samme gruppe
+if(grouplinsopen){
+    if(grouplinsopen == element.id){
+        //samme vindu åpent lukk dette
+        document.getElementById("listcopyholderlines").style.display = "none";
+        grouplinsopen = false;
+        open = false;
+    }
+}
+
+if(open){
+    grouplinsopen = element.id;
+    reseteditwrapperinput();
+    document.getElementById("listcopyholderlines").style.display = "block";
+    //data
+    var dataline = findObjectsProperty("suppliername",suppliername,companydatalines);
+    var datarigthtype = findObjectsProperty("type","handel",dataline);
+    
+    var datarightcut = mergerightcut(datarigthtype);
+    var data = findObjectsProperty("cut",cut,datarightcut);
+    
+    const list = document.getElementById("listcopyholderlines");
+    const referanseelement = document.getElementById(elementid);
+    insertElementInline(referanseelement,list);
+    
+     var sumObject = listElements(data,list,1);
+}
+     */
 }

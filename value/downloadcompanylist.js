@@ -190,46 +190,7 @@ function mainrootcompanylist(data){
   moreAbouteCompany();
 }
 
-function groupSuppliersCashflow(data) {
-    if (!Array.isArray(data) || data.length === 0) return data;
-  
-    const grouped = [];
-  
-    const getValue = v => Array.isArray(v) ? v[0] : v;
-  
-    data.forEach(item => {
-      if (item.type !== "handel") return;
-  
-      const supplier = getValue(item.supplier);
-      const defaultcut = getValue(item.defaultcut);
-      const unit = getValue(item.supplierquantityunit);
-      const localcut = getValue(item.localcut); // lokal cut kan være undefined
-  
-      // Unik nøkkel: nå med localcut inkludert
-      const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
 
-      console.log(key);
-  
-      const existing = grouped.find(g => g._key === key);
-  
-      if (existing) {
-        existing.value += Number(item.value);
-        existing.cutvalue += Number(item.cutvalue);
-        existing.lines += 1;
-      } else {
-        const first = {
-          ...item,
-          _key: key,
-          value: Number(item.value),
-          cutvalue: Number(item.cutvalue),
-          lines: 1
-        };
-        grouped.push(first);
-      }
-    });
-  
-    return grouped.map(({ _key, ...rest }) => rest);
-  }
   
   
 
