@@ -201,10 +201,12 @@ function groupSuppliersCashflow(data) {
       if (item.type !== "handel") return;
   
       const supplier = getValue(item.supplier);
-      const cut = getValue(item.defaultcut);
+      const defaultcut = getValue(item.defaultcut);
       const unit = getValue(item.supplierquantityunit);
+      const localcut = item.localcut ?? ""; // lokal cut kan være undefined
   
-      const key = `${supplier}__${cut}__${unit}`;
+      // Unik nøkkel: nå med localcut inkludert
+      const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
   
       const existing = grouped.find(g => g._key === key);
   
@@ -226,6 +228,7 @@ function groupSuppliersCashflow(data) {
   
     return grouped.map(({ _key, ...rest }) => rest);
   }
+  
   
 
 

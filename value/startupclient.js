@@ -337,7 +337,6 @@ function listElements(data,list,type){
                           gvalue = gvalue+Number(xvalue);
                         }
                        
-                        
                         const c4 = clonerow.getElementsByClassName("c4")[0];
                         let besparelse = data[i].cut;
                         c4.innerHTML = valutalook(round(besparelse))+" Kr";
