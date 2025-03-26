@@ -163,11 +163,11 @@ function mainrootcompanylist(data){
 const selector = document.getElementById("dashboarddateselector");
 var datoarray = periodArrayCleaner("maindate","seconddate",selector,data);   
     
-    
- let sum1 = listcompanyinview(mergesuppiersCachflow(findObjectsProperty("type","handel",datoarray)));
- //liste opp bistand
+
+  let sum1 = listcompanyinview(mergesuppiersCachflow(findObjectsProperty("type","handel",datoarray)));
+  //liste opp bistand
   let sum2 = listcompanybistand(findObjectsProperty("type","bistand",datoarray));
- //lister opp analyse
+  //lister opp analyse
   let sum3 = listcompanyanalyse(findObjectsProperty("type","analyse",datoarray));
   document.getElementById("sumtotalb").innerHTML = valutalook(round(sum1+sum2+sum3))+" Kr";
   document.getElementById("sumtotalb").style.display = "inline-block";

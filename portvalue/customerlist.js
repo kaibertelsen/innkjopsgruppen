@@ -436,6 +436,9 @@ function listCustomer(data) {
                 },{
                 text:"Vil ikke",
                 value:"Vil ikke"
+                },{
+                text:"Kjøpt opp/slått sammen",
+                value:"Kjøpt opp/slått sammen"
                 }
                 ];
 
