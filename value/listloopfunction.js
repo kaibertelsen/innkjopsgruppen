@@ -34,13 +34,19 @@ function listElements(data,list,type){
             const c3 = clonerow.getElementsByClassName("c3")[0];
       
             if(data[i]?.quantityname){
-                let quantityname = data[i].quantityname;
-                            //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
-                            if(quantityname == "Diesel" || quantityname == "Bensin"){
-                                quantityname = "Drivstoff";
-                            }
                 //dette er en volum enhet og ikke kroner
-                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+quantityname;
+                let quantityname = data[i].quantityname;
+                    //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
+                    if(quantityname == "Diesel" || quantityname == "Bensin"){
+                        quantityname = "Drivstoff";
+                    }
+                //dette er en volum enhet og ikke kroner
+                let quantityunitLable = data[i].quantityunit;
+                if (data[i].quantityunit == "Liter"){
+                    //forkortelse til "L"
+                    quantityunitLable = "(L)";
+                }
+                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
                 c3.textContent = "";
                 //(Number(data[i].cutvalue) / Number(data[i].value)).toFixed(1) + " Kr/pr. " + data[i].quantityunit;
             }else{
@@ -51,10 +57,7 @@ function listElements(data,list,type){
                 c2.innerHTML = valutalook(round(xvalue, 0))+" Kr"
                 gvalue = gvalue+xvalue;
 
-                var xcut = 0;
-                if(data[i]?.cut){
-                    xcut = data[i].cut;
-                }
+                var xcut = data[i]?.localcut || data[i]?.defaultcut || 0;
                 c3.innerHTML = round(Number(xcut)*100, 2)+"%";
             }
 
