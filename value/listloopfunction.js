@@ -35,13 +35,13 @@ function listElements(data,list,type){
       
             if(data[i]?.quantity>0){
                 //dette er en volum enhet og ikke kroner
-                let quantityname = data[i].quantityname;
+                let quantityname = data[i].supplierquantityname || "";
                     //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
                     if(quantityname == "Diesel" || quantityname == "Bensin"){
                         quantityname = "Drivstoff";
                     }
                 //dette er en volum enhet og ikke kroner
-                let quantityunitLable = data[i].quantityunit;
+                let quantityunitLable = data[i].supplierquantityunit;
                 if (data[i].quantityunit == "Liter"){
                     //forkortelse til "L"
                     quantityunitLable = "(L)";
