@@ -170,7 +170,7 @@ function mainrootcompanylist(data){
     // Filtrere ut alle som har "handel" som type
     let handleList = filterlist.filter(item => item.type === "handel");
 
-    let sum1 = listcompanyinview(mergesuppiersCachflow(groupCahflow));
+    let sum1 = listcompanyinview(groupCahflow);
     //liste opp bistand
     let sum2 = listcompanybistand(findObjectsProperty("type","bistand",filterlist));
     //lister opp analyse
