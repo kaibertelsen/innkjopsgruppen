@@ -145,8 +145,7 @@ function listElements(data,list,type){
             //det er flere linjer
             buttonline.style.display = "flex"; 
             buttonline.id = findid;
-            const dataBlock = data[i];
-           
+            let dataBlock = data[i];
             buttonline.onclick = () => {
                 findLines(dataBlock, clonerow);
             };
