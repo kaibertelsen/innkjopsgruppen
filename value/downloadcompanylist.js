@@ -195,11 +195,16 @@ function groupSuppliersCashflow(data) {
   
     const grouped = [];
   
-    data.forEach(item => {
-      if (item.type !== "handel") return; // hopper over ikke-handel-linjer
+    const getValue = v => Array.isArray(v) ? v[0] : v;
   
-      // Unik nøkkel basert på supplier, cut og supplierquantityunit
-      const key = `${item.supplier}__${item.defaultcut}__${item.supplierquantityunit}`;
+    data.forEach(item => {
+      if (item.type !== "handel") return;
+  
+      const supplier = getValue(item.supplier);
+      const cut = getValue(item.defaultcut);
+      const unit = getValue(item.supplierquantityunit);
+  
+      const key = `${supplier}__${cut}__${unit}`;
   
       const existing = grouped.find(g => g._key === key);
   
@@ -208,7 +213,6 @@ function groupSuppliersCashflow(data) {
         existing.cutvalue += Number(item.cutvalue);
         existing.lines += 1;
       } else {
-        // Kopier alle felt fra første item og legg til ekstra felt
         const first = {
           ...item,
           _key: key,
@@ -220,9 +224,9 @@ function groupSuppliersCashflow(data) {
       }
     });
   
-    // Fjern _key før return
     return grouped.map(({ _key, ...rest }) => rest);
   }
+  
 
 
 
