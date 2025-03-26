@@ -44,16 +44,21 @@ function listElements(data,list,type){
                 let quantityunitLable = data[i].supplierquantityunit;
                 if (data[i].supplierquantityunit == "Liter"){
                     //forkortelse til "L"
-                    quantityunitLable = "(L)";
+                    quantityunitLable = "L";
                 }
-                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
 
+                //skal en vise K eller ikke
+                if(data[i]?.quantity>1999){
+                    c2.textContent = (Number(data[i].value)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
+                }else{
+                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
+                }
                 //besparelse pr enhet
                 let localsavingsperquantity = data[i].localsavingsperquantity || 0;
                 let lable = "";
 
                 //må finne ut om det er best å hvise øre eller krone
-                if(quantityunitLable == "Liter"){
+                if(data[i]?.supplierquantityunit == "Liter"){
                     //vis øre
                     localsavingsperquantity = localsavingsperquantity*100;
                     lable = valutalook(round(localsavingsperquantity, 0))+"øre/L";
