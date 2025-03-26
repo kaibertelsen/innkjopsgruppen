@@ -158,19 +158,25 @@ function respondcustomerlist(data,id){
 
 function mainrootcompanylist(data){
     //sette editwrapper tilbake
- placeEditorWrapperBack();
- //filtrere på valgt dato i velger
-const selector = document.getElementById("dashboarddateselector");
-var datoarray = periodArrayCleaner("maindate","seconddate",selector,data);   
-    
+    placeEditorWrapperBack();
 
-  let sum1 = listcompanyinview(mergesuppiersCachflow(findObjectsProperty("type","handel",datoarray)));
-  //liste opp bistand
-  let sum2 = listcompanybistand(findObjectsProperty("type","bistand",datoarray));
-  //lister opp analyse
-  let sum3 = listcompanyanalyse(findObjectsProperty("type","analyse",datoarray));
-  document.getElementById("sumtotalb").innerHTML = valutalook(round(sum1+sum2+sum3))+" Kr";
-  document.getElementById("sumtotalb").style.display = "inline-block";
+    //filtrere på valgt dato i velger
+    const selector = document.getElementById("dashboarddateselector");
+    let filterlist = periodArrayCleaner("maindate","seconddate",selector,data);   
+
+    //denne er ny forløpig
+    let groupCahflow = groupSuppliersCashflow(filterlist);
+    
+    // Filtrere ut alle som har "handel" som type
+    let handleList = filterlist.filter(item => item.type === "handel");
+
+    let sum1 = listcompanyinview(mergesuppiersCachflow(handleList));
+    //liste opp bistand
+    let sum2 = listcompanybistand(findObjectsProperty("type","bistand",filterlist));
+    //lister opp analyse
+    let sum3 = listcompanyanalyse(findObjectsProperty("type","analyse",filterlist));
+    document.getElementById("sumtotalb").innerHTML = valutalook(round(sum1+sum2+sum3))+" Kr";
+    document.getElementById("sumtotalb").style.display = "inline-block";
   
 // Hent valgt indeks
     let selectedIndex = selector.selectedIndex;
