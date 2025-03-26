@@ -33,7 +33,7 @@ function listElements(data,list,type){
             const c2 = clonerow.getElementsByClassName("c2")[0];
             const c3 = clonerow.getElementsByClassName("c3")[0];
       
-            if(data[i]?.quantityname){
+            if(data[i]?.quantity>0){
                 //dette er en volum enhet og ikke kroner
                 let quantityname = data[i].quantityname;
                     //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
