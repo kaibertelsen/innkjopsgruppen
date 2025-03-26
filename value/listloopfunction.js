@@ -47,7 +47,22 @@ function listElements(data,list,type){
                     quantityunitLable = "(L)";
                 }
                 c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
-                c3.textContent = "";
+
+                //besparelse pr enhet
+                let localsavingsperquantity = data[i].localsavingsperquantity || 0;
+                let lable = "";
+
+                //må finne ut om det er best å hvise øre eller krone
+                if(quantityunitLable == "Liter"){
+                    //vis øre
+                    localsavingsperquantity = localsavingsperquantity*100;
+                    lable = valutalook(round(localsavingsperquantity, 0))+"øre/L";
+                }else{
+                    //vis krone
+                    lable = valutalook(round(localsavingsperquantity, 2))+" Kr/"+quantityunitLable;
+                }
+                c3.textContent = lable;
+                
                 //(Number(data[i].cutvalue) / Number(data[i].value)).toFixed(1) + " Kr/pr. " + data[i].quantityunit;
             }else{
                 var xvalue = 0;
