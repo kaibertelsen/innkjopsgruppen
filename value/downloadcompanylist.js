@@ -207,6 +207,8 @@ function groupSuppliersCashflow(data) {
   
       // Unik nøkkel: nå med localcut inkludert
       const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
+
+      console.log(key);
   
       const existing = grouped.find(g => g._key === key);
   
