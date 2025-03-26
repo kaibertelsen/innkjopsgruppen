@@ -145,9 +145,11 @@ function listElements(data,list,type){
             //det er flere linjer
             buttonline.style.display = "flex"; 
             buttonline.id = findid;
-            buttonline.onclick = function() {
-            findLines(data[i],clonerow);
+           
+            buttonline.onclick = () => {
+                findLines(data[i], clonerow);
             };
+
             editline.style.display = "none"; 
         }else{
             clonerow.id = data[i].airtable+"edit";
