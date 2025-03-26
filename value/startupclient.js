@@ -282,42 +282,7 @@ function mergesuppiersCachflow(data){
     
 }
 
-function groupSuppliersCashflow(data) {
-    if (!Array.isArray(data) || data.length === 0) return data;
-  
-    const grouped = [];
-  
-    data.forEach(item => {
-      if (item.type !== "handel") return; // hopper over ikke-handel-linjer
-  
-      // Finn unikt nøkkel basert på supplier, cut og supplierquantityunit
-      const key = `${item.supplier}__${item.cut}__${item.supplierquantityunit}`;
-  
-      const existing = grouped.find(
-        g =>
-          g._key === key
-      );
-  
-      if (existing) {
-        existing.value += Number(item.value);
-        existing.cut += Number(item.cut);
-        existing.lines += 1;
-      } else {
-        grouped.push({
-          _key: key, // intern nøkkel, kan fjernes etterpå hvis ønskelig
-          supplier: item.supplier,
-          cut: Number(item.cut),
-          supplierquantityunit: item.supplierquantityunit,
-          value: Number(item.value),
-          lines: 1,
-          airtable: item.airtable
-        });
-      }
-    });
-  
-    // Valgfritt: fjerne _key før return
-    return grouped.map(({ _key, ...rest }) => rest);
-  }
+
   
 
 function listElements(data,list,type){
