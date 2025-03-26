@@ -203,7 +203,7 @@ function groupSuppliersCashflow(data) {
       const supplier = getValue(item.supplier);
       const defaultcut = getValue(item.defaultcut);
       const unit = getValue(item.supplierquantityunit);
-      const localcut = item.localcut ?? ""; // lokal cut kan være undefined
+      const localcut = getValue(item.localcut); // lokal cut kan være undefined
   
       // Unik nøkkel: nå med localcut inkludert
       const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
