@@ -704,7 +704,7 @@ function inputChange(inputid){
             let unit = "Kr/"+quantityUnit;
             if(quantityUnit == "Liter"){
                 unit = "øre/L";
-                mainCut = mainCut*100;
+                mainCut = mainCut*multiplicator;
             }
             inputfield.value = valutalook(round(mainCut, 2))+" "+unit;
             inputfield.style.color = 'black';
