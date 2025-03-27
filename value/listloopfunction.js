@@ -357,9 +357,11 @@ function loadEditwrapper(data){
                 for(var i = 0;i<suppliersQuantitys.length;i++){
                     const option = document.createElement("option");
                     option.value = suppliersQuantitys[i];
-                    option.text = supplierQuantitynames;
+                    option.text = supplierQuantitynames[i];
                     editWrapperSelectorQuantity.appendChild(option);
                 }
+                //sett riktig quantity
+                editWrapperSelectorQuantity.value = data.quantity;
             }else{
                 editWrapperSelectorQuantity.style.display = "none";
             }
