@@ -324,54 +324,51 @@ function loadEditwrapper(data){
         const cutValue = document.getElementById("cutvalueinput");
 
         if(data?.quantity>0){
-        //dette er en volum enhet og ikke kroner
-        let quantityname = data.supplierquantityname || "";
-            //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
-            if(quantityname == "Diesel" || quantityname == "Bensin"){
-                quantityname = "Drivstoff";
+            //dette er en volum enhet og ikke kroner
+            let quantityname = data.supplierquantityname || "";
+                //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
+                if(quantityname == "Diesel" || quantityname == "Bensin"){
+                    quantityname = "Drivstoff";
+                }
+            //dette er en volum enhet og ikke kroner
+            let quantityunitLable = data.supplierquantityunit;
+            if (data.supplierquantityunit == "Liter"){
+                //forkortelse til "L"
+                quantityunitLable = "L";
             }
-        //dette er en volum enhet og ikke kroner
-        let quantityunitLable = data.supplierquantityunit;
-        if (data.supplierquantityunit == "Liter"){
-            //forkortelse til "L"
-            quantityunitLable = "L";
-        }
 
-        //skal en vise K eller ikke
-        if(data?.quantity>1999){
-            mainValue.value = (Number(data.quantity)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
-        }else{
-            mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
-        }
+            //skal en vise K eller ikke
+            if(data?.quantity>1999){
+                mainValue.value = (Number(data.quantity)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
+            }else{
+                mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
+            }
 
-    
-    //besparelse pr enhet
-        
+            //besparelse pr enhet
+            let localsavingsperquantity = data.localsavingsperquantity || 0;
+            let lable = "";
 
-        let localsavingsperquantity = data.localsavingsperquantity || 0;
-        let lable = "";
-
-        //må finne ut om det er best å hvise øre eller krone
-        if(data?.supplierquantityunit == "Liter"){
-            //vis øre
-            localsavingsperquantity = localsavingsperquantity*100;
-            lable = valutalook(round(localsavingsperquantity, 0))+"øre/L";
-        }else{
-            //vis krone
-            lable = valutalook(round(localsavingsperquantity, 2))+" Kr/"+quantityunitLable;
-        }
-        cutSetting.value = lable;
+            //må finne ut om det er best å hvise øre eller krone
+            if(data?.supplierquantityunit == "Liter"){
+                //vis øre
+                localsavingsperquantity = localsavingsperquantity*100;
+                lable = valutalook(round(localsavingsperquantity, 0))+"øre/L";
+            }else{
+                //vis krone
+                lable = valutalook(round(localsavingsperquantity, 2))+" Kr/"+quantityunitLable;
+            }
+            cutSetting.value = lable;
         
         }else {
             //da er det kroner
-            mainValue.innerHTML = valutalook(round(data.value, 0))+" Kr";
+            mainValue.value = valutalook(round(data.value, 0))+" Kr";
 
             let cutSettingNumber = data.localcut || data.defaultcut || 0;
             cutSetting.value = round(Number(cutSettingNumber)*100, 2)+"%";
 
         }
         //cutvalue
-        let besparelse = data[i].cutvalue || 0;
+        let besparelse = data.cutvalue || 0;
         cutValue.value = valutalook(round(besparelse))+" Kr";
     
     }else if (data.type == "bistand"){
