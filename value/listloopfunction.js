@@ -339,6 +339,20 @@ function loadEditwrapper(data){
         //cutvalue
         let besparelse = data.cutvalue || 0;
         cutValue.value = valutalook(round(besparelse))+" Kr";
+
+
+        //sjekke om denne leverandøren har mulighet for flere quantity
+        const editWrapperSelectorQuantity = document.getElementById("editWrapperSelectorQuantity");
+
+        if(data?.supplier){
+            //finne denne leverandøren
+            const supplier = supplierlistbuffer.find(item => item.airtable === data.supplier[0]);
+            console.log(supplier);
+
+            editWrapperSelectorQuantity.style.display = "none";
+            
+        }
+
     
     }else if (data.type == "bistand"){
       //mark
