@@ -135,13 +135,13 @@ function listElements(data,list,type){
         const buttoneditline = clonerow.querySelector(".editline");
         const dataid = data[i].airtable;
         const findid = dataid+"find";
+        let dataBlock = data[i];
     
         if(data[i]?.lines>1){
             clonerow.id = data[i].airtable+"lines";
             //det er flere linjer
             buttonline.style.display = "flex"; 
             buttonline.id = findid;
-            let dataBlock = data[i];
             buttonline.onclick = () => {
                 findLines(dataBlock, clonerow);
             };
