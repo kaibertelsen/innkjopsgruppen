@@ -567,7 +567,7 @@ function saveEditline(){
             delete body.localcut;
             //og setter heller inn localsavingsperquantity
             let multiplicator = Number(document.getElementById("editWrapperSelectorQuantity").dataset.multiplicator);
-            let mainCut = rawcut*multiplicator;
+            let mainCut = rawcut/multiplicator;
             body.localsavingsperquantity = mainCut;
         }
 
