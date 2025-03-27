@@ -278,7 +278,7 @@ function findLines(data,element){
     } else{
         subviewlist.style.display = "block";
         let dataLine = data.dataline;
-        listElements(dataLine,subviewlist,"handel");
+        listElements(dataLine,subviewlist,1);
     }
 
 
