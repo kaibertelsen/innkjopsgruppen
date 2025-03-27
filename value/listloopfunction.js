@@ -361,7 +361,7 @@ function loadEditwrapper(data){
                     editWrapperSelectorQuantity.appendChild(option);
                 }
                 //sett riktig quantity
-                editWrapperSelectorQuantity.value = data.quantity;
+                editWrapperSelectorQuantity.value = data.supplierquantity[0];
             }else{
                 editWrapperSelectorQuantity.style.display = "none";
             }
