@@ -277,8 +277,11 @@ function insertElementInline(referanseelement,element){
 function cancleEdit(){
     const element = document.getElementById("editornewwrapper");
     if(element.dataset.hideobject){
-            //synligjør tidligere skjult element
-            document.getElementById(element.dataset.hideobject).style.display = "grid";
+        //synligjør tidligere skjult element
+        const hideobject = document.getElementById(element.dataset.hideobject);
+        if(hideobject){
+            hideobject.style.display = "grid";
+        }
     }
     
     element.style.display = "none";
