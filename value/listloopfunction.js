@@ -348,8 +348,21 @@ function loadEditwrapper(data){
             //finne denne leverandøren
             const supplier = supplierlistbuffer.find(item => item.airtable === data.supplier[0]);
             console.log(supplier);
-
-            editWrapperSelectorQuantity.style.display = "none";
+            let suppliersQuantitys = supplier.quantity;
+            let supplierQuantitynames = supplier.quantityname;
+            //last selector editWrapperSelectorQuantity med quantity
+            if(suppliersQuantitys){
+                editWrapperSelectorQuantity.style.display = "block";
+                removeAllChildNodes(editWrapperSelectorQuantity);
+                for(var i = 0;i<suppliersQuantitys.length;i++){
+                    const option = document.createElement("option");
+                    option.value = suppliersQuantitys[i];
+                    option.text = supplierQuantitynames;
+                    editWrapperSelectorQuantity.appendChild(option);
+                }
+            }else{
+                editWrapperSelectorQuantity.style.display = "none";
+            }
             
         }
 
