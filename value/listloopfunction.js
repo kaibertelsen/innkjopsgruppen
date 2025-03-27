@@ -628,6 +628,21 @@ function extractNumbersFromString(str) {
     return sum;
 }
 
+const cutInputHT = document.getElementById("cutinput");
+
+cutInputHT.addEventListener("focus", function () {
+  inputonfocus("cutinput");
+});
+
+cutInputHT.addEventListener("input", function () {
+  inputON("cutinput");
+});
+
+cutInputHT.addEventListener("change", function () {
+  inputChange("cutinput");
+});
+
+
 function inputonfocus(inputid){
     const inputfield = document.getElementById(inputid)
     let value = extractNumbersFromString(inputfield.value);
