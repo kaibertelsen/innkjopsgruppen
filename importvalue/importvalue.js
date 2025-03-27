@@ -59,7 +59,7 @@ function makesaveObject(data, importid) {
         customer: [data.airtable],
         customernr: data.kundenr,
         import: [importid],
-        value: data.value,
+        value: Number(data.value) || 0, // sikrer at det blir et tall, eller 0 hvis ugyldig
         tracking: "webimporter",
         rowindex: data.rowindex,
         note: data.note,
