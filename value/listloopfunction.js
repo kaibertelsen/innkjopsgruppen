@@ -283,9 +283,7 @@ function findLines(data,element){
     let dataLine = data.dataline;
     console.log(dataLine);
 
-    //list linjene
-    let list = element.querySelector(".subviewlist");
-    listElements(dataLine,list,"handel");
+    listElements(dataLine,subviewlist,"handel");
 
 /*
 
