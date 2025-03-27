@@ -546,6 +546,10 @@ function saveEditline(){
         
         if(qantityUnitid){
             body.supplierquantity = [qantityUnitid];
+            //da skal localcut nøkkelen fjernes
+            delete body.localcut;
+            //og setter heller inn localsavingsperquantity
+            body.localsavingsperquantity = cut;
         }
 
 
