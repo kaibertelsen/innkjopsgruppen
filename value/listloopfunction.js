@@ -273,17 +273,14 @@ function findLines(data,element){
     let subviewlist = element.querySelector(".subviewlist");
     //sjekk om denne er synlig eller ikke toogle den
     if(subviewlist.style.display == "block"){
+        removeAllChildNodes(subviewlist);
         subviewlist.style.display = "none";
     } else{
-    subviewlist.style.display = "block";
+        subviewlist.style.display = "block";
+        let dataLine = data.dataline;
+        listElements(dataLine,subviewlist,"handel");
     }
 
-    removeAllChildNodes(subviewlist);
-
-    let dataLine = data.dataline;
-    console.log(dataLine);
-
-    listElements(dataLine,subviewlist,"handel");
 
 /*
 
