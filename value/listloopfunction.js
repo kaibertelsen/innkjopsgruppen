@@ -327,6 +327,7 @@ function loadEditwrapper(data){
                 lable = valutalook(round(localsavingsperquantity, 2))+" Kr/"+quantityunitLable;
             }
             cutSetting.value = lable;
+            cutSetting.dataset.rawvalue = localsavingsperquantity;
         
         }else {
             //da er det kroner
@@ -681,6 +682,7 @@ function inputChange(inputid){
     //
     const inputfield = document.getElementById(inputid)
     let value = extractNumbersFromString(inputfield.value);
+    
 
     if(inputid == "valueinput"){
         //legg til Kr i slutten
@@ -690,6 +692,7 @@ function inputChange(inputid){
         //er det valgt noe quantity
         let quantityValueSelect = document.getElementById("editWrapperSelectorQuantity").value
         let quantityUnit = document.getElementById("editWrapperSelectorQuantity").dataset.unit;
+        inputfield.dataset.rawvalue = value;
 
         if(!quantityValueSelect){
             //det er ikke en volum enhet
@@ -702,6 +705,7 @@ function inputChange(inputid){
             let multiplicator = Number(document.getElementById("editWrapperSelectorQuantity").dataset.multiplicator);
             let mainCut = value/multiplicator;
             let unit = "Kr/"+quantityUnit;
+            
             if(quantityUnit == "Liter"){
                 unit = "øre/L";
                 mainCut = mainCut*multiplicator;
@@ -726,10 +730,17 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
     let quantityValueSelect = this.value;
     let quantityUnit = this.dataset.unit;
     let quantityMultiplicator = Number(this.dataset.multiplicator);
- 
+    let rawcutValue = Number(this.dataset.rawvalue);
+
+    const element = document.getElementById("editornewwrapper");
+    let airtable = element.dataset.airtable;
+    let body = {supplierquantity:[quantityValueSelect]};
+
+    PATCHairtable(baseid,"tblkNYRENn5QFG0CD",airtable,JSON.stringify(body),"responseditvolum");
+ /*
     const cutInputfield = document.getElementById("cutinput");
 
-    let cut = extractNumbersFromString(cutInputfield.value);
+    let cut = rawcutValue;
     let value = extractNumbersFromString(document.getElementById("valueinput").value);
 
     if(!quantityValueSelect){
@@ -746,8 +757,7 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
     //sjekke at det er rett øre eller krone
     if(quantityUnit == "Liter"){
         //vis øre
-        cut = cut/quantityMultiplicator;
-        cutInputfield.value = round(cut, 0)+"øre/L";
+        cutInputfield.value = round(rawcutValue/quantityMultiplicator, 0)+"øre/L";
     }else if(quantityUnit == "m3"){
         //vis krone/m3
         cutInputfield.value = valutalook(round(cut, 2))+" Kr/m3";
@@ -755,6 +765,7 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
         //vis krone
         cutInputfield.value = valutalook(round(cut, 2))+" Kr/"+quantityUnit;
     }
+        */
 
 }
 );
