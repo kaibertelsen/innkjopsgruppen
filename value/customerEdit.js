@@ -144,8 +144,6 @@ cutInputCp.addEventListener("input", function () {
     this.value = displayValue;
 });
 
-
-
 const groupSettingSelect = document.getElementById("groupCutcompanySelector");
 
 groupSettingSelect.addEventListener("change", function () {
@@ -304,36 +302,79 @@ function deleteLine(airtable){
 }
 
 function loadEditwrapper(data){
+
+    //velge oppsett
     showhideeditwraper(data.type);
+    
     //wrapper
     const element = document.getElementById("editornewwrapper");
     element.dataset.airtable = data.airtable;
     
-        const supplierinput = document.getElementById("dropdownInputsupplier");
-        if(data?.suppliertext){
-        supplierinput.value = data.suppliertext;    
+    const supplierinput = document.getElementById("dropdownInputsupplier");
+    supplierinput.value =  data.suppliertext || data.suppliername;
+    if(!data?.suppliertext){
+        //legge til airtable
+        supplierinput.dataset.airtable = data.supplier[0];  
+    }
+     
+    if(data.type == "handel"){
+        //value
+        const mainValue = document.getElementById("valueinput");
+        const cutSetting = document.getElementById("cutinput");
+        const cutValue = document.getElementById("cutvalueinput");
+
+        if(data?.quantity>0){
+        //dette er en volum enhet og ikke kroner
+        let quantityname = data.supplierquantityname || "";
+            //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
+            if(quantityname == "Diesel" || quantityname == "Bensin"){
+                quantityname = "Drivstoff";
+            }
+        //dette er en volum enhet og ikke kroner
+        let quantityunitLable = data.supplierquantityunit;
+        if (data.supplierquantityunit == "Liter"){
+            //forkortelse til "L"
+            quantityunitLable = "L";
+        }
+
+        //skal en vise K eller ikke
+        if(data?.quantity>1999){
+            mainValue.value = (Number(data.quantity)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
         }else{
-        //supplier
-        supplierinput.value = data.suppliername;
-        supplierinput.dataset.airtable = data.supplier[0];
+            mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
         }
-     
-     
-     
-     if(data.type == "handel"){
-     //value
-     document.getElementById("valueinput").value = valutalook(round(data.value,0))+" Kr";
-     //cut
-     var cut = 0;
-     if(data?.localcut){
-        cut = data.localcut;   
-        }else if(data?.defaultcut){
-        cut = data.defaultcut[0];    
+
+    
+    //besparelse pr enhet
+        
+
+        let localsavingsperquantity = data.localsavingsperquantity || 0;
+        let lable = "";
+
+        //må finne ut om det er best å hvise øre eller krone
+        if(data?.supplierquantityunit == "Liter"){
+            //vis øre
+            localsavingsperquantity = localsavingsperquantity*100;
+            lable = valutalook(round(localsavingsperquantity, 0))+"øre/L";
+        }else{
+            //vis krone
+            lable = valutalook(round(localsavingsperquantity, 2))+" Kr/"+quantityunitLable;
         }
-     document.getElementById("cutinput").value = round(Number(cut)*100, 2)+"%";
-     //cutvalue
-     document.getElementById("cutvalueinput").innerHTML = valutalook(round(Number(data.value)*Number(cut),0))+" Kr";
-     }else if (data.type == "bistand"){
+        cutSetting.value = lable;
+        
+        }else {
+            //da er det kroner
+            mainValue.innerHTML = valutalook(round(data.value, 0))+" Kr";
+
+            let cutSettingNumber = data.localcut || data.defaultcut || 0;
+            cutSetting.value = round(Number(cutSettingNumber)*100, 2)+"%";
+
+        }
+        //cutvalue
+        let besparelse = data[i].cutvalue || 0;
+        cutValue.value = valutalook(round(besparelse))+" Kr";
+    
+    }else if (data.type == "bistand"){
       //mark
             var mark = "";
             if(data?.mark){
@@ -341,7 +382,7 @@ function loadEditwrapper(data){
             }
       document.getElementById("markinput").value = mark;
       document.getElementById("bvalueinput").value = valutalook(round(data.bistandvalue,0))+" Kr";
-     }else if (data.type == "analyse"){
+    }else if (data.type == "analyse"){
       //mark
             var mark = "";
             if(data?.mark){
@@ -349,12 +390,12 @@ function loadEditwrapper(data){
             }
       document.getElementById("markinput").value = mark;
       document.getElementById("avalueinput").value = valutalook(round(data.analysevalue,0))+" Kr";
-     }
+    }
      
      
      
-     //datevolum
-     var date = "";
+    //datevolum
+    var date = "";
                     if(data?.date){
                     date =  data.date;
                     }else if(data?.periodeend){

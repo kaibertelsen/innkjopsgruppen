@@ -130,9 +130,9 @@ function listElements(data,list,type){
         }
         if(!clientMode){ 
         const buttonline = clonerow.querySelector(".buttonline");
-        buttonline.innerHTML = data[i].lines;
+        buttonline.innerHTML = data[i].lines || "";
      
-        const editline = clonerow.querySelector(".editline");
+        const buttoneditline = clonerow.querySelector(".editline");
         const dataid = data[i].airtable;
         const findid = dataid+"find";
     
@@ -146,14 +146,14 @@ function listElements(data,list,type){
                 findLines(dataBlock, clonerow);
             };
 
-            editline.style.display = "none"; 
+            buttoneditline.style.display = "none"; 
         }else{
             clonerow.id = data[i].airtable+"edit";
             buttonline.style.display = "none"; 
             //det er bare en linje og kan kjøre editknapp direkte på linjen
-            editline.style.display = "flex"; 
-            editline.onclick = function() {
-            editLine(dataid,clonerow.id,"directedit");
+            buttoneditline.style.display = "flex"; 
+            buttonline.onclick = () => {
+                editRowLine(dataBlock, clonerow);
             }; 
         }
                     
@@ -216,5 +216,28 @@ function findLines(data,element){
         let dataLine = data.dataline;
         listElements(dataLine,subviewlist,1);
     }
+
+}
+
+function editRowLine(data,rowelement){
+        
+    const element = document.getElementById("editornewwrapper");
+    
+    if(element.dataset?.hideobject){
+        if(document.getElementById(element.dataset.hideobject)){
+        //synligjør tidligere skjult element
+        document.getElementById(element.dataset.hideobject).style.display = "grid";
+        }
+    }
+    
+    loadEditwrapper(data);
+    insertElementInline(rowelement,element);
+    
+    //synligjør editbar
+    document.getElementById("editornewwrapper").style.display = "block";
+    
+    //skjuler editlinje
+    referanseelement.style.display = "none";
+    element.dataset.hideobject = referanseelement.id;
 
 }
