@@ -725,7 +725,7 @@ function inputbvalueChange(inputid){
 document.getElementById("editWrapperSelectorQuantity").addEventListener("change", function () {
     let quantityValueSelect = this.value;
     let quantityUnit = this.dataset.unit;
-    let quantityMultiplicator = this.dataset.multiplicator;
+    let quantityMultiplicator = Number(this.dataset.multiplicator);
  
     const cutInputfield = document.getElementById("cutinput");
 
