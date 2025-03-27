@@ -351,6 +351,7 @@ function loadEditwrapper(data){
             console.log(supplier);
             let suppliersQuantitys = supplier.quantity;
             let supplierQuantitynames = supplier.quantityname;
+            let supplierQuantityunits = supplier.quantityunit;
             //last selector editWrapperSelectorQuantity med quantity
             if(suppliersQuantitys){
                 editWrapperSelectorQuantity.style.display = "block";
@@ -362,8 +363,22 @@ function loadEditwrapper(data){
                 }
                 //sett riktig quantity
                 editWrapperSelectorQuantity.value = data.supplierquantity[0];
+                //finne index for quantity
+                let index = suppliersQuantitys.indexOf(data.supplierquantity[0]);
+                let unit =  supplierQuantityunits[index];
+
+                if(unit == "Liter"){
+                    editWrapperSelectorQuantity.dataset.unit = unit;
+                    editWrapperSelectorQuantity.dataset.multiplicator = "100";
+                }else if(unit == "m3"){
+                editWrapperSelectorQuantity.dataset.unit = unit;
+                editWrapperSelectorQuantity.dataset.multiplicator = "1";
+                }
+
             }else{
                 editWrapperSelectorQuantity.style.display = "none";
+                editWrapperSelectorQuantity.dataset.unit = "";
+                editWrapperSelectorQuantity.dataset.multiplicator = "";
             }
             
         }
@@ -527,6 +542,7 @@ function saveEditline(){
     let date = document.getElementById("datevolum").value;
     let value = extractNumbersFromString(document.getElementById("valueinput").value);
     let note = document.getElementById("notataddvolum").value;
+    let rawcut = extractNumbersFromString(document.getElementById("cutinput").value);
     let cut = extractNumbersFromString(document.getElementById("cutinput").value)/100;
     let supplier = document.getElementById("dropdownInputsupplier").dataset.airtable;
     let suppliertext = document.getElementById("dropdownInputsupplier").value;
@@ -534,6 +550,7 @@ function saveEditline(){
     let avalue = extractNumbersFromString(document.getElementById("avalueinput").value);
     let mark = document.getElementById("markinput").value;
     let qantityUnitid = document.getElementById("editWrapperSelectorQuantity").value;
+    
 
     var airtable = false;
     if(element.dataset?.airtable){
@@ -549,7 +566,9 @@ function saveEditline(){
             //da skal localcut nøkkelen fjernes
             delete body.localcut;
             //og setter heller inn localsavingsperquantity
-            body.localsavingsperquantity = cut;
+            let multiplicator = Number(document.getElementById("editWrapperSelectorQuantity").dataset.multiplicator);
+            let mainCut = rawcut*multiplicator;
+            body.localsavingsperquantity = mainCut;
         }
 
 
