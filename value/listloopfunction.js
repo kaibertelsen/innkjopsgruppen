@@ -309,13 +309,9 @@ function loadEditwrapper(data){
                 //forkortelse til "L"
                 quantityunitLable = "L";
             }
-
-            //skal en vise K eller ikke
-            if(data?.quantity>1999){
-                mainValue.value = (Number(data.quantity)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
-            }else{
-                mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
-            }
+            
+            mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
+            
             
             //besparelse pr enhet
             let localsavingsperquantity = data.localsavingsperquantity || 0;
