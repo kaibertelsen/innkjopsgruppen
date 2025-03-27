@@ -343,6 +343,7 @@ function loadEditwrapper(data){
 
         //sjekke om denne leverandøren har mulighet for flere quantity
         const editWrapperSelectorQuantity = document.getElementById("editWrapperSelectorQuantity");
+        removeAllChildNodes(editWrapperSelectorQuantity);
 
         if(data?.supplier){
             //finne denne leverandøren
@@ -353,7 +354,6 @@ function loadEditwrapper(data){
             //last selector editWrapperSelectorQuantity med quantity
             if(suppliersQuantitys){
                 editWrapperSelectorQuantity.style.display = "block";
-                removeAllChildNodes(editWrapperSelectorQuantity);
                 for(var i = 0;i<suppliersQuantitys.length;i++){
                     const option = document.createElement("option");
                     option.value = suppliersQuantitys[i];
@@ -520,3 +520,75 @@ function supplierSelected(id,name,cut){
     }
     
 }
+
+function saveEditline(){
+    const element = document.getElementById("editornewwrapper");
+    let type = element.dataset.type;
+    let date = document.getElementById("datevolum").value;
+    let value = extractNumbersFromString(document.getElementById("valueinput").value);
+    let note = document.getElementById("notataddvolum").value;
+    let cut = extractNumbersFromString(document.getElementById("cutinput").value)/100;
+    let supplier = document.getElementById("dropdownInputsupplier").dataset.airtable;
+    let suppliertext = document.getElementById("dropdownInputsupplier").value;
+    let bvalue = extractNumbersFromString(document.getElementById("bvalueinput").value);
+    let avalue = extractNumbersFromString(document.getElementById("avalueinput").value);
+    let mark = document.getElementById("markinput").value;
+    let qantityUnitid = document.getElementById("editWrapperSelectorQuantity").value;
+
+    var airtable = false;
+    if(element.dataset?.airtable){
+        airtable = element.dataset.airtable;
+    }
+    
+    var body;
+        if(type == "handel"){
+        body = {date:date,supplier:[supplier],customer:[companyId],value:value,localcut:cut,tracking:"manuel",dachboard:["recfJZ0PCPOrWcBLq"],note:note,user:[userairtableid],type:"handel"};  
+        
+        if(qantityUnitid){
+            body.supplierquantity = [qantityUnitid];
+        }
+
+
+        }else if (type == "bistand"){
+        body = {date:date,supplier:[supplier],customer:[companyId],bistandvalue:bvalue,tracking:"manuel",dachboard:["recfJZ0PCPOrWcBLq"],note:note,mark:mark,user:[userairtableid],type:"bistand"};
+        }else if (type == "analyse"){
+        body = {date:date,supplier:[supplier],customer:[companyId],analysevalue:avalue,tracking:"manuel",dachboard:["recfJZ0PCPOrWcBLq"],note:note,mark:mark,user:[userairtableid],type:"analyse"};
+        }
+    
+    
+        if(supplier){
+            //leverandør er lagt til
+            body.suppliertext = "";
+            readytoSaveline(body,airtable);
+            
+        }else if(supplier == "" && type == "handel"){
+            alert("Legg til leverandør!");
+    
+        }else if (suppliertext){
+            //det er tekst istedet for supplier
+            body.suppliertext = suppliertext;
+            body.supplier = [];
+            readytoSaveline(body,airtable);
+        }else{
+             //sjekk om det er value   
+               alert("Legg til leverandør eller tekst i feltet"); 
+            }
+}
+
+function readytoSaveline(body,airtable){
+        if(airtable){
+          // send oppdatering
+        PATCHairtable(baseid,"tblkNYRENn5QFG0CD",airtable,JSON.stringify(body),"responseditvolum");
+        }else{
+        POSTairtable(baseid,"tbly9xd4ho0Z9Mvlv",JSON.stringify(body),"responseditvolum");  
+        }
+    console.log("lagrer denne handelen",body);
+    //synligjør melding
+    document.getElementById("savinglinewrapper").style.display = "flex";
+    document.getElementById("prosessmessagetext").innerHTML = "Lagrer ..."
+    //skjule data
+    document.getElementById("maineditrow").style.display = "none";
+    document.getElementById("infoinputwrapper").style.display = "none";
+    //oppdaterer datovelger med evt. ny dato
+    loadmaindateSelector();
+    }
