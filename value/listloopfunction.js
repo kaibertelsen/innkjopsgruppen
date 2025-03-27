@@ -152,7 +152,7 @@ function listElements(data,list,type){
             buttonline.style.display = "none"; 
             //det er bare en linje og kan kjøre editknapp direkte på linjen
             buttoneditline.style.display = "flex"; 
-            buttonline.onclick = () => {
+            buttoneditline.onclick = () => {
                 editRowLine(dataBlock, clonerow);
             }; 
         }
@@ -222,7 +222,7 @@ function findLines(data,element){
 function editRowLine(data,rowelement){
         
     const element = document.getElementById("editornewwrapper");
-    
+
     if(element.dataset?.hideobject){
         if(document.getElementById(element.dataset.hideobject)){
         //synligjør tidligere skjult element
