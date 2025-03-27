@@ -310,7 +310,7 @@ function loadEditwrapper(data){
                 quantityunitLable = "L";
             }
             
-            mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
+            mainValue.value = data.quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
             
             
             //besparelse pr enhet
