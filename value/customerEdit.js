@@ -315,6 +315,7 @@ function loadEditwrapper(data){
     if(!data?.suppliertext){
         //legge til airtable
         supplierinput.dataset.airtable = data.supplier[0];  
+        supplierinput.disabled = true;
     }
      
     if(data.type == "handel"){
@@ -343,6 +344,7 @@ function loadEditwrapper(data){
             }else{
                 mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
             }
+            
 
             //besparelse pr enhet
             let localsavingsperquantity = data.localsavingsperquantity || 0;
