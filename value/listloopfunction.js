@@ -628,21 +628,28 @@ function extractNumbersFromString(str) {
     return sum;
 }
 
-const cutInputHT = document.getElementById("cutinput");
-
-cutInputHT.addEventListener("focus", function () {
-  inputonfocus("cutinput");
-});
-
-cutInputHT.addEventListener("input", function () {
-  inputON("cutinput");
-});
-
-cutInputHT.addEventListener("change", function () {
-  inputChange("cutinput");
-});
-
-
+// Funksjon som kobler eventene til et gitt input-element
+function bindInputEvents(id) {
+    const element = document.getElementById(id);
+    if (!element) return;
+  
+    element.addEventListener("focus", function () {
+      inputonfocus(id);
+    });
+  
+    element.addEventListener("input", function () {
+      inputON(id);
+    });
+  
+    element.addEventListener("change", function () {
+      inputChange(id);
+    });
+  }
+  
+  // Koble til begge feltene
+  bindInputEvents("cutinput");
+  bindInputEvents("valueinput");
+  
 function inputonfocus(inputid){
     const inputfield = document.getElementById(inputid)
     let value = extractNumbersFromString(inputfield.value);
