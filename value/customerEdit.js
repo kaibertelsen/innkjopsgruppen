@@ -345,7 +345,6 @@ function loadEditwrapper(data){
                 mainValue.value = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
             }
             
-
             //besparelse pr enhet
             let localsavingsperquantity = data.localsavingsperquantity || 0;
             let lable = "";
