@@ -237,7 +237,7 @@ function editRowLine(data,rowelement){
     document.getElementById("editornewwrapper").style.display = "block";
     
     //skjuler editlinje
-    referanseelement.style.display = "none";
-    element.dataset.hideobject = referanseelement.id;
+    rowelement.style.display = "none";
+    element.dataset.hideobject = data.airtable;
 
 }
