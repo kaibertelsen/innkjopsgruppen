@@ -721,3 +721,43 @@ function inputbvalueChange(inputid){
     let value = extractNumbersFromString(inputfield.value);
     inputfield.value = valutalook(round(value, 0))+" Kr";
 }
+
+document.getElementById("editWrapperSelectorQuantity").addEventListener("change", function () {
+    let quantityValueSelect = this.value;
+    let quantityUnit = this.dataset.unit;
+    let quantityMultiplicator = this.dataset.multiplicator;
+ 
+    const cutInputfield = document.getElementById("cutinput");
+
+    let cut = extractNumbersFromString(cutInputfield.value);
+    let value = extractNumbersFromString(document.getElementById("valueinput").value);
+
+    const inputfield = document.getElementById(inputid)
+
+    if(!quantityValueSelect){
+    //det er ikke en volum enhet
+        var calc = Number(value)*Number(cut/100);
+        document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
+    }else{
+        //det er en volum enhet
+        let multiplicator = Number(document.getElementById("editWrapperSelectorQuantity").dataset.multiplicator);
+        let mainCut = cut/multiplicator;
+        let calc = mainCut*value;
+        document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
+    }
+
+    //sjekke at det er rett øre eller krone
+    if(quantityUnit == "Liter"){
+        //vis øre
+        cut = cut*100;
+        cutInputfield.value = round(cut, 0)+"øre/L";
+    }else if(quantityUnit == "m3"){
+        //vis krone/m3
+        cutInputfield.value = valutalook(round(cut, 2))+" Kr/m3";
+    }else{
+        //vis krone
+        cutInputfield.value = valutalook(round(cut, 2))+" Kr/"+quantityUnit;
+    }
+
+}
+);
