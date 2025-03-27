@@ -732,8 +732,6 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
     let cut = extractNumbersFromString(cutInputfield.value);
     let value = extractNumbersFromString(document.getElementById("valueinput").value);
 
-    const inputfield = document.getElementById(inputid)
-
     if(!quantityValueSelect){
     //det er ikke en volum enhet
         var calc = Number(value)*Number(cut/100);
