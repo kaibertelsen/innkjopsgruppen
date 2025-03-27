@@ -129,12 +129,10 @@ function listElements(data,list,type){
             //
         }
         if(!clientMode){ 
-        const buttonline = clonerow.getElementsByClassName("buttonline")[0];
+        const buttonline = clonerow.querySelector(".buttonline");
         buttonline.innerHTML = data[i].lines;
-        const suppliername = data[i].suppliername;
-        const constantcut = data[i].cut;
-        
-        const editline = clonerow.getElementsByClassName("editline")[0];
+     
+        const editline = clonerow.querySelector(".editline");
         const dataid = data[i].airtable;
         const findid = dataid+"find";
     
