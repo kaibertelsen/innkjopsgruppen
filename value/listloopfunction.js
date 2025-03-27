@@ -277,6 +277,9 @@ function loadEditwrapper(data){
 
     //velge oppsett
     showhideeditwraper(data.type);
+
+    //sjuler quantityselestoren
+    document.getElementById("editWrapperSelectorQuantity").style.display = "none";
     
     //wrapper
     const element = document.getElementById("editornewwrapper");
@@ -737,35 +740,6 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
     let body = {supplierquantity:[quantityValueSelect]};
 
     PATCHairtable(baseid,"tblkNYRENn5QFG0CD",airtable,JSON.stringify(body),"responseditvolum");
- /*
-    const cutInputfield = document.getElementById("cutinput");
-
-    let cut = rawcutValue;
-    let value = extractNumbersFromString(document.getElementById("valueinput").value);
-
-    if(!quantityValueSelect){
-    //det er ikke en volum enhet
-        var calc = Number(value)*Number(cut/100);
-        document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
-    }else{
-        //det er en volum enhet
-        let mainCut = cut/quantityMultiplicator;
-        let calc = mainCut*value;
-        document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
-    }
-
-    //sjekke at det er rett øre eller krone
-    if(quantityUnit == "Liter"){
-        //vis øre
-        cutInputfield.value = round(rawcutValue/quantityMultiplicator, 0)+"øre/L";
-    }else if(quantityUnit == "m3"){
-        //vis krone/m3
-        cutInputfield.value = valutalook(round(cut, 2))+" Kr/m3";
-    }else{
-        //vis krone
-        cutInputfield.value = valutalook(round(cut, 2))+" Kr/"+quantityUnit;
-    }
-        */
-
+ 
 }
 );
