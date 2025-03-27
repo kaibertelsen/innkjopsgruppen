@@ -747,7 +747,7 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
     //sjekke at det er rett øre eller krone
     if(quantityUnit == "Liter"){
         //vis øre
-        cut = cut*100;
+        cut = cut/multiplicator;
         cutInputfield.value = round(cut, 0)+"øre/L";
     }else if(quantityUnit == "m3"){
         //vis krone/m3
