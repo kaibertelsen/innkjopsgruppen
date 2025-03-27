@@ -738,8 +738,7 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
         document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
     }else{
         //det er en volum enhet
-        let multiplicator = Number(document.getElementById("editWrapperSelectorQuantity").dataset.multiplicator);
-        let mainCut = cut/multiplicator;
+        let mainCut = cut/quantityMultiplicator;
         let calc = mainCut*value;
         document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
     }
@@ -747,7 +746,7 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
     //sjekke at det er rett øre eller krone
     if(quantityUnit == "Liter"){
         //vis øre
-        cut = cut/multiplicator;
+        cut = cut/quantityMultiplicator;
         cutInputfield.value = round(cut, 0)+"øre/L";
     }else if(quantityUnit == "m3"){
         //vis krone/m3
