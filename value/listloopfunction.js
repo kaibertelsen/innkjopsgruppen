@@ -128,9 +128,7 @@ function listElements(data,list,type){
             }
             //
         }
-        if(clientMode){      
-
-        }else{ 
+        if(!clientMode){ 
         const buttonline = clonerow.getElementsByClassName("buttonline")[0];
         buttonline.innerHTML = data[i].lines;
         const suppliername = data[i].suppliername;
@@ -140,7 +138,7 @@ function listElements(data,list,type){
         const dataid = data[i].airtable;
         const findid = dataid+"find";
     
-        if(data[i].lines>1){
+        if(data[i]?.lines>1){
             clonerow.id = data[i].airtable+"lines";
             //det er flere linjer
             buttonline.style.display = "flex"; 
@@ -167,67 +165,7 @@ function listElements(data,list,type){
             
     return {sumvalue:gvalue,sumcutvalue:gcut,sumbvalue:bvalue,sumavalue:avalue};         
 }
-/*
-function mergesuppiersCachflow(data){
- 
-    var mergearray = [];
-    
-        for (var i = 0;i<data.length;i++){
-            //denne skal kun slå sammen handelstyper
 
-            if (!data[i]?.suppliername?.[0]) {
-                continue;
-            }
-            
-            //finne suppliername
-         
-            var objects = findObjectsProperty("suppliername",data[i].suppliername[0],mergearray);
-            let cut;
-            if(data[i]?.localcut){
-              cut = data[i].localcut;   
-            }else if(data[i]?.defaultcut){
-              cut = data[i].defaultcut[0];    
-            }else{
-             cut = 0;   
-            }
-            
-            if(objects){
-                //objecter funnet med "samme navn"
-                //finne samme cut
-                var cutobject = findObjectProperty("cut",cut,objects);
-                
-                if(cutobject){
-                    //samme cut
-                     cutobject.value = Number(cutobject.value)+Number(data[i].value);
-                     cutobject.cutvalue = Number(cutobject.cutvalue)+Number(data[i].cutvalue);
-                     //legge til en linje
-                     cutobject.lines = Number(cutobject.lines)+1;
-                }else{
-                    //ikke samme cut
-                    let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,cutvalue:data[i].cutvalue,lines:1,airtable:data[i].airtable};
-
-                    if(data[i]?.supplierquantityname){
-                        newLine.quantityname = data[i].supplierquantityname[0];
-                        newLine.quantityunit = data[i].supplierquantityunit[0];
-                    }
-                    mergearray.push(newLine);
-                }
-      
-                
-            }else{
-                let newLine = {suppliername:data[i].suppliername[0],value:data[i].value,cut:cut,cutvalue:data[i].cutvalue,lines:1,airtable:data[i].airtable};
-                if(data[i]?.supplierquantityname){
-                    newLine.quantityname = data[i].supplierquantityname[0];
-                    newLine.quantityunit = data[i].supplierquantityunit[0];
-                }
-                //denne linjeb har localcut
-                mergearray.push(newLine);
-            }
-            
-        }
-    return sortArrayABC("suppliername",mergearray);
-}
-*/
 function groupSuppliersCashflow(data) {
     if (!Array.isArray(data) || data.length === 0) return data;
   
@@ -281,37 +219,4 @@ function findLines(data,element){
         listElements(dataLine,subviewlist,1);
     }
 
-
-/*
-
-
-    var open = true;
-//sjekke om vinduet er åpen på samme gruppe
-if(grouplinsopen){
-    if(grouplinsopen == element.id){
-        //samme vindu åpent lukk dette
-        document.getElementById("listcopyholderlines").style.display = "none";
-        grouplinsopen = false;
-        open = false;
-    }
-}
-
-if(open){
-    grouplinsopen = element.id;
-    reseteditwrapperinput();
-    document.getElementById("listcopyholderlines").style.display = "block";
-    //data
-    var dataline = findObjectsProperty("suppliername",suppliername,companydatalines);
-    var datarigthtype = findObjectsProperty("type","handel",dataline);
-    
-    var datarightcut = mergerightcut(datarigthtype);
-    var data = findObjectsProperty("cut",cut,datarightcut);
-    
-    const list = document.getElementById("listcopyholderlines");
-    const referanseelement = document.getElementById(elementid);
-    insertElementInline(referanseelement,list);
-    
-     var sumObject = listElements(data,list,1);
-}
-     */
 }
