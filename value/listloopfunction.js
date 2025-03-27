@@ -614,4 +614,88 @@ function readytoSaveline(body,airtable){
     document.getElementById("infoinputwrapper").style.display = "none";
     //oppdaterer datovelger med evt. ny dato
     loadmaindateSelector();
+}
+
+function extractNumbersFromString(str) {
+    str = str.replace(/\s+/g, '');
+    // Bruker regulært uttrykk for å finne alle tall (inkludert desimaler) i strengen
+    const regex = /-?\d+(\.\d+)?/g;
+    const numbers = str.match(regex);
+    // Hvis det er funnet tall, konverterer vi dem til tallverdier
+    let result = numbers ? numbers.map(Number) : [];
+    var sum = result[0];
+
+    return sum;
+}
+
+function inputonfocus(inputid){
+    const inputfield = document.getElementById(inputid)
+    let value = extractNumbersFromString(inputfield.value);
+    inputfield.value = value;
+}
+
+function inputON(inputid){
+    //live utregning
+    let quantityValueSelect = document.getElementById("editWrapperSelectorQuantity").value
+    let cut = extractNumbersFromString(document.getElementById("cutinput").value);
+    let value = extractNumbersFromString(document.getElementById("valueinput").value);
+
+    const inputfield = document.getElementById(inputid)
+
+    if(!quantityValueSelect){
+    //det er ikke en volum enhet
+        var calc = Number(value)*Number(cut/100);
+        document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
+    }else{
+        //det er en volum enhet
+        let multiplicator = Number(document.getElementById("editWrapperSelectorQuantity").dataset.multiplicator);
+        let mainCut = cut/multiplicator;
+        let calc = mainCut*value;
+        document.getElementById("cutvalueinput").innerHTML = valutalook(round(calc, 0))+" Kr";
     }
+}
+
+function inputChange(inputid){
+    //
+    const inputfield = document.getElementById(inputid)
+    let value = extractNumbersFromString(inputfield.value);
+
+    if(inputid == "valueinput"){
+        //legg til Kr i slutten
+        inputfield.value = valutalook(round(value, 0))+" Kr";
+    }else if(inputid == "cutinput"){
+        //finne ut hva som skal legges til i slutten kr, øre eller %
+        //er det valgt noe quantity
+        let quantityValueSelect = document.getElementById("editWrapperSelectorQuantity").value
+        let quantityUnit = document.getElementById("editWrapperSelectorQuantity").dataset.unit;
+
+        if(!quantityValueSelect){
+            //det er ikke en volum enhet
+            inputfield.value = round(value, 2)+" %";
+            inputfield.value = valutalook(round(value, 1))+" %";
+            inputfield.style.color = 'black';
+            localcut = true;
+        }else{
+            //det er en volum enhet
+            let multiplicator = Number(document.getElementById("editWrapperSelectorQuantity").dataset.multiplicator);
+            let mainCut = value/multiplicator;
+            let unit = "Kr/"+quantityUnit;
+            if(quantityUnit == "Liter"){
+                unit = "øre/L";
+                mainCut = mainCut*1;
+            }
+            inputfield.value = valutalook(round(mainCut, 2))+" "+unit;
+            inputfield.style.color = 'black';
+            localcut = true;
+        }
+    }
+
+
+}
+
+function inputbvalueChange(inputid){
+    //laste ned alle besparelseslinjene på dette selskapet 
+    const inputfield = document.getElementById(inputid)
+    let value = extractNumbersFromString(inputfield.value);
+    inputfield.value = valutalook(round(value, 0))+" Kr";
+}
