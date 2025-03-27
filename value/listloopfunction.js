@@ -270,8 +270,7 @@ function groupSuppliersCashflow(data) {
   
 function findLines(data,element){
 
-
-let subviewlist = element.querySelector(".subviewlist");
+    let subviewlist = element.querySelector(".subviewlist");
     //sjekk om denne er synlig eller ikke toogle den
     if(subviewlist.style.display == "block"){
         subviewlist.style.display = "none";
@@ -284,7 +283,9 @@ let subviewlist = element.querySelector(".subviewlist");
     let dataLine = data.dataline;
     console.log(dataLine);
 
-
+    //list linjene
+    let list = element.querySelector(".subviewlist");
+    listElements(dataLine,list,"handel");
 
 /*
 
