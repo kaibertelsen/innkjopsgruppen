@@ -238,6 +238,7 @@ function editRowLine(data,rowelement){
     
     //skjuler editlinje
     rowelement.style.display = "none";
-    element.dataset.hideobject = data.airtable;
+    rowelement.id = data.airtable+"edit";
+    element.dataset.hideobject = rowelement.id;
 
 }
