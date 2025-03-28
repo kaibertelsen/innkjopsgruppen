@@ -4,7 +4,12 @@ function importcontrolledcompanyes(){
 
 
     //sjekke om foundCompany har nye selskap og evt færre selskaper en tidligere
-    controllImportCompanys(foundCompany,qCompanyesFromLastImport);
+    const okToImport = controllImportCompanys(nyImportListe, forventetListe);
+
+    if (!okToImport) {
+    console.log("Import avbrutt av bruker.");
+    return;
+    }
     //sjekke om supplierid er satt
     if(suplierid == ""){
         alert("Leverandør er ikke satt.");
@@ -31,12 +36,23 @@ function importcontrolledcompanyes(){
 }
 
 
-function controllImportCompanys(data1,data2){
-
-    console.log(data1);
-    console.log(data2);
-
+function controllImportCompanys(data1, data2) {
+    const currentCompanies = new Set(data1.map(c => c.airtable));
+    const missingCompanies = data2.filter(oldCompany => !currentCompanies.has(oldCompany.airtable));
+  
+    if (missingCompanies.length > 0) {
+      const message = 
+        "Følgende selskaper har tidligere vært med i importen, men mangler i denne:\n\n" +
+        missingCompanies.map(c => `• ${c.name} (orgnr: ${c.orgnr || 'ukjent'})`).join('\n') +
+        "\n\nVil du fortsette likevel?";
+  
+      const confirmed = confirm(message); // ❗️Programmet stopper her
+      return confirmed; // true = fortsett, false = avbryt
+    }
+  
+    return true; // ingen mangler, alt ok
 }
+  
 
 function returnsaveimport(data,id){
 
