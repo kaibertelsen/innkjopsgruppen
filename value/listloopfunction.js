@@ -570,6 +570,7 @@ function saveEditline(){
     let avalue = extractNumbersFromString(document.getElementById("avalueinput").value);
     let mark = document.getElementById("markinput").value;
     let qantityUnitid = document.getElementById("editWrapperSelectorQuantity").value;
+    let repeating = document.getElementById("repeatingLine").checked;
     
 
     var airtable = false;
@@ -593,9 +594,33 @@ function saveEditline(){
 
 
         }else if (type == "bistand"){
-        body = {date:date,supplier:[supplier],customer:[companyId],bistandvalue:bvalue,tracking:"manuel",dachboard:["recfJZ0PCPOrWcBLq"],note:note,mark:mark,user:[userairtableid],type:"bistand"};
+            body = {
+                date:date,
+                supplier:[supplier],
+                customer:[companyId],
+                bistandvalue:bvalue,
+                tracking:"manuel",
+                dachboard:["recfJZ0PCPOrWcBLq"],
+                note:note,
+                mark:mark,
+                user:[userairtableid],
+                type:"bistand",
+                repeating:repeating
+            };
         }else if (type == "analyse"){
-        body = {date:date,supplier:[supplier],customer:[companyId],analysevalue:avalue,tracking:"manuel",dachboard:["recfJZ0PCPOrWcBLq"],note:note,mark:mark,user:[userairtableid],type:"analyse"};
+            body = {
+                date:date,
+                supplier:[supplier],
+                customer:[companyId],
+                analysevalue:avalue,
+                tracking:"manuel",
+                dachboard:["recfJZ0PCPOrWcBLq"],
+                note:note,
+                mark:mark,
+                user:[userairtableid],
+                type:"analyse",
+                repeating:repeating
+            };
         }
     
     
