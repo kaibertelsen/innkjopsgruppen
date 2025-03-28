@@ -126,7 +126,13 @@ function listElements(data,list,type){
                 }
 
             }
-            //
+            //er den repiterende vis repiteringsknappen
+            const repetingicon = clonerow.querySelector(".repeatingicon");
+            if(data[i]?.repeating){
+                repetingicon.style.display = "block";
+            }else{
+                repetingicon.style.display = "none";
+            }
         }
         if(!clientMode){ 
         const buttonline = clonerow.querySelector(".buttonline");
