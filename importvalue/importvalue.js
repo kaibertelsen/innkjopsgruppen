@@ -38,7 +38,10 @@ function importcontrolledcompanyes(){
 
 function controllImportCompanys(data1, data2) {
     const currentCompanies = new Set(data1.map(c => c.airtable));
-    const missingCompanies = data2.filter(oldCompany => !currentCompanies.has(oldCompany.airtable));
+  
+    const missingCompanies = data2
+      .filter(oldCompany => !currentCompanies.has(oldCompany.airtable))
+      .sort((a, b) => a.name.localeCompare(b.name)); // ⬅ Sorterer etter navn
   
     if (missingCompanies.length > 0) {
       const message = 
@@ -46,12 +49,13 @@ function controllImportCompanys(data1, data2) {
         missingCompanies.map(c => `• ${c.name} (orgnr: ${c.orgnr || 'ukjent'})`).join('\n') +
         "\n\nVil du fortsette likevel?";
   
-      const confirmed = confirm(message); // ❗️Programmet stopper her
-      return confirmed; // true = fortsett, false = avbryt
+      const confirmed = confirm(message);
+      return confirmed;
     }
   
-    return true; // ingen mangler, alt ok
-}
+    return true;
+  }
+  
   
 
 function returnsaveimport(data,id){
