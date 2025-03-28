@@ -162,7 +162,10 @@ function mainrootcompanylist(data){
 
     //filtrere på valgt dato i velger
     const selector = document.getElementById("dashboarddateselector");
-    let filterlist = periodArrayCleaner("maindate","seconddate",selector,data);   
+    let filterlist = periodArrayCleaner("maindate","seconddate",selector,data); 
+
+    //regne ut ny dato på linjer med repeating
+    filterlist = newDateFromRepeating(filterlist);
 
     //denne er ny forløpig
     let groupCahflow = groupSuppliersCashflow(filterlist);
@@ -190,11 +193,25 @@ function mainrootcompanylist(data){
   moreAbouteCompany();
 }
 
-
+function newDateFromRepeating(data) {
+    const currentYear = new Date().getFullYear();
+  
+    data.forEach(item => {
+      if (item.repeating && item.maindate) {
+        const originalDate = new Date(item.maindate);
+        
+        // Lag ny dato med dagens år, men samme måned og dag
+        const updatedDate = new Date(currentYear, originalDate.getMonth(), originalDate.getDate());
+  
+        // Sett ny dato (kan være string eller Date-objekt, avhengig av bruk)
+        item.maindate = updatedDate.toISOString().split("T")[0]; // format: yyyy-mm-dd
+      }
+    });
+  
+    return data;
+  }
   
   
-
-
 
 function filterFunction() {
     var input, filter, div, a, i;
