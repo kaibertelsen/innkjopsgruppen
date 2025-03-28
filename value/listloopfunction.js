@@ -347,8 +347,7 @@ function loadEditwrapper(data){
             let cutSettingNumber = data.localcut || data.defaultcut || 0;
             cutSetting.value = round(Number(cutSettingNumber)*100, 2)+"%";
 
-            //vise repetisjonsknappen
-            repeatingConteiner.style.display = "flex";
+            
 
         }
         //cutvalue
@@ -415,8 +414,10 @@ function loadEditwrapper(data){
             }
       document.getElementById("markinput").value = mark;
       document.getElementById("avalueinput").value = valutalook(round(data.analysevalue,0))+" Kr";
+
+      //vise repetisjonsknappen
+      repeatingConteiner.style.display = "flex";
     }
-     
      
      
     //datevolum
