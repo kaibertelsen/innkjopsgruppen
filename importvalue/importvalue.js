@@ -311,7 +311,7 @@ function controlSupplierQuantity(suppliers, supplierid) {
         let body = createAirtableANDFormula({supplierairtable:supplierid});
         
 
-        Getlistairtable(baseid,"tblv7x4hyh6Q3v6z0",body,"returnimportcashflow");
+        Getlistairtable(baseid,"tblv7x4hyh6Q3v6z0",JSON.stringify(body),"returnimportcashflow");
 
     }
 }
