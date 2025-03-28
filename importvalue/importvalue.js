@@ -1,5 +1,9 @@
 var gQuantityUnitName = "";
+var qCompanyesFromLastImport = [];
 function importcontrolledcompanyes(){
+
+
+    //sjekke om foundCompany har nye selskap og evt mindere en ved forrige import
 
     //sjekke om supplierid er satt
     if(suplierid == ""){
@@ -236,7 +240,7 @@ function findObjectCName(property,value,array){
         return false;
      }   
     return false;
-    }
+}
 
 function quantityunitSelectorchange(selector) {
 
@@ -248,7 +252,6 @@ function quantityunitSelectorchange(selector) {
 
           gQuantityUnitName = quantityObject.unit
 }
-
 
 function controlSupplierQuantity(suppliers, supplierid) {
     var supplier = findObjectProperty("airtable", supplierid, suppliers);
@@ -300,5 +303,40 @@ function controlSupplierQuantity(suppliers, supplierid) {
           quantityuntiWrapper.style.display = "none";
           quantityWrapper.style.display = "none";
       }
+
+    //hente alle selskap som var med på forrige import
+    if(supplier?.importcashflowairtable){
+        //hente alle selskap som var med på forrige import
+        let count = supplier.importcashflowairtable.length;
+        let lastInport = supplier.importcashflowairtable[count-1];
+        GETairtable(baseid,"tblv7x4hyh6Q3v6z0",lastInport,"returnimportcashflow");
+    }
+}
+
+function returnimportcashflow(data){
+    let cachflowLines = data.fields.cashflowjson
+    //konvertere fra json til array
+    cachflowLines = JSON.parse(cachflowLines);
+    let comanyes = filterOutCompanyes(cachflowLines);
+    qCompanyesFromLastImport = comanyes;
+}
+
+function filterOutCompanies(data) {
+    const companySet = new Set();
+    const companyArray = [];
+  
+    data.forEach(line => {
+      const id = line.customerairtable;
+      if (!companySet.has(id)) {
+        companySet.add(id);
+        companyArray.push({
+          name: line.customername,
+          airtable: id,
+          orgnr: line.customerorgnr
+        });
+      }
+    });
+  
+    return companyArray;
   }
   

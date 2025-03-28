@@ -394,7 +394,8 @@ function ruteresponse(data,id){
     respondfilenamecontroll(data,id);
   }else if(id=="returNewMultiImport"){
     returNewMultiImport(data);
+  }else if(id=="returnimportcashflow"){
+    returnimportcashflow(data);
   }
   
-
 }
