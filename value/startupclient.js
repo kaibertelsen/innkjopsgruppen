@@ -201,8 +201,7 @@ function makecompanylines(data){
         suppliername:suppliernamearray[i],
         customer:data.fields.Name,
         bistandvalue:bistandvaluearray[i],
-        analysevalue:analysevaluearray[i],
-        repeatingarray:repeatingarray[i]
+        analysevalue:analysevaluearray[i]
         });
     }
     
