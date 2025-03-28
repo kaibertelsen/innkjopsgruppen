@@ -316,9 +316,22 @@ function controlSupplierQuantity(suppliers, supplierid) {
 function returnimportcashflow(data){
     let cachflowLines = data.fields.cashflowjson
     //konvertere fra json til array
-    cachflowLines = JSON.parse(cachflowLines);
+    cachflowLines = convertJsonStringsImport(cachflowLines);
     let comanyes = filterOutCompanyes(cachflowLines);
     qCompanyesFromLastImport = comanyes;
+}
+
+function convertJsonStringsImport(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            // Parse hoved JSON-streng til et objekt
+            const data = JSON.parse(jsonString);
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
 }
 
 function filterOutCompanies(data) {
