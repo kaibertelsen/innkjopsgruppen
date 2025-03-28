@@ -4,7 +4,7 @@ function importcontrolledcompanyes(){
 
 
     //sjekke om foundCompany har nye selskap og evt færre selskaper en tidligere
-    const okToImport = controllImportCompanys(nyImportListe, forventetListe);
+    const okToImport = controllImportCompanys(foundCompany, qCompanyesFromLastImport);
 
     if (!okToImport) {
     console.log("Import avbrutt av bruker.");
