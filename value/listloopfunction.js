@@ -280,6 +280,10 @@ function loadEditwrapper(data){
 
     //sjuler quantityselestoren
     document.getElementById("editWrapperSelectorQuantity").style.display = "none";
+
+    //skuler repeating checkbox
+    let repeatingConteiner = document.getElementById("repeatingLine").parentElement.parentElement;
+    repeatingConteiner.style.display = "none";
     
     //wrapper
     const element = document.getElementById("editornewwrapper");
@@ -342,6 +346,9 @@ function loadEditwrapper(data){
 
             let cutSettingNumber = data.localcut || data.defaultcut || 0;
             cutSetting.value = round(Number(cutSettingNumber)*100, 2)+"%";
+
+            //vise repetisjonsknappen
+            repeatingConteiner.style.display = "flex";
 
         }
         //cutvalue
@@ -652,11 +659,11 @@ function bindInputEvents(id) {
     element.addEventListener("change", function () {
       inputChange(id);
     });
-  }
+}
   
-  // Koble til begge feltene
-  bindInputEvents("cutinput");
-  bindInputEvents("valueinput");
+// Koble til begge feltene
+bindInputEvents("cutinput");
+bindInputEvents("valueinput");
   
 function inputonfocus(inputid){
     const inputfield = document.getElementById(inputid)
@@ -747,3 +754,12 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
  
 }
 );
+
+document.getElementById("repeatingLine").addEventListener("change", (event) => {
+    if (event.target.checked) {
+      console.log("✅ Aktivert gjentakende linje");
+    } else {
+      console.log("⛔ Deaktivert gjentakende linje");
+    }
+});
+  
