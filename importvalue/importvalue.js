@@ -3,8 +3,8 @@ var qCompanyesFromLastImport = [];
 function importcontrolledcompanyes(){
 
 
-    //sjekke om foundCompany har nye selskap og evt mindere en ved forrige import
-
+    //sjekke om foundCompany har nye selskap og evt færre selskaper en tidligere
+    controllImportCompanys(foundCompany,qCompanyesFromLastImport);
     //sjekke om supplierid er satt
     if(suplierid == ""){
         alert("Leverandør er ikke satt.");
@@ -28,6 +28,14 @@ function importcontrolledcompanyes(){
     }else{
     alert("Dato perioden er ikke definert riktig.");
     }
+}
+
+
+function controllImportCompanys(data1,data2){
+
+    console.log(data1);
+    console.log(data2);
+
 }
 
 function returnsaveimport(data,id){
