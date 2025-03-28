@@ -258,6 +258,16 @@ function convertJsonStringsToObjects(jsonStrings) {
            
            // Parse hoved JSON-streng til et objekt
            const data = JSON.parse(jsonString);
+
+            //hvis repating står med trekstform TRU eller FALSE så endre til bool
+            if(data.repeating == "TRUE"){
+                data.repeating = true;
+            }
+            if(data.repeating == "FALSE"){
+                data.repeating = false;
+            }
+
+
             return data;
         } catch (error) {
             console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
