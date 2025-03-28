@@ -345,8 +345,8 @@ function listElements(data,list,type){
                     
                     //felles
                     const c1 = clonerow.getElementsByClassName("c1")[0];
-                    c1.textContent = data[i].supplier;
-                   
+                    c1.textContent = data[i]?.suppliertext || data[i]?.suppliername || "-";
+                    
                     if(type == 1){
                         const c2 = clonerow.getElementsByClassName("c2")[0];
                         
@@ -357,7 +357,12 @@ function listElements(data,list,type){
                                 quantityname = "Drivstoff";
                             }
 
-                        c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + data[i].quantityunit+" "+quantityname;
+                            let quantityunit = data[i].quantityunit;
+                            if(quantityunit == "Liter"){
+                                quantityunit = "L";
+                            }
+
+                        c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + quantityunit+" "+quantityname;
                         
                         }else{
                           var xvalue = 0;
