@@ -127,7 +127,7 @@ function listElements(data,list,type){
 
             }
             //er den repiterende vis repiteringsknappen
-            const repetingicon = clonerow.querySelector(".repeatingicon");
+            const repetingicon = clonerow.querySelector(".repetingicon");
             if(data[i]?.repeating){
                 repetingicon.style.display = "block";
             }else{
