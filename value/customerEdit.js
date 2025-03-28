@@ -212,9 +212,18 @@ function respondCompanyCutSettings(data){
 }
 
 function addnewline(type,buttonid){
+    const element = document.getElementById("editornewwrapper");
+    //sjekke om det er en skult rad som skal vises
+    if(element.dataset.hideobject){
+        //synligjør tidligere skjult element
+        const hideobject = document.getElementById(element.dataset.hideobject);
+        if(hideobject){
+            hideobject.style.display = "grid";
+        }
+    }
+
     reseteditwrapperinput();
     showhideeditwraper(type);
-    const element = document.getElementById("editornewwrapper");
     element.style.display = "block";
     var listid;
     if(type == "handel"){
