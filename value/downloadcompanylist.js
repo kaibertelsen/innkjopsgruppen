@@ -148,9 +148,9 @@ const companysettingsConteiner = document.getElementById("companysettingsContein
 companysettingsConteiner.style.display = "none";
 
 function respondcustomerlist(data,id){
-  //laste ned alle besparelseslinjene på dette selskapet  
- companydatalines = rawdatacleaner(data);
- mainrootcompanylist(companydatalines);
+    //laste ned alle besparelseslinjene på dette selskapet  
+    companydatalines = rawdatacleaner(data);
+    mainrootcompanylist(companydatalines);
 
     //synligjør companysettings
     companysettingsConteiner.style.display = "block";
@@ -209,7 +209,7 @@ function newDateFromRepeating(data) {
     });
   
     return data;
-  }
+}
   
   
 

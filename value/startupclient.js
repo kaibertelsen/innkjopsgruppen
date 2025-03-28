@@ -182,6 +182,7 @@ function makecompanylines(data){
     var airtable = data.fields.cashflow;
     var bistandvaluearray = data.fields.bistandvaluecashflow;
     var analysevaluearray = data.fields.analysevaluecashflow;
+    var repeatingarray = data.fields.repeating;
     
     var newarray = [];
     
@@ -200,7 +201,8 @@ function makecompanylines(data){
         suppliername:suppliernamearray[i],
         customer:data.fields.Name,
         bistandvalue:bistandvaluearray[i],
-        analysevalue:analysevaluearray[i]
+        analysevalue:analysevaluearray[i],
+        repeatingarray:repeatingarray[i]
         });
     }
     
@@ -212,9 +214,8 @@ function mainrootcompanylist(data){
         
      //filtrere på valgt dato i velger
     const selector = document.getElementById("dashboarddateselector");
-    var datoarray = periodArrayCleaner("maindate","seconddate",selector,data);   
-        
-        
+    var datoarray = periodArrayCleaner("maindate","seconddate",selector,data);  
+    
      let sum1 = listcompanyinview(mergesuppiersCachflow(findObjectsProperty("type","handel",datoarray)));
      //liste opp bistand
       let sum2 = listcompanybistand(findObjectsProperty("type","bistand",datoarray));
@@ -229,6 +230,27 @@ function mainrootcompanylist(data){
         let selectedOption = selector.options[selectedIndex];
         let tekstutenPunktum = selectedOption.text.replace('.', '');
       document.getElementById("periodetextviewer").innerHTML = tekstutenPunktum.toLowerCase()+".";
+}
+
+
+function periodArrayCleaner(date1property, date2property, selector, data) {
+    const newarray = [];
+  
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      const isRepeating = item.repeating === true;
+      const isInPeriod = dateselectorPeriode(item[date1property], item[date2property], selector);
+  
+      if (isRepeating || isInPeriod) {
+        const copy = {};
+        Object.keys(item).forEach(key => {
+          copy[key] = item[key];
+        });
+        newarray.push(copy);
+      }
+    }
+  
+    return newarray;
 }
 
 function convertJsonStringsToObjects(jsonStrings) {
