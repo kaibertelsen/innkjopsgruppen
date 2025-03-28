@@ -317,7 +317,7 @@ function returnimportcashflow(data){
     let cachflowLines = data.fields.cashflowjson
     //konvertere fra json til array
     cachflowLines = convertJsonStringsImport(cachflowLines);
-    let comanyes = filterOutCompanyes(cachflowLines);
+    let comanyes = filterOutCompanies(cachflowLines);
     qCompanyesFromLastImport = comanyes;
 }
 
