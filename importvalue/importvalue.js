@@ -321,7 +321,7 @@ function returnimportcashflow(data){
     let allLines = [];
 
     datacleaner.forEach((importarray, index) => {
-        let cachflowLines = importarray.fields.cashflowjson
+        let cachflowLines = importarray.cashflowjson
         //konvertere fra json til array
         cachflowLines = convertJsonStringsImport(cachflowLines);
         allLines = allLines.concat(cachflowLines);
