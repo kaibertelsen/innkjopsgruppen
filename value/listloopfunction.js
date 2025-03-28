@@ -284,6 +284,12 @@ function loadEditwrapper(data){
     //skuler repeating checkbox
     let repeatingConteiner = document.getElementById("repeatingLine").parentElement.parentElement;
     repeatingConteiner.style.display = "none";
+
+    let repeatingcheckbox = document.getElementById("repeatingLine");
+    repeatingcheckbox.checked = false;
+    if(data.repeating){
+        repeatingcheckbox.checked = true;
+    }
     
     //wrapper
     const element = document.getElementById("editornewwrapper");
