@@ -62,23 +62,24 @@ function loaddaschboard(data){
     listdachboardtopp(cashflowdatoarray);
 }
 
-function periodArrayCleaner(date1property,date2property,selector,data){
-
-    var newarray = [];
-    for (var i = 0;i<data.length;i++){
-        
-          if(dateselectorPeriode(data[i][date1property],data[i][date2property],selector)){
-          //denne raden er innafor periode valg i scelector
-          let keyArray = Object.keys(data[i]);
-          var object = {};
-              for(var a = 0;a<keyArray.length;a++){
-               object[keyArray[a]] = data[i][keyArray[a]];
-               }
-            newarray.push(object);
-            }
-   
-        }
-        return newarray;
+function periodArrayCleaner(date1property, date2property, selector, data) {
+    const newarray = [];
+  
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      const isRepeating = item.repeating === true;
+      const isInPeriod = dateselectorPeriode(item[date1property], item[date2property], selector);
+  
+      if (isRepeating || isInPeriod) {
+        const copy = {};
+        Object.keys(item).forEach(key => {
+          copy[key] = item[key];
+        });
+        newarray.push(copy);
+      }
+    }
+  
+    return newarray;
 }
 
 function listdachboardtopp(data){
