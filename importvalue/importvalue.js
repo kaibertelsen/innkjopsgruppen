@@ -308,10 +308,8 @@ function controlSupplierQuantity(suppliers, supplierid) {
     if(supplier?.importcashflowairtable){
         //hente alle selskap som var med på forrige import
         
-        let body = createAirtableANDFormula({supplierairtable:supplierid});
-        
-
-        Getlistairtable(baseid,"tblv7x4hyh6Q3v6z0",JSON.stringify(body),"returnimportcashflow");
+        let body = airtablebodylistAND({supplierairtable:supplierid})
+        Getlistairtable(baseid,"tblv7x4hyh6Q3v6z0",body,"returnimportcashflow");
 
     }
 }
