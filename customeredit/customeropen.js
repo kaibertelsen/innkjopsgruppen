@@ -28,6 +28,9 @@ function openCustomer(customer){
     const publicSwitsh = document.getElementById("publicSwitsh");
     publicSwitsh.checked = customer.inactive ? false : true;
 
+    const benefitsSwitsh = document.getElementById("benefitsSwitsh");
+    benefitsSwitsh.checked = customer.ansattfordeler ? true : false;
+
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     publicSwitshtext.textContent = customer.inactive ? "Deaktivert" : "Aktivert";
     
@@ -171,6 +174,19 @@ document.getElementById("publicSwitsh").addEventListener("click", function () {
         saveSupplierInfo(activeCustomer.airtable, {inactive: true});
         //save lokalt
         activeCustomer.inactive = true;
+    }
+});
+
+document.getElementById("benefitsSwitsh").addEventListener("click", function () {
+    // sjekke om den er checked
+    if(this.checked){
+        saveSupplierInfo(activeCustomer.airtable, {ansattfordeler: true});
+        //save lokalt
+        activeCustomer.ansattfordeler = true;
+    }else{
+        saveSupplierInfo(activeCustomer.airtable, {ansattfordeler: false});
+        //save lokalt
+        activeCustomer.ansattfordeler = false;
     }
 });
 
