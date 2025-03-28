@@ -307,17 +307,29 @@ function controlSupplierQuantity(suppliers, supplierid) {
     //hente alle selskap som var med på forrige import
     if(supplier?.importcashflowairtable){
         //hente alle selskap som var med på forrige import
-        let count = supplier.importcashflowairtable.length;
-        let lastInport = supplier.importcashflowairtable[count-1];
-        GETairtable(baseid,"tblv7x4hyh6Q3v6z0",lastInport,"returnimportcashflow");
+        
+        let body = createAirtableANDFormula({supplierairtable:supplierid});
+        
+
+        Getlistairtable(baseid,"tblv7x4hyh6Q3v6z0",body,"returnimportcashflow");
+
     }
 }
 
 function returnimportcashflow(data){
-    let cachflowLines = data.fields.cashflowjson
-    //konvertere fra json til array
-    cachflowLines = convertJsonStringsImport(cachflowLines);
-    let comanyes = filterOutCompanies(cachflowLines);
+
+    let datacleaner = rawdatacleaner(data);
+
+    let allLines = [];
+
+    datacleaner.forEach((importarray, index) => {
+        let cachflowLines = importarray.fields.cashflowjson
+        //konvertere fra json til array
+        cachflowLines = convertJsonStringsImport(cachflowLines);
+        allLines = allLines.concat(cachflowLines);
+    });
+
+    let comanyes = filterOutCompanies(allLines);
     qCompanyesFromLastImport = comanyes;
 }
 
