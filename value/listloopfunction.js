@@ -406,6 +406,10 @@ function loadEditwrapper(data){
             }
       document.getElementById("markinput").value = mark;
       document.getElementById("bvalueinput").value = valutalook(round(data.bistandvalue,0))+" Kr";
+
+        //vise repetisjonsknappen
+        repeatingConteiner.style.display = "flex";
+
     }else if (data.type == "analyse"){
       //mark
             var mark = "";
@@ -415,7 +419,7 @@ function loadEditwrapper(data){
       document.getElementById("markinput").value = mark;
       document.getElementById("avalueinput").value = valutalook(round(data.analysevalue,0))+" Kr";
 
-      //vise repetisjonsknappen
+        //vise repetisjonsknappen
       repeatingConteiner.style.display = "flex";
     }
      
