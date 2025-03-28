@@ -287,10 +287,10 @@ function loadEditwrapper(data){
     
     const supplierinput = document.getElementById("dropdownInputsupplier");
     supplierinput.value =  data.suppliertext || data.suppliername;
+    supplierinput.disabled = false;
     if(!data?.suppliertext){
         //legge til airtable
         supplierinput.dataset.airtable = data.supplier[0];  
-        supplierinput.disabled = true;
     }
      
     if(data.type == "handel"){
@@ -298,6 +298,10 @@ function loadEditwrapper(data){
         const mainValue = document.getElementById("valueinput");
         const cutSetting = document.getElementById("cutinput");
         const cutValue = document.getElementById("cutvalueinput");
+
+        if(!data?.suppliertext){
+            supplierinput.disabled = true;
+        }
 
         if(data?.quantity>0){
             //dette er en volum enhet og ikke kroner
