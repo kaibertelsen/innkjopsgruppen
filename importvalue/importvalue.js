@@ -11,7 +11,15 @@ function importcontrolledcompanyes(){
     //1
     let mc = JSON.stringify(missingComapny);
     //Registrere en import i airtable
-    let body = {name:xlsimportfilename,periodestart:datestart.value,periodeend:dateend.value,missingcompanys:mc,file: xlsurl, user:[userairtableid]};
+    let body = {
+        name:xlsimportfilename,
+        periodestart:datestart.value,
+        periodeend:dateend.value,
+        missingcompanys:mc,
+        file: xlsurl,
+        user:[userairtableid],
+        supplier:[suplierid]
+    };
     POSTairtable(baseid,"tblv7x4hyh6Q3v6z0",JSON.stringify(body),"returnsaveimport");
     }else{
     alert("Dato perioden er ikke definert riktig.");
