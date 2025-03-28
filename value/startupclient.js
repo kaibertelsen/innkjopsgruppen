@@ -345,7 +345,7 @@ function listElements(data,list,type){
                     
                     //felles
                     const c1 = clonerow.getElementsByClassName("c1")[0];
-                    c1.textContent = data[i]?.suppliertext || data[i]?.suppliername || "-";
+                    c1.textContent = data[i]?.suppliertext || data[i]?.supplier || "-";
                     
                     if(type == 1){
                         const c2 = clonerow.getElementsByClassName("c2")[0];
