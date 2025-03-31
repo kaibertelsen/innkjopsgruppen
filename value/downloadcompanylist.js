@@ -117,7 +117,10 @@ function viewGroupData(company) {
         }
     });
 
-    console.log(`Summen av "cut" for selskaper under ${parentcompanyname} er:`, totalCut);
+    const textGroupElement = document.getElementById("textGroup");
+    let totalCutText = totalCut.toLocaleString('no-NO', { style: 'currency', currency: 'NOK' });
+    textGroupElement.textContent = `Summen av besparelse for alle selskaper i gruppen :${parentcompanyname} er: ${totalCutText}`;
+
 }
 
 
