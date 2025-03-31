@@ -92,18 +92,34 @@ function companySelected(company){
     }
 }
 
-function viewGroupData(company){
+function viewGroupData(company) {
+    const parentcompanyname = company.parentcompanyname;
+    const parentcompany = company.parentcompany;
 
-    let parentcompanyname = company.parentcompanyname;
-    let parentcompany = company.parentcompany;
-    // finne alle selskaper med samme parentcompany i arrayen buffercompanydata
-    let groupdata = buffercompanydata.filter(company => company.parentcompany === parentcompany);
-    let sum = 0;
-    groupdata.forEach(company => {
-        sum += company.sum;
+    if (!parentcompany) {
+        console.log("Ingen parentcompany satt for dette selskapet.");
+        return;
+    }
+
+    // Filtrer alle selskaper med samme parentcompany
+    const groupdata = buffercompanydata.filter(c => c.parentcompany === parentcompany);
+
+    let totalCut = 0;
+
+    groupdata.forEach(c => {
+        if (Array.isArray(c.cashflowjson)) {
+            c.cashflowjson.forEach(entry => {
+                const cut = parseFloat(entry.cut);
+                if (!isNaN(cut)) {
+                    totalCut += cut;
+                }
+            });
+        }
     });
-    console.log("Summen av alle selskaper med parentcompany", parentcompanyname, "er", sum);
+
+    console.log(`Summen av "cut" for selskaper under ${parentcompanyname} er:`, totalCut);
 }
+
 
 function listcompanycutsettings(data){
     
