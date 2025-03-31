@@ -19,26 +19,39 @@ function respondLinkList(data){
 }
 
 function countLinktstatusDachboard(followup) {
-    const selector = document.getElementById("dashboarddateselector");
-    const [fromStr, toStr] = selector.value.split(",");
+    const dateSelector = document.getElementById("dashboarddateselector");
+    const groupSelector = document.getElementById("dashboardgroupselector");
+
+    const [fromStr, toStr] = dateSelector.value.split(",");
     const fromDate = new Date(fromStr);
     const toDate = new Date(toStr);
+    const selectedGroup = groupSelector.value;
 
-    // Hjelpefunksjon: sjekk om en dato er innenfor valgt periode
-    function isWithinPeriod(dateString) {
-        const date = new Date(dateString);
-        return date >= fromDate && date <= toDate;
+    // Filtrer på gruppe først (hopp over hvis "alle grupper")
+    let filtered = followup;
+    if (selectedGroup === "none") {
+        // Ingen gruppe
+        filtered = filtered.filter(f => !f.group);
+    } else if (selectedGroup !== "") {
+        // Spesifikk gruppe valgt
+        filtered = filtered.filter(f => f.group === selectedGroup);
     }
 
-    // Åpnet av kunde (minst én logg uten superadmin, innen perioden)
-    const linkopen = followup.filter(f =>
-        f.linkloggjson.some(log => 
+    // Funksjon for å sjekke om en logg er innenfor perioden
+    const isWithinPeriod = (dateString) => {
+        const date = new Date(dateString);
+        return date >= fromDate && date <= toDate;
+    };
+
+    // Åpnet av kunde innen periode
+    const linkopen = filtered.filter(f =>
+        f.linkloggjson.some(log =>
             !log.superadmin && isWithinPeriod(log.open)
         )
     );
 
-    // Ikke åpnet (enten ingen åpning, eller kun superadmin, innen perioden)
-    const linkclose = followup.filter(f => {
+    // Ikke åpnet av kunde (enten ingen, eller kun superadmin, i perioden)
+    const linkclose = filtered.filter(f => {
         const logsInPeriod = f.linkloggjson.filter(log => isWithinPeriod(log.open));
         return logsInPeriod.length === 0 || logsInPeriod.every(log => log.superadmin);
     });
@@ -47,6 +60,7 @@ function countLinktstatusDachboard(followup) {
     const dachboardcountLinks = document.getElementById("dachboardcountLinks");
     dachboardcountLinks.innerText = `${linkopen.length}/${sum}`;
 }
+
 
 
 
