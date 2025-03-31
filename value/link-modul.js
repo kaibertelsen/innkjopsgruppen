@@ -30,7 +30,7 @@ function countLinktstatusDachboard(followup){
 
     let sum = linkopen.length + linkclose.length;
     const dachboardcountLinks = document.getElementById("dachboardcountLinks");
-    dachboardcountLinks.innerText = linkopen+"/"+sum;
+    dachboardcountLinks.innerText = linkopen.length+"/"+sum;
 
 }
 
