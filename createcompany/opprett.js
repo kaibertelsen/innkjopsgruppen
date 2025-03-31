@@ -413,9 +413,10 @@ function controllcompanyinputs() {
     }
 
 
-    if (parentCompany.airtable !== "") {
+    if (parentCompany && parentCompany.hasOwnProperty("airtable") && parentCompany.airtable.trim() !== "") {
         saveObject.parentcompany = [parentCompany.airtable];
     }
+    
 
     return saveObject;
 }
