@@ -56,7 +56,7 @@ function openCustomer(customer){
     //finner hvilke gruppe selskapet tilhører og velg den i selector
     customerGroupSelector.value = customer.group;
 
-    const parentCompany = document.getElementById("parentCompany");
+    const parentCompany = document.getElementById("hovedselskapinput");
     parentCompany.value = customer.parentcompanyname || "";
     parentCompany.dataset.airtable = customer.parentcompany || "";
 
