@@ -5,7 +5,6 @@ document.getElementById("startlinkListButton").onclick = function() {
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","reckTUK3Ia0LghhaI","respondLinkList");
 }
 
-
 function respondLinkList(data){
   
     
@@ -18,7 +17,6 @@ function respondLinkList(data){
     listLinks(followup);
 
 }
-
 
 function convertFollowUpJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {
@@ -96,22 +94,18 @@ function listLinksElement(linklogs,clone){
     });
 
 }
+
 function formatNorwegianDate(isoString) {
     const date = new Date(isoString);
-    
+  
     // Månedsnavn på norsk (kortversjon)
     const monthNames = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"];
-    
-    // Juster til norsk tid (UTC+2 – juster hvis du trenger lokal sommertid)
-    const localDate = new Date(date.getTime() + 2 * 60 * 60 * 1000);
   
-    const day = String(localDate.getUTCDate()).padStart(2, '0');
-    const month = monthNames[localDate.getUTCMonth()];
-    const year = localDate.getUTCFullYear();
-    const hours = String(localDate.getUTCHours()).padStart(2, '0');
-    const minutes = String(localDate.getUTCMinutes()).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = monthNames[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
   
-    return `${day}.${month} ${year} kl. ${hours}:${minutes}`;
+    return `${day}.${month} ${year}`;
   }
  
   
