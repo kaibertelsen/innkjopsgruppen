@@ -1,3 +1,4 @@
+var companyList = [];
 document.getElementById("searchinputfield").addEventListener("input", function() {
     const inputValue = this.value.trim();
 
@@ -432,7 +433,6 @@ async function sendToZapier(data) {
     }
 }
 
-
 function setTodaysDate() {
     // Finner dagens dato i riktig format for <input type="date">
     const today = new Date();
@@ -442,5 +442,121 @@ function setTodaysDate() {
     document.getElementById('winninginput').value = formattedDate;
     document.getElementById('rewalinput').value = formattedDate;
     document.getElementById('invoiceinput').value = formattedDate;
+}
+
+getCustomer();
+function getCustomer(){     
+    //hente kunder
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec1QGUGBMVaqxhp1","customerResponse","skipCache");
+}
+
+function customerResponse(data){
+
+        if (!data || !data.fields || !data.fields.membersjson || !Array.isArray(data.fields.membersjson)) {
+            console.error("Ugyldig dataformat: Forventet et objekt med 'fields.supplierjson' som en array.");
+            return; // Avbryt hvis data ikke er gyldig
+        }
+    
+        
+        // Konverter JSON-strenger til objekter
+        const jsonStrings = data.fields.membersjson;
+        
+        let customers = convertCustomerJsonStringsToObjects(jsonStrings);
+        companyList = customers;
+        // Koble funksjonen til søket
+setupHovedselskapSearch(companyList, onHovedselskapSelected);
+
+}
+
+function convertCustomerJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
+
+
+            // Sørg for at "group" og "category" alltid er arrays
+            if (!data.cashflowjson) {
+                data.cashflowjson = [];
+            }
+
+            if (!data.bruker) {
+                data.bruker = [];
+            }
+
+            if (!data.invitasjon) {
+                data.invitasjon = [];
+            }
+
+            if (!data.connection) {
+                data.connection = [];
+            }
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
+}
+
+function setupHovedselskapSearch(companyList, onCompanySelected) {
+    const input = document.getElementById("hovedselskapinput");
+    const suggestionBox = document.getElementById("hovedselskap-suggestions");
+
+    input.addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase().trim();
+        suggestionBox.innerHTML = "";
+
+        if (searchTerm.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        const matches = companyList.filter(company =>
+            company.Navn && company.Navn.toLowerCase().includes(searchTerm)
+        );
+
+        if (matches.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        matches.slice(0, 10).forEach(company => {
+            const option = document.createElement("div");
+            option.innerText = company.Navn;
+            option.addEventListener("click", () => {
+                input.value = company.Navn;
+                suggestionBox.style.display = "none";
+
+                // Kall funksjonen med både navn og Airtable-ID
+                if (typeof onCompanySelected === "function") {
+                    onCompanySelected(company.Navn, company.airtable);
+                }
+            });
+            suggestionBox.appendChild(option);
+        });
+
+        suggestionBox.style.display = "block";
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!input.contains(event.target) && !suggestionBox.contains(event.target)) {
+            suggestionBox.style.display = "none";
+        }
+    });
+}
+
+function onHovedselskapSelected(navn, airtableId) {
+    console.log("Valgt selskap:", navn, airtableId);
+    hentHovedselskapData(airtableId);
+}
+
+
+function hentHovedselskapData(airtableId) {
+    // Din logikk her – eksempel:
+    // fetch(`/api/company/${airtableId}`).then(...)
+    console.log("Henter data for selskap med ID:", airtableId);
 }
 
