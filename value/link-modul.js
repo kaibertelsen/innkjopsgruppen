@@ -57,6 +57,15 @@ function listLinks(followups){
             window.open(followup.link);
         }
 
+        const linkstatus = clone.querySelector(".linkstatus");
+        if (followup.linkloggjson.length > 0){
+            linkstatus.innerText = "Linken er åpnet";
+            linkstatus.style.color = "green";
+        }else{
+            linkstatus.innerText = "Linken er ikke åpnet enda";
+            linkstatus.style.color = "red";
+        }
+
         list.appendChild(clone);
     });
 
