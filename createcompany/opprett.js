@@ -1,4 +1,5 @@
 var companyList = [];
+var v = {};
 document.getElementById("searchinputfield").addEventListener("input", function() {
     const inputValue = this.value.trim();
 
@@ -166,12 +167,14 @@ function companycheck(data) {
 
     }
 }
+
 function setCompanyDates(data){
     // Sett verdiene i input-feltene
     document.getElementById("winninginput").value = data.winningdate || "";
     document.getElementById("rewalinput").value = data.manuelrewaldate || "";
     document.getElementById("invoiceinput").value = data.invoicedate || "";
 }
+
 function setCompanyselectors(data) {
     // Kartlegging av data-nøkler til select-element-ID-er
 
@@ -376,21 +379,19 @@ function controllcompanyinputs() {
 
     let saveObject = {};
     for (let i = 0; i < fieldIds.length; i++) {
-        if (fieldIds[i].value === "") { // Sjekker om feltet mangler verdi
+        if (fieldIds[i].value === "") {
             let fieldName = fieldIds[i].name;
             alert("Feltet " + fieldName + " mangler verdi");
             return false;
         } else {
             let dataName = fieldIds[i].dataset.name;
-            if (dataName == "valuegroup") {
+            if (dataName === "valuegroup") {
                 let numberValue = parseFloat(fieldIds[i].value);
-                if (isNaN(numberValue)) { // Sjekker om verdien ikke er et tall
+                if (isNaN(numberValue)) {
                     numberValue = 0;
                 }
-                saveObject[dataName] = numberValue; // Lagre som tall
-            } 
-            // Legg verdien i en array hvis dataName er "gruppe" eller "radgiver"
-            else if (dataName === "gruppe" || dataName === "radgiver") {
+                saveObject[dataName] = numberValue;
+            } else if (dataName === "gruppe" || dataName === "radgiver") {
                 saveObject[dataName] = [fieldIds[i].value];
             } else {
                 saveObject[dataName] = fieldIds[i].value;
@@ -398,17 +399,20 @@ function controllcompanyinputs() {
         }
     }
 
-    if(logoUrl != ""){
-        saveObject.logo = [
-            {
-                "url": logoUrl
-            }
-        ]
+    // Legg til logo om den finnes
+    if (logoUrl != "") {
+        saveObject.logo = [{ url: logoUrl }];
         saveObject.logourl = logoUrl;
+    }
+
+
+    if (parentCompany.airtable !== "") {
+        saveObject.parentcompany = [parentCompany.airtable];
     }
 
     return saveObject;
 }
+
 
 async function sendToZapier(data) {
     
@@ -504,10 +508,12 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
 function setupHovedselskapSearch(companyList, onCompanySelected) {
     const input = document.getElementById("hovedselskapinput");
     const suggestionBox = document.getElementById("hovedselskap-suggestions");
+    parentCompany = {};
 
     input.addEventListener("input", function () {
         const searchTerm = this.value.toLowerCase().trim();
         suggestionBox.innerHTML = "";
+        parentCompany = {};
 
         if (searchTerm.length === 0) {
             suggestionBox.style.display = "none";
@@ -550,13 +556,13 @@ function setupHovedselskapSearch(companyList, onCompanySelected) {
 
 function onHovedselskapSelected(navn, airtableId) {
     console.log("Valgt selskap:", navn, airtableId);
-    hentHovedselskapData(airtableId);
+    hentHovedselskapData(airtableId,navn);
 }
 
 
-function hentHovedselskapData(airtableId) {
-    // Din logikk her – eksempel:
-    // fetch(`/api/company/${airtableId}`).then(...)
-    console.log("Henter data for selskap med ID:", airtableId);
+function hentHovedselskapData(airtable,name) {
+    parentCompany.airtable = airtable;
+    parentCompany.name = name;
+    
 }
 
