@@ -85,6 +85,24 @@ function companySelected(company){
     if(company.cutsettings){
         listcompanycutsettings(company.cutsettings);
     }
+
+    //hvis dette selskapet tilhører en hovedselskap
+    if(company?.parentcompany){
+        viewGroupData(company);
+    }
+}
+
+function viewGroupData(company){
+
+    let parentcompanyname = company.parentcompanyname;
+    let parentcompany = company.parentcompany;
+    // finne alle selskaper med samme parentcompany i arrayen buffercompanydata
+    let groupdata = buffercompanydata.filter(company => company.parentcompany === parentcompany);
+    let sum = 0;
+    groupdata.forEach(company => {
+        sum += company.sum;
+    });
+    console.log("Summen av alle selskaper med parentcompany", parentcompanyname, "er", sum);
 }
 
 function listcompanycutsettings(data){
