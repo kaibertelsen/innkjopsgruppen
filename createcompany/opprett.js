@@ -151,6 +151,13 @@ function companycheck(data) {
             companyGroupId = company.group[0];
         }
 
+        if(company?.parentcompany){
+            parentCompany.airtable = company.parentcompany[0];
+            parentCompany.name = company.parentcompanyname[0];
+            const hovedselskapinput = document.getElementById("hovedselskapinput");
+            hovedselskapinput.value = parentCompany.name;
+        }
+
 
     } else {
         companyId = "";
