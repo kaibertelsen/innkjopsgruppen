@@ -146,7 +146,7 @@ function formatNorwegianDate(isoString) {
 }
  
 
-document.getElementById("linklibraryconteiner").addEventListener("change", () => {
+document.getElementById("followupLinkselector").addEventListener("change", () => {
     listLinks(gFollowUplist);
 });
   
