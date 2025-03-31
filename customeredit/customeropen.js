@@ -799,7 +799,7 @@ function onHovedselskapSelected(navn, airtableId) {
      if (airtableId === "") {
         body = {parentcompany:[]};
     }else{
-        const parentCompany = document.getElementById("parentCompany");
+        const parentCompany = document.getElementById("hovedselskapinput");
         parentCompany.value = navn || "";
         parentCompany.dataset.airtable = airtableId || "";
         body = {parentcompany:[airtableId]};
