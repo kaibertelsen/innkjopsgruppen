@@ -285,7 +285,11 @@ function ruteresponse(data,id){
     respondUserData(data);
   }else if (id == "onboardedregistredresponse"){
     onboardedregistredresponse(data);
+  }else if (id == "customerResponse"){
+    customerResponse(data);
   }
+
+  
   
 }
 

@@ -24,6 +24,7 @@ cdnScripts.reduce((promise, script) => {
     console.log("All scripts loaded");
     setTodaysDate();
     getGroup();
+    getCustomer();
 }).catch(error => {
     console.error(error);
 });

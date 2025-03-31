@@ -444,7 +444,7 @@ function setTodaysDate() {
     document.getElementById('invoiceinput').value = formattedDate;
 }
 
-getCustomer();
+
 function getCustomer(){     
     //hente kunder
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec1QGUGBMVaqxhp1","customerResponse","skipCache");
