@@ -515,7 +515,7 @@ function setupHovedselskapSearch(companyList, onCompanySelected) {
         }
 
         const matches = companyList.filter(company =>
-            company.Navn && company.Navn.toLowerCase().includes(searchTerm)
+            company.Name && company.Name.toLowerCase().includes(searchTerm)
         );
 
         if (matches.length === 0) {
@@ -525,14 +525,14 @@ function setupHovedselskapSearch(companyList, onCompanySelected) {
 
         matches.slice(0, 10).forEach(company => {
             const option = document.createElement("div");
-            option.innerText = company.Navn;
+            option.innerText = company.Name;
             option.addEventListener("click", () => {
-                input.value = company.Navn;
+                input.value = company.Name;
                 suggestionBox.style.display = "none";
 
                 // Kall funksjonen med både navn og Airtable-ID
                 if (typeof onCompanySelected === "function") {
-                    onCompanySelected(company.Navn, company.airtable);
+                    onCompanySelected(company.Name, company.airtable);
                 }
             });
             suggestionBox.appendChild(option);
