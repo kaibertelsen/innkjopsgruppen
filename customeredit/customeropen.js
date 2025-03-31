@@ -794,16 +794,18 @@ function setupHovedselskapSearch(companyList, onCompanySelected) {
 
 function onHovedselskapSelected(navn, airtableId) {
 
-    const parentCompany = document.getElementById("parentCompany");
-    parentCompany.value = navn || "";
-    parentCompany.dataset.airtable = airtableId || "";
-
      //lagre gruppe i databasen
-     let body = {parentcompany:[airtableId]};
+     let body = {};
      if (airtableId === "") {
         body = {parentcompany:[]};
+    }else{
+        const parentCompany = document.getElementById("parentCompany");
+        parentCompany.value = navn || "";
+        parentCompany.dataset.airtable = airtableId || "";
+        body = {parentcompany:[airtableId]};
     }
-     saveSupplierInfo(activeCustomer.airtable, body);
+
+    saveSupplierInfo(activeCustomer.airtable, body);
 
 }
 
