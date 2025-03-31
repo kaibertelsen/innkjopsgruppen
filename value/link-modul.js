@@ -18,21 +18,36 @@ function respondLinkList(data){
 
 }
 
-function countLinktstatusDachboard(followup){
-    let linkopen = followup.filter(followup =>
-        followup.linkloggjson.some(log => !log.superadmin)
-    );
-    let linkclose = followup.filter(followup =>
-        followup.linkloggjson.length === 0 ||
-        followup.linkloggjson.every(log => log.superadmin)
+function countLinktstatusDachboard(followup) {
+    const selector = document.getElementById("dashboarddateselector");
+    const [fromStr, toStr] = selector.value.split(",");
+    const fromDate = new Date(fromStr);
+    const toDate = new Date(toStr);
+
+    // Hjelpefunksjon: sjekk om en dato er innenfor valgt periode
+    function isWithinPeriod(dateString) {
+        const date = new Date(dateString);
+        return date >= fromDate && date <= toDate;
+    }
+
+    // Åpnet av kunde (minst én logg uten superadmin, innen perioden)
+    const linkopen = followup.filter(f =>
+        f.linkloggjson.some(log => 
+            !log.superadmin && isWithinPeriod(log.open)
+        )
     );
 
+    // Ikke åpnet (enten ingen åpning, eller kun superadmin, innen perioden)
+    const linkclose = followup.filter(f => {
+        const logsInPeriod = f.linkloggjson.filter(log => isWithinPeriod(log.open));
+        return logsInPeriod.length === 0 || logsInPeriod.every(log => log.superadmin);
+    });
 
-    let sum = linkopen.length + linkclose.length;
+    const sum = linkopen.length + linkclose.length;
     const dachboardcountLinks = document.getElementById("dachboardcountLinks");
-    dachboardcountLinks.innerText = linkopen.length+"/"+sum;
-
+    dachboardcountLinks.innerText = `${linkopen.length}/${sum}`;
 }
+
 
 
 function convertFollowUpJsonStringsToObjects(jsonStrings) {
