@@ -51,7 +51,6 @@ function listLinks(followups){
         clone.querySelector(".linkfromuser").innerText = followup.user || "-";
         clone.querySelector(".linktouser").innerText = followup.email || "-";
 
-
         clone.querySelector(".linkbutton").onclick = function(){
             //åpne linken i eget vindu
             window.open(followup.link);
@@ -61,6 +60,8 @@ function listLinks(followups){
         if (followup.linkloggjson.length > 0){
             linkstatus.innerText = "Linken er åpnet";
             linkstatus.style.color = "green";
+
+            listLinksElement(followup.linkloggjson,clone);
         }else{
             linkstatus.innerText = "Linken er ikke åpnet enda";
             linkstatus.style.color = "red";
@@ -71,4 +72,28 @@ function listLinks(followups){
 
 
     
+}
+
+function listLinksElement(linklogs,clone){
+    const list = clone.querySelector(".linklogglist");
+    list.innerHTML = "";
+
+    const library = document.getElementById("linklibraryconteiner");
+    const node = library.querySelector(".sublinkrow");
+
+    linklogs.forEach(linklog => {
+        const clonesub = node.cloneNode(true);
+        clonesub.querySelector(".datelinkopen").innerText = linklog.open || "-";
+        clonesub.querySelector(".userlinkopentext").innerText = linklog.user || linklog.comment
+        clonesub.querySelector(".devisetype").innerText = linklog.device || "-";
+        
+        list.appendChild(clonesub);
+    });
+
+
+
+
+
+
+
 }
