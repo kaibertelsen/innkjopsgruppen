@@ -1,5 +1,6 @@
 var gQuantityUnitName = "";
 var qCompanyesFromLastImport = [];
+
 function importcontrolledcompanyes(){
 
 
@@ -35,7 +36,6 @@ function importcontrolledcompanyes(){
     }
 }
 
-
 function controllImportCompanys(data1, data2) {
     const currentCompanies = new Set(data1.map(c => c.airtable));
   
@@ -54,10 +54,8 @@ function controllImportCompanys(data1, data2) {
     }
   
     return true;
-  }
+}
   
-  
-
 function returnsaveimport(data,id){
 
     sendpacks = 0; 
@@ -81,7 +79,6 @@ function returnsaveimport(data,id){
     document.getElementById("aftercontrollelement").style.display = "none";
 
 }
-
 
 function returNewMultiImport(data){
     console.log(data);
@@ -138,7 +135,6 @@ function makesaveObject(data, importid) {
 
     return fields;
 }
-
 
 function controllcompany(data,row,rooting,irow){
 
@@ -389,5 +385,5 @@ function filterOutCompanies(data) {
     });
   
     return companyArray;
-  }
+}
   

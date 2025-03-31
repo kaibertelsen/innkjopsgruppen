@@ -192,7 +192,6 @@ function startFollowinglistElement(data) {
     list.appendChild(fragment);
 }
 
-
 function handleRewaldateClick(rewaldate, company) {
     // Skjul rewaldate-teksten midlertidig
     rewaldate.style.display = "none";
@@ -247,8 +246,6 @@ function handleRewaldateClick(rewaldate, company) {
     }, 0);
 }
 
-
-
 function handleDateChange(rewaldate,airtableId, newDate) {
     console.log(`Oppdaterer dato for ${airtableId} til ${newDate}`);
     // Legg til logikk for å oppdatere datoen i databasen eller arrayen din
@@ -265,7 +262,6 @@ function handleDateChange(rewaldate,airtableId, newDate) {
     dayslable.textContent = calculateDaysUntil(newDate)+" dager";
 
 }
-
 
 function createStatusDropdown(rowElement, statusElement, company) {
     // Sjekk om dropdown allerede finnes
@@ -349,8 +345,6 @@ function createStatusDropdown(rowElement, statusElement, company) {
         document.addEventListener("click", handleOutsideClick);
     }, 0); // Timeout for å unngå å fange samme klikk som åpnet dropdown
 }
-
-
 
 // Funksjon for dynamisk høydejustering
 function adjustTextareaHeight(textarea) {
@@ -511,6 +505,7 @@ function listNotes(notes,company) {
 
     noteContainer.appendChild(fragment);
 }
+
 function saveNewNote(note, company) {
     const body = {
         company: [company.airtable],
@@ -521,7 +516,6 @@ function saveNewNote(note, company) {
     POSTairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", JSON.stringify(body), "responseNewNote");
 }
 
-
 function responseNewNote(data) {
     console.log("Notat lagret", data);
     //sjekke at det er airtable id
@@ -530,6 +524,7 @@ function responseNewNote(data) {
         listNotes(activeNotes,activeCompany);
     }
 }
+
 function saveUpdateNote(note, airtableId) {
     const body = {
         content: note
@@ -537,7 +532,6 @@ function saveUpdateNote(note, airtableId) {
     console.log("body",body);
    PATCHairtable("app1WzN1IxEnVu3m0", "tbldHZ9ZDxKlXO8NU", airtableId, JSON.stringify(body), "responseupdateNote");
 }
-
 
 function responseupdateNote(data) {
     console.log("Notat oppdatert", data);
@@ -569,7 +563,6 @@ function formatDateNote(isoDate) {
 
     return `${day}.${month} ${year} - ${hours}:${minutes}`;
 }
-
 
 // Funksjon for å lagre oppdatert notat
 function saveFollowupNote(noteContainer, airtableId) {

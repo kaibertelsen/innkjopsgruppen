@@ -315,7 +315,14 @@ function filteredHideFollowup(data, status) {
  let link = document.getElementById("customerlink").href;
  let email = document.getElementById("emailinput").value;
  let date = getTodayInISOFormat();
- var body = {link:link,company:[companyId],email:email,user:[userairtableid],date:date,type:"link"}
+ var body = {
+    link:link,
+    company:[companyId],
+    email:email,
+    user:[userairtableid],
+    date:date,type:"link",
+    klient:["reckTUK3Ia0LghhaI"]
+    };
  
  
  POSTairtable(baseid,"tblpPJVCiLyce6ygN",JSON.stringify(body),"responseFollowingup"); 
