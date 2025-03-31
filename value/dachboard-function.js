@@ -57,8 +57,6 @@ function loaddaschboard(data){
     document.getElementById("dachboardbistandvalue").innerHTML = valutalook(round(filtreddata.bistandvalue, 0))+" Kr";
     document.getElementById("dachboardanalysevalue").innerHTML = valutalook(round(filtreddata.analysevalue, 0))+" Kr";
     document.getElementById("dachboardkickbackvalue").innerHTML = valutalook(round(filtreddata.kickbackvalue, 0))+" Kr";
-    document.getElementById("dachboardcountcustomer").innerHTML = filtreddata.countline+" Stk.";
-    
     listdachboardtopp(cashflowdatoarray);
 }
 
