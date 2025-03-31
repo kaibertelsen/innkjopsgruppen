@@ -89,6 +89,9 @@ function companySelected(company){
     //hvis dette selskapet tilhører en hovedselskap
     if(company?.parentcompany){
         viewGroupData(company);
+    }else{
+        const groupvalueConteiner = document.getElementById("groupvalueConteiner");
+        groupvalueConteiner.style.display = "none";
     }
 }
 
@@ -117,9 +120,12 @@ function viewGroupData(company) {
         }
     });
 
-    const textGroupElement = document.getElementById("textGroup");
+    const textGroupElement = document.getElementById("textGroupinfo");
     let totalCutText = totalCut.toLocaleString('no-NO', { style: 'currency', currency: 'NOK' });
     textGroupElement.textContent = `Summen av besparelse for alle selskaper i gruppen :${parentcompanyname} er: ${totalCutText}`;
+
+    const groupvalueConteiner = document.getElementById("groupvalueConteiner");
+    groupvalueConteiner.style.display = "block";
 
 }
 
