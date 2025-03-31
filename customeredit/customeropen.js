@@ -56,6 +56,10 @@ function openCustomer(customer){
     //finner hvilke gruppe selskapet tilhører og velg den i selector
     customerGroupSelector.value = customer.group;
 
+    const parentCompany = document.getElementById("parentCompany");
+    parentCompany.value = customer.parentcompanyname || "";
+    parentCompany.dataset.airtable = customer.parentcompany || "";
+
 
     listUsersOnCustomer(customer);
    
@@ -731,7 +735,77 @@ document.addEventListener("click", function (event) {
     }
 });
 
+function setupHovedselskapSearch(companyList, onCompanySelected) {
+    const input = document.getElementById("hovedselskapinput");
+    const suggestionBox = document.getElementById("hovedselskap-suggestions");
+    parentCompany = {};
 
+    input.addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase().trim();
+        suggestionBox.innerHTML = "";
+        parentCompany = {};
+
+        //save den hvis den er tom
+        if (searchTerm.length === 0) {
+            suggestionBox.style.display = "none";
+            onHovedselskapSelected("", "")
+            return;
+        }
+
+
+        if (searchTerm.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        const matches = companyList.filter(company =>
+            company.Name && company.Name.toLowerCase().includes(searchTerm)
+        );
+
+        if (matches.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        matches.slice(0, 10).forEach(company => {
+            const option = document.createElement("div");
+            option.innerText = company.Name;
+            option.addEventListener("click", () => {
+                input.value = company.Name;
+                suggestionBox.style.display = "none";
+
+                // Kall funksjonen med både navn og Airtable-ID
+                if (typeof onCompanySelected === "function") {
+                    onCompanySelected(company.Name, company.airtable);
+                }
+            });
+            suggestionBox.appendChild(option);
+        });
+
+        suggestionBox.style.display = "block";
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!input.contains(event.target) && !suggestionBox.contains(event.target)) {
+            suggestionBox.style.display = "none";
+        }
+    });
+}
+
+function onHovedselskapSelected(navn, airtableId) {
+
+    const parentCompany = document.getElementById("parentCompany");
+    parentCompany.value = navn || "";
+    parentCompany.dataset.airtable = airtableId || "";
+
+     //lagre gruppe i databasen
+     let body = {parentcompany:[airtableId]};
+     if (airtableId === "") {
+        body = {parentcompany:[]};
+    }
+     saveSupplierInfo(activeCustomer.airtable, body);
+
+}
 
 
 function formatNameList(nameList) {
