@@ -2,23 +2,38 @@ var gFollowUplist = [];
 
 document.getElementById("startlinkListButton").onclick = function() {
     //henter alle linker som er sendt inn
-
-    let body = airtablebodylistAND({type:"link"});
-    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","reckTUK3Ia0LghhaI","respondLinkList");
+    listLinks(gFollowUplist);
 }
 
 function respondLinkList(data){
   
-    
     if (!data || !data.fields || !data.fields.followupjson || !Array.isArray(data.fields.followupjson)) {
         console.error("Ugyldig dataformat: Forventet et objekt med 'fields.followupjson' som en array.");
         return;
     }
     let followup = convertFollowUpJsonStringsToObjects(data.fields.followupjson);
     gFollowUplist = followup;
-    listLinks(followup);
+   
+    countLinktstatusDachboard(followup);
 
 }
+
+function countLinktstatusDachboard(followup){
+    let linkopen = followup.filter(followup =>
+        followup.linkloggjson.some(log => !log.superadmin)
+    );
+    let linkclose = followup.filter(followup =>
+        followup.linkloggjson.length === 0 ||
+        followup.linkloggjson.every(log => log.superadmin)
+    );
+
+
+    let sum = linkopen.length + linkclose.length;
+    const dachboardcountLinks = document.getElementById("dachboardcountLinks");
+    dachboardcountLinks.innerText = linkopen+"/"+sum;
+
+}
+
 
 function convertFollowUpJsonStringsToObjects(jsonStrings) {
     return jsonStrings.map((jsonString, index) => {

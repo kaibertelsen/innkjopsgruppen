@@ -4,6 +4,9 @@ var SelectedCompanyInFirstTab = null;
 function loadInAllCompanyes(){
     let klientid = "rec1QGUGBMVaqxhp1";
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"respondAllCompanyes");
+    //last ned oppfølginger
+    let body = airtablebodylistAND({type:"link"});
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","reckTUK3Ia0LghhaI","respondLinkList");
 }
   
     
