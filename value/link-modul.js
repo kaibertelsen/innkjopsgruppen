@@ -97,7 +97,7 @@ function listLinksElement(linklogs,clone){
         clonesub.querySelector(".userlinkopentext").innerText = linklog.user || linklog.comment
         clonesub.querySelector(".devisetype").innerText = linklog.device || "-";
 
-        if(!linklog.supeadmin){
+        if(!linklog.superadmin){
             linkIsOpen = true;
         }
 
