@@ -1,3 +1,5 @@
+var gFollowUplist = [];
+
 document.getElementById("startlinkListButton").onclick = function() {
     //henter alle linker som er sendt inn
 
@@ -13,7 +15,7 @@ function respondLinkList(data){
         return;
     }
     let followup = convertFollowUpJsonStringsToObjects(data.fields.followupjson);
-
+    gFollowUplist = followup;
     listLinks(followup);
 
 }
@@ -41,6 +43,22 @@ function listLinks(followups){
     const library = document.getElementById("linklibraryconteiner");
     const node = library.querySelector(".linkrow");
 
+    const followupLinkselector = document.getElementById("followupLinkselector");
+    const followupLinkselectorValue = followupLinkselector.value;
+    
+    if (followupLinkselectorValue === "true") {
+        // Vis kun de hvor linken er åpnet av noen som ikke er superadmin
+        followups = followups.filter(followup =>
+            followup.linkloggjson.some(log => !log.superadmin)
+        );
+    } else if (followupLinkselectorValue === "false") {
+        // Vis kun de hvor linken ikke er åpnet av noen (eller kun av superadmin)
+        followups = followups.filter(followup =>
+            followup.linkloggjson.length === 0 ||
+            followup.linkloggjson.every(log => log.superadmin)
+        );
+    }
+    
     //sorter etter dato nyest øverst
     followups.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -125,6 +143,10 @@ function formatNorwegianDate(isoString) {
     const year = date.getUTCFullYear();
   
     return `${day}.${month} ${year}`;
-  }
+}
  
+
+document.getElementById("linklibraryconteiner").addEventListener("change", () => {
+    listLinks(gFollowUplist);
+});
   
