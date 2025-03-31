@@ -67,8 +67,6 @@ function listLinks(followups){
                 linkstatus.style.color = "red";
         }
 
-        
-
         list.appendChild(clone);
     });
 
@@ -83,7 +81,6 @@ function listLinksElement(linklogs,clone){
     const library = document.getElementById("linklibraryconteiner");
     const node = library.querySelector(".sublinkrow");
 
-    
     let linkIsOpen = false;
 
     //sorter etter dato nyest øverst
@@ -95,7 +92,9 @@ function listLinksElement(linklogs,clone){
         clonesub.querySelector(".userlinkopentext").innerText = linklog.user || linklog.comment
         clonesub.querySelector(".devisetype").innerText = linklog.device || "-";
 
-        if(!linklog.superadmin){
+        if(linklog.superadmin){
+            clonesub.querySelector(".userlinkopentext").innerText = linklog.user + " (superadmin)";
+        }else{
             linkIsOpen = true;
         }
 
