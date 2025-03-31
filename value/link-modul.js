@@ -63,10 +63,8 @@ function listLinks(followups){
             listLinksElement(followup.linkloggjson,clone);
         }else{
             const linkstatus = clone.querySelector(".linkstatus");
-            if (linkIsOpen){
                 linkstatus.innerText = "Linken er ikke åpnet av kunde";
                 linkstatus.style.color = "red";
-            }
         }
 
         
