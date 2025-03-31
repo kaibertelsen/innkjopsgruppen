@@ -57,9 +57,19 @@ function listLinks(followups){
             window.open(followup.link);
         }
 
+       
+
         if (followup.linkloggjson.length > 0){
             listLinksElement(followup.linkloggjson,clone);
+        }else{
+            const linkstatus = clone.querySelector(".linkstatus");
+            if (linkIsOpen){
+                linkstatus.innerText = "Linken er ikke åpnet av kunde";
+                linkstatus.style.color = "red";
+            }
         }
+
+        
 
         list.appendChild(clone);
     });
