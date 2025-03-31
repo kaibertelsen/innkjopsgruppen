@@ -415,6 +415,8 @@ function controllcompanyinputs() {
 
     if (parentCompany && parentCompany.hasOwnProperty("airtable") && parentCompany.airtable.trim() !== "") {
         saveObject.parentcompany = [parentCompany.airtable];
+    }else{
+        saveObject.parentcompany = [];
     }
     
 
