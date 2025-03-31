@@ -57,15 +57,8 @@ function listLinks(followups){
             window.open(followup.link);
         }
 
-        const linkstatus = clone.querySelector(".linkstatus");
         if (followup.linkloggjson.length > 0){
-            linkstatus.innerText = "Linken er åpnet";
-            linkstatus.style.color = "green";
-
             listLinksElement(followup.linkloggjson,clone);
-        }else{
-            linkstatus.innerText = "Linken er ikke åpnet enda";
-            linkstatus.style.color = "red";
         }
 
         list.appendChild(clone);
@@ -82,6 +75,9 @@ function listLinksElement(linklogs,clone){
     const library = document.getElementById("linklibraryconteiner");
     const node = library.querySelector(".sublinkrow");
 
+    
+    let linkIsOpen = false;
+
     //sorter etter dato nyest øverst
     linklogs.sort((a, b) => new Date(b.open) - new Date(a.open));
 
@@ -90,8 +86,24 @@ function listLinksElement(linklogs,clone){
         clonesub.querySelector(".datelinkopen").innerText = formatNorwegianDate(linklog.open);
         clonesub.querySelector(".userlinkopentext").innerText = linklog.user || linklog.comment
         clonesub.querySelector(".devisetype").innerText = linklog.device || "-";
+
+        if(!linklog.supeadmin){
+            linkIsOpen = true;
+        }
+
         list.appendChild(clonesub);
     });
+
+
+    const linkstatus = clone.querySelector(".linkstatus");
+    if (linkIsOpen){
+        linkstatus.innerText = "Linken er åpnet";
+        linkstatus.style.color = "green";
+    }else{
+        linkstatus.innerText = "Linken er ikke åpnet av kunde";
+        linkstatus.style.color = "red";
+    }
+
 
 }
 
