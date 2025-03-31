@@ -43,11 +43,14 @@ function listLinks(followups){
     const library = document.getElementById("linklibraryconteiner");
     const node = library.querySelector(".linkrow");
 
+    //sorter etter dato nyest øverst
+    followups.sort((a, b) => new Date(b.date) - new Date(a.date));
+
 
     followups.forEach(followup => {
         const clone = node.cloneNode(true);
         clone.querySelector(".companyname").innerText = followup.company || "-";
-        clone.querySelector(".datelinksendt").innerText = followup.date || "-";
+        clone.querySelector(".datelinksendt").innerText = formatNorwegianDate(followup.date);
         clone.querySelector(".linkfromuser").innerText = followup.user || "-";
         clone.querySelector(".linktouser").innerText = followup.email || "-";
 
@@ -81,19 +84,34 @@ function listLinksElement(linklogs,clone){
     const library = document.getElementById("linklibraryconteiner");
     const node = library.querySelector(".sublinkrow");
 
+    //sorter etter dato nyest øverst
+    linklogs.sort((a, b) => new Date(b.open) - new Date(a.open));
+
     linklogs.forEach(linklog => {
         const clonesub = node.cloneNode(true);
-        clonesub.querySelector(".datelinkopen").innerText = linklog.open || "-";
+        clonesub.querySelector(".datelinkopen").innerText = formatNorwegianDate(linklog.open);
         clonesub.querySelector(".userlinkopentext").innerText = linklog.user || linklog.comment
         clonesub.querySelector(".devisetype").innerText = linklog.device || "-";
-        
         list.appendChild(clonesub);
     });
 
-
-
-
-
-
-
 }
+function formatNorwegianDate(isoString) {
+    const date = new Date(isoString);
+    
+    // Månedsnavn på norsk (kortversjon)
+    const monthNames = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"];
+    
+    // Juster til norsk tid (UTC+2 – juster hvis du trenger lokal sommertid)
+    const localDate = new Date(date.getTime() + 2 * 60 * 60 * 1000);
+  
+    const day = String(localDate.getUTCDate()).padStart(2, '0');
+    const month = monthNames[localDate.getUTCMonth()];
+    const year = localDate.getUTCFullYear();
+    const hours = String(localDate.getUTCHours()).padStart(2, '0');
+    const minutes = String(localDate.getUTCMinutes()).padStart(2, '0');
+  
+    return `${day}.${month} ${year} kl. ${hours}:${minutes}`;
+  }
+ 
+  
