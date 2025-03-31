@@ -44,6 +44,10 @@ function customerResponse(data){
     gGroups = convertGroupJsonStringsToObjects(groups);
     loadeGroupSelector(gGroups);
 
+    
+    // Koble funksjonen til søket
+    setupHovedselskapSearch(customers, onHovedselskapSelected);
+
 }
 
 function convertCustomerJsonStringsToObjects(jsonStrings) {
@@ -261,4 +265,66 @@ function ruteresponse(data,id){
 
     
 
+}
+
+
+function setupHovedselskapSearch(companyList, onCompanySelected) {
+    const input = document.getElementById("hovedselskapinput");
+    const suggestionBox = document.getElementById("hovedselskap-suggestions");
+    parentCompany = {};
+
+    input.addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase().trim();
+        suggestionBox.innerHTML = "";
+        parentCompany = {};
+
+        if (searchTerm.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        const matches = companyList.filter(company =>
+            company.Name && company.Name.toLowerCase().includes(searchTerm)
+        );
+
+        if (matches.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        matches.slice(0, 10).forEach(company => {
+            const option = document.createElement("div");
+            option.innerText = company.Name;
+            option.addEventListener("click", () => {
+                input.value = company.Name;
+                suggestionBox.style.display = "none";
+
+                // Kall funksjonen med både navn og Airtable-ID
+                if (typeof onCompanySelected === "function") {
+                    onCompanySelected(company.Name, company.airtable);
+                }
+            });
+            suggestionBox.appendChild(option);
+        });
+
+        suggestionBox.style.display = "block";
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!input.contains(event.target) && !suggestionBox.contains(event.target)) {
+            suggestionBox.style.display = "none";
+        }
+    });
+}
+
+function onHovedselskapSelected(navn, airtableId) {
+    console.log("Valgt selskap:", navn, airtableId);
+    hentHovedselskapData(airtableId,navn);
+}
+
+
+function hentHovedselskapData(airtable,name) {
+    parentCompany.airtable = airtable;
+    parentCompany.name = name;
+    
 }
