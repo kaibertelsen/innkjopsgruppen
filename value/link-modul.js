@@ -62,6 +62,8 @@ function listLinks(followups){
     //sorter etter dato nyest øverst
     followups.sort((a, b) => new Date(b.date) - new Date(a.date));
 
+    // oppdatere linkcountertext
+    document.getElementById("linkcountertext").innerText = followups.length+"stk.";
 
     followups.forEach(followup => {
         const clone = node.cloneNode(true);
