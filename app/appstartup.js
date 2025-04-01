@@ -714,6 +714,16 @@ function supplierChosed(supplier) {
 
     //list dokumenter
     listDocuments(supplier.attachment);
+
+    //sett bilde om det eksisterer
+    let image = document.getElementById("imageholdersupplier");
+    if(supplier.image){
+        image.src = supplier.image;
+        image.style.display = "block";
+
+    }else{
+        image.style.display = "none";
+    }
 }
 
 function listDocuments(attachments) {
