@@ -120,6 +120,16 @@ function viewGroupData(company) {
         }
     });
 
+    //må summen oppdateres på selskapet
+    let orginal = company.sumgroupsavings;
+    if(orginal != totalCut){
+        company.sumgroupsavings = totalCut;
+        //oppdatere på server
+        let body = JSON.stringify({sumgroupsavings:totalCut});
+        
+        PATCHairtable(baseid,"tbly9xd4ho0Z9Mvlv",company.airtable,body,"updateCompanySumGroupSavings");
+    }
+
     const textGroupElement = document.getElementById("textGroupinfo");
     let totalCutText = totalCut.toLocaleString('no-NO', { style: 'currency', currency: 'NOK' });
     textGroupElement.textContent = `Summen av besparelse for alle selskaper i gruppen :${parentcompanyname} er: ${totalCutText}`;
@@ -128,7 +138,9 @@ function viewGroupData(company) {
     groupvalueConteiner.style.display = "block";
 
 }
-
+function updateCompanySumGroupSavings(data){
+    console.log(data);
+}
 
 function listcompanycutsettings(data){
     
