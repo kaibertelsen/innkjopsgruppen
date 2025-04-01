@@ -107,7 +107,7 @@ function viewGroupData(company) {
     // Filtrer alle selskaper med samme parentcompany
     const groupdata = buffercompanydata.filter(c => c.parentcompany === parentcompany);
 
-    let totalCut = 0;
+    let totalSum = 0;
     const selector = document.getElementById("dashboarddateselector");
 
     // Hent valgt periode fra selector og splitte til start og slutt
@@ -126,8 +126,10 @@ function viewGroupData(company) {
             // Summer opp cut for de filtrerte
             filteredEntries.forEach(entry => {
                 const cut = Number(entry.cut);
+                const bistand = Number(entry.bistand);
+                const analyse = Number(entry.analyse);
                 if (!isNaN(cut)) {
-                    totalCut += cut;
+                    totalSum += cut+bistand+analyse;
                 }
             });
         }
@@ -135,16 +137,16 @@ function viewGroupData(company) {
 
     //må summen oppdateres på selskapet
     let orginal = company.sumgroupsavings || 0;
-    if(orginal != totalCut){
-        company.sumgroupsavings = totalCut;
+    if(orginal != totalSum){
+        company.sumgroupsavings = totalSum;
         //oppdatere på server
-        let body = JSON.stringify({sumgroupsavings:totalCut});
+        let body = JSON.stringify({sumgroupsavings:totalSum});
         
         PATCHairtable(baseid,"tbly9xd4ho0Z9Mvlv",company.airtable,body,"updateCompanySumGroupSavings");
     }
 
     const textGroupElement = document.getElementById("textGroupinfo");
-    let totalCutText = totalCut.toLocaleString('no-NO', { style: 'currency', currency: 'NOK' });
+    let totalCutText = totalSum.toLocaleString('no-NO', { style: 'currency', currency: 'NOK' });
     textGroupElement.textContent = `Summen av besparelse for alle selskaper i gruppen :${parentcompanyname} er: ${totalCutText}`;
 
     const groupvalueConteiner = document.getElementById("groupvalueConteiner");
