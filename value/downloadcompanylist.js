@@ -99,6 +99,10 @@ function viewGroupData(company) {
     const parentcompanyname = company.parentcompanyname;
     const parentcompany = company.parentcompany;
 
+    //sette checbox om denne skal hvises på link til kunde
+    const groupLineVisible = document.getElementById("groupLineVisible");
+    groupLineVisible.checked = company.goupsumtolink || false;
+
     if (!parentcompany) {
         console.log("Ingen parentcompany satt for dette selskapet.");
         return;
