@@ -109,11 +109,22 @@ function viewGroupData(company) {
 
     let totalCut = 0;
     const selector = document.getElementById("dashboarddateselector");
-    
+
+    // Hent valgt periode fra selector og splitte til start og slutt
+    const [startDateStr, endDateStr] = selector.value.split(",");
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+
     groupdata.forEach(c => {
         if (Array.isArray(c.cashflowjson)) {
-            let filterlist = periodArrayCleaner("maindate","seconddate",selector,c.cashflowjson); 
-            filterlist.forEach(entry => {
+            // Filtrer cashflow entries som er innenfor valgt tidsperiode
+            const filteredEntries = c.cashflowjson.filter(entry => {
+                const entryDate = new Date(entry.maindate);
+                return entryDate >= startDate && entryDate <= endDate;
+            });
+
+            // Summer opp cut for de filtrerte
+            filteredEntries.forEach(entry => {
                 const cut = parseFloat(entry.cut);
                 if (!isNaN(cut)) {
                     totalCut += cut;
