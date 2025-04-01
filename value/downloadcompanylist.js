@@ -147,7 +147,9 @@ function viewGroupData(company) {
 
     const textGroupElement = document.getElementById("textGroupinfo");
     let totalCutText = totalSum.toLocaleString('no-NO', { style: 'currency', currency: 'NOK' });
-    textGroupElement.textContent = `Summen av besparelse for alle selskaper i gruppen :${parentcompanyname} er: ${totalCutText}`;
+    
+    textGroupElement.innerHTML = `Summen av besparelse for alle selskaper i gruppen <strong>${parentcompanyname}</strong> er: <strong><u>${totalCutText}</u></strong>`;
+    
 
     const groupvalueConteiner = document.getElementById("groupvalueConteiner");
     groupvalueConteiner.style.display = "block";
