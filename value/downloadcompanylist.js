@@ -121,7 +121,7 @@ function viewGroupData(company) {
     });
 
     //må summen oppdateres på selskapet
-    let orginal = company.sumgroupsavings;
+    let orginal = company.sumgroupsavings || 0;
     if(orginal != totalCut){
         company.sumgroupsavings = totalCut;
         //oppdatere på server
