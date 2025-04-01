@@ -716,7 +716,7 @@ function supplierChosed(supplier) {
     listDocuments(supplier.attachment);
 }
 
-function listDocuments(attachments){
+function listDocuments(attachments) {
     const documentList = document.getElementById("documentlist");
     if (!documentList) {
         console.error("Ingen container funnet for visning av dokumenter.");
@@ -732,7 +732,6 @@ function listDocuments(attachments){
     }
 
     const nodeElement = libraryElement.querySelector(".documentholder");
-
     if (!nodeElement) {
         console.error("Ingen '.documentholder' funnet i 'documentlibrary'.");
         return;
@@ -746,24 +745,19 @@ function listDocuments(attachments){
         const name = documentElement.querySelector('.filename');
         if (name) name.textContent = attachment.name || "Ukjent navn";
 
-        
-        // Sett lenke
-            if (attachment.url) {
-                documentElement.href = attachment.link;
-            } else {
-                documentElement.href = "#"; // Standardlenke hvis lenke mangler
-            }
-        
+        // Sett lenke og target
+        const linkElement = documentElement.querySelector('a') || documentElement; // fallback til documentElement hvis det er <a>
+        if (linkElement && linkElement.tagName === 'A') {
+            linkElement.href = attachment.link || "#";
+            linkElement.target = "_blank"; // Åpne i ny fane
+            linkElement.rel = "noopener noreferrer"; // Sikkerhetsmessig anbefaling
+        }
 
         // Legg til dokumentet i containeren
         documentList.appendChild(documentElement);
     });
-
-
-
-
-
 }
+
 
 function savingMoney(){
       // Simulerer klikk på elementet
