@@ -717,7 +717,7 @@ function supplierChosed(supplier) {
 }
 
 function listDocuments(attachments){
-    const documentList = document.getElementById("documentcontainer");
+    const documentList = document.getElementById("documentlist");
     if (!documentList) {
         console.error("Ingen container funnet for visning av dokumenter.");
         return;
