@@ -159,9 +159,25 @@ function viewGroupData(company) {
     groupvalueConteiner.style.display = "block";
 
 }
+
 function updateCompanySumGroupSavings(data){
     console.log(data);
 }
+
+document.getElementById("groupLineVisible").addEventListener("change", function () {
+   
+
+    //send til server
+    let body = JSON.stringify({goupsumtolink:this.checked});
+
+    PATCHairtable(baseid,"tbly9xd4ho0Z9Mvlv",SelectedCompanyInFirstTab.airtable,body,"updateCompanyGroupSumToLink");
+});
+
+function updateCompanyGroupSumToLink(data){
+    console.log(data);
+}
+
+
 
 function listcompanycutsettings(data){
     
