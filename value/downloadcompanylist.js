@@ -125,7 +125,7 @@ function viewGroupData(company) {
 
             // Summer opp cut for de filtrerte
             filteredEntries.forEach(entry => {
-                const cut = parseFloat(entry.cut);
+                const cut = Number(entry.cut);
                 if (!isNaN(cut)) {
                     totalCut += cut;
                 }
