@@ -101,7 +101,7 @@ function viewGroupData(company) {
 
     //sette checbox om denne skal hvises på link til kunde
     const groupLineVisible = document.getElementById("groupLineVisible");
-    groupLineVisible.checked = company.goupsumtolink || false;
+    groupLineVisible.checked = company.groupsumtolink || false;
 
     if (!parentcompany) {
         console.log("Ingen parentcompany satt for dette selskapet.");
@@ -168,7 +168,7 @@ document.getElementById("groupLineVisible").addEventListener("change", function 
    
 
     //send til server
-    let body = JSON.stringify({goupsumtolink:this.checked});
+    let body = JSON.stringify({groupsumtolink:this.checked});
 
     PATCHairtable(baseid,"tbly9xd4ho0Z9Mvlv",SelectedCompanyInFirstTab.airtable,body,"updateCompanyGroupSumToLink");
 });

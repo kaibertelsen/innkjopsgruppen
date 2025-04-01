@@ -74,7 +74,7 @@ function respondcustomerlist(data,id){
         //er det er gruppeselskap så viser vi knapp for å vise detaljer
         const groupTextInfo = document.getElementById("groupTextInfo");
         groupTextInfo.parentElement.style.display = "none";
-        if(data.fields?.goupsumtolink){
+        if(data.fields?.groupsumtolink){
             viewGroupData(data.fields);
         }
 
