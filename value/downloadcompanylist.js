@@ -109,10 +109,11 @@ function viewGroupData(company) {
 
     let totalCut = 0;
     const selector = document.getElementById("dashboarddateselector");
-    let filterlist = periodArrayCleaner("maindate","seconddate",selector,groupdata); 
-    filterlist.forEach(c => {
+    
+    groupdata.forEach(c => {
         if (Array.isArray(c.cashflowjson)) {
-            c.cashflowjson.forEach(entry => {
+            let filterlist = periodArrayCleaner("maindate","seconddate",selector,c.cashflowjson); 
+            filterlist.forEach(entry => {
                 const cut = parseFloat(entry.cut);
                 if (!isNaN(cut)) {
                     totalCut += cut;
