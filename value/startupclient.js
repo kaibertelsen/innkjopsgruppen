@@ -89,12 +89,13 @@ function viewGroupData(company) {
 
     if (sum > 20000) {
         const formattedSum = `<strong><u>${valutalook(round(sum))} Kr.</u></strong>`;
-        groupTextInfo.innerHTML = `Dette er en del av gruppen ${groupname}. Gruppen har samlet besparelse ${formattedSum}`;
+        groupTextInfo.innerHTML = `Selskapet er en del av gruppen ${groupname}.<br>Gruppen har samlet besparelse ${formattedSum} de siste 12 mnd.`;
         groupTextInfo.parentElement.style.display = "block";
     } else {
         groupTextInfo.parentElement.style.display = "none";
     }
 }
+
 
 
 function employerOptunity(data){
