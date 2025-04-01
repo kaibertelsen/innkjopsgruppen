@@ -731,35 +731,21 @@ function listDocuments(attachments) {
         return;
     }
 
-    const nodeElement = libraryElement.querySelector(".documentholder");
+    const nodeElement = libraryElement.querySelector(".linkbuttondocument");
     if (!nodeElement) {
         console.error("Ingen '.documentholder' funnet i 'documentlibrary'.");
         return;
     }
 
     attachments.forEach(attachment => {
-        const documentElement = nodeElement.cloneNode(true);
+        const buttonElement = nodeElement.cloneNode(true);
     
-        // Lag <a>-element
-        const linkWrapper = document.createElement('a');
-        linkWrapper.href = attachment.link || "#";
-        linkWrapper.target = "_blank";
-        linkWrapper.rel = "noopener noreferrer";
-    
-        // Flytt alt innhold fra dokumentElement inn i <a>
-        while (documentElement.firstChild) {
-            linkWrapper.appendChild(documentElement.firstChild);
-        }
-    
-        // Legg <a> inn i documentElement
-        documentElement.appendChild(linkWrapper);
-    
-        // Sett navn
-        const name = linkWrapper.querySelector('.filename');
-        if (name) name.textContent = attachment.name || "Ukjent navn";
+        buttonElement.href = attachment.url || "#";
+        buttonElement.target = "_blank";
+        buttonElement.textContent = attachment.name || "Ukjent navn";
     
         // Legg til i listen
-        documentList.appendChild(documentElement);
+        documentList.appendChild(buttonElement);
     });
 }
 
