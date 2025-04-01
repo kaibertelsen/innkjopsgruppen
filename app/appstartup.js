@@ -711,6 +711,58 @@ function supplierChosed(supplier) {
         // Vurder sikkerhet: Bare bruk `innerHTML` hvis `supplier.info` er klarert HTML
         contentview.innerHTML = supplier.info || "<p>Ingen informasjon tilgjengelig.</p>";
     }
+
+    //list dokumenter
+    listDocuments(supplier.attachment);
+}
+
+function listDocuments(attachments){
+    const documentList = document.getElementById("documentcontainer");
+    if (!documentList) {
+        console.error("Ingen container funnet for visning av dokumenter.");
+        return;
+    }
+    // Tøm container
+    documentList.innerHTML = '';
+
+    const libraryElement = document.getElementById("documentlibrary");
+    if (!libraryElement) {
+        console.error("Ingen 'documentlibrary' funnet.");
+        return;
+    }
+
+    const nodeElement = libraryElement.querySelector(".documentholder");
+
+    if (!nodeElement) {
+        console.error("Ingen '.documentholder' funnet i 'documentlibrary'.");
+        return;
+    }
+
+    // Oppdater med nye dokumenter
+    attachments.forEach(attachment => {
+        const documentElement = nodeElement.cloneNode(true);
+
+        // Sett navn
+        const name = documentElement.querySelector('.filename');
+        if (name) name.textContent = attachment.name || "Ukjent navn";
+
+        
+        // Sett lenke
+            if (attachment.url) {
+                documentElement.href = attachment.link;
+            } else {
+                documentElement.href = "#"; // Standardlenke hvis lenke mangler
+            }
+        
+
+        // Legg til dokumentet i containeren
+        documentList.appendChild(documentElement);
+    });
+
+
+
+
+
 }
 
 function savingMoney(){
@@ -976,7 +1028,6 @@ function getTokenFromURL(key){
     const id = urlParams.get(key); // Henter verdien av 'id'-parameteren
     return id;
 }
-
 
 function responsShareKeyControll(data) {
     // Sjekk om tabellen er en invitasjonsforespørsel
