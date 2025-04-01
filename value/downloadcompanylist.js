@@ -108,8 +108,9 @@ function viewGroupData(company) {
     const groupdata = buffercompanydata.filter(c => c.parentcompany === parentcompany);
 
     let totalCut = 0;
-
-    groupdata.forEach(c => {
+    const selector = document.getElementById("dashboarddateselector");
+    let filterlist = periodArrayCleaner("maindate","seconddate",selector,groupdata); 
+    filterlist.forEach(c => {
         if (Array.isArray(c.cashflowjson)) {
             c.cashflowjson.forEach(entry => {
                 const cut = parseFloat(entry.cut);
