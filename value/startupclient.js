@@ -71,9 +71,31 @@ function respondcustomerlist(data,id){
         //skul loader
         document.getElementById("loadingscreen").style.display = "none";
 
+        //er det er gruppeselskap så viser vi knapp for å vise detaljer
+        const groupTextInfo = document.getElementById("groupTextInfo");
+        groupTextInfo.parentElement.style.display = "none";
+        if(data.fields?.goupsumtolink){
+            viewGroupData(data.fields);
+        }
+
         //sende beskjed om at denne linken er åpnet
         sendresponsData(data.fields);
 }
+
+function viewGroupData(company) {
+    let groupname = company.parentcompanyname || "";
+    let sum = company.sumgroupsavings || 0;
+    const groupTextInfo = document.getElementById("groupTextInfo");
+
+    if (sum > 20000) {
+        const formattedSum = `<strong><u>${valutalook(round(sum))} Kr.</u></strong>`;
+        groupTextInfo.innerHTML = `Dette er en del av gruppen ${groupname}. Gruppen har samlet besparelse ${formattedSum}`;
+        groupTextInfo.parentElement.style.display = "block";
+    } else {
+        groupTextInfo.parentElement.style.display = "none";
+    }
+}
+
 
 function employerOptunity(data){
     
