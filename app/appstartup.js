@@ -748,7 +748,7 @@ function listDocuments(attachments) {
         // Sett lenke og target
         const linkElement = documentElement.querySelector('a') || documentElement; // fallback til documentElement hvis det er <a>
         if (linkElement && linkElement.tagName === 'A') {
-            linkElement.href = attachment.link || "#";
+            linkElement.href = attachment.url || "#";
             linkElement.target = "_blank"; // Åpne i ny fane
             linkElement.rel = "noopener noreferrer"; // Sikkerhetsmessig anbefaling
         }
