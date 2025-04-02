@@ -81,6 +81,14 @@ function companySelected(company){
     //tømm data ang ansattportal
     clearcompanyDetaljes();
 
+    //tøm tidligere eposter ++ i oppfølgingen
+    const resivername = document.getElementById("resivername");
+    resivername.value = "";
+    const emailinput = document.getElementById("emailinput");
+    emailinput.value = "";
+    const resiveremail = document.getElementById("resiveremail");
+    resiveremail.innerHTML = ""; 
+  
     //list companycutsettings
     if(company.cutsettings){
         listcompanycutsettings(company.cutsettings);
