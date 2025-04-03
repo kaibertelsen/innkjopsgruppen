@@ -86,8 +86,7 @@ function companySelected(company){
     resivername.value = "";
     const emailinput = document.getElementById("emailinput");
     emailinput.value = "";
-    const resiveremail = document.getElementById("resiveremail");
-    resiveremail.innerHTML = ""; 
+    
   
     //list companycutsettings
     if(company.cutsettings){
