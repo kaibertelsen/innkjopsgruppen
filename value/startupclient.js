@@ -311,20 +311,17 @@ function groupSuppliersCashflow(data) {
       if (item.type !== "handel") return;
   
       const supplier = getValue(item.supplier);
-      const defaultcut = getValue(item.defaultcut);
-      const unit = getValue(item.supplierquantityunit);
-      const localcut = getValue(item.localcut);
+      const unit = getValue(item.quantityunit);
   
-      const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
+      const key = `${supplier}__${unit}`;
       const existing = grouped.find(g => g._key === key);
   
       const itemQuantity = isNaN(Number(item.quantity)) ? 0 : Number(item.quantity);
   
       if (existing) {
         existing.value += Number(item.value);
-        existing.cutvalue += Number(item.cutvalue);
+        existing.cutvalue += Number(item.cut);
         existing.quantity = (existing.quantity || 0) + itemQuantity;
-        existing.localcut = Number(item.localcut);
         existing.lines += 1;
         existing.dataline.push(item);
       } else {
@@ -332,7 +329,7 @@ function groupSuppliersCashflow(data) {
           ...item,
           _key: key,
           value: Number(item.value),
-          cutvalue: Number(item.cutvalue),
+          cutvalue: Number(item.cut),
           quantity: itemQuantity,
           lines: 1,
           dataline: [item]
