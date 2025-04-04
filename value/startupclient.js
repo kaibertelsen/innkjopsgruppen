@@ -46,7 +46,7 @@ function respondcustomerlist(data,id){
         //setter kundenavn
         document.getElementById("customernametext").innerHTML = data.fields.Name;
 
-        var  companylines = makecompanylines(data);
+       // var  companylines = makecompanylines(data);
         
         // Konverter JSON-strenger til objekter
         const jsonStrings = data.fields.cashflowjson;
@@ -238,7 +238,7 @@ function mainrootcompanylist(data){
     const selector = document.getElementById("dashboarddateselector");
     var datoarray = periodArrayCleaner("maindate","seconddate",selector,data);  
     
-     let sum1 = listcompanyinview(mergesuppiersCachflow(findObjectsProperty("type","handel",datoarray)));
+     let sum1 = listcompanyinview(groupSuppliersCashflow(findObjectsProperty("type","handel",datoarray)));
      //liste opp bistand
       let sum2 = listcompanybistand(findObjectsProperty("type","bistand",datoarray));
      //lister opp analyse
@@ -297,6 +297,50 @@ function convertJsonStringsToObjects(jsonStrings) {
             return null; // Returner null hvis parsing feiler
         }
     });
+}
+function groupSuppliersCashflow(data) {
+    if (!Array.isArray(data) || data.length === 0) return data;
+  
+    const grouped = [];
+  
+    const getValue = v => Array.isArray(v) ? v[0] : v;
+  
+    data.forEach(item => {
+      if (item.type !== "handel") return;
+  
+      const supplier = getValue(item.supplier);
+      const defaultcut = getValue(item.defaultcut);
+      const unit = getValue(item.supplierquantityunit);
+      const localcut = getValue(item.localcut);
+  
+      const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
+      const existing = grouped.find(g => g._key === key);
+  
+      const itemQuantity = isNaN(Number(item.quantity)) ? 0 : Number(item.quantity);
+  
+      if (existing) {
+        existing.value += Number(item.value);
+        existing.cutvalue += Number(item.cutvalue);
+        existing.quantity = (existing.quantity || 0) + itemQuantity;
+        existing.localcut = Number(item.localcut);
+        existing.lines += 1;
+        existing.dataline.push(item);
+      } else {
+        const first = {
+          ...item,
+          _key: key,
+          value: Number(item.value),
+          cutvalue: Number(item.cutvalue),
+          quantity: itemQuantity,
+          lines: 1,
+          dataline: [item]
+        };
+        grouped.push(first);
+      }
+    });
+  
+    // Fjern intern nøkkel i retur
+    return grouped.map(({ _key, ...rest }) => rest);
 }
 
 function mergesuppiersCachflow(data){
