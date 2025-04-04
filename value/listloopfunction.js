@@ -61,7 +61,7 @@ function listElements(data,list,type){
 
                 
                 //besparelse pr enhet
-                let localsavingsperquantity = data[i].localsavingsperquantity || data.savingsperquantity || 0;
+                let localsavingsperquantity = data[i].localsavingsperquantity || data[i].savingsperquantity || 0;
                 let lable = "";
 
                 //må finne ut om det er best å hvise øre eller krone
