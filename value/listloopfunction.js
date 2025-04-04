@@ -195,7 +195,12 @@ function groupSuppliersCashflow(data) {
         if(existing?.quantity && item.quantity){
             existing.quantity += Number(item.quantity);
         }else{
-            existing.quantity = Number(item.quantity);
+            //hvis ikke item.quantity er et tall
+            //sjekke om det er en string og sette til 0
+            if(isNaN(item.quantity)){
+                item.quantity = 0;
+            }
+            existing.quantity = item.quantity;
         }
         existing.localcut = Number(item.localcut);
         existing.lines += 1;
