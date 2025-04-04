@@ -186,40 +186,35 @@ function groupSuppliersCashflow(data) {
       const localcut = getValue(item.localcut);
   
       const key = `${supplier}__${defaultcut}__${unit}__${localcut}`;
-  
       const existing = grouped.find(g => g._key === key);
+  
+      const itemQuantity = isNaN(Number(item.quantity)) ? 0 : Number(item.quantity);
   
       if (existing) {
         existing.value += Number(item.value);
         existing.cutvalue += Number(item.cutvalue);
-        if(existing?.quantity && item.quantity){
-            existing.quantity += Number(item.quantity);
-        }else{
-            //hvis ikke item.quantity er et tall
-            //sjekke om det er en string og sette til 0
-            if(isNaN(item.quantity)){
-                item.quantity = 0;
-            }
-            existing.quantity = item.quantity;
-        }
+        existing.quantity = (existing.quantity || 0) + itemQuantity;
         existing.localcut = Number(item.localcut);
         existing.lines += 1;
-        existing.dataline.push(item); // legg til original linje
+        existing.dataline.push(item);
       } else {
         const first = {
           ...item,
           _key: key,
           value: Number(item.value),
           cutvalue: Number(item.cutvalue),
+          quantity: itemQuantity,
           lines: 1,
-          dataline: [item] // start med én linje
+          dataline: [item]
         };
         grouped.push(first);
       }
     });
   
+    // Fjern intern nøkkel i retur
     return grouped.map(({ _key, ...rest }) => rest);
-}
+  }
+  
   
 function findLines(data,element){
 
