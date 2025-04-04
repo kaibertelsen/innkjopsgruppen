@@ -237,8 +237,10 @@ function mainrootcompanylist(data){
      //filtrere på valgt dato i velger
     const selector = document.getElementById("dashboarddateselector");
     var datoarray = periodArrayCleaner("maindate","seconddate",selector,data);  
+
+    let groupCahflow = groupSuppliersCashflow(datoarray);
     
-     let sum1 = listcompanyinview(groupSuppliersCashflow(findObjectsProperty("type","handel",datoarray)));
+     let sum1 = listcompanyinview(groupCahflow);
      //liste opp bistand
       let sum2 = listcompanybistand(findObjectsProperty("type","bistand",datoarray));
      //lister opp analyse
@@ -417,8 +419,8 @@ function listElements(data,list,type){
                     if(type == 1){
                         const c2 = clonerow.getElementsByClassName("c2")[0];
                         
-                        if(data[i]?.quantityname){
-                            let quantityname = data[i].quantityname;
+                        if(data[i]?.quantity>0){
+                            let quantityname = data[i].quantityname || "";
                             //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
                             if(quantityname == "Diesel" || quantityname == "Bensin"){
                                 quantityname = "Drivstoff";
@@ -428,9 +430,18 @@ function listElements(data,list,type){
                             if(quantityunit == "Liter"){
                                 quantityunit = "L";
                             }
+                            
+                            if (data[i].quantity > 1999) {
+                                const quantityInK = (Number(data[i].quantity) / 1000).toLocaleString("nb-NO", {
+                                  minimumFractionDigits: 1,
+                                  maximumFractionDigits: 1
+                                });
+                              
+                                c2.textContent = `${quantityInK}K ${quantityunit} ${quantityname}`;
+                              } else {
+                                c2.textContent = `${Number(data[i].quantity).toLocaleString("nb-NO")} ${quantityunit} ${quantityname}`;
+                            }
 
-                        c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + quantityunit+" "+quantityname;
-                        
                         }else{
                           var xvalue = 0;
                           if(data[i]?.value){
