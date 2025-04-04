@@ -244,6 +244,12 @@ function editRowLine(data,rowelement){
         
     const element = document.getElementById("editornewwrapper");
 
+    //sjekke at editrowelementet eksisterer
+    if(!element){
+        console.log("Fant ikke editornewwrapper");
+        return;
+    }
+
     if(element.dataset?.hideobject){
         if(document.getElementById(element.dataset.hideobject)){
         //synligjør tidligere skjult element
