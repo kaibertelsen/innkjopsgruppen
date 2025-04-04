@@ -320,7 +320,7 @@ function groupSuppliersCashflow(data) {
   
       if (existing) {
         existing.value += Number(item.value);
-        existing.cutvalue += Number(item.cut);
+        existing.cut += Number(item.cut);
         existing.quantity = (existing.quantity || 0) + itemQuantity;
         existing.lines += 1;
         existing.dataline.push(item);
@@ -329,7 +329,7 @@ function groupSuppliersCashflow(data) {
           ...item,
           _key: key,
           value: Number(item.value),
-          cutvalue: Number(item.cut),
+          cut: Number(item.cut),
           quantity: itemQuantity,
           lines: 1,
           dataline: [item]
