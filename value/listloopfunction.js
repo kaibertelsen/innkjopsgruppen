@@ -192,6 +192,12 @@ function groupSuppliersCashflow(data) {
       if (existing) {
         existing.value += Number(item.value);
         existing.cutvalue += Number(item.cutvalue);
+        if(existing?.quantity && item.quantity){
+            existing.quantity += Number(item.quantity);
+        }else{
+            existing.quantity = Number(item.quantity);
+        }
+        existing.localcut = Number(item.localcut);
         existing.lines += 1;
         existing.dataline.push(item); // legg til original linje
       } else {

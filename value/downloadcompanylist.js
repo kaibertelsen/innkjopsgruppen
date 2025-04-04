@@ -102,6 +102,78 @@ function companySelected(company){
     }
 }
 
+function respondcustomerlist(data,id){
+    //laste ned alle besparelseslinjene på dette selskapet  
+    companydatalines = rawdatacleaner(data);
+    mainrootcompanylist(companydatalines);
+
+    //synligjør companysettings
+    companysettingsConteiner.style.display = "block";
+}
+
+function mainrootcompanylist(data){
+    //sette editwrapper tilbake
+    placeEditorWrapperBack();
+
+    //filtrere på valgt dato i velger
+    const selector = document.getElementById("dashboarddateselector");
+    let filterlist = periodArrayCleaner("maindate","seconddate",selector,data); 
+
+    //regne ut ny dato på linjer med repeating
+    filterlist = newDateFromRepeating(filterlist);
+
+    //denne er ny forløpig
+    let groupCahflow = groupSuppliersCashflow(filterlist);
+    
+    let sum1 = listcompanyinview(groupCahflow);
+    //liste opp bistand
+    let sum2 = listcompanybistand(findObjectsProperty("type","bistand",filterlist));
+    //lister opp analyse
+    let sum3 = listcompanyanalyse(findObjectsProperty("type","analyse",filterlist));
+    document.getElementById("sumtotalb").innerHTML = valutalook(round(sum1+sum2+sum3))+" Kr";
+    document.getElementById("sumtotalb").style.display = "inline-block";
+  
+// Hent valgt indeks
+    let selectedIndex = selector.selectedIndex;
+    // Hent valgt option
+    let selectedOption = selector.options[selectedIndex];
+    let tekstutenPunktum = selectedOption.text.replace('.', '');
+  document.getElementById("periodetextviewer").innerHTML = tekstutenPunktum.toLowerCase()+".";
+  //legger inn i input
+  document.getElementById("valuesaved").value = valutalook(round(sum1+sum2+sum3))+" Kr";
+  
+  
+  
+  //last ned brukere på dette selskapet
+  moreAbouteCompany();
+}
+
+function listcompanyinview(data){
+    const list = document.getElementById("listcopyholder");
+    var sumObject = listElements(data,list,1);
+    //oppdatere sum
+    document.getElementById("gvalue").innerHTML = valutalook(round(sumObject.sumvalue))+" Kr";
+    document.getElementById("gcut").innerHTML = valutalook(round(sumObject.sumcutvalue))+" Kr";
+    return sumObject.sumcutvalue;
+}
+    
+function listcompanybistand(data){
+    const list = document.getElementById("listholderbistand");
+    var sumObject = listElements(data,list,2);
+    //oppdatere sum
+    document.getElementById("sumbistandtext").innerHTML = valutalook(round(sumObject.sumbvalue))+" Kr";
+    return sumObject.sumbvalue;
+}
+
+function listcompanyanalyse(data){
+    const list = document.getElementById("listholderanalyse");
+    var sumObject = listElements(data,list,3);
+    //oppdatere sum
+    document.getElementById("sumanalysetext").innerHTML = valutalook(round(sumObject.sumavalue))+" Kr";
+    return sumObject.sumavalue;
+ }
+
+
 function viewGroupData(company) {
     const parentcompanyname = company.parentcompanyname;
     const parentcompany = company.parentcompany;
@@ -249,51 +321,9 @@ function deleteCompanyCutSettings(data){
 const companysettingsConteiner = document.getElementById("companysettingsConteiner");
 companysettingsConteiner.style.display = "none";
 
-function respondcustomerlist(data,id){
-    //laste ned alle besparelseslinjene på dette selskapet  
-    companydatalines = rawdatacleaner(data);
-    mainrootcompanylist(companydatalines);
 
-    //synligjør companysettings
-    companysettingsConteiner.style.display = "block";
-}
 
-function mainrootcompanylist(data){
-    //sette editwrapper tilbake
-    placeEditorWrapperBack();
 
-    //filtrere på valgt dato i velger
-    const selector = document.getElementById("dashboarddateselector");
-    let filterlist = periodArrayCleaner("maindate","seconddate",selector,data); 
-
-    //regne ut ny dato på linjer med repeating
-    filterlist = newDateFromRepeating(filterlist);
-
-    //denne er ny forløpig
-    let groupCahflow = groupSuppliersCashflow(filterlist);
-    
-    let sum1 = listcompanyinview(groupCahflow);
-    //liste opp bistand
-    let sum2 = listcompanybistand(findObjectsProperty("type","bistand",filterlist));
-    //lister opp analyse
-    let sum3 = listcompanyanalyse(findObjectsProperty("type","analyse",filterlist));
-    document.getElementById("sumtotalb").innerHTML = valutalook(round(sum1+sum2+sum3))+" Kr";
-    document.getElementById("sumtotalb").style.display = "inline-block";
-  
-// Hent valgt indeks
-    let selectedIndex = selector.selectedIndex;
-    // Hent valgt option
-    let selectedOption = selector.options[selectedIndex];
-    let tekstutenPunktum = selectedOption.text.replace('.', '');
-  document.getElementById("periodetextviewer").innerHTML = tekstutenPunktum.toLowerCase()+".";
-  //legger inn i input
-  document.getElementById("valuesaved").value = valutalook(round(sum1+sum2+sum3))+" Kr";
-  
-  
-  
-  //last ned brukere på dette selskapet
-  moreAbouteCompany();
-}
 
 function newDateFromRepeating(data) {
     const currentYear = new Date().getFullYear();
@@ -313,8 +343,6 @@ function newDateFromRepeating(data) {
     return data;
 }
   
-  
-
 function filterFunction() {
     var input, filter, div, a, i;
     input = document.getElementById("dropdownInput");
@@ -386,7 +414,6 @@ window.onclick = function(event) {
     }
 }
 
-
 function filterFunctionsupplier() {
     var input, filter, div, a, i;
     input = document.getElementById("dropdownInputsupplier");
@@ -408,7 +435,6 @@ function filterFunctionsupplier() {
         }
     }
 }
-
 
 function clearDropdownsupplier() {
     var dropdownMenu = document.getElementById("dropdownMenusupplier");
@@ -441,5 +467,35 @@ function handleItemClicksupplier(id, name, cut) {
    
 }
 
+function mergerightcut(data){
+    //legger til en propertu cut
+        for(var i = 0;i<data.length;i++){
+            
+            var cut;
+                    if(data[i]?.localcut){
+                    cut = data[i].localcut;   
+                    }else if(data[i]?.defaultcut){
+                    cut = data[i].defaultcut[0];    
+                    }else{
+                    cut = 0;   
+                    }
+              data[i].cut = cut;
+        }
+    return data;  
+}
+    
+function markOneline(id){
+        
+    const list = document.getElementById(id).parentElement.parentElement.parentElement.parentElement;
+    const row = document.getElementById(id).parentElement.parentElement.parentElement;
+        
+     // Hent alle child-elementene
+    const childElements = list.children;   
+        
+    for (const child of childElements) {
+                child.style.backgroundColor = 'transparent';
+            }
+    row.style.backgroundColor = 'lightgrey';
+}
 
 
