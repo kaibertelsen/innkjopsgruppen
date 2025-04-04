@@ -222,7 +222,7 @@ function groupSuppliersCashflow(data) {
   
     // Fjern intern nøkkel i retur
     return grouped.map(({ _key, ...rest }) => rest);
-  }
+}
   
   
 function findLines(data,element){
@@ -352,7 +352,7 @@ function loadEditwrapper(data){
             
             
             //besparelse pr enhet
-            let localsavingsperquantity = data.localsavingsperquantity || 0;
+            let localsavingsperquantity = data.localsavingsperquantity || data.suppliersavingsperquantity || 0;
             let lable = "";
 
             //må finne ut om det er best å hvise øre eller krone
