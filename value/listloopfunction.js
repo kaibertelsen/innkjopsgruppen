@@ -220,6 +220,14 @@ function groupSuppliersCashflow(data) {
       }
     });
   
+    // Sorter på leverandørnavn (supplier)
+    grouped.sort((a, b) => {
+        const nameA = String(a.supplier).toLowerCase();
+        const nameB = String(b.supplier).toLowerCase();
+        return nameA.localeCompare(nameB);
+    });
+
+
     // Fjern intern nøkkel i retur
     return grouped.map(({ _key, ...rest }) => rest);
 }

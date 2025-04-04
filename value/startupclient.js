@@ -328,6 +328,8 @@ function groupSuppliersCashflow(data) {
         const first = {
           ...item,
           _key: key,
+          supplier: supplier,
+          quantityunit: unit,
           value: Number(item.value),
           cut: Number(item.cut),
           quantity: itemQuantity,
@@ -338,9 +340,17 @@ function groupSuppliersCashflow(data) {
       }
     });
   
+    // Sorter på leverandørnavn (supplier)
+    grouped.sort((a, b) => {
+      const nameA = String(a.supplier).toLowerCase();
+      const nameB = String(b.supplier).toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+  
     // Fjern intern nøkkel i retur
     return grouped.map(({ _key, ...rest }) => rest);
-}
+  }
+  
 
 function mergesuppiersCachflow(data){
  
