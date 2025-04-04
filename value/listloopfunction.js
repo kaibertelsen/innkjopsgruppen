@@ -222,8 +222,8 @@ function groupSuppliersCashflow(data) {
   
     // Sorter på leverandørnavn (supplier)
     grouped.sort((a, b) => {
-        const nameA = String(a.supplier).toLowerCase();
-        const nameB = String(b.supplier).toLowerCase();
+        const nameA = String(a.suppliername).toLowerCase();
+        const nameB = String(b.suppliername).toLowerCase();
         return nameA.localeCompare(nameB);
     });
 
