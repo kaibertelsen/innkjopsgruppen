@@ -47,12 +47,19 @@ function listElements(data,list,type){
                     quantityunitLable = "L";
                 }
 
-                //skal en vise K eller ikke
-                if(data[i]?.quantity>1999){
-                    c2.textContent = (Number(data[i].quantity)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
-                }else{
-                c2.textContent = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
+                if (data[i].quantity > 1999) {
+                    const quantityInK = (Number(data[i].quantity) / 1000).toLocaleString("nb-NO", {
+                      minimumFractionDigits: 1,
+                      maximumFractionDigits: 1
+                    });
+                  
+                    c2.textContent = `${quantityInK}K ${quantityunitLable} ${quantityname}`;
+                  } else {
+                    c2.textContent = `${Number(data[i].quantity).toLocaleString("nb-NO")} ${quantityunitLable} ${quantityname}`;
                 }
+                  
+
+                
                 //besparelse pr enhet
                 let localsavingsperquantity = data[i].localsavingsperquantity || data.savingsperquantity || 0;
                 let lable = "";
