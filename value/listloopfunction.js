@@ -33,7 +33,8 @@ function listElements(data,list,type){
             const c3 = clonerow.getElementsByClassName("c3")[0];
       
             if(data[i]?.quantity>0){
-                //dette er en volum enhet og ikke kroner
+                //dette er en volum enhet/quantity
+
                 let quantityname = data[i].supplierquantityname || "";
                     //sjekke om det er Diesel eller Bensin, skriv da Drivstoff
                     if(quantityname == "Diesel" || quantityname == "Bensin"){
@@ -48,12 +49,12 @@ function listElements(data,list,type){
 
                 //skal en vise K eller ikke
                 if(data[i]?.quantity>1999){
-                    c2.textContent = (Number(data[i].value)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
+                    c2.textContent = (Number(data[i].quantity)/1000).toLocaleString("nb-NO") + "K " + quantityunitLable+" "+quantityname;
                 }else{
-                c2.textContent = data[i].value.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
+                c2.textContent = data[i].quantity.toLocaleString("nb-NO") + " " + quantityunitLable+" "+quantityname;
                 }
                 //besparelse pr enhet
-                let localsavingsperquantity = data[i].localsavingsperquantity || 0;
+                let localsavingsperquantity = data[i].localsavingsperquantity || data.savingsperquantity || 0;
                 let lable = "";
 
                 //må finne ut om det er best å hvise øre eller krone
@@ -69,6 +70,7 @@ function listElements(data,list,type){
                 
                 //(Number(data[i].cutvalue) / Number(data[i].value)).toFixed(1) + " Kr/pr. " + data[i].quantityunit;
             }else{
+                //dette er value/ kr
                 var xvalue = 0;
                 if(data[i]?.value){
                     xvalue = data[i].value;
