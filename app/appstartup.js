@@ -259,7 +259,7 @@ function employerModeLayout(status){
         typeDealsFilterwrapper.style.display = "none";
     }else{
         companypagebutton.style.display = "block";
-        savingmoneybutton.style.display = "block";
+       // savingmoneybutton.style.display = "block";
         dealsIcon.style.display = "inline-block";
         typeDealsFilterwrapper.style.display = "block";
     }
