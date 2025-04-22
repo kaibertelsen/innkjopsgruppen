@@ -844,7 +844,7 @@ function responsSupplierConnection(rawdata) {
         let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
         let body = { mailto: "", name: "", subject: "", content: "", attachment: "", type: "", data: "" };
 
-
+        let orgnr = data.companyorgnr[0] || "";
         let adress = data.companyadress[0] || "";
         let postnr = data.companypostnr[0] || "";
         let city = data.companycity[0] || "";
@@ -852,7 +852,7 @@ function responsSupplierConnection(rawdata) {
         // Formatering av kundedata i HTML
         function formatCustomerData() {
             return `
-                <p><strong>${data.companyname[0]} (${data.companyorgnr[0]})</strong></p>
+                <p><strong>${data.companyname[0]} (${orgnr})</strong></p>
                 <p>Adresse: ${adress}, ${postnr} ${city}</p>
                 <p><strong>Kontaktperson:</strong><br>
                 ${data.brukernavn[0]}<br>
