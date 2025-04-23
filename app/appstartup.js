@@ -86,7 +86,9 @@ function userResponse(data) {
     // sjekker om det er en superadmin som skal opptre på vegne av et selskap
     //hvis det er lagret en nøkkel i sessionStorage som heter "representing" så er det en superadmin som opptrer på vegne av et selskap
     if (sessionStorage.getItem("representing")) {
-        companys = parseJsonString(sessionStorage.getItem("representing"));
+        const rawData = sessionStorage.getItem("representing");
+        companys = convertCompanyRepresenting(rawData);
+      
         //fjerner nøkkelen fra sessionStorage
         sessionStorage.removeItem("representing");
     }else{
@@ -150,7 +152,18 @@ function userResponse(data) {
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
+function convertCompanyRepresenting(jsonInput) {
+    try {
+        // Hvis det allerede er et objekt (ikke en streng), returner det direkte
+        if (typeof jsonInput === "object") return jsonInput;
 
+        // Hvis det er en streng med gyldig JSON, parse og returner
+        return JSON.parse(jsonInput);
+    } catch (e) {
+        console.error("Feil ved konvertering av companyjson:", e);
+        return [];
+    }
+}
 function registrerOnboarded(){
     let body = {onboarded:true};
     patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,JSON.stringify(body),"responsOnboarded")
