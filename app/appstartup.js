@@ -83,9 +83,18 @@ function userResponse(data) {
         document.getElementById("companypagebutton").style.display = "block";
     }
     
-    // Konverter JSON-strenger til objekter
-    const jsonStrings = data.fields.companyjson;
-    companys = convertJsonStringsToObjects(jsonStrings);
+    // sjekker om det er en superadmin som skal opptre på vegne av et selskap
+    //hvis det er lagret en nøkkel i sessionStorage som heter "representing" så er det en superadmin som opptrer på vegne av et selskap
+    if (sessionStorage.getItem("representing")) {
+        companys = convertJsonStringsToObjects(sessionStorage.getItem("representing"));
+        //fjerner nøkkelen fra sessionStorage
+        sessionStorage.removeItem("representing");
+    }else{
+        // Konverter JSON-strenger til objekter
+        const jsonStrings = data.fields.companyjson;
+        companys = convertJsonStringsToObjects(jsonStrings);
+    }
+   
 
     //sjekker gjennom companys.connections arrayen og fjerner de koblingene som har true i delete nøkkelen
     companys.forEach(company => {

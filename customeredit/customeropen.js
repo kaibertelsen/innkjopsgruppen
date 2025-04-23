@@ -164,7 +164,6 @@ function removeUserFromCustomer(user, customer,rowElement) {
     rowElement.remove();
 }
 
-
 document.getElementById("publicSwitsh").addEventListener("click", function () {
     const publicSwitshtext = document.getElementById("publicSwitshtext");
     // sjekke om den er checked
@@ -297,6 +296,17 @@ document.getElementById("saveLogoButton").addEventListener("click", function() {
     this.classList.remove("active");
 });
 
+document.getElementById("goToPortal").addEventListener("click", function() {
+  //gå til portal med dette selskapet
+  //lagre i session storage
+  let companyJson = JSON.stringify(activeCustomer);
+  sessionStorage.setItem("companyJson", companyJson);
+  //åpne portal
+  window.open("https://portal.innkjops-gruppen.no/app-portal", "_blank"); 
+});
+
+
+
 document.getElementById("addMoreUser").addEventListener("click", function() {
     // Hvise loading spinner
     document.getElementById("userloadingscreen").style.display = "block";
@@ -306,8 +316,6 @@ document.getElementById("addMoreUser").addEventListener("click", function() {
 
  
 });
-
-
 
 function userResponse(data){
     // Skjule loading spinner
@@ -808,7 +816,6 @@ function onHovedselskapSelected(navn, airtableId) {
     saveSupplierInfo(activeCustomer.airtable, body);
 
 }
-
 
 function formatNameList(nameList) {
     if (Array.isArray(nameList)) {
