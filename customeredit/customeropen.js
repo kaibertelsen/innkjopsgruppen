@@ -299,7 +299,7 @@ document.getElementById("saveLogoButton").addEventListener("click", function() {
 document.getElementById("goToPortal").addEventListener("click", function() {
   //gå til portal med dette selskapet
   //lagre i session storage
-  let companyJson = JSON.stringify(activeCustomer);
+  let companyJson = JSON.stringify([activeCustomer]);
   sessionStorage.setItem("representing", companyJson);
   //gå til adressen https://portal.innkjops-gruppen.no/app-portal i samme vindu
     window.location.href = "https://portal.innkjops-gruppen.no/app-portal";

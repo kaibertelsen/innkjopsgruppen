@@ -86,7 +86,7 @@ function userResponse(data) {
     // sjekker om det er en superadmin som skal opptre på vegne av et selskap
     //hvis det er lagret en nøkkel i sessionStorage som heter "representing" så er det en superadmin som opptrer på vegne av et selskap
     if (sessionStorage.getItem("representing")) {
-        companys = convertJsonStringsToObjects(sessionStorage.getItem("representing"));
+        companys = parseJsonString(sessionStorage.getItem("representing"));
         //fjerner nøkkelen fra sessionStorage
         sessionStorage.removeItem("representing");
     }else{
