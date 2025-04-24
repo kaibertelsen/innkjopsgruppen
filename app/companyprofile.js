@@ -238,7 +238,7 @@ document.getElementById("searshforemailbutton").addEventListener("click", functi
     const epostValue = epostField.value.trim(); // Fjerner eventuelle mellomrom
 
     // Sjekk først om denne brukeren allerede er i selskapet
-    let users = company.bruker || []; // Sikrer at det ikke krasjer hvis 'bruker' ikke er definert
+    let users = activeCompany.bruker || []; // Sikrer at det ikke krasjer hvis 'bruker' ikke er definert
     
     // Bruker "some()" for å sjekke om epost allerede finnes i users-arrayen
     let userExists = users.some(user => user.epost === epostValue);
