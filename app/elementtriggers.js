@@ -177,3 +177,28 @@ document.getElementById("Privatinput").addEventListener("change", function() {
         document.getElementById("Bedriftinput").checked = false;
     }
 });
+
+document.getElementById("sendDataToServer").addEventListener("click", function () {
+
+    // Hent verdiene fra inputfeltene
+    const name = document.getElementById("contactnameInput").value;
+    const phone = document.getElementById("TelefonInput").value;
+    const email = document.getElementById("EpostInput").value;
+
+    const companyName = document.getElementById("FirmanavnInput").value;
+    const companyOrgNumber = document.getElementById("orgnrinput").value;
+
+    // Hent verdien av den valgte radioknappen
+    const selectedRadio = document.querySelector('input[name="type"]:checked').value;
+
+    //hvis Bedrift er valgt sjekk at Firmanavn og orgnr er fylt ut
+    if (selectedRadio === "Bedrift") {
+        if (companyName === "" || companyOrgNumber === "") {
+            alert("Vennligst fyll ut Firmanavn og Org.nr");
+            return; // Avbryt hvis feltene ikke er fylt ut
+        }
+    }
+
+    // Send data til serveren
+    console.log(name, email, password, selectedRadio, companyName, companyOrgNumber);
+});
