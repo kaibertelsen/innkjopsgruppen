@@ -143,3 +143,12 @@ document.getElementById("companySelector").addEventListener("change", function (
     companyChange(selectedValue);
     companyPageChosed(activeCompany);
 });
+
+document.getElementById("createUserTabButton").addEventListener("change", function () {
+    // Åpne bruker opprettingsvinduet
+    document.getElementById("connectinguserTagButton").click();
+});
+
+document.getElementById("creatuserpagebackbutton").addEventListener("click", function() {
+    document.getElementById("tablogin").click();
+});
