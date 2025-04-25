@@ -200,5 +200,26 @@ document.getElementById("sendDataToServer").addEventListener("click", function (
     }
 
     // Send data til serveren
-    console.log(name, email, password, selectedRadio, companyName, companyOrgNumber);
+    sendDataToZapierWebhookCreatUser(name, email, phone, selectedRadio, companyName, companyOrgNumber);
 });
+
+async function sendDataToZapierWebhookCreatUser(data) {
+    
+    const formData = new FormData();
+    for (const key in data) {
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+    }
+
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2p3skv0/", {
+        method: "POST",
+        body: formData
+    });
+
+    if (response.ok) {
+       
+    } else {
+        console.error("Error sending data to Zapier:", response.statusText);
+    }
+}
