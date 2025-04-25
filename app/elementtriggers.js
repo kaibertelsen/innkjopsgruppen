@@ -152,3 +152,19 @@ document.getElementById("createUserTabButton").addEventListener("click", functio
 document.getElementById("creatuserpagebackbutton").addEventListener("click", function() {
     document.getElementById("tablogin").click();
 });
+
+
+//radiobutton Privatinput skal starte som checked
+document.getElementById("Privatinput").checked = true;
+
+//companyWrapper skal være skjult
+document.getElementById("companyWrapper").style.display = "none";
+
+//hvis Bedrift blir valgt 
+document.getElementById("Bedriftinput").addEventListener("change", function() {
+    if (this.checked) {
+        // Vis bedriftsfeltet
+        document.getElementById("companyWrapper").style.display = "block";
+        document.getElementById("Privatinput").checked = false;
+    }
+});
