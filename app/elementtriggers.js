@@ -144,7 +144,7 @@ document.getElementById("companySelector").addEventListener("change", function (
     companyPageChosed(activeCompany);
 });
 
-document.getElementById("createUserTabButton").addEventListener("change", function () {
+document.getElementById("createUserTabButton").addEventListener("click", function () {
     // Åpne bruker opprettingsvinduet
     document.getElementById("connectinguserTagButton").click();
 });
