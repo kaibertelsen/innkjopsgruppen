@@ -168,3 +168,12 @@ document.getElementById("Bedriftinput").addEventListener("change", function() {
         document.getElementById("Privatinput").checked = false;
     }
 });
+
+//hvis Privat blir valgt
+document.getElementById("Privatinput").addEventListener("change", function() {
+    if (this.checked) {
+        // Skjul bedriftsfeltet
+        document.getElementById("companyWrapper").style.display = "none";
+        document.getElementById("Bedriftinput").checked = false;
+    }
+});
