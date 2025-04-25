@@ -179,37 +179,37 @@ document.getElementById("Privatinput").addEventListener("change", function() {
 });
 
 document.getElementById("sendDataToServer").addEventListener("click", function () {
-
-    // Hent verdiene fra inputfeltene
     const name = document.getElementById("contactnameInput").value;
     const phone = document.getElementById("TelefonInput").value;
     const email = document.getElementById("EpostInput").value;
-
     const companyName = document.getElementById("FirmanavnInput").value;
     const companyOrgNumber = document.getElementById("orgnrinput").value;
-
-    // Hent verdien av den valgte radioknappen
     const selectedRadio = document.querySelector('input[name="type"]:checked').value;
 
-    //hvis Bedrift er valgt sjekk at Firmanavn og orgnr er fylt ut
     if (selectedRadio === "Bedrift") {
         if (companyName === "" || companyOrgNumber === "") {
             alert("Vennligst fyll ut Firmanavn og Org.nr");
-            return; // Avbryt hvis feltene ikke er fylt ut
+            return;
         }
     }
 
-    // Send data til serveren
-    sendDataToZapierWebhookCreatUser(name, email, phone, selectedRadio, companyName, companyOrgNumber);
+    const data = {
+        name,
+        email,
+        phone,
+        type: selectedRadio,
+        companyName,
+        companyOrgNumber
+    };
+
+    sendDataToZapierWebhookCreatUser(data);
 });
 
 async function sendDataToZapierWebhookCreatUser(data) {
-    
     const formData = new FormData();
     for (const key in data) {
         const value = data[key];
-        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
-        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+        formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
 
     const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2p3skv0/", {
@@ -217,9 +217,7 @@ async function sendDataToZapierWebhookCreatUser(data) {
         body: formData
     });
 
-    if (response.ok) {
-       
-    } else {
+    if (!response.ok) {
         console.error("Error sending data to Zapier:", response.statusText);
     }
 }
