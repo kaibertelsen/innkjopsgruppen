@@ -10,8 +10,6 @@ document.getElementById("openXlsButton").addEventListener("click", function(even
         file.done(function(info) {
             const optimizedImageURL = info.cdnUrl + "-/format/auto/-/quality/smart/";
             console.log("Optimalisert bilde URL:", optimizedImageURL);
-            document.getElementById("logoImageCustomer").src = optimizedImageURL;
-            document.getElementById("saveLogoButton").classList.add("active");
         });
     });
 });
