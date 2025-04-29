@@ -169,9 +169,12 @@ function userResponse(data) {
             const headerbackground = document.getElementById("headerbackground");
             if (headerbackground) {
                 if (activeCompany.groupcolor !== "") {
-                    headerbackground.style.backgroundColor = activeCompany.groupcolor;
+                    headerbackground.style.backgroundImage = "none"; // Fjerner gradient eller bilde
+                    headerbackground.style.background = ""; // (valgfritt, sletter all bakgrunnsstyling)
+                    headerbackground.style.backgroundColor = activeCompany.groupcolor; // Setter ny farge
                 }
             }
+            
                 
             //vis customerlayout
             customerlayoutConteiner.style.display = "block";
