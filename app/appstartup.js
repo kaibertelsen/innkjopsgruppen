@@ -197,15 +197,15 @@ function responsOnboarded(data){
     console.log(data);
 }
 
-function loadSelector(selector,data){
-        selector.innerHTML = ''; 
-        // Dynamisk lasting av data i select-feltet
-        data.forEach(item => {
-          const option = document.createElement("option"); // Lager et option-element
-          option.value = item.airtable; // Setter verdien til airtable-ID-en
-          option.textContent = item.Name; // Setter tekstinnholdet til Name
-          companySelector.appendChild(option); // Legger til option i select-feltet
-        });
+function loadSelector(selector, data) {
+    selector.innerHTML = ''; 
+    // Dynamisk lasting av data i select-feltet
+    data.forEach(item => {
+        const option = document.createElement("option"); // Lager et option-element
+        option.value = item.airtable; // Setter verdien til airtable-ID-en
+        option.textContent = item.Name; // Setter tekstinnholdet til Name
+        selector.appendChild(option); // Legger til option i select-feltet (riktig!)
+    });
 }
 
 function supplierResponse(data){
