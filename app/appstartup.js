@@ -190,7 +190,9 @@ function userResponse(data) {
     
         headerbackground.style.setProperty("width", "100%", "important");
     
-    }else if (activeCompany.grouplablecolor && activeCompany.grouplablecolor.trim() !== "") {
+    }
+    
+    if (activeCompany.grouplablecolor && activeCompany.grouplablecolor.trim() !== "") {
         // Hvis det foreligger en farge – bruk denne på .lablecolor-elementer
         const lablecolor = document.querySelectorAll(".lablecolor");
         lablecolor.forEach(element => {
