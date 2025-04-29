@@ -118,13 +118,7 @@ function userResponse(data) {
     // Last data inn i selector
     loadSelector(selector, companys);
 
-    const selectorInListPage = document.getElementById("companySelectorinListPage");
-    if (selectorInListPage) {
-         // Last data inn i selector
-        loadSelector(selectorInListPage, companys);
-    }
-
-    
+ 
     //om det bare er et selskap så skjul rullegardin
    if(companys.length<2){
     selector.style.display = "none";
@@ -139,9 +133,6 @@ function userResponse(data) {
 
         if (optionToSelect) {
             selector.value = favoriteCompanyId; // Velger favorittselskapet
-            if (selectorInListPage) {
-                selectorInListPage.value = favoriteCompanyId; // Velger favorittselskapet
-            }
             activeCompany = companys.find(company => company.airtable === favoriteCompanyId);
         } else {
             console.warn(`Favorittselskapet med ID '${favoriteCompanyId}' finnes ikke i listen.`);
@@ -150,18 +141,33 @@ function userResponse(data) {
         // Velg det første selskapet i listen dersom ingen favorittselskap er angitt
         if (companys.length > 0) {
             selector.value = companys[0].airtable; // Sett første element som valgt
-            if (selectorInListPage) {
-                selectorInListPage.value = companys[0].airtable; // Sett første element som valgt
-            }
             activeCompany = companys[0];
         } else {
             console.warn("Ingen selskaper tilgjengelige i listen.");
         }
     }
 
-    //sjekke om gruppen selskapet er i skal hvise customerlogo
-    if(activeCompany?.groupcustomerlogolayout){
+    if (activeCompany?.groupcustomerlogolayout?.toUpperCase() === "TRUE") {
         console.log("Skal vise customerlogo");
+        const customerlayoutConteiner = document.getElementById("customerlayoutConteiner");
+        if (customerlayoutConteiner) {
+            //last in selector
+            const selectorInListPage = document.getElementById("companySelectorinListPage");
+            if (selectorInListPage) {
+                 // Last data inn i selector
+                loadSelector(selectorInListPage, companys);
+                selectorInListPage.value = favoriteCompanyId; 
+            }
+
+            //last inn logo
+            const customerlogo = document.getElementById("customerlogopages");
+            if (customerlogo) {
+                customerlogo.src = activeCompany.customerlogo;
+            }
+
+            //vis customerlayout
+            customerlayoutConteiner.style.display = "block";
+        }
     }
     
 
