@@ -168,11 +168,10 @@ function userResponse(data) {
             //last inn bakgrunsfarge om det er definert
             const headerbackground = document.getElementById("headerbackground");
             if (headerbackground) {
-                if (activeCompany.headerbackground) {
-                    headerbackground.style.backgroundColor = activeCompany.headerbackground;
+                if (activeCompany.headerbackground && activeCompany.groupcolor !== "") {
+                    headerbackground.style.backgroundColor = activeCompany.groupcolor;
                 }
                 
-
             //vis customerlayout
             customerlayoutConteiner.style.display = "block";
         }
