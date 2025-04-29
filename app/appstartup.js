@@ -162,7 +162,7 @@ function userResponse(data) {
             //last inn logo
             const customerlogo = document.getElementById("customerlogopages");
             if (customerlogo) {
-                customerlogo.src = activeCompany.customerlogo;
+                customerlogo.src = activeCompany.logo;
             }
 
             //vis customerlayout
