@@ -188,7 +188,7 @@ function userResponse(data) {
             element.style.backgroundColor = activeCompany.grouplablecolor;
         });
 
-        updateActiveClassBackgroundColor(activeCompany.grouplablecolor);
+        updateGlobalThemeColor(activeCompany.grouplablecolor);
 
     }
 
@@ -197,18 +197,23 @@ function userResponse(data) {
 }
 
 
-function updateActiveClassBackgroundColor(color) {
+function updateGlobalThemeColor(color) {
     let styleTag = document.getElementById("dynamic-active-style");
 
     if (!styleTag) {
-        // Hvis det ikke finnes en style-tag, lag en ny
         styleTag = document.createElement("style");
         styleTag.id = "dynamic-active-style";
         document.head.appendChild(styleTag);
     }
 
-    // Sett / oppdater CSS for .active
-    styleTag.innerHTML = `.active { background-color: ${color} !important; }`;
+    styleTag.innerHTML = `
+        .active {
+            background-color: ${color} !important;
+        }
+        input:checked + .slider {
+            background-color: ${color} !important;
+        }
+    `;
 }
 
 
