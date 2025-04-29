@@ -168,7 +168,7 @@ function userResponse(data) {
             //last inn bakgrunsfarge om det er definert
             const headerbackground = document.getElementById("headerbackground");
             if (headerbackground) {
-                if (activeCompany.headerbackground && activeCompany.groupcolor !== "") {
+                if (activeCompany.groupcolor !== "") {
                     headerbackground.style.backgroundColor = activeCompany.groupcolor;
                 }
             }
