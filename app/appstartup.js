@@ -171,6 +171,7 @@ function userResponse(data) {
                 if (activeCompany.headerbackground && activeCompany.groupcolor !== "") {
                     headerbackground.style.backgroundColor = activeCompany.groupcolor;
                 }
+            }
                 
             //vis customerlayout
             customerlayoutConteiner.style.display = "block";
