@@ -165,6 +165,14 @@ function userResponse(data) {
                 customerlogo.src = activeCompany.logo;
             }
 
+            //last inn bakgrunsfarge om det er definert
+            const headerbackground = document.getElementById("headerbackground");
+            if (headerbackground) {
+                if (activeCompany.headerbackground) {
+                    headerbackground.style.backgroundColor = activeCompany.headerbackground;
+                }
+                
+
             //vis customerlayout
             customerlayoutConteiner.style.display = "block";
         }
