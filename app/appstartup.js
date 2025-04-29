@@ -167,13 +167,11 @@ function userResponse(data) {
 
             //last inn bakgrunsfarge om det er definert
             const headerbackground = document.getElementById("headerbackground");
-            if (headerbackground) {
-                if (activeCompany.groupcolor !== "") {
-                    headerbackground.style.backgroundImage = "none"; // Fjerner gradient eller bilde
-                    headerbackground.style.background = ""; // (valgfritt, sletter all bakgrunnsstyling)
-                    headerbackground.style.backgroundColor = activeCompany.groupcolor; // Setter ny farge
-                }
+
+            if (headerbackground && activeCompany.groupcolor !== "") {
+                headerbackground.style.setProperty("background", activeCompany.groupcolor, "important");
             }
+            
             
                 
             //vis customerlayout
