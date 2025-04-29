@@ -166,19 +166,18 @@ function userResponse(data) {
             }
 
             //last inn bakgrunsfarge om det er definert
-            const headerbackground = document.getElementById("headerbackground");
-
-            if (headerbackground && activeCompany.groupcolor !== "") {
-                headerbackground.style.setProperty("background", activeCompany.groupcolor, "important");
-            }
-            
-            
-                
+           const headerbackground = document.getElementById("headerbackground");
+              
             //vis customerlayout
             customerlayoutConteiner.style.display = "block";
         }
     }
     
+    //hvis det foreligger bakgrunnsfarge så sett denne
+    const headerbackground = document.getElementById("headerbackground");
+    if (headerbackground && activeCompany.groupcolor !== "") {
+        headerbackground.style.setProperty("background", activeCompany.groupcolor, "important");
+    }
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
