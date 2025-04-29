@@ -14,7 +14,7 @@ var Employeemode = false;
 var isSharkey = false;
 var isLoggedin = false;
 var activeSupplierList;
-var activeclassColor = "#ffcc00"; // Standard bakgrunnsfarge for active class
+
 
 document.getElementById("menybuttonopener").addEventListener("click", function() {
     const menyElement = document.getElementById("menyelementwrapper");
@@ -188,11 +188,7 @@ function userResponse(data) {
             element.style.backgroundColor = activeCompany.grouplablecolor;
         });
 
-        activeclassColor = activeCompany.grouplablecolor;
-     
-
-
-
+        updateActiveClassBackgroundColor(activeCompany.grouplablecolor);
 
     }
 
@@ -201,22 +197,19 @@ function userResponse(data) {
 }
 
 
-// Funksjon som brukes når en aktiv klasse oppdages
-function applyActiveStyle(el) {
-    el.style.backgroundColor = activeclassColor;
-}
+function updateActiveClassBackgroundColor(color) {
+    let styleTag = document.getElementById("dynamic-active-style");
 
-// Observer hele dokumentet for class-endringer
-const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      if (mutation.type === "attributes" && mutation.attributeName === "class") {
-        const el = mutation.target;
-        if (el.classList.contains("active")) {
-          applyActiveStyle(el);
-        }
-      }
-    });
-});
+    if (!styleTag) {
+        // Hvis det ikke finnes en style-tag, lag en ny
+        styleTag = document.createElement("style");
+        styleTag.id = "dynamic-active-style";
+        document.head.appendChild(styleTag);
+    }
+
+    // Sett / oppdater CSS for .active
+    styleTag.innerHTML = `.active { background-color: ${color} !important; }`;
+}
 
 
 
