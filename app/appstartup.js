@@ -189,13 +189,7 @@ function userResponse(data) {
         });
 
         activeclassColor = activeCompany.grouplablecolor;
-        //sett alle active classene til å ha bakgrunnsfarge
-        document.querySelectorAll(".active").forEach(applyActiveStyle);
-
-        // Start observeren på dokumentet alle activeclassene
-        document.querySelectorAll("*").forEach(el => {
-            observer.observe(el, { attributes: true });
-        });
+     
 
 
 
