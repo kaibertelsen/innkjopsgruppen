@@ -120,7 +120,6 @@ function userResponse(data) {
 
     const selectorInListPage = document.getElementById("companySelectorinListPage");
     if (selectorInListPage) {
-        console.error("Selector med ID 'companySelectorinListPage' finnes ikke i DOM.");
          // Last data inn i selector
         loadSelector(selectorInListPage, companys);
     }
