@@ -14,6 +14,7 @@ var Employeemode = false;
 var isSharkey = false;
 var isLoggedin = false;
 var activeSupplierList;
+var activeclassColor = "#ffcc00"; // Standard bakgrunnsfarge for active class
 
 document.getElementById("menybuttonopener").addEventListener("click", function() {
     const menyElement = document.getElementById("menyelementwrapper");
@@ -186,11 +187,45 @@ function userResponse(data) {
         lablecolor.forEach(element => {
             element.style.backgroundColor = activeCompany.grouplablecolor;
         });
+
+        activeclassColor = activeCompany.grouplablecolor;
+        //sett alle active classene til å ha bakgrunnsfarge
+        document.querySelectorAll(".active").forEach(applyActiveStyle);
+
+        // Start observeren på dokumentet alle activeclassene
+        document.querySelectorAll("*").forEach(el => {
+            observer.observe(el, { attributes: true });
+        });
+
+
+
+
     }
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
+
+
+// Funksjon som brukes når en aktiv klasse oppdages
+function applyActiveStyle(el) {
+    el.style.backgroundColor = activeclassColor;
+}
+
+// Observer hele dokumentet for class-endringer
+const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.type === "attributes" && mutation.attributeName === "class") {
+        const el = mutation.target;
+        if (el.classList.contains("active")) {
+          applyActiveStyle(el);
+        }
+      }
+    });
+});
+
+
+
 
 function convertCompanyRepresenting(jsonInput) {
     try {
