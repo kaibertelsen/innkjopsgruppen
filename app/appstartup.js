@@ -173,17 +173,18 @@ function userResponse(data) {
         }
     }
     
-    //hvis det foreligger bakgrunnsfarge så sett denne
+    //hvis det foreligger bakgrunnsfarge så sett denne på headeren
     const headerbackground = document.getElementById("headerbackground");
     if (headerbackground && activeCompany.groupcolor !== "") {
         headerbackground.style.setProperty("background", activeCompany.groupcolor, "important");
     }
 
+    //hvis det foreligger lablecolor så sett denne på alle elementer med classen lablecolor
     if(activeCompany.grouplablecolor !== ""){
         //finn alle objecter med classen lablcolor
         const lablecolor = document.querySelectorAll(".lablecolor");
         lablecolor.forEach(element => {
-            element.style.color = activeCompany.grouplablecolor;
+            element.style.backgroundColor = activeCompany.grouplablecolor;
         });
     }
 
