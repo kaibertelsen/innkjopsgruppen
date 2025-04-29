@@ -231,7 +231,6 @@ function filterSupplierListsearchField(data) {
     return filteredData;
 }
 
-
 document.getElementById("PersonalTaggButton").addEventListener("click", function() {
     dealsTypeSwitch();
 });

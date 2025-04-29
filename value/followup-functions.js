@@ -292,7 +292,7 @@ function filteredHideFollowup(data, status) {
     return array; // Returner den filtrerte listen
 }
 
- function isDateAfter(date1, date2) {
+function isDateAfter(date1, date2) {
    // Konverterer strengene til Date-objekter
    const d1 = new Date(date1);
    const d2 = new Date(date2);

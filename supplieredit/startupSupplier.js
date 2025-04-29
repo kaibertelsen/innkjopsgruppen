@@ -201,7 +201,7 @@ document.getElementById("supplierFilterSelector").addEventListener("change", fun
 });
 
 function sortSuppliers(suppliers) {
-    // Filtrer ut ugyldige eller tomme verdier (valgfritt)
+    // Filtrer ut ugyldige eller tomme verdier
     let filteredSuppliers = suppliers.filter(supplier => supplier.name && supplier.name.trim() !== "");
 
     filteredSuppliers.sort((a, b) => {

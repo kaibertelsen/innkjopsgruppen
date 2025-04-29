@@ -118,6 +118,14 @@ function userResponse(data) {
     // Last data inn i selector
     loadSelector(selector, companys);
 
+    const selectorInListPage = document.getElementById("companySelectorinListPage");
+    if (selectorInListPage) {
+        console.error("Selector med ID 'companySelectorinListPage' finnes ikke i DOM.");
+         // Last data inn i selector
+        loadSelector(selectorInListPage, companys);
+    }
+
+    
     //om det bare er et selskap så skjul rullegardin
    if(companys.length<2){
     selector.style.display = "none";
@@ -132,6 +140,9 @@ function userResponse(data) {
 
         if (optionToSelect) {
             selector.value = favoriteCompanyId; // Velger favorittselskapet
+            if (selectorInListPage) {
+                selectorInListPage.value = favoriteCompanyId; // Velger favorittselskapet
+            }
             activeCompany = companys.find(company => company.airtable === favoriteCompanyId);
         } else {
             console.warn(`Favorittselskapet med ID '${favoriteCompanyId}' finnes ikke i listen.`);
@@ -140,18 +151,25 @@ function userResponse(data) {
         // Velg det første selskapet i listen dersom ingen favorittselskap er angitt
         if (companys.length > 0) {
             selector.value = companys[0].airtable; // Sett første element som valgt
+            if (selectorInListPage) {
+                selectorInListPage.value = companys[0].airtable; // Sett første element som valgt
+            }
             activeCompany = companys[0];
         } else {
             console.warn("Ingen selskaper tilgjengelige i listen.");
         }
     }
 
-    
+    //sjekke om gruppen selskapet er i skal hvise customerlogo
+    if(activeCompany?.groupcustomerlogolayout){
+        console.log("Skal vise customerlogo");
+    }
     
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
+
 function convertCompanyRepresenting(jsonInput) {
     try {
         // Hvis det allerede er et objekt (ikke en streng), returner det direkte
@@ -164,6 +182,7 @@ function convertCompanyRepresenting(jsonInput) {
         return [];
     }
 }
+
 function registrerOnboarded(){
     let body = {onboarded:true};
     patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,JSON.stringify(body),"responsOnboarded")
