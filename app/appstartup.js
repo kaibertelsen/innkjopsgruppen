@@ -181,14 +181,16 @@ function userResponse(data) {
     }
 
     if (activeCompany.groupheaderimage && activeCompany.groupheaderimage.trim() !== "") {
-        // Hvis det foreligger et bilde – bruk det som bakgrunn
+        // Sett nødvendige stiler for å få riktig visning
         headerbackground.style.setProperty("background", `url('${activeCompany.groupheaderimage}')`, "important");
         headerbackground.style.setProperty("background-size", "cover", "important");
-        headerbackground.style.setProperty("background-position", "center", "important");
+        headerbackground.style.setProperty("background-position", "center center", "important");
         headerbackground.style.setProperty("background-repeat", "no-repeat", "important");
-        headerbackground.style.setProperty("background-attachment", "fixed", "important");
+        // (Fjerner background-attachment fixed hvis du vil at bakgrunn skal scrolle med innholdet)
     
-    } else if (activeCompany.grouplablecolor && activeCompany.grouplablecolor.trim() !== "") {
+        headerbackground.style.setProperty("width", "100%", "important");
+    
+    }else if (activeCompany.grouplablecolor && activeCompany.grouplablecolor.trim() !== "") {
         // Hvis det foreligger en farge – bruk denne på .lablecolor-elementer
         const lablecolor = document.querySelectorAll(".lablecolor");
         lablecolor.forEach(element => {
