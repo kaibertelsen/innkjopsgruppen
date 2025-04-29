@@ -180,16 +180,23 @@ function userResponse(data) {
         headerbackground.style.setProperty("background", activeCompany.groupcolor, "important");
     }
 
-    //hvis det foreligger lablecolor så sett denne på alle elementer med classen lablecolor
-    if(activeCompany.grouplablecolor !== ""){
-        //finn alle objecter med classen lablcolor
+    if (activeCompany.groupheaderimage && activeCompany.groupheaderimage.trim() !== "") {
+        // Hvis det foreligger et bilde – bruk det som bakgrunn
+        headerbackground.style.setProperty("background", `url('${activeCompany.groupheaderimage}')`, "important");
+        headerbackground.style.setProperty("background-size", "cover", "important");
+        headerbackground.style.setProperty("background-position", "center", "important");
+        headerbackground.style.setProperty("background-repeat", "no-repeat", "important");
+        headerbackground.style.setProperty("background-attachment", "fixed", "important");
+    
+    } else if (activeCompany.grouplablecolor && activeCompany.grouplablecolor.trim() !== "") {
+        // Hvis det foreligger en farge – bruk denne på .lablecolor-elementer
         const lablecolor = document.querySelectorAll(".lablecolor");
         lablecolor.forEach(element => {
             element.style.backgroundColor = activeCompany.grouplablecolor;
         });
-
+    
+        // Oppdater globale klasser som .active og input:checked + .slider
         updateGlobalThemeColor(activeCompany.grouplablecolor);
-
     }
 
     //hente leverandører
