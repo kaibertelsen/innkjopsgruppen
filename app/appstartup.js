@@ -156,7 +156,7 @@ function userResponse(data) {
             if (selectorInListPage) {
                  // Last data inn i selector
                 loadSelector(selectorInListPage, companys);
-                selectorInListPage.value = favoriteCompanyId; 
+                selectorInListPage.value = activeCompany.airtable; // Velg selskapet
             }
 
             //last inn logo
