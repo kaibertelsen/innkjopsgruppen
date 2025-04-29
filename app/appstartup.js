@@ -179,6 +179,14 @@ function userResponse(data) {
         headerbackground.style.setProperty("background", activeCompany.groupcolor, "important");
     }
 
+    if(activeCompany.grouplablecolor !== ""){
+        //finn alle objecter med classen lablcolor
+        const lablecolor = document.querySelectorAll(".lablecolor");
+        lablecolor.forEach(element => {
+            element.style.color = activeCompany.grouplablecolor;
+        });
+    }
+
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
