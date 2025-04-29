@@ -184,7 +184,7 @@ function userResponse(data) {
         // Sett nødvendige stiler for å få riktig visning
         headerbackground.style.setProperty("background", `url('${activeCompany.groupheaderimage}')`, "important");
         headerbackground.style.setProperty("background-size", "cover", "important");
-        headerbackground.style.setProperty("background-position", "center center", "important");
+        headerbackground.style.setProperty("background-position", "center top", "important");
         headerbackground.style.setProperty("background-repeat", "no-repeat", "important");
         // (Fjerner background-attachment fixed hvis du vil at bakgrunn skal scrolle med innholdet)
     
