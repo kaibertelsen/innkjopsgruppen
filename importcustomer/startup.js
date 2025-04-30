@@ -135,6 +135,19 @@ function controllXls(data) {
     document.body.appendChild(container); // eller document.querySelector("#outputDiv")
 }
 
+function generateTable(title, list) {
+    if (list.length === 0) return `<h3>${title}</h3><p>Ingen.</p>`;
+
+    let html = `<h3>${title}</h3><table style="width:100%; border-collapse: collapse;">`;
+    html += `<tr><th style="text-align:left; border-bottom: 1px solid #ccc;">Selskap</th><th style="text-align:left; border-bottom: 1px solid #ccc;">Org.nr</th></tr>`;
+
+    list.forEach(item => {
+        html += `<tr><td style="padding: 4px 8px;">${item["Selskap"]}</td><td style="padding: 4px 8px;">${item["Org.nr"]}</td></tr>`;
+    });
+
+    html += `</table>`;
+    return html;
+}
 
 
 
