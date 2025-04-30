@@ -172,7 +172,7 @@ function settGroupDesign(company){
         logoImage.src = company.grouplogo;
     }else{
         //standard IG logo
-         logourl ="https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6797524cff44bf02fd8ee5e8_IG-logo-app.png";
+        logoImage.src = "https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6797524cff44bf02fd8ee5e8_IG-logo-app.png";
     }
      
     
@@ -204,30 +204,36 @@ function settGroupDesign(company){
     const headerbackground = document.getElementById("headerbackground");
     if (headerbackground && company.groupcolor !== "") {
         headerbackground.style.setProperty("background", company.groupcolor, "important");
+    }else{
+        //sett standard farge
+        headerbackground.style.setProperty("background", "#172d3f", "important");
     }
-    
-    if (company.groupheaderimage && company.groupheaderimage.trim() !== "") {
-        // Sett nødvendige stiler for å få riktig visning
-        headerbackground.style.setProperty("background", `url('${company.groupheaderimage}')`, "important");
-        headerbackground.style.setProperty("background-size", "cover", "important");
-        headerbackground.style.setProperty("background-position", "center top", "important");
-        headerbackground.style.setProperty("background-repeat", "no-repeat", "important");
-        // (Fjerner background-attachment fixed hvis du vil at bakgrunn skal scrolle med innholdet)
-    
-        headerbackground.style.setProperty("width", "100%", "important");
-    
-    }
-        
-    if (company.grouplablecolor && company.grouplablecolor.trim() !== "") {
-        // Hvis det foreligger en farge – bruk denne på .lablecolor-elementer
+    //bakgrunnsbilde
+        if (company.groupheaderimage && company.groupheaderimage.trim() !== "") {
+            // Sett nødvendige stiler for å få riktig visning
+            headerbackground.style.setProperty("background", `url('${company.groupheaderimage}')`, "important");
+            headerbackground.style.setProperty("background-size", "cover", "important");
+            headerbackground.style.setProperty("background-position", "center top", "important");
+            headerbackground.style.setProperty("background-repeat", "no-repeat", "important");
+            // (Fjerner background-attachment fixed hvis du vil at bakgrunn skal scrolle med innholdet)
+            headerbackground.style.setProperty("width", "100%", "important");
+        }else{
+            //fjern bakgrunsbildet
+            headerbackground.style.setProperty("background", "none", "important");
+        }
+    //Aktiv farge/ knappefarge
+        let activeColor = "#5b9eca"; // Standard farge
+        if (company.grouplablecolor && company.grouplablecolor.trim() !== "") {
+            activeColor = company.grouplablecolor;
+        }
+
         const lablecolor = document.querySelectorAll(".lablecolor");
         lablecolor.forEach(element => {
-            element.style.backgroundColor = company.grouplablecolor;
+            element.style.backgroundColor = activeColor;
         });
-    
+ 
         // Oppdater globale klasser som .active og input:checked + .slider
-        updateGlobalThemeColor(company.grouplablecolor);
-    }
+        updateGlobalThemeColor(activeColor);
 
 }
 
@@ -869,7 +875,6 @@ function listDocuments(attachments) {
         documentList.appendChild(buttonElement);
     });
 }
-
 
 function savingMoney(){
       // Simulerer klikk på elementet
