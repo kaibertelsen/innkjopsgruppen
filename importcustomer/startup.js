@@ -84,8 +84,8 @@ async function importXlsFile(urlToXlsFile) {
         }
     });
 
-    const result = { [sheetName]: sheetData };
-    controllXls(result);
+    //const result = { [sheetName]: sheetData };
+    controllXls(sheetData);
 }
 
 function controllXls(data) {
