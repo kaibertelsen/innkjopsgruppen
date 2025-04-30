@@ -170,7 +170,7 @@ function userResponse(data) {
            const headerbackground = document.getElementById("headerbackground");
               
             //vis customerlayout
-            customerlayoutConteiner.style.display = "block";
+            customerlayoutConteiner.style.display = "flex";
         }
     }
     
