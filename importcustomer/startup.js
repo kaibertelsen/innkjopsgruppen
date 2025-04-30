@@ -259,7 +259,7 @@ function importCustomerList(nye) {
             adresse,
             postnr,
             poststed,
-            group: [selectedGroup]
+            gruppe: [selectedGroup]
         };
     });
 
@@ -354,7 +354,6 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
         }
     });
 }
-
 
 
 async function multisave(data, baseid, tabelid, returid) {
