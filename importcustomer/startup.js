@@ -115,6 +115,7 @@ function controllXls(data) {
     // Finn wrapper
     const container = document.getElementById("resultlist");
     container.innerHTML = ""; // Tøm gammel innhold
+    container.style.display = "block"; // Vis containeren
 
     // Legg til import-knapp hvis det finnes nye selskaper
     if (nye.length > 0) {
