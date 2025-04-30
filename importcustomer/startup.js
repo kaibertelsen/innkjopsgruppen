@@ -85,9 +85,7 @@ async function importXlsFile(urlToXlsFile) {
     });
 
     const result = { [sheetName]: sheetData };
-
-    console.log("Importerte data:", result);
-    controllXls(data);
+    controllXls(result);
 }
 
 function controllXls(data) {
