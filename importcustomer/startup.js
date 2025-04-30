@@ -95,7 +95,8 @@ function customerResponse(data){
     let customers = convertCustomerJsonStringsToObjects(jsonStrings);
     gCustomers = customers;
     
-
+    //hente grupper
+    getGroup();
     
 }
 
