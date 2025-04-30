@@ -13,7 +13,8 @@ function loadScript(url) {
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/importcustomer/startup.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/apicom.js"
+    "https://kaibertelsen.github.io/innkjopsgruppen/apicom.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js" // Legg til ExcelJS-biblioteket
 ];
 
 // Laste inn alle skriptene sekvensielt
