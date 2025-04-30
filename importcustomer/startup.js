@@ -90,17 +90,32 @@ async function importXlsFile(urlToXlsFile) {
     controllXls(data);
 }
 
-function controllXls(data){
+function controllXls(data) {
+    const eksisterende = [];
+    const nye = [];
 
+    data.forEach(item => {
+        const navn = item["Selskap"]?.trim().toLowerCase();
+        const orgnr = item["Org.nr"]?.trim();
 
-    //sjekke alle selskap med navn og orgnr mot det som er i gCompany
+        const match = gCustomers.find(customer =>
+            customer.Name?.trim().toLowerCase() === navn &&
+            customer.orgnr?.trim() === orgnr
+        );
 
+        if (match) {
+            eksisterende.push(item);
+        } else {
+            nye.push(item);
+        }
+    });
 
+    console.log("Eksisterende selskaper:", eksisterende);
+    console.log("Nye selskaper:", nye);
 
-
-
-
+    return { eksisterende, nye };
 }
+
 
 
 function ruteresponse(data,id){
