@@ -54,7 +54,7 @@ function loadeGroupSelector(groups,selector){
     // Legg til alternativene
     groups.forEach(group => {
         const option = document.createElement("option");
-        option.value = group.Name;
+        option.value = group.airtable;
         option.textContent = group.Name;
         selector.appendChild(option);
     }
