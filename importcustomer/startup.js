@@ -1,4 +1,33 @@
+function getCustomer(){     
+    //hente kunder
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec1QGUGBMVaqxhp1","customerResponse","skipCache");
+}
+    
+function customerResponse(data){
+    
+    if (!data || !data.fields || !data.fields.membersjson || !Array.isArray(data.fields.membersjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.supplierjson' som en array.");
+        return; // Avbryt hvis data ikke er gyldig
+    }
 
+    //sjekke om data.feilds.superAdmin array inneholder min brukerid
+    if(data.fields.superAdmin){
+        if(data.fields.superAdmin.includes(userid)){
+            
+        }else{  
+            return;
+        }
+    }
+    
+    // Konverter JSON-strenger til objekter
+    const jsonStrings = data.fields.membersjson;
+    
+    let customers = convertCustomerJsonStringsToObjects(jsonStrings);
+    gCustomers = customers;
+    
+
+    
+}
 
 
 
@@ -56,6 +85,17 @@ async function importXlsFile(urlToXlsFile) {
     const result = { [sheetName]: sheetData };
 
     console.log("Importerte data:", result);
-    importedData(result);
-    return result;
+    controllXls(data);
+}
+
+function controllXls(data){
+
+
+    //sjekke alle selskap med navn og orgnr mot det som er i gCompany
+
+
+
+
+
+
 }
