@@ -143,6 +143,11 @@ function controllXls(data) {
     container.insertAdjacentHTML("beforeend", eksisterendeHTML + nyeHTML);
 }
 
+function importCustomerList(nye){
+console.log("Importerer nye selskaper:", nye);
+
+}
+
 
 function generateTable(title, list) {
     if (list.length === 0) return `<h3>${title}</h3><p>Ingen.</p>`;
