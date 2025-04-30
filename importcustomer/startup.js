@@ -164,7 +164,7 @@ function controllXls(data) {
     const eksisterende = [];
     const nye = [];
 
-    //sorter data alfabetisk på navn
+    // Sorter data alfabetisk på navn
     data.sort((a, b) => {
         const nameA = a["Selskap"]?.trim().toLowerCase() || "";
         const nameB = b["Selskap"]?.trim().toLowerCase() || "";
@@ -187,23 +187,18 @@ function controllXls(data) {
         }
     });
 
-    
-
     if (eksisterende.length > 0) {
         alert("Noen av selskapene finnes allerede i portalen basert på navn og organisasjonsnummer.");
     }
 
-    // Bruk eksisterende container uten å style den
     const container = document.getElementById("resultlist");
-    container.innerHTML = ""; // Tøm tidligere innhold
-    container.style.display = "inline-block"; // Vis containeren
+    container.innerHTML = "";
+    container.style.display = "inline-block";
 
-    // Lag og legg til knapp hvis det finnes nye selskaper
     if (nye.length > 0) {
         const importButton = document.createElement("button");
         importButton.textContent = "Importer de nye selskapene";
 
-        // Kun knappen styles
         importButton.style.marginBottom = "10px";
         importButton.style.padding = "8px 16px";
         importButton.style.backgroundColor = "#1b5e20";
@@ -219,11 +214,12 @@ function controllXls(data) {
         container.appendChild(importButton);
     }
 
-    const eksisterendeHTML = generateStyledList("Eksisterende selskaper (allerede registrert)", eksisterende, "red");
-    const nyeHTML = generateStyledList("Nye selskaper (klare for import)", nye, "darkgreen");
+    const eksisterendeHTML = generateStyledList(`Eksisterende selskaper (${eksisterende.length})`, eksisterende, "red");
+    const nyeHTML = generateStyledList(`Nye selskaper (${nye.length})`, nye, "darkgreen");
 
     container.insertAdjacentHTML("beforeend", eksisterendeHTML + nyeHTML);
 }
+
 
 function importCustomerList(nye){
 console.log("Importerer nye selskaper:", nye);
@@ -244,9 +240,17 @@ function generateTable(title, list) {
 }
 
 function generateStyledList(title, list, color) {
-    if (list.length === 0) return `<h3>${title}</h3><p style="color:${color};">Ingen</p>`;
+    let html = `<h3>${title}</h3>`;
 
-    let html = `<h3>${title}</h3><ul style="list-style: none; padding-left: 0;">`;
+    // Antall linje – alltid vises
+    html += `<p style="color:${color}; font-size: 0.9em; font-style: italic; margin-top: -10px; margin-bottom: 10px;">Antall: ${list.length}</p>`;
+
+    if (list.length === 0) {
+        html += `<p style="color:${color};">Ingen</p>`;
+        return html;
+    }
+
+    html += `<ul style="list-style: none; padding-left: 0;">`;
 
     list.forEach(item => {
         html += `<li style="color: ${color}; padding: 4px 0;">${item["Selskap"]} (${item["Org.nr"]})</li>`;
@@ -255,6 +259,7 @@ function generateStyledList(title, list, color) {
     html += `</ul>`;
     return html;
 }
+
 
 function ruteresponse(data,id){
 
