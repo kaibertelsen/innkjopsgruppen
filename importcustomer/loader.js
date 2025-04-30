@@ -22,7 +22,14 @@ cdnScripts.reduce((promise, script) => {
     return promise.then(() => loadScript(script));
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
-    getCustomer();
+    MemberStack.onReady.then(function(member) {
+        if (member.loggedIn){
+            isLoggedin = true;
+            userid = member.airtableid;
+            getCustomer();
+        }
+    });
+    
 }).catch(error => {
     console.error(error);
 });
