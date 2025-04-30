@@ -150,6 +150,15 @@ function userResponse(data) {
         }
     }
 
+
+    //sjekk om gruppelogo skal byttes
+    if(activeCompany.grouplogo && activeCompany.grouplogo.trim() !== "") {
+    const logoImage = document.getElementById("logobutton");
+    logoImage.removeAttribute("srcset");
+    logoImage.src = activeCompany.grouplogo;
+    }
+
+    //sjekk om customer sin logo og selectoer skal vises
     if (activeCompany?.groupcustomerlogolayout?.toUpperCase() === "TRUE") {
         console.log("Skal vise customerlogo");
         const customerlayoutConteiner = document.getElementById("customerlayoutConteiner");
@@ -207,7 +216,7 @@ function userResponse(data) {
 
     //hvis portallogo
     document.getElementById("logobutton").style.display = "inline-block";
-    
+
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
