@@ -115,7 +115,7 @@ function controllXls(data) {
     // Bruk eksisterende container uten å style den
     const container = document.getElementById("resultlist");
     container.innerHTML = ""; // Tøm tidligere innhold
-    container.style.display = "block"; // Vis containeren
+    container.style.display = "inline-block"; // Vis containeren
 
     // Lag og legg til knapp hvis det finnes nye selskaper
     if (nye.length > 0) {
