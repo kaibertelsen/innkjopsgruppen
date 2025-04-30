@@ -110,3 +110,36 @@ function ruteresponse(data,id){
     }
 
 }
+
+function convertCustomerJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
+
+
+            // Sørg for at "group" og "category" alltid er arrays
+            if (!data.cashflowjson) {
+                data.cashflowjson = [];
+            }
+
+            if (!data.bruker) {
+                data.bruker = [];
+            }
+
+            if (!data.invitasjon) {
+                data.invitasjon = [];
+            }
+
+            if (!data.connection) {
+                data.connection = [];
+            }
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
+}
