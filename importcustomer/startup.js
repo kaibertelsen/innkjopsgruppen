@@ -99,3 +99,12 @@ function controllXls(data){
 
 
 }
+
+
+function ruteresponse(data,id){
+
+    if(id == "customerResponse"){
+        customerResponse(data);
+    }
+
+}
