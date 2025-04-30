@@ -187,17 +187,16 @@ function settGroupDesign(company){
                      // Last data inn i selector
                     loadSelector(selectorInListPage, companys);
                     selectorInListPage.value = company.airtable; // Velg selskapet
-                }
-    
-                //last inn logo
-                const customerlogo = document.getElementById("customerlogopages");
-                if (customerlogo) {
-                    customerlogo.src = company.logo;
-                }
-                      
+                }    
                 //vis customerlayout
                 customerlayoutConteiner.style.display = "flex";
             }
+    }
+
+    //last inn logo
+    const customerlogo = document.getElementById("customerlogopages");
+    if (customerlogo) {
+        customerlogo.src = company.logo;
     }
         
     //hvis det foreligger bakgrunnsfarge så sett denne på headeren
