@@ -266,11 +266,11 @@ function importCustomerList(nye) {
     console.log("Formatert data (klare for import):", savedata);
 
     // sendToAirtable(savedata); // eller annen lagring
-    multisave(savedata, "baseid", "tabelid", "retunrMultiImportCustomer");
+    multisave(savedata, "app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", "retunrMultiImportCustomer");
 }
 
 function retunrMultiImportCustomer(data){
-console.log("retunrMultiImportCustomer",data);
+    console.log("retunrMultiImportCustomer",data);
 }
 
 
@@ -359,43 +359,63 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
 
 async function multisave(data, baseid, tabelid, returid) {
     const batchSize = 10;
-    let sendpacks = 0;
-    const allResponses = []; // Array for å samle alle responsdata
+    const totalBatches = Math.ceil(data.length / batchSize); // hvor mange runder vi skal kjøre
+    const statusEl = document.getElementById("statusProgressUploading");
   
-    // Funksjon for å sende en batch til Airtable
-    const sendBatch = async (batch) => {
+    let sendpacks = 0;
+    const allResponses = [];
+
+    const sendBatch = async (batch, currentIndex) => {
         try {
             console.log("Sender batch:", batch);
             const response = await POSTairtableMulti(baseid, tabelid, batch);
             sendpacks++;
-            console.log(`Batch ${sendpacks} sendt.`);
-            allResponses.push(response); // Legg til responsen for denne batchen
+
+            const percent = Math.round(((currentIndex + 1) / totalBatches) * 100);
+            if (statusEl) {
+                statusEl.innerHTML = `<strong>${percent}</strong><span>&nbsp;%</span>`;
+
+            }
+
+            allResponses.push(response);
         } catch (error) {
             console.error("Feil ved sending av batch:", error);
-            throw error; // Stop prosesseringen hvis en batch feiler
+            throw error;
         }
     };
-  
-    // Prosessering av batcher
+
     const processBatches = async () => {
         for (let i = 0; i < data.length; i += batchSize) {
-            const batch = data.slice(i, i + batchSize); // Hent batch
-            await sendBatch(batch); // Vent på at batch blir sendt og bekreftet
+            const batch = data.slice(i, i + batchSize);
+            const batchIndex = Math.floor(i / batchSize);
+            await sendBatch(batch, batchIndex);
         }
+
+        if (statusEl) {
+            statusEl.innerText = "100% - Ferdig!";
+        }
+
         console.log("Alle batcher er ferdig prosessert.");
     };
-  
-    // Start batch-prosesseringen
+
     try {
+        if (statusEl) {
+            statusEl.innerText = "Starter opplasting...";
+        }
+
         await processBatches();
-        console.log("Samlede responsdata:", allResponses);
+
         apireturn({ success: true, data: allResponses, id: returid });
     } catch (error) {
         console.error("Prosesseringen ble stoppet på grunn av en feil:", error);
+        if (statusEl) {
+            statusEl.innerText = "Feil under opplasting!";
+        }
         apireturn({ success: false, error: error.message, id: returid });
     }
-  }
+}
+
   
-  function convertMultiResponseData(data) {
+function convertMultiResponseData(data) {
     return data.flatMap(samling => samling.map(item => item.fields));
-  }
+}
