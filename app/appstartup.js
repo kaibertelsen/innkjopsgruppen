@@ -58,6 +58,8 @@ function rootPageControll(page){
     }
 
 }
+//skul logo frem til inlasting
+document.getElementById("logobutton").style.display = "none";
 
 function userResponse(data) {
   
@@ -203,6 +205,9 @@ function userResponse(data) {
         updateGlobalThemeColor(activeCompany.grouplablecolor);
     }
 
+    //hvis portallogo
+    document.getElementById("logobutton").style.display = "inline-block";
+    
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
