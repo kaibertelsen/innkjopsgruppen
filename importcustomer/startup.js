@@ -11,6 +11,8 @@ function getGroup(){
     //hente kunder
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","receQgUaqXVlQ20Ag","groupResponse","skipCache");
 }
+const selector = document.getElementById("groupSelector");
+selector.style.display = "none"; // Skjul selector ved start
 
 function groupResponse(data){
     if (!data || !data.fields || !data.fields.groupjson || !Array.isArray(data.fields.groupjson)) {
@@ -23,7 +25,9 @@ function groupResponse(data){
 
     //last inn gruppene i selector
     const selector = document.getElementById("groupSelector");
+   
     loadeGroupSelector(gGroups,selector);
+    selector.style.display = "block"; // Vis selector
 
 }
 
