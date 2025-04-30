@@ -112,22 +112,13 @@ function controllXls(data) {
         alert("Noen av selskapene finnes allerede i portalen basert på navn og organisasjonsnummer.");
     }
 
-    // Finn wrapper
     const container = document.getElementById("resultlist");
-    container.innerHTML = ""; // Tøm gammel innhold
-    container.style.display = "block"; // Vis containeren
+    container.innerHTML = ""; // Tøm tidligere innhold
 
-    // Legg til import-knapp hvis det finnes nye selskaper
     if (nye.length > 0) {
         const importButton = document.createElement("button");
         importButton.textContent = "Importer de nye selskapene";
-        importButton.style.marginBottom = "10px";
-        importButton.style.padding = "6px 12px";
-        importButton.style.backgroundColor = "#225522";
-        importButton.style.color = "white";
-        importButton.style.border = "none";
-        importButton.style.borderRadius = "5px";
-        importButton.style.cursor = "pointer";
+        importButton.classList.add("import-button"); // Bruk din egen CSS-klasse om ønskelig
 
         importButton.addEventListener("click", () => {
             importCustomerList(nye);
@@ -136,12 +127,12 @@ function controllXls(data) {
         container.appendChild(importButton);
     }
 
-    // Generer visning av eksisterende og nye selskaper
-    const eksisterendeHTML = generateStyledList("Eksisterende selskaper (allerede registrert)", eksisterende, "#c62828");
-    const nyeHTML = generateStyledList("Nye selskaper (klare for import)", nye, "#1b5e20");
+    const eksisterendeHTML = generateStyledList("Eksisterende selskaper (allerede registrert)", eksisterende, "red");
+    const nyeHTML = generateStyledList("Nye selskaper (klare for import)", nye, "darkgreen");
 
     container.insertAdjacentHTML("beforeend", eksisterendeHTML + nyeHTML);
 }
+
 
 function importCustomerList(nye){
 console.log("Importerer nye selskaper:", nye);
@@ -164,17 +155,18 @@ function generateTable(title, list) {
 }
 
 function generateStyledList(title, list, color) {
-    if (list.length === 0) return `<h3>${title}</h3><p style="color:${color}; font-style: italic;">Ingen</p>`;
+    if (list.length === 0) return `<h3>${title}</h3><p style="color:${color};">Ingen</p>`;
 
-    let html = `<h3>${title}</h3><ul style="list-style: none; padding-left: 0;">`;
+    let html = `<h3>${title}</h3><ul>`;
 
     list.forEach(item => {
-        html += `<li style="color: ${color}; padding: 4px 0;">${item["Selskap"]} (${item["Org.nr"]})</li>`;
+        html += `<li style="color: ${color};">${item["Selskap"]} (${item["Org.nr"]})</li>`;
     });
 
     html += `</ul>`;
     return html;
 }
+
 
 
 
