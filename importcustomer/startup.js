@@ -1,8 +1,76 @@
 var userid;
+var gGroups = [];
+var gCustomers = [];
 
 function getCustomer(){     
     //hente kunder
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec1QGUGBMVaqxhp1","customerResponse","skipCache");
+}
+
+function getGroup(){     
+    //hente kunder
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","receQgUaqXVlQ20Ag","groupResponse","skipCache");
+}
+
+function groupResponse(data){
+    if (!data || !data.fields || !data.fields.groupjson || !Array.isArray(data.fields.groupjson)) {
+        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.groupjson' som en array.");
+        return; // Avbryt hvis data ikke er gyldig
+    }
+    //sjekke om data.feilds.superAdmin array inneholder min brukeri
+    const groups = data.fields.groupjson;
+    gGroups = convertGroupJsonStringsToObjects(groups);
+
+    //last inn gruppene i selector
+    const selector = document.getElementById("groupSelector");
+    loadeGroupSelector(gGroups,selector);
+
+}
+
+function loadeGroupSelector(groups,selector){
+   
+    //sortere gruppene alfabetisk
+    groups.sort((a, b) => {
+        const nameA = a.Name?.trim().toLowerCase() || "";
+        const nameB = b.Name?.trim().toLowerCase() || "";
+        return nameA.localeCompare(nameB, 'no', { sensitivity: 'base' });
+    });
+
+    //sjekke om selector er null
+    if(selector == null){
+        selector = document.getElementById("groupSelector");
+    }
+    //tømme selector
+    selector.innerHTML = ""; // Tøm tidligere innhold
+    // Legg til en tom verdi først
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.textContent = "Velg gruppe";
+    selector.appendChild(emptyOption);
+    // Legg til alternativene
+    groups.forEach(group => {
+        const option = document.createElement("option");
+        option.value = group.Name;
+        option.textContent = group.Name;
+        selector.appendChild(option);
+    }
+    );
+    
+}
+
+function convertGroupJsonStringsToObjects(jsonStrings) {
+    return jsonStrings.map((jsonString, index) => {
+        try {
+            
+            // Parse JSON-strengen uten HTML-dataen
+            const data = JSON.parse(jsonString);
+
+            return data;
+        } catch (error) {
+            console.error(`Feil ved parsing av JSON-streng på indeks ${index}:`, jsonString, error);
+            return null; // Returner null hvis parsing feiler
+        }
+    });
 }
     
 function customerResponse(data){
@@ -44,7 +112,6 @@ document.getElementById("openXlsButton").addEventListener("click", function(even
         });
     });
 });
-
 
 async function importXlsFile(urlToXlsFile) {
     const response = await fetch(urlToXlsFile);
@@ -92,6 +159,13 @@ function controllXls(data) {
     const eksisterende = [];
     const nye = [];
 
+    //sorter data alfabetisk på navn
+    data.sort((a, b) => {
+        const nameA = a["Selskap"]?.trim().toLowerCase() || "";
+        const nameB = b["Selskap"]?.trim().toLowerCase() || "";
+        return nameA.localeCompare(nameB, 'no', { sensitivity: 'base' });
+    });
+
     data.forEach(item => {
         const navn = item["Selskap"]?.trim().toLowerCase();
         const orgnr = item["Org.nr"]?.trim();
@@ -107,6 +181,8 @@ function controllXls(data) {
             nye.push(item);
         }
     });
+
+    
 
     if (eksisterende.length > 0) {
         alert("Noen av selskapene finnes allerede i portalen basert på navn og organisasjonsnummer.");
@@ -144,13 +220,9 @@ function controllXls(data) {
     container.insertAdjacentHTML("beforeend", eksisterendeHTML + nyeHTML);
 }
 
-
-
 function importCustomerList(nye){
 console.log("Importerer nye selskaper:", nye);
-
 }
-
 
 function generateTable(title, list) {
     if (list.length === 0) return `<h3>${title}</h3><p>Ingen.</p>`;
@@ -179,15 +251,12 @@ function generateStyledList(title, list, color) {
     return html;
 }
 
-
-
-
-
-
 function ruteresponse(data,id){
 
     if(id == "customerResponse"){
         customerResponse(data);
+    }else if(id == "groupResponse"){
+        groupResponse(data);
     }
 
 }
