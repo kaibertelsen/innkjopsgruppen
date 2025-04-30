@@ -108,11 +108,33 @@ function controllXls(data) {
         }
     });
 
-    console.log("Eksisterende selskaper:", eksisterende);
-    console.log("Nye selskaper:", nye);
+    if (eksisterende.length > 0) {
+        alert("Noen av selskapene finnes allerede i portalen basert på navn og organisasjonsnummer.");
+    }
 
-    return { eksisterende, nye };
+    // Lag wrapper container
+    const container = document.createElement("div");
+    container.style.maxHeight = "400px";
+    container.style.overflowY = "auto";
+    container.style.border = "1px solid #ccc";
+    container.style.padding = "10px";
+    container.style.marginTop = "20px";
+    container.style.fontFamily = "Arial, sans-serif";
+    container.style.background = "#f9f9f9";
+
+    const eksisterendeHTML = generateTable("Eksisterende selskaper", eksisterende);
+    const nyeHTML = generateTable("Nye selskaper", nye);
+
+    container.innerHTML = eksisterendeHTML + nyeHTML;
+
+    // Fjern gammel visning om den finnes
+    const old = document.getElementById("xlsResultContainer");
+    if (old) old.remove();
+
+    container.id = "xlsResultContainer";
+    document.body.appendChild(container); // eller document.querySelector("#outputDiv")
 }
+
 
 
 
