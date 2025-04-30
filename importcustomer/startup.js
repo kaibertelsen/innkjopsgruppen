@@ -112,28 +112,36 @@ function controllXls(data) {
         alert("Noen av selskapene finnes allerede i portalen basert på navn og organisasjonsnummer.");
     }
 
-    // Lag wrapper container
-    const container = document.createElement("div");
-    container.style.maxHeight = "400px";
-    container.style.overflowY = "auto";
-    container.style.border = "1px solid #ccc";
-    container.style.padding = "10px";
-    container.style.marginTop = "20px";
-    container.style.fontFamily = "Arial, sans-serif";
-    container.style.background = "#f9f9f9";
+    // Finn wrapper
+    const container = document.getElementById("resultlist");
+    container.innerHTML = ""; // Tøm gammel innhold
 
-    const eksisterendeHTML = generateTable("Eksisterende selskaper", eksisterende);
-    const nyeHTML = generateTable("Nye selskaper", nye);
+    // Legg til import-knapp hvis det finnes nye selskaper
+    if (nye.length > 0) {
+        const importButton = document.createElement("button");
+        importButton.textContent = "Importer de nye selskapene";
+        importButton.style.marginBottom = "10px";
+        importButton.style.padding = "6px 12px";
+        importButton.style.backgroundColor = "#225522";
+        importButton.style.color = "white";
+        importButton.style.border = "none";
+        importButton.style.borderRadius = "5px";
+        importButton.style.cursor = "pointer";
 
-    container.innerHTML = eksisterendeHTML + nyeHTML;
+        importButton.addEventListener("click", () => {
+            importCustomerList(nye);
+        });
 
-    // Fjern gammel visning om den finnes
-    const old = document.getElementById("xlsResultContainer");
-    if (old) old.remove();
+        container.appendChild(importButton);
+    }
 
-    container.id = "xlsResultContainer";
-    document.body.appendChild(container); // eller document.querySelector("#outputDiv")
+    // Generer visning av eksisterende og nye selskaper
+    const eksisterendeHTML = generateStyledList("Eksisterende selskaper (allerede registrert)", eksisterende, "#c62828");
+    const nyeHTML = generateStyledList("Nye selskaper (klare for import)", nye, "#1b5e20");
+
+    container.insertAdjacentHTML("beforeend", eksisterendeHTML + nyeHTML);
 }
+
 
 function generateTable(title, list) {
     if (list.length === 0) return `<h3>${title}</h3><p>Ingen.</p>`;
@@ -148,6 +156,20 @@ function generateTable(title, list) {
     html += `</table>`;
     return html;
 }
+
+function generateStyledList(title, list, color) {
+    if (list.length === 0) return `<h3>${title}</h3><p style="color:${color}; font-style: italic;">Ingen</p>`;
+
+    let html = `<h3>${title}</h3><ul style="list-style: none; padding-left: 0;">`;
+
+    list.forEach(item => {
+        html += `<li style="color: ${color}; padding: 4px 0;">${item["Selskap"]} (${item["Org.nr"]})</li>`;
+    });
+
+    html += `</ul>`;
+    return html;
+}
+
 
 
 
