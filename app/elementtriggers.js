@@ -144,6 +144,19 @@ document.getElementById("companySelector").addEventListener("change", function (
     companyPageChosed(activeCompany);
 });
 
+document.getElementById("companySelectorinListPage").addEventListener("change", function () {
+    // Hent verdien og teksten til det valgte alternativet
+    const selector = document.getElementById("companySelectorinListPage");
+    const selectedValue = selector.value; // ID (airtable)
+    const selectedText = selector.options[selector.selectedIndex].text; // Navn
+    companyChange(selectedValue);
+    //companyPageChosed(activeCompany);
+});
+
+
+
+
+
 document.getElementById("createUserTabButton").addEventListener("click", function () {
     // Åpne bruker opprettingsvinduet
     document.getElementById("connectinguserTagButton").click();
