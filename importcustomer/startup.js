@@ -221,9 +221,53 @@ function controllXls(data) {
 }
 
 
-function importCustomerList(nye){
-console.log("Importerer nye selskaper:", nye);
+function importCustomerList(nye) {
+    console.log("Importerer nye selskaper:", nye);
+
+    const selector = document.getElementById("groupSelector");
+    const selectedGroup = selector.value;
+
+    if (selectedGroup === "") {
+        alert("Vennligst velg en gruppe før du importerer.");
+        return;
+    }
+
+    const savedata = nye.map(item => {
+        const fullAdresse = item["Adresse"]?.trim() || "";
+        let adresse = "";
+        let postnr = "";
+        let poststed = "";
+
+        if (fullAdresse.includes(",")) {
+            const [del1, del2] = fullAdresse.split(",").map(s => s.trim());
+            adresse = del1;
+
+            const match = del2.match(/^(\d{4})\s*(.*)$/); // matcher "1234 Oslo"
+            if (match) {
+                postnr = match[1];
+                poststed = match[2];
+            } else {
+                poststed = del2;
+            }
+        } else {
+            adresse = fullAdresse;
+        }
+
+        return {
+            Name: item["Selskap"]?.trim() || "",
+            orgnr: item["Org.nr"]?.trim() || "",
+            adresse,
+            postnr,
+            poststed,
+            group: [selectedGroup]
+        };
+    });
+
+    console.log("Formatert data (klare for import):", savedata);
+
+    // sendToAirtable(savedata); // eller annen lagring
 }
+
 
 function generateTable(title, list) {
     if (list.length === 0) return `<h3>${title}</h3><p>Ingen.</p>`;
