@@ -150,50 +150,65 @@ function userResponse(data) {
         }
     }
 
+    //setter riktig design i layout på bekgrunn av selskapets gruppetilhørighet
+    settGroupDesign(activeCompany);
+
+ 
+    //hvis portallogo
+    document.getElementById("logobutton").style.display = "inline-block";
+
+    //hente leverandører
+    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
+}
+
+
+function settGroupDesign(company){
 
     //sjekk om gruppelogo skal byttes
-    if(activeCompany.grouplogo && activeCompany.grouplogo.trim() !== "") {
     const logoImage = document.getElementById("logobutton");
     logoImage.removeAttribute("srcset");
-    logoImage.src = activeCompany.grouplogo;
+
+    if(company.grouplogo && company.grouplogo.trim() !== "") {
+        logoImage.src = company.grouplogo;
+    }else{
+        //standard IG logo
+         logourl ="https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6797524cff44bf02fd8ee5e8_IG-logo-app.png";
     }
-
-    //sjekk om customer sin logo og selectoer skal vises
-    if (activeCompany?.groupcustomerlogolayout?.toUpperCase() === "TRUE") {
-        console.log("Skal vise customerlogo");
-        const customerlayoutConteiner = document.getElementById("customerlayoutConteiner");
-        if (customerlayoutConteiner) {
-            //last in selector
-            const selectorInListPage = document.getElementById("companySelectorinListPage");
-            if (selectorInListPage) {
-                 // Last data inn i selector
-                loadSelector(selectorInListPage, companys);
-                selectorInListPage.value = activeCompany.airtable; // Velg selskapet
-            }
-
-            //last inn logo
-            const customerlogo = document.getElementById("customerlogopages");
-            if (customerlogo) {
-                customerlogo.src = activeCompany.logo;
-            }
-
-            //last inn bakgrunsfarge om det er definert
-           const headerbackground = document.getElementById("headerbackground");
-              
-            //vis customerlayout
-            customerlayoutConteiner.style.display = "flex";
-        }
-    }
+     
     
+    //sjekk om customer sin logo og selectoer skal vises
+    if (company?.groupcustomerlogolayout?.toUpperCase() === "TRUE") {
+            console.log("Skal vise customerlogo");
+            const customerlayoutConteiner = document.getElementById("customerlayoutConteiner");
+            if (customerlayoutConteiner) {
+                //last in selector
+                const selectorInListPage = document.getElementById("companySelectorinListPage");
+                if (selectorInListPage) {
+                     // Last data inn i selector
+                    loadSelector(selectorInListPage, companys);
+                    selectorInListPage.value = company.airtable; // Velg selskapet
+                }
+    
+                //last inn logo
+                const customerlogo = document.getElementById("customerlogopages");
+                if (customerlogo) {
+                    customerlogo.src = company.logo;
+                }
+                      
+                //vis customerlayout
+                customerlayoutConteiner.style.display = "flex";
+            }
+    }
+        
     //hvis det foreligger bakgrunnsfarge så sett denne på headeren
     const headerbackground = document.getElementById("headerbackground");
-    if (headerbackground && activeCompany.groupcolor !== "") {
-        headerbackground.style.setProperty("background", activeCompany.groupcolor, "important");
+    if (headerbackground && company.groupcolor !== "") {
+        headerbackground.style.setProperty("background", company.groupcolor, "important");
     }
-
-    if (activeCompany.groupheaderimage && activeCompany.groupheaderimage.trim() !== "") {
+    
+    if (company.groupheaderimage && company.groupheaderimage.trim() !== "") {
         // Sett nødvendige stiler for å få riktig visning
-        headerbackground.style.setProperty("background", `url('${activeCompany.groupheaderimage}')`, "important");
+        headerbackground.style.setProperty("background", `url('${company.groupheaderimage}')`, "important");
         headerbackground.style.setProperty("background-size", "cover", "important");
         headerbackground.style.setProperty("background-position", "center top", "important");
         headerbackground.style.setProperty("background-repeat", "no-repeat", "important");
@@ -202,25 +217,19 @@ function userResponse(data) {
         headerbackground.style.setProperty("width", "100%", "important");
     
     }
-    
-    if (activeCompany.grouplablecolor && activeCompany.grouplablecolor.trim() !== "") {
+        
+    if (company.grouplablecolor && company.grouplablecolor.trim() !== "") {
         // Hvis det foreligger en farge – bruk denne på .lablecolor-elementer
         const lablecolor = document.querySelectorAll(".lablecolor");
         lablecolor.forEach(element => {
-            element.style.backgroundColor = activeCompany.grouplablecolor;
+            element.style.backgroundColor = company.grouplablecolor;
         });
     
         // Oppdater globale klasser som .active og input:checked + .slider
-        updateGlobalThemeColor(activeCompany.grouplablecolor);
+        updateGlobalThemeColor(company.grouplablecolor);
     }
 
-    //hvis portallogo
-    document.getElementById("logobutton").style.display = "inline-block";
-
-    //hente leverandører
-    GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
-
 
 function updateGlobalThemeColor(color) {
     let styleTag = document.getElementById("dynamic-active-style");
@@ -240,9 +249,6 @@ function updateGlobalThemeColor(color) {
         }
     `;
 }
-
-
-
 
 function convertCompanyRepresenting(jsonInput) {
     try {
@@ -405,19 +411,9 @@ function companyChange(companyId) {
             return supplier.group.some(group => group.airtable === selectedCompany.group);
         });
 
-        
-
-        //last inn gruppenslogo eller bruk standard
-        let logourl;
-        if(selectedCompany.grouplogo){
-            logourl = selectedCompany.grouplogo;
-        }else{
-            logourl ="https://cdn.prod.website-files.com/6346cf959f8b0bccad5075af/6797524cff44bf02fd8ee5e8_IG-logo-app.png";
-        }
-        const logoImage = document.getElementById("logobutton");
-        logoImage.removeAttribute("srcset");
-        logoImage.src = logourl;
     }
+
+    settGroupDesign(activeCompany);
 
     activeSupplierList = filteredSuppliers;
     listSuppliers(activeSupplierList);
