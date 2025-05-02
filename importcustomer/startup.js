@@ -430,6 +430,10 @@ function responPostpublicLink(data){
     //finne objectet i gInventations
     mailSending.link = link;
 
+    // Hent innholdet fra TinyMCE editoren
+    var editorContent = tinymce.get("contentInfoelement").getContent();
+    mailSending.mailbody = editorContent;
+
     console.log(mailSending);
 
     // Send mail via Zapier
@@ -709,6 +713,7 @@ function loadContentIntoEditor(element,htmlContent) {
 }
 
 malonetext = `
-<p data-start="0" data-end="7">Hei</p>
+<p data-start="0" data-end="7"><strong>Hei</strong></p>
 <p data-start="9" data-end="88">Du er invitert som bruker for&nbsp;i innkj&oslash;psportalen hos Innkj&oslash;psGruppen.</p>
-<p data-start="90" data-end="144" data-is-last-node="">Klikk p&aring; lenken nedenfor for &aring; opprette brukeren din:</p>`;
+<p data-start="90" data-end="144" data-is-last-node="">Klikk p&aring; lenken nedenfor for &aring; opprette brukeren din:</p>
+`;
