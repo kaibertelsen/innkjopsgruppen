@@ -1,6 +1,7 @@
 var userid;
 var gGroups = [];
 var gCustomers = [];
+var readyComsomerlist = [];
 
 function getCustomer(){     
     //hente kunder
@@ -224,6 +225,9 @@ function controllXls(data) {
 function importCustomerList(nye) {
     console.log("Importerer nye selskaper:", nye);
 
+    //lagere de nye i global liste for seinere å koble til kontaktpersoner
+    readyComsomerlist = nye;
+
     const selector = document.getElementById("groupSelector");
     const selectedGroup = selector.value;
 
@@ -269,9 +273,54 @@ function importCustomerList(nye) {
     multisave(savedata, "app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", "retunrMultiImportCustomer");
 }
 
-function retunrMultiImportCustomer(data){
-    console.log("retunrMultiImportCustomer",data);
+function retunrMultiImportCustomer(data) {
+    console.log("retunrMultiImportCustomer:", data);
+
+    // Samle alle rader fra batch-responsene
+    const allRecords = [];
+
+    data.data.forEach(batch => {
+        if (Array.isArray(batch.records)) {
+            batch.records.forEach(record => {
+                const fields = record.fields || {};
+                allRecords.push({
+                    airtable: record.id,
+                    Name: fields.Name || "",
+                    orgnr: fields.orgnr || ""
+                });
+            });
+        }
+    });
+
+    console.log("Importer resultat (kun relevante nøkler):", allRecords);
+    //finne tilhørende kontaktpersoner til selskapene
+    const kontaktpersoner = [];
+    readyComsomerlist.forEach(item => {
+        const navn = item["Selskap"]?.trim().toLowerCase();
+        const orgnr = item["Org.nr"]?.trim();
+
+        const match = allRecords.find(customer =>
+            customer.Name?.trim().toLowerCase() === navn &&
+            customer.orgnr?.trim() === orgnr
+        );
+
+        if (match) {
+            kontaktpersoner.push({
+                navn: item["Kontaktperson"],
+                telefon: item["Telefon"],
+                epost: item["E-post"],
+                avsender:[userid],
+                rolle:"Admin",
+                firma: [match.airtable]
+            });
+        }
+    });
+
+    console.log("Kontaktpersoner som skal importeres:", kontaktpersoner);
+
+  
 }
+
 
 
 function generateTable(title, list) {
