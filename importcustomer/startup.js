@@ -3,6 +3,7 @@ var gGroups = [];
 var gCustomers = [];
 var readyComsomerlist = [];
 var gInventations = [];
+var mailSending = {};
 
 function getCustomer(){     
     //hente kunder
@@ -350,7 +351,8 @@ function retunrMultiImportInvitations(data) {
 
     gInventations = allRecords;
     //opprette public invitation link
-    generateDataForPublickLink(allRecords[0]);
+    mailSending = allRecords[0];
+    generateDataForPublickLink(mailSending);
 
 
 }
@@ -400,9 +402,9 @@ function responPostpublicLink(data){
     let link = "https://portal.innkjops-gruppen.no/app-portal?"+"shareKey="+data.shareKey+"&shareId="+data.shareId;
     console.log(link);
     //finne objectet i gInventations
-    let userInfoMail = gInventations.find(item => item.airtable == data.rowId);
+    mailSending.link = link;
 
-    console.log(userInfoMail);
+    console.log(mailSending);
     // Send mail via Zapier
    
 }
