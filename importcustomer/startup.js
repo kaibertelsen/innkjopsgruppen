@@ -5,6 +5,7 @@ var readyComsomerlist = [];
 var gInventations = [];
 var mailSending = {};
 var totalInvitations = 0;
+var malonetext = "";
 
 function getCustomer(){     
     //hente kunder
@@ -671,7 +672,7 @@ tinymce.init({
         }
         console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
     },
-
+    /*
     setup: function (editor) {
         editor.on('change', function () {
             handleEditorChange(editor.id);
@@ -681,4 +682,54 @@ tinymce.init({
             handleEditorChange(editor.id);
         });
     }
+        */
+
+
 });
+
+const element = tinymce.get("mailbodyelement");
+// Hent HTML-innholdet fra malone
+// og last det inn i TinyMCE-editoren
+loadContentIntoEditor(element,malonetext);
+
+function loadContentIntoEditor(element,htmlContent) {
+    
+
+    if (!element) {
+        console.error("TinyMCE-editoren er ikke lastet inn ennå.");
+        return;
+    }
+
+    // Sett HTML-innholdet i TinyMCE
+    element.setContent(htmlContent);
+
+    // 🚀 Juster høyden basert på innholdets faktiske størrelse
+   // setTimeout(() => adjustEditorHeight(), 300); // Vent litt slik at innholdet rendres først
+}
+
+malonetext = `
+<p><span style="font-size: 14pt;"><strong>Generell informasjon:</strong></span><br>
+Vi har forhandlet frem en fastprisavtale for bedrifter på et utvalg av produkter og tjenester fra <strong>{leverandørnavn}</strong>. 
+Denne avtalen sikrer konkurransedyktige priser, også i høysesong, slik at din bedrift kan oppnå besparelser og forutsigbarhet i kostnader.
+</p>
+
+<p>I tillegg har vi sikret <strong>{rabatt_prosent}%</strong> rabatt på hele sortimentet for ansatte, slik at de også kan dra nytte av gunstige betingelser.</p>
+
+<h3><span style="font-size: 14pt;"><strong>Fordeler med avtalen:</strong></span></h3>
+<ul>
+  <li><strong>Fastpriser</strong> på et utvalg {produktkategori}</li>
+  <li><strong>Forutsigbarhet</strong> – sikre deg lave priser også i høysesong</li>
+  <li><strong>Avtalenummer (AWD): {avtalenummer}</strong> – enkelt å benytte rabatten ved bestilling</li>
+  <li><strong>Tilgang til bedriftskonto</strong> – mulighet for å knytte {betalingsløsning} til en felles bedriftskonto som kan benyttes av alle ansatte</li>
+  <li><strong>Enkel registrering</strong> – en guide for opprettelse av bedriftskonto er vedlagt</li>
+</ul>
+
+<h3><strong>Hvordan komme i gang:</strong></h3>
+<ol>
+  <li><strong>Registrer deg</strong> ved å aktiver tilknytningsbryteren øverst til høyre på denne siden...</li>
+  <li><strong>Bruk avtalenummeret {avtalenummer}</strong> ved bestilling for å sikre fastprisene og rabattene...</li>
+  <li><strong>Del fordelen med dine ansatte</strong> – de kan opprette konto og benytte seg av rabatten...</li>
+</ol>
+
+<p>For spørsmål eller mer informasjon, kontakt <strong>{kontaktperson}</strong> - <strong>{kontaktinfo}</strong>.</p>
+`;
