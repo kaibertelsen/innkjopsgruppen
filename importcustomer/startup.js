@@ -297,7 +297,7 @@ function retunrMultiImportCustomer(data) {
 
     console.log("Importer resultat (kun relevante nøkler):", allRecords);
 
-    const kontaktpersoner = [];
+    const invitations = [];
     readyComsomerlist.forEach(item => {
         const navn = item["Selskap"]?.trim().toLowerCase();
         const orgnr = item["Org.nr"]?.trim();
@@ -308,7 +308,7 @@ function retunrMultiImportCustomer(data) {
         );
 
         if (match) {
-            kontaktpersoner.push({
+            invitations.push({
                 navn: item["Kontaktperson"],
                 telefon: item["Telefon"],
                 epost: item["E-post"],
@@ -319,11 +319,11 @@ function retunrMultiImportCustomer(data) {
         }
     });
 
-    console.log("Kontaktpersoner som skal importeres:", kontaktpersoner);
+    console.log("Invitations som skal importeres:", invitations);
 
     const statusProgressLabling = document.getElementById("statusProgressLabling");
     statusProgressLabling.innerText = "Oppretter invitasjoner i database!";
-    multisave(savedata, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
+    multisave(invitations, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
 }
 
 function retunrMultiImportInvitations(data) {
