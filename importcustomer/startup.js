@@ -431,7 +431,7 @@ function responPostpublicLink(data){
     mailSending.link = link;
 
     // Hent innholdet fra TinyMCE editoren
-    var editorContent = tinymce.get("contentInfoelement").getContent();
+    var editorContent = tinymce.get("mailbodyelement").getContent();
     mailSending.mailbody = editorContent;
 
     console.log(mailSending);
