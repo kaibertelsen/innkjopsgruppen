@@ -351,11 +351,35 @@ function retunrMultiImportInvitations(data) {
 
     gInventations = allRecords;
     //opprette public invitation link
-    mailSending = allRecords[0];
-    generateDataForPublickLink(mailSending);
+    loopGenerateDataForPublickLink();
 
 
 }
+
+function loopGenerateDataForPublickLink() {
+
+    //oppdatere status
+    const statusProgressLabling = document.getElementById("statusProgressLabling");
+    //finne hvor mange invitasjoner som er igjen
+    const remainingInvitations = gInventations.length;
+    const totalInvitations = gInventations.length + mailSending.length;
+    const percent = Math.round(((totalInvitations - remainingInvitations) / totalInvitations) * 100);
+    statusProgressLabling.innerHTML = `<strong>${percent}</strong><span>&nbsp;%</span>`;
+    
+    //sjekke om det er flere invitasjoner igjen
+    if(gInventations.length == 0){
+        //Ferdig å sende mail
+        statusProgressLabling.innerText = "Ferdig med å opprette invitasjoner og sende mail!";
+    }else{
+        //hente første element i gInventations
+        const allRecords = gInventations;
+        mailSending = allRecords[0];
+        generateDataForPublickLink(mailSending);
+    }
+
+}
+
+
 
 //public invitasjon system
 function generateDataForPublickLink(data) {
@@ -405,9 +429,42 @@ function responPostpublicLink(data){
     mailSending.link = link;
 
     console.log(mailSending);
+
     // Send mail via Zapier
-   
+    sendUserToZapier(mailSending)
+
+    //finne objectet med data i gInventations og slette det
+    const index = gInventations.findIndex(item => item.airtable === mailSending.airtable);
+    if (index !== -1) {
+        gInventations[index].link = link;
+    }
+    gInventations.splice(index, 1);
+
+
+    loopGenerateDataForPublickLink()
 }
+
+async function sendUserToZapier(data) {
+    
+    const formData = new FormData();
+    for (const key in data) {
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+    }
+
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2pxqwnk/", {
+        method: "POST",
+        body: formData
+    });
+
+    if (response.ok) {
+      
+    } else {
+        console.error("Error sending data to Zapier:", response.statusText);
+    }
+}
+
 
 
 function generateTable(title, list) {
