@@ -276,12 +276,11 @@ function importCustomerList(nye) {
 function retunrMultiImportCustomer(data) {
     console.log("retunrMultiImportCustomer:", data);
 
-    // Samle alle rader fra batch-responsene
     const allRecords = [];
 
-    data.data.forEach(batch => {
-        if (Array.isArray(batch.records)) {
-            batch.records.forEach(record => {
+    data.forEach(batch => {
+        if (Array.isArray(batch)) {
+            batch.forEach(record => {
                 const fields = record.fields || {};
                 allRecords.push({
                     airtable: record.id,
@@ -293,7 +292,7 @@ function retunrMultiImportCustomer(data) {
     });
 
     console.log("Importer resultat (kun relevante nøkler):", allRecords);
-    //finne tilhørende kontaktpersoner til selskapene
+
     const kontaktpersoner = [];
     readyComsomerlist.forEach(item => {
         const navn = item["Selskap"]?.trim().toLowerCase();
@@ -309,17 +308,16 @@ function retunrMultiImportCustomer(data) {
                 navn: item["Kontaktperson"],
                 telefon: item["Telefon"],
                 epost: item["E-post"],
-                avsender:[userid],
-                rolle:"Admin",
+                avsender: [userid],
+                rolle: "Admin",
                 firma: [match.airtable]
             });
         }
     });
 
     console.log("Kontaktpersoner som skal importeres:", kontaktpersoner);
-
-  
 }
+
 
 
 
