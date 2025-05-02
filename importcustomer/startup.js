@@ -224,6 +224,8 @@ function controllXls(data) {
 
 function importCustomerList(nye) {
     console.log("Importerer nye selskaper:", nye);
+    const statusProgressLabling = document.getElementById("statusProgressLabling");
+    statusProgressLabling.innerText = "Oppretter selskaper i database!";
 
     //lagere de nye i global liste for seinere å koble til kontaktpersoner
     readyComsomerlist = nye;
@@ -276,6 +278,8 @@ function importCustomerList(nye) {
 function retunrMultiImportCustomer(data) {
     console.log("retunrMultiImportCustomer:", data);
 
+    
+
     const allRecords = [];
 
     data.forEach(batch => {
@@ -316,9 +320,35 @@ function retunrMultiImportCustomer(data) {
     });
 
     console.log("Kontaktpersoner som skal importeres:", kontaktpersoner);
+
+    const statusProgressLabling = document.getElementById("statusProgressLabling");
+    statusProgressLabling.innerText = "Oppretter invitasjoner i database!";
+    multisave(savedata, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
 }
 
+function retunrMultiImportInvitations(data) {
+    console.log("retunrMultiImportInvitations:", data);
 
+    const allRecords = [];
+
+    data.forEach(batch => {
+        if (Array.isArray(batch)) {
+            batch.forEach(record => {
+                const fields = record.fields || {};
+                allRecords.push({
+                    airtable: record.id,
+                    Name: fields.Name || "",
+                    orgnr: fields.orgnr || ""
+                });
+            });
+        }
+    });
+
+    console.log("Importer resultat (kun relevante nøkler):", allRecords);
+
+    // Her kan du håndtere resultatet av importen
+    // For eksempel, oppdatere UI eller vise en melding til brukeren
+}
 
 
 function generateTable(title, list) {
@@ -365,6 +395,8 @@ function ruteresponse(data,id){
         groupResponse(data);
     }else if(id == "retunrMultiImportCustomer"){
         retunrMultiImportCustomer(data);
+    }else if(id == "retunrMultiImportInvitations"){
+        retunrMultiImportInvitations(data);
     }
 
 }
