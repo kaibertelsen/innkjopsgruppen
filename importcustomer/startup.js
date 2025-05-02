@@ -668,7 +668,7 @@ tinymce.init({
     
     init_instance_callback: function (editor) {
         if (editor.id === "mailbodyelement") {
-            editor.getContainer().style.height = "250px";
+            editor.getContainer().style.height = "450px";
         }
         console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
         const element = tinymce.get("mailbodyelement");
@@ -709,28 +709,9 @@ function loadContentIntoEditor(element,htmlContent) {
 }
 
 malonetext = `
-<p><span style="font-size: 14pt;"><strong>Generell informasjon:</strong></span><br>
-Vi har forhandlet frem en fastprisavtale for bedrifter på et utvalg av produkter og tjenester fra <strong>{leverandørnavn}</strong>. 
-Denne avtalen sikrer konkurransedyktige priser, også i høysesong, slik at din bedrift kan oppnå besparelser og forutsigbarhet i kostnader.
-</p>
-
-<p>I tillegg har vi sikret <strong>{rabatt_prosent}%</strong> rabatt på hele sortimentet for ansatte, slik at de også kan dra nytte av gunstige betingelser.</p>
-
-<h3><span style="font-size: 14pt;"><strong>Fordeler med avtalen:</strong></span></h3>
-<ul>
-  <li><strong>Fastpriser</strong> på et utvalg {produktkategori}</li>
-  <li><strong>Forutsigbarhet</strong> – sikre deg lave priser også i høysesong</li>
-  <li><strong>Avtalenummer (AWD): {avtalenummer}</strong> – enkelt å benytte rabatten ved bestilling</li>
-  <li><strong>Tilgang til bedriftskonto</strong> – mulighet for å knytte {betalingsløsning} til en felles bedriftskonto som kan benyttes av alle ansatte</li>
-  <li><strong>Enkel registrering</strong> – en guide for opprettelse av bedriftskonto er vedlagt</li>
-</ul>
-
-<h3><strong>Hvordan komme i gang:</strong></h3>
-<ol>
-  <li><strong>Registrer deg</strong> ved å aktiver tilknytningsbryteren øverst til høyre på denne siden...</li>
-  <li><strong>Bruk avtalenummeret {avtalenummer}</strong> ved bestilling for å sikre fastprisene og rabattene...</li>
-  <li><strong>Del fordelen med dine ansatte</strong> – de kan opprette konto og benytte seg av rabatten...</li>
-</ol>
-
-<p>For spørsmål eller mer informasjon, kontakt <strong>{kontaktperson}</strong> - <strong>{kontaktinfo}</strong>.</p>
-`;
+<p data-start="0" data-end="7">Hei</p>
+<p data-start="9" data-end="88">Du er invitert som bruker i innkj&oslash;psportalen hos Innkj&oslash;psGruppen.</p>
+<p data-start="90" data-end="144" data-is-last-node="">Klikk p&aring; lenken nedenfor for &aring; opprette brukeren din:</p>
+<p class="p1"><a href="{{280431503__link}}" title="Invitasjonslink">Invitasjonslink</a></p>
+<p style="font-weight: 400;">Med vennlig hilsen<br /><strong>Kundesenter</strong>&nbsp;</p>
+<p style="font-weight: 400;"><strong>innkj&oslash;psGRUPPEN<br /></strong>Mobil:&nbsp;+47 91 14 52 94<br />Epost: <u><a href="mailto:post@innkjops-gruppen.no">post@innkjops-gruppen.no</a><br /><br /></u><u><a href="http://www.innkjops-gruppen.no/">www.innkjops-gruppen.no</a><br /><img src="https://uploads-ssl.webflow.com/6346cf959f8b0bccad5075af/65a8e9fe0b759f07aa7d7b13_image002.png" width="400" height="109" alt="" /><br /></u></p>`;
