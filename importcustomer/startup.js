@@ -2,6 +2,7 @@ var userid;
 var gGroups = [];
 var gCustomers = [];
 var readyComsomerlist = [];
+var gInventations = [];
 
 function getCustomer(){     
     //hente kunder
@@ -336,9 +337,10 @@ function retunrMultiImportInvitations(data) {
                 const fields = record.fields || {};
                 allRecords.push({
                     airtable: record.id,
-                    Name: fields.Name || "",
+                    navn: fields.navn || "",
                     epost: fields.epost || "",
-                    orgnr: fields.orgnr || ""
+                    orgnr: fields.orgnr || "",
+                    firmanavn: fields.firmanavn || "",
                 });
             });
         }
@@ -346,10 +348,63 @@ function retunrMultiImportInvitations(data) {
 
     console.log("Importer resultat (kun relevante nøkler):", allRecords);
 
+    gInventations = allRecords;
     //opprette public invitation link
     generateDataForPublickLink(allRecords[0]);
 
 
+}
+
+//public invitasjon system
+function generateDataForPublickLink(data) {
+
+    // Generer en sharelink
+    let baseId = "app1WzN1IxEnVu3m0";
+    let tableId = "tblc1AGhwc6MMu4Aw";
+    let rowId = data.airtable;
+    let text = "Invitasjonslink";
+
+    // Beregn utløpsdatoen 3 måneder frem i tid
+    let expirationdate = new Date();
+    expirationdate.setMonth(expirationdate.getMonth() + 3);
+
+    // Formatér datoen til "YYYY-MM-DD"
+    let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
+
+    // Generer offentlig lenke
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink");
+}
+
+function generatePublicLink(data,response) {
+    // Sjekk om nødvendig data finnes
+    if (!data.baseId || !data.tableId || !data.rowId || !data.text || !data.expirationdate) {
+        console.error("Manglende data for å generere offentlig link.");
+        return;
+    }
+
+    // Generer body for POST-forespørselen
+    let body = {
+        query: `baseId=${data.baseId}&tableId=${data.tableId}&rowId=${data.rowId}`,
+        note: data.text,
+        expirationDate: data.expirationdate
+    };
+
+    // Send POST-forespørsel
+    POSTairtablepublicLink(JSON.stringify(body), response);
+}
+
+
+function responPostpublicLink(data){
+ 
+    // Sett href-attributtet til ønsket URL
+    let link = "https://portal.innkjops-gruppen.no/app-portal?"+"shareKey="+data.shareKey+"&shareId="+data.shareId;
+    console.log(link);
+    //finne objectet i gInventations
+    let userInfoMail = gInventations.find(item => item.airtable == data.rowId);
+
+    console.log(userInfoMail);
+    // Send mail via Zapier
+   
 }
 
 
@@ -541,45 +596,3 @@ async function POSTairtableMulti(baseId, tableId, body) {
 }
 
 
-//public invitasjon system
-function generateDataForPublickLink(data) {
-
-    // Generer en sharelink
-    let baseId = "app1WzN1IxEnVu3m0";
-    let tableId = "tblc1AGhwc6MMu4Aw";
-    let rowId = data.airtable;
-    let text = "Invitasjonslink";
-
-    // Beregn utløpsdatoen 3 måneder frem i tid
-    let expirationdate = new Date();
-    expirationdate.setMonth(expirationdate.getMonth() + 3);
-
-    // Formatér datoen til "YYYY-MM-DD"
-    let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
-
-    // Generer offentlig lenke
-    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink");
-}
-
-function generatePublicLink(data,response) {
-    // Sjekk om nødvendig data finnes
-    if (!data.baseId || !data.tableId || !data.rowId || !data.text || !data.expirationdate) {
-        console.error("Manglende data for å generere offentlig link.");
-        return;
-    }
-
-    // Generer body for POST-forespørselen
-    let body = {
-        query: `baseId=${data.baseId}&tableId=${data.tableId}&rowId=${data.rowId}`,
-        note: data.text,
-        expirationDate: data.expirationdate
-    };
-
-    // Send POST-forespørsel
-    POSTairtablepublicLink(JSON.stringify(body), response);
-}
-
-function responPostpublicLink(data) {
-    console.log("responPostpublicLink:", data);
-
-}
