@@ -4,6 +4,7 @@ var gCustomers = [];
 var readyComsomerlist = [];
 var gInventations = [];
 var mailSending = {};
+var totalInvitations = 0;
 
 function getCustomer(){     
     //hente kunder
@@ -350,6 +351,7 @@ function retunrMultiImportInvitations(data) {
     console.log("Importer resultat (kun relevante nøkler):", allRecords);
 
     gInventations = allRecords;
+    totalInvitations = allRecords.length;
     //opprette public invitation link
     loopGenerateDataForPublickLink();
 
@@ -362,7 +364,6 @@ function loopGenerateDataForPublickLink() {
     const statusProgressLabling = document.getElementById("statusProgressLabling");
     //finne hvor mange invitasjoner som er igjen
     const remainingInvitations = gInventations.length;
-    const totalInvitations = gInventations.length + mailSending.length;
     const percent = Math.round(((totalInvitations - remainingInvitations) / totalInvitations) * 100);
     statusProgressLabling.innerHTML = `<strong>${percent}</strong><span>&nbsp;%</span>`;
     
