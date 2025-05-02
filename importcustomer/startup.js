@@ -671,6 +671,10 @@ tinymce.init({
             editor.getContainer().style.height = "250px";
         }
         console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
+        const element = tinymce.get("mailbodyelement");
+        // Hent HTML-innholdet fra malone
+        // og last det inn i TinyMCE-editoren
+        loadContentIntoEditor(element,malonetext);
     },
     /*
     setup: function (editor) {
@@ -687,10 +691,7 @@ tinymce.init({
 
 });
 
-const element = tinymce.get("mailbodyelement");
-// Hent HTML-innholdet fra malone
-// og last det inn i TinyMCE-editoren
-loadContentIntoEditor(element,malonetext);
+
 
 function loadContentIntoEditor(element,htmlContent) {
     
