@@ -656,3 +656,29 @@ async function POSTairtableMulti(baseId, tableId, body) {
 }
 
 
+tinymce.init({
+    selector: '#mailbodyelement',
+    branding: false,
+    plugins: [
+        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media',
+        'searchreplace', 'table', 'visualblocks', 'wordcount'
+    ], 
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | numlist bullist indent outdent | emoticons charmap | removeformat',
+    
+    init_instance_callback: function (editor) {
+        if (editor.id === "mailbodyelement") {
+            editor.getContainer().style.height = "250px";
+        }
+        console.log(`TinyMCE lastet for ${editor.id} med høyde ${editor.getContainer().style.height}`);
+    },
+
+    setup: function (editor) {
+        editor.on('change', function () {
+            handleEditorChange(editor.id);
+        });
+
+        editor.on('input', function () {
+            handleEditorChange(editor.id);
+        });
+    }
+});
