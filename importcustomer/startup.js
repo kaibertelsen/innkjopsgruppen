@@ -337,6 +337,7 @@ function retunrMultiImportInvitations(data) {
                 allRecords.push({
                     airtable: record.id,
                     Name: fields.Name || "",
+                    epost: fields.epost || "",
                     orgnr: fields.orgnr || ""
                 });
             });
@@ -347,7 +348,7 @@ function retunrMultiImportInvitations(data) {
 
     //opprette public invitation link
     generateDataForPublickLink(allRecords[0]);
-    
+
 
 }
 
@@ -546,7 +547,7 @@ function generateDataForPublickLink(data) {
     // Generer en sharelink
     let baseId = "app1WzN1IxEnVu3m0";
     let tableId = "tblc1AGhwc6MMu4Aw";
-    let rowId = data.id;
+    let rowId = data.airtable;
     let text = "Invitasjonslink";
 
     // Beregn utløpsdatoen 3 måneder frem i tid
