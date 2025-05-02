@@ -710,8 +710,5 @@ function loadContentIntoEditor(element,htmlContent) {
 
 malonetext = `
 <p data-start="0" data-end="7">Hei</p>
-<p data-start="9" data-end="88">Du er invitert som bruker i innkj&oslash;psportalen hos Innkj&oslash;psGruppen.</p>
-<p data-start="90" data-end="144" data-is-last-node="">Klikk p&aring; lenken nedenfor for &aring; opprette brukeren din:</p>
-<p class="p1"><a href="{{280431503__link}}" title="Invitasjonslink">Invitasjonslink</a></p>
-<p style="font-weight: 400;">Med vennlig hilsen<br /><strong>Kundesenter</strong>&nbsp;</p>
-<p style="font-weight: 400;"><strong>innkj&oslash;psGRUPPEN<br /></strong>Mobil:&nbsp;+47 91 14 52 94<br />Epost: <u><a href="mailto:post@innkjops-gruppen.no">post@innkjops-gruppen.no</a><br /><br /></u><u><a href="http://www.innkjops-gruppen.no/">www.innkjops-gruppen.no</a><br /><img src="https://uploads-ssl.webflow.com/6346cf959f8b0bccad5075af/65a8e9fe0b759f07aa7d7b13_image002.png" width="400" height="109" alt="" /><br /></u></p>`;
+<p data-start="9" data-end="88">Du er invitert som bruker for&nbsp;i innkj&oslash;psportalen hos Innkj&oslash;psGruppen.</p>
+<p data-start="90" data-end="144" data-is-last-node="">Klikk p&aring; lenken nedenfor for &aring; opprette brukeren din:</p>`;
