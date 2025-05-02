@@ -265,7 +265,8 @@ function importCustomerList(nye) {
             adresse,
             postnr,
             poststed,
-            gruppe: [selectedGroup]
+            gruppe: [selectedGroup],
+            klient:["rec1QGUGBMVaqxhp1"]
         };
     });
 
@@ -277,8 +278,6 @@ function importCustomerList(nye) {
 
 function retunrMultiImportCustomer(data) {
     console.log("retunrMultiImportCustomer:", data);
-
-    
 
     const allRecords = [];
 
@@ -346,8 +345,10 @@ function retunrMultiImportInvitations(data) {
 
     console.log("Importer resultat (kun relevante nøkler):", allRecords);
 
-    // Her kan du håndtere resultatet av importen
-    // For eksempel, oppdatere UI eller vise en melding til brukeren
+    //opprette public invitation link
+    generateDataForPublickLink(allRecords[0]);
+    
+
 }
 
 
@@ -397,6 +398,8 @@ function ruteresponse(data,id){
         retunrMultiImportCustomer(data);
     }else if(id == "retunrMultiImportInvitations"){
         retunrMultiImportInvitations(data);
+    }else if(id == "responPostpublicLink"){
+        responPostpublicLink(data);
     }
 
 }
@@ -534,4 +537,48 @@ async function POSTairtableMulti(baseId, tableId, body) {
             reject(error);
         }
     });
+}
+
+
+//public invitasjon system
+function generateDataForPublickLink(data) {
+
+    // Generer en sharelink
+    let baseId = "app1WzN1IxEnVu3m0";
+    let tableId = "tblc1AGhwc6MMu4Aw";
+    let rowId = data.id;
+    let text = "Invitasjonslink";
+
+    // Beregn utløpsdatoen 3 måneder frem i tid
+    let expirationdate = new Date();
+    expirationdate.setMonth(expirationdate.getMonth() + 3);
+
+    // Formatér datoen til "YYYY-MM-DD"
+    let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
+
+    // Generer offentlig lenke
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink");
+}
+
+function generatePublicLink(data,response) {
+    // Sjekk om nødvendig data finnes
+    if (!data.baseId || !data.tableId || !data.rowId || !data.text || !data.expirationdate) {
+        console.error("Manglende data for å generere offentlig link.");
+        return;
+    }
+
+    // Generer body for POST-forespørselen
+    let body = {
+        query: `baseId=${data.baseId}&tableId=${data.tableId}&rowId=${data.rowId}`,
+        note: data.text,
+        expirationDate: data.expirationdate
+    };
+
+    // Send POST-forespørsel
+    POSTairtablepublicLink(JSON.stringify(body), response);
+}
+
+function responPostpublicLink(data) {
+    console.log("responPostpublicLink:", data);
+
 }
