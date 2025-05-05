@@ -520,7 +520,11 @@ function startUserInvitationView(data){
 
         const TermsofServiceSelector = document.getElementById("termsofservicelink");
         if (TermsofServiceSelector) {
-            console.log(data?.vilkarurl);
+
+            //hvis vilkår er tilgjengelig sett den til href
+            if (data?.vilkarurl) {
+                TermsofServiceSelector.href = data.vilkarurl;
+            }   
         }
 
         acseptbutton.addEventListener("click", function() {
