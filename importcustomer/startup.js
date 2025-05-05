@@ -8,6 +8,9 @@ var totalInvitations = 0;
 var malonetext = "";
 var sendCollection = "";
 
+//Slå på ansattfordeler som standard
+document.getElementById('benefitsSwitsh').checked = true;
+
 function getCustomer(){     
     //hente kunder
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec1QGUGBMVaqxhp1","customerResponse","skipCache");
@@ -260,6 +263,8 @@ function importCustomerList(nye) {
             adresse = fullAdresse;
         }
 
+        let ansattfordeler = document.getElementById('benefitsSwitsh').checked;
+
         return {
             Name: item["Selskap"]?.trim() || "",
             orgnr: item["Org.nr"]?.trim() || "",
@@ -267,7 +272,8 @@ function importCustomerList(nye) {
             postnr,
             poststed,
             gruppe: [selectedGroup],
-            klient:["rec1QGUGBMVaqxhp1"]
+            klient:["rec1QGUGBMVaqxhp1"],
+            ansattfordeler:document.getElementById('benefitsSwitsh').checked || false,
         };
     });
 
@@ -333,6 +339,8 @@ function retunrMultiImportInvitations(data) {
 
     const allRecords = [];
 
+    let TermsofServiceSelectorValue = document.getElementById("termsOfServiceSelector").value
+
     data.forEach(batch => {
         if (Array.isArray(batch)) {
             batch.forEach(record => {
@@ -343,6 +351,7 @@ function retunrMultiImportInvitations(data) {
                     epost: fields.epost || "",
                     orgnr: fields.orgnr || "",
                     firmanavn: fields.firmanavn || "",
+                    vilkar:[TermsofServiceSelectorValue]
                 });
             });
         }
