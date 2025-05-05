@@ -316,7 +316,7 @@ function retunrMultiImportCustomer(data) {
         );
 
         let TermsofServiceSelectorValue = document.getElementById("TermsofServiceSelector").value
-        
+
         if (match) {
             invitations.push({
                 navn: item["Kontaktperson"],
@@ -594,10 +594,10 @@ function statusProcessing(totalRows, uploadedRows) {
         if (!statusEl) return;
 
         if (uploadedRows >= totalRows) {
-            statusEl.innerHTML = doneMessage("invitasjoner sendt", uploadedRows);
+            statusEl.innerHTML = doneMessage("invitasjoner opprettet", uploadedRows);
             requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
         } else {
-            statusEl.innerHTML = progressMessage("Sender invitasjoner", uploadedRows, totalRows);
+            statusEl.innerHTML = progressMessage("Oppretter invitasjoner", uploadedRows, totalRows);
         }
 
     } else if (sendCollection === "email") {
