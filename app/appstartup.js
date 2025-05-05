@@ -201,12 +201,7 @@ function settGroupDesign(company){
         
     //hvis det foreligger bakgrunnsfarge så sett denne på headeren
     const headerbackground = document.getElementById("headerbackground");
-    if (headerbackground && company.groupcolor !== "") {
-        headerbackground.style.setProperty("background", company.groupcolor, "important");
-    }else{
-        //sett standard farge
-        headerbackground.style.setProperty("background", "#172d3f", "important");
-    }
+   
     //bakgrunnsbilde
         if (company.groupheaderimage && company.groupheaderimage.trim() !== "") {
             // Sett nødvendige stiler for å få riktig visning
@@ -216,9 +211,12 @@ function settGroupDesign(company){
             headerbackground.style.setProperty("background-repeat", "no-repeat", "important");
             // (Fjerner background-attachment fixed hvis du vil at bakgrunn skal scrolle med innholdet)
             headerbackground.style.setProperty("width", "100%", "important");
+        }else  if (headerbackground && company.groupcolor !== "") {
+            //sett farge på bakgrunn
+            headerbackground.style.setProperty("background", company.groupcolor, "important");
         }else{
-            //fjern bakgrunsbildet
-            headerbackground.style.setProperty("background", "none", "important");
+             //sett standard farge
+            headerbackground.style.setProperty("background", "#172d3f", "important");
         }
     //Aktiv farge/ knappefarge
         let activeColor = "#5b9eca"; // Standard farge
