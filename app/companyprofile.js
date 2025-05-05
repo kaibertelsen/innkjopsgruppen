@@ -520,7 +520,7 @@ function startUserInvitationView(data){
 
         const TermsofServiceSelector = document.getElementById("termsofservicelink");
         if (TermsofServiceSelector) {
-            console.log(data?.vilkardokument);
+            console.log(data?.vilkarurl);
         }
 
         acseptbutton.addEventListener("click", function() {
