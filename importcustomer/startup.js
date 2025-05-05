@@ -315,6 +315,8 @@ function retunrMultiImportCustomer(data) {
             customer.orgnr?.trim() === orgnr
         );
 
+        let TermsofServiceSelectorValue = document.getElementById("TermsofServiceSelector").value
+        
         if (match) {
             invitations.push({
                 navn: item["Kontaktperson"],
@@ -322,7 +324,8 @@ function retunrMultiImportCustomer(data) {
                 epost: item["E-post"],
                 avsender: [userid],
                 rolle: "Admin",
-                firma: [match.airtable]
+                firma: [match.airtable],
+                vilkar:[TermsofServiceSelectorValue]
             });
         }
     });
@@ -339,7 +342,7 @@ function retunrMultiImportInvitations(data) {
 
     const allRecords = [];
 
-    let TermsofServiceSelectorValue = document.getElementById("TermsofServiceSelector").value
+    
 
     data.forEach(batch => {
         if (Array.isArray(batch)) {
@@ -350,8 +353,7 @@ function retunrMultiImportInvitations(data) {
                     navn: fields.navn || "",
                     epost: fields.epost || "",
                     orgnr: fields.orgnr || "",
-                    firmanavn: fields.firmanavn || "",
-                    vilkar:[TermsofServiceSelectorValue]
+                    firmanavn: fields.firmanavn || ""
                 });
             });
         }
