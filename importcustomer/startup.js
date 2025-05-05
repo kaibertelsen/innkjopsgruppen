@@ -226,8 +226,7 @@ function controllXls(data) {
 
 function importCustomerList(nye) {
     console.log("Importerer nye selskaper:", nye);
-    const statusProgressLabling = document.getElementById("statusProgressLabling");
-    statusProgressLabling.innerText = "Oppretter selskaper i database!";
+    
 
     //lagere de nye i global liste for seinere å koble til kontaktpersoner
     readyComsomerlist = nye;
@@ -324,8 +323,8 @@ function retunrMultiImportCustomer(data) {
 
     console.log("Invitations som skal importeres:", invitations);
 
-    const statusProgressLabling = document.getElementById("statusProgressLabling");
-    statusProgressLabling.innerText = "Oppretter invitasjoner i database!";
+    sendCollection = "invitation";
+
     multisave(invitations, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
 }
 
@@ -353,6 +352,8 @@ function retunrMultiImportInvitations(data) {
 
     gInventations = allRecords;
     totalInvitations = allRecords.length;
+
+    sendCollection = "email";
     //opprette public invitation link
     loopGenerateDataForPublickLink();
 
@@ -365,8 +366,7 @@ function loopGenerateDataForPublickLink() {
     const statusProgressLabling = document.getElementById("statusProgressLabling");
     //finne hvor mange invitasjoner som er igjen
     const remainingInvitations = gInventations.length;
-    const percent = Math.round(((totalInvitations - remainingInvitations) / totalInvitations) * 100);
-    statusProgressLabling.innerHTML = `<strong>${percent}</strong><span>&nbsp;%</span>`;
+    statusProcessing(totalInvitations, totalInvitations - remainingInvitations);
     
     //sjekke om det er flere invitasjoner igjen
     if(gInventations.length == 0){
