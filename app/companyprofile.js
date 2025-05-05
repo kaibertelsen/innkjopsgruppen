@@ -524,7 +524,10 @@ function startUserInvitationView(data){
             //hvis vilkår er tilgjengelig sett den til href
             if (data?.vilkarurl) {
                 TermsofServiceSelector.href = data.vilkarurl;
-            }   
+            } else {
+                //sett den til standard
+                TermsofServiceSelector.href = "https://ucarecdn.com/9d6eda35-4a29-4d61-99d6-840f9cb6309c/VilkarIG100425std.pdf";
+            }
         }
 
         acseptbutton.addEventListener("click", function() {
