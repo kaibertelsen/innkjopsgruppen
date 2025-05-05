@@ -339,7 +339,7 @@ function retunrMultiImportInvitations(data) {
 
     const allRecords = [];
 
-    let TermsofServiceSelectorValue = document.getElementById("termsOfServiceSelector").value
+    let TermsofServiceSelectorValue = document.getElementById("TermsofServiceSelector").value
 
     data.forEach(batch => {
         if (Array.isArray(batch)) {
