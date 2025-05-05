@@ -518,6 +518,11 @@ function startUserInvitationView(data){
         const emailLabel = invitationuserwrapper.querySelector(".emaillable");
         if (emailLabel) emailLabel.textContent = data.epost;
 
+        const TermsofServiceSelector = document.getElementById("termsofservicelink");
+        if (TermsofServiceSelector) {
+            console.log(data?.vilkardokument);
+        }
+
         acseptbutton.addEventListener("click", function() {
             acseptInvitationNewUser();
         });
