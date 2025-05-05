@@ -6,6 +6,7 @@ var gInventations = [];
 var mailSending = {};
 var totalInvitations = 0;
 var malonetext = "";
+var sendCollection = "";
 
 function getCustomer(){     
     //hente kunder
@@ -107,8 +108,6 @@ function customerResponse(data){
     getGroup();
     
 }
-
-
 
 document.getElementById("openXlsButton").addEventListener("click", function(event) {
     event.preventDefault(); 
@@ -274,6 +273,8 @@ function importCustomerList(nye) {
     });
 
     console.log("Formatert data (klare for import):", savedata);
+
+    sendCollection = "customer";
 
     // sendToAirtable(savedata); // eller annen lagring
     multisave(savedata, "app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", "retunrMultiImportCustomer");
@@ -558,10 +559,58 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
 }
 
 
+function statusProcessing(total, current) {
+    let statusEl;
+
+    const doneMessage = (text, count) =>
+        `<strong style="font-size: 1.1rem; color: green; opacity: 0; transition: opacity 0.5s;">✔️ ${count} ${text} – Ferdig!</strong>`;
+
+    const progressMessage = (text, current, total) =>
+        `<strong style="font-size: 1.1rem;">${text}</strong> (${current} av ${total})`;
+
+    if (sendCollection === "customer") {
+        statusEl = document.getElementById("statusCustomersUploading");
+        if (!statusEl) return;
+
+        if (current >= total) {
+            statusEl.innerHTML = doneMessage("selskaper opprettet i databasen", total);
+            requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
+        } else {
+            statusEl.innerHTML = progressMessage("Oppretter selskaper i databasen", current, total);
+        }
+
+    } else if (sendCollection === "invitation") {
+        statusEl = document.getElementById("statusInvitation");
+        if (!statusEl) return;
+
+        if (current >= total) {
+            statusEl.innerHTML = doneMessage("invitasjoner sendt", total);
+            requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
+        } else {
+            statusEl.innerHTML = progressMessage("Sender invitasjoner", current, total);
+        }
+
+    } else if (sendCollection === "email") {
+        statusEl = document.getElementById("statusEmailSending");
+        if (!statusEl) return;
+
+        if (current >= total) {
+            statusEl.innerHTML = doneMessage("e-poster sendt", total);
+            requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
+        } else {
+            statusEl.innerHTML = progressMessage("Sender e-poster", current, total);
+        }
+    }
+}
+
+
+
+
+
 async function multisave(data, baseid, tabelid, returid) {
+
     const batchSize = 10;
     const totalBatches = Math.ceil(data.length / batchSize); // hvor mange runder vi skal kjøre
-    const statusEl = document.getElementById("statusProgressUploading");
   
     let sendpacks = 0;
     const allResponses = [];
@@ -572,12 +621,8 @@ async function multisave(data, baseid, tabelid, returid) {
             const response = await POSTairtableMulti(baseid, tabelid, batch);
             sendpacks++;
 
-            const percent = Math.round(((currentIndex + 1) / totalBatches) * 100);
-            if (statusEl) {
-                statusEl.innerHTML = `<strong>${percent}</strong><span>&nbsp;%</span>`;
-
-            }
-
+            statusProcessing(totalBatches, sendpacks);
+           
             allResponses.push(response);
         } catch (error) {
             console.error("Feil ved sending av batch:", error);
@@ -592,26 +637,23 @@ async function multisave(data, baseid, tabelid, returid) {
             await sendBatch(batch, batchIndex);
         }
 
-        if (statusEl) {
-            statusEl.innerText = "100% - Ferdig!";
-        }
+        statusProcessing(totalBatches, sendpacks);
 
         console.log("Alle batcher er ferdig prosessert.");
     };
 
     try {
-        if (statusEl) {
-            statusEl.innerText = "Starter opplasting...";
-        }
+
+        statusProcessing(totalBatches, sendpacks);
 
         await processBatches();
 
         apireturn({ success: true, data: allResponses, id: returid });
     } catch (error) {
         console.error("Prosesseringen ble stoppet på grunn av en feil:", error);
-        if (statusEl) {
-            statusEl.innerText = "Feil under opplasting!";
-        }
+
+        statusProcessing(totalBatches, sendpacks);
+
         apireturn({ success: false, error: error.message, id: returid });
     }
 }
