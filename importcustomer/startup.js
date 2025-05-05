@@ -226,7 +226,6 @@ function controllXls(data) {
     container.insertAdjacentHTML("beforeend", eksisterendeHTML + nyeHTML);
 }
 
-
 function importCustomerList(nye) {
     console.log("Importerer nye selskaper:", nye);
     
@@ -342,6 +341,13 @@ function retunrMultiImportInvitations(data) {
 
     const allRecords = [];
 
+    const selector = document.getElementById("groupSelector");
+    const selectedGroup = selector.value;
+
+    //finn gruppe i gGroups
+    const group = gGroups.find(group => group.airtable === selectedGroup);
+    let groupEmail = group.email || "";
+
     
 
     data.forEach(batch => {
@@ -353,7 +359,8 @@ function retunrMultiImportInvitations(data) {
                     navn: fields.navn || "",
                     epost: fields.epost || "",
                     orgnr: fields.orgnr || "",
-                    firmanavn: fields.firmanavn || ""
+                    firmanavn: fields.firmanavn || "",
+                    groupemail: groupEmail
                 });
             });
         }
@@ -390,8 +397,6 @@ function loopGenerateDataForPublickLink() {
     }
 
 }
-
-
 
 //public invitasjon system
 function generateDataForPublickLink(data) {
@@ -430,7 +435,6 @@ function generatePublicLink(data,response) {
     // Send POST-forespørsel
     POSTairtablepublicLink(JSON.stringify(body), response);
 }
-
 
 function responPostpublicLink(data){
  
@@ -481,8 +485,6 @@ async function sendUserToZapier(data) {
     }
 }
 
-
-
 function generateTable(title, list) {
     if (list.length === 0) return `<h3>${title}</h3><p>Ingen.</p>`;
 
@@ -517,7 +519,6 @@ function generateStyledList(title, list, color) {
     html += `</ul>`;
     return html;
 }
-
 
 function ruteresponse(data,id){
 
@@ -568,7 +569,6 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
     });
 }
 
-
 function statusProcessing(totalRows, uploadedRows) {
     let statusEl;
 
@@ -613,12 +613,6 @@ function statusProcessing(totalRows, uploadedRows) {
     }
 }
 
-
-
-
-
-
-
 async function multisave(data, baseid, tabelid, returid) {
     const batchSize = 10;
     const totalRows = data.length;
@@ -660,8 +654,6 @@ async function multisave(data, baseid, tabelid, returid) {
     }
 }
 
-
-  
 function convertMultiResponseData(data) {
     return data.flatMap(samling => samling.map(item => item.fields));
 }
@@ -738,8 +730,6 @@ tinymce.init({
 
 
 });
-
-
 
 function loadContentIntoEditor(element,htmlContent) {
     
