@@ -371,7 +371,6 @@ function loopGenerateDataForPublickLink() {
     //sjekke om det er flere invitasjoner igjen
     if(gInventations.length == 0){
         //Ferdig å sende mail
-        statusProgressLabling.innerText = "Ferdig med å opprette invitasjoner og sende mail!";
     }else{
         //hente første element i gInventations
         const allRecords = gInventations;
@@ -559,7 +558,7 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
 }
 
 
-function statusProcessing(total, current) {
+function statusProcessing(totalRows, uploadedRows) {
     let statusEl;
 
     const doneMessage = (text, count) =>
@@ -572,25 +571,26 @@ function statusProcessing(total, current) {
         statusEl = document.getElementById("statusCustomersUploading");
         if (!statusEl) return;
 
-        if (current >= total) {
-            statusEl.innerHTML = doneMessage("selskaper opprettet i databasen", total);
+        if (uploadedRows >= totalRows) {
+            statusEl.innerHTML = doneMessage("selskaper opprettet i databasen", uploadedRows);
             requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
         } else {
-            statusEl.innerHTML = progressMessage("Oppretter selskaper i databasen", current, total);
+            statusEl.innerHTML = progressMessage("Oppretter selskaper i databasen", uploadedRows, totalRows);
         }
 
     } else if (sendCollection === "invitation") {
         statusEl = document.getElementById("statusInvitation");
         if (!statusEl) return;
 
-        if (current >= total) {
-            statusEl.innerHTML = doneMessage("invitasjoner sendt", total);
+        if (uploadedRows >= totalRows) {
+            statusEl.innerHTML = doneMessage("invitasjoner sendt", uploadedRows);
             requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
         } else {
-            statusEl.innerHTML = progressMessage("Sender invitasjoner", current, total);
+            statusEl.innerHTML = progressMessage("Sender invitasjoner", uploadedRows, totalRows);
         }
 
     } else if (sendCollection === "email") {
+      
         statusEl = document.getElementById("statusEmailSending");
         if (!statusEl) return;
 
@@ -602,6 +602,7 @@ function statusProcessing(total, current) {
         }
     }
 }
+
 
 
 
