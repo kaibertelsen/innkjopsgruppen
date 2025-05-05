@@ -590,15 +590,14 @@ function statusProcessing(totalRows, uploadedRows) {
         }
 
     } else if (sendCollection === "email") {
-      
         statusEl = document.getElementById("statusEmailSending");
         if (!statusEl) return;
 
-        if (current >= total) {
-            statusEl.innerHTML = doneMessage("e-poster sendt", total);
+        if (uploadedRows >= totalRows) {
+            statusEl.innerHTML = doneMessage("e-poster sendt", uploadedRows);
             requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
         } else {
-            statusEl.innerHTML = progressMessage("Sender e-poster", current, total);
+            statusEl.innerHTML = progressMessage("Sender e-poster", uploadedRows, totalRows);
         }
     }
 }
@@ -608,22 +607,20 @@ function statusProcessing(totalRows, uploadedRows) {
 
 
 
-async function multisave(data, baseid, tabelid, returid) {
 
+async function multisave(data, baseid, tabelid, returid) {
     const batchSize = 10;
-    const totalBatches = Math.ceil(data.length / batchSize); // hvor mange runder vi skal kjøre
-  
-    let sendpacks = 0;
+    const totalRows = data.length;
+    let uploadedRows = 0;
     const allResponses = [];
 
-    const sendBatch = async (batch, currentIndex) => {
+    const sendBatch = async (batch) => {
         try {
             console.log("Sender batch:", batch);
             const response = await POSTairtableMulti(baseid, tabelid, batch);
-            sendpacks++;
+            uploadedRows += batch.length;
 
-            statusProcessing(totalBatches, sendpacks);
-           
+            statusProcessing(totalRows, uploadedRows);
             allResponses.push(response);
         } catch (error) {
             console.error("Feil ved sending av batch:", error);
@@ -634,30 +631,24 @@ async function multisave(data, baseid, tabelid, returid) {
     const processBatches = async () => {
         for (let i = 0; i < data.length; i += batchSize) {
             const batch = data.slice(i, i + batchSize);
-            const batchIndex = Math.floor(i / batchSize);
-            await sendBatch(batch, batchIndex);
+            await sendBatch(batch);
         }
 
-        statusProcessing(totalBatches, sendpacks);
-
-        console.log("Alle batcher er ferdig prosessert.");
+        statusProcessing(totalRows, uploadedRows);
+        console.log("Alle rader er ferdig prosessert.");
     };
 
     try {
-
-        statusProcessing(totalBatches, sendpacks);
-
+        statusProcessing(totalRows, uploadedRows);
         await processBatches();
-
         apireturn({ success: true, data: allResponses, id: returid });
     } catch (error) {
         console.error("Prosesseringen ble stoppet på grunn av en feil:", error);
-
-        statusProcessing(totalBatches, sendpacks);
-
+        statusProcessing(totalRows, uploadedRows);
         apireturn({ success: false, error: error.message, id: returid });
     }
 }
+
 
   
 function convertMultiResponseData(data) {
