@@ -364,6 +364,7 @@ function retunrMultiImportInvitations(data) {
                     orgnr: fields.orgnr || "",
                     firmanavn: fields.firmanavn || "",
                     groupemail: groupEmail,
+                    telefon: fields.telefon || "",
                     pipedrivestagestartid: pipedrivestagestartid,
                 });
             });
