@@ -348,6 +348,9 @@ function retunrMultiImportInvitations(data) {
     const group = gGroups.find(group => group.airtable === selectedGroup);
     let groupEmail = group.email || "";
 
+    //skal denne invitasjonen også registreres i pipedrive
+    let pipedrivestagestartid = group.pipedrivestagestartid || "";
+
     
 
     data.forEach(batch => {
@@ -360,7 +363,8 @@ function retunrMultiImportInvitations(data) {
                     epost: fields.epost || "",
                     orgnr: fields.orgnr || "",
                     firmanavn: fields.firmanavn || "",
-                    groupemail: groupEmail
+                    groupemail: groupEmail,
+                    pipedrivestagestartid: pipedrivestagestartid,
                 });
             });
         }
