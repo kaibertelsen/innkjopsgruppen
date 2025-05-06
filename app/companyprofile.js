@@ -631,7 +631,7 @@ function acseptInvitationNewUser(){
     let role = activeInvitation.rolle;
     let invitationairtable = activeInvitation.airtable;
     let pipedrivedealsid = activeInvitation.pipedrivedealsid || "";
-    let gruppepipedrivestageacceptid = activeInvitation.gruppestageacceptid || "";
+    let gruppepipedrivestageacceptid = activeInvitation.gruppepipedrivestageacceptid || "";
 
     // Krypter aktiveringskode (e-post + passord)
     let aCode = { email, password };
