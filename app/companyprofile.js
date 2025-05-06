@@ -630,6 +630,8 @@ function acseptInvitationNewUser(){
     let phone = activeInvitation.telefon;
     let role = activeInvitation.rolle;
     let invitationairtable = activeInvitation.airtable;
+    let pipedrivedealsid = activeInvitation.pipedrivedealsid || "";
+    let gruppepipedrivestageacceptid = activeInvitation.gruppestageacceptid || "";
 
     // Krypter aktiveringskode (e-post + passord)
     let aCode = { email, password };
@@ -643,7 +645,9 @@ function acseptInvitationNewUser(){
         rolle: role,
         airtable: invitationairtable,
         password: password,
-        actCode: encryptedKey
+        actCode: encryptedKey,
+        pipedrivedealsid: pipedrivedealsid,
+        gruppepipedrivestageacceptid: gruppepipedrivestageacceptid
     };
 
     // Send brukerdata til Zapier
