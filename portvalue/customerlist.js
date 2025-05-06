@@ -90,14 +90,17 @@ function listCustomer(data) {
         const startDate = new Date(dateRange[0]);
         const endDate = new Date(dateRange[1]);
     
-        // Filtrer selskaper basert på exit-dato
+        // Filtrer selskaper basert på exit-dato, og fjern de med winback-dato
         filteredData = data.filter(company => {
             const exitDate = new Date(company.exit);
+            const hasValidExitDate = company.exit && !isNaN(exitDate);
+            const isInDateRange = exitDate >= startDate && exitDate <= endDate;
+            const hasWinback = company.winback && !isNaN(new Date(company.winback));
     
-            // Sjekk at exit-feltet eksisterer, er en gyldig dato og innenfor perioden
-            return company.exit && !isNaN(exitDate) && exitDate >= startDate && exitDate <= endDate;
+            return hasValidExitDate && isInDateRange && !hasWinback;
         });
-    }else if (selectedFilter === "exitRegistered") {
+    }
+    else if (selectedFilter === "exitRegistered") {
         // Hent valgt periode fra listdateselector
         const dateRange = document.getElementById("listdateselector").value.split(",");
         const startDate = new Date(dateRange[0]);
