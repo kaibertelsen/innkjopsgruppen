@@ -751,7 +751,7 @@ function employeebenefits(data) {
                     phone:userObject.telefon,
                     companyname:activeCompany.Name,
                     link:url,
-                    groupemail:activeCompany.gruppemail
+                    groupemail:activeCompany.groupemail
                 };
                 sendansattfordelerlink(mailData);
             };
