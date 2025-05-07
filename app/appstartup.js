@@ -983,7 +983,8 @@ function responsSupplierConnection(rawdata) {
                     subject: data.subjectcompany[0],
                     content: data.mailcontentcompany[0],
                     attachment: data.guidfil || "",
-                    type: "customer"
+                    type: "customer",
+                    groupemail: data.groupemail[0] || ""
                 };
                 break;
             case 2:
