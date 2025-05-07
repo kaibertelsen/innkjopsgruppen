@@ -344,7 +344,8 @@ function companycreateFinish(data) {
     portalLinkButton.classList.add("buttoncreate");
     portalLinkButton.onclick = () => {
         let array = [];
-        array.push(activeCompany.json);
+        let Companydata = JSON.parse(activeCompany.json);
+        array.push(Companydata);
         const companyJson = JSON.stringify(array);
         sessionStorage.setItem("representing", companyJson);
         window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
