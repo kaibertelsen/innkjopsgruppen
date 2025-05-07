@@ -729,6 +729,7 @@ function employeebenefits(data) {
         // Hent eller opprett linken i elementet med id "employerlink"
         const employerLinkContainer = document.getElementById("employerlink");
         employerLinkContainer.innerHTML = ""; // Tøm eksisterende innhold
+        const copyButton = document.getElementById("copylinkbutton");
 
         if (data.ansattfordelerlink) {
             
@@ -740,7 +741,8 @@ function employeebenefits(data) {
             link.style.display = "none";
 
             // Lag kopier-knappen
-            const copyButton = document.getElementById("copylinkbutton");
+            copyButton.style.display = "inline-block";
+            
             copyButton.onclick = function () {
                //send linken på epost til brukeren
                 let mailData = {
@@ -756,6 +758,7 @@ function employeebenefits(data) {
             // Generer lenken dersom den ikke finnes
             generateEmployerLink(data);
             document.getElementById("employerlink").style.display = "none";
+            copyButton.style.display = "none";
         }
     } else {
         elementWrapper.style.display = "none";
