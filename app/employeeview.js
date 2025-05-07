@@ -18,6 +18,9 @@ function loadEmployeeView(data){
     const employerRole = document.getElementById("employerRole"); 
     employerRole.value = "ansatt";
 
+    const groupemailinput = document.getElementById("groupemailinput");
+    groupemailinput.value = data.groupemail || "";
+
     let textMessage = data.companyname + 
     " er medlem av innkjøpsGRUPPEN AS, og det betyr at du som ansatt kan benytte deg av medlemsfordeler hos et utvalg leverandører.<br>" +
     "For å gjøre bruk av disse fordelene må du trykke på knappen under og opprette en bruker. Dette er helt gratis og uforpliktende.";
@@ -68,8 +71,6 @@ function companyControllResponse(data) {
         console.error("Ingen brukermemberId funnet eller feil datastruktur.");
     }
 }
-
-
 
 function listSuppliersPublic(data) {
     console.log(data);
