@@ -129,37 +129,12 @@ function companycheck(data) {
         const orgnr = company.orgnr || "Org.nr ikke tilgjengelig";
         // Vis selskapets informasjon med linjeskift
         const infoText = document.createElement('p');
-        infoText.textContent = `Selskapet er allerede registrert i portalen:\nNavn: ${name}\nOrg.nr: ${orgnr}`;
+        infoText.textContent = `Selskapet er allerede registrert i portalen:\nNavn: ${name}\nOrg.nr: ${orgnr}\n Det kan oppdateres i kundelisten.`;
         infoText.style.whiteSpace = "pre-line"; // Tillat linjeskift
         portalresponsdiv.appendChild(infoText);
-        // Opprett knappene
-        const createCompanyButton = document.createElement('button');
-        createCompanyButton.textContent = "Oppdater selskap";
-        createCompanyButton.classList.add("buttoncreate");
-        createCompanyButton.onclick = updateCompanysetppOne;
-        const addUserButton = document.createElement('button');
-        addUserButton.textContent = "Inviter bruker";
-        addUserButton.classList.add("buttoncreate");
-        addUserButton.onclick = () => creatUserOnCompany(addUserButton);
-        // Legg knappene til i portalresponsdiv
-        portalresponsdiv.appendChild(createCompanyButton);
-        portalresponsdiv.appendChild(addUserButton);
-        document.getElementById("mycompanyinputwrapper").style.display = "none";
-        document.getElementById("createCompanybutton").textContent = "Oppdater selskap";
         
-        //om selskapet ligger i en gruppe hant denne gruppeid
-        if(company?.group[0]){
-            companyGroupId = company.group[0];
-        }
-
-        if(company?.parentcompany){
-            parentCompany.airtable = company.parentcompany[0];
-            parentCompany.name = company.parentcompanyname[0];
-            const hovedselskapinput = document.getElementById("hovedselskapinput");
-            hovedselskapinput.value = parentCompany.name;
-        }
-
-
+        document.getElementById("mycompanyinputwrapper").style.display = "none";
+        
     } else {
         companyId = "";
         // Hvis selskapet ikke er registrert tidligere
