@@ -419,7 +419,8 @@ function responPostpublicLink(data){
             companyname:activeCompany.Name,
             link:link,
             sendername:userObject.navn,
-            exist:true
+            exist:true,
+            groupemail:activeCompany.groupemail || ""
         };
 
     }else{
@@ -431,7 +432,8 @@ function responPostpublicLink(data){
                 companyname:activeCompany.Name,
                 link:link,
                 sendername:userObject.navn,
-                exist:false
+                exist:false,
+                groupemail:activeCompany.groupemail || ""
         };
     }
 
