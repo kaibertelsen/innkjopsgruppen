@@ -1,5 +1,6 @@
 var companyList = [];
 var v = {};
+var activeCompany = {};
 document.getElementById("searchinputfield").addEventListener("input", function() {
     const inputValue = this.value.trim();
 
@@ -269,10 +270,10 @@ function responsecompany(data) {
 
     //oppdatert i airtable
     document.getElementById("loadingtext").style.display = "block";
-    document.getElementById("loadingtext").innerHTML = "Opprettet i airtable<br>venter på link fra webflow...";
+    document.getElementById("loadingtext").innerHTML = "Opprettet i airtable<br> sender data til pipedrive";
     // Oppdater i Webflow også
     let companyObject = data.fields || {}; // Sikrer at fields eksisterer
-
+    activeCompany = companyObject;
     companyId = companyObject.airtable;
     // Bygg body dynamisk basert på eksisterende felter
     const body = {};
@@ -307,13 +308,8 @@ function responsecompany(data) {
 
     sendToZapier(body);
 
-    if (companyObject.slug){
-    //da er dette en oppdatering
     companycreateFinish(companyObject);
-    }else{
-        //sett igang å sjekk med 3 sek mellomrom om det er slug object i companyobject
-        getslugfromairtable(companyObject.airtable);
-    }
+    
 }
 
 function getslugfromairtable(airtableid){
@@ -335,8 +331,6 @@ function companycreateFinish(data) {
     document.getElementById("loadingtext").style.display = "none";
     document.getElementById("animationcompany").style.display = "none";
 
-
-
     let portalresponsdiv = document.getElementById("responseportal");
     portalresponsdiv.innerHTML = '';
 
@@ -345,12 +339,16 @@ function companycreateFinish(data) {
     message.textContent = "Selskapet er oppdatert";
     portalresponsdiv.appendChild(message);
 
-    // Lag en link
-    const link = document.createElement("a");
-    link.textContent = "til portal med " + data.Name;
-    link.href = "https://portal.innkjops-gruppen.no/firma/" + data.slug; // Antar 'slug' finnes i data-objektet
-    link.target = "_blank"; // Åpner i ny fane
-    portalresponsdiv.appendChild(link);
+    const portalLinkButton = document.createElement("button");
+    portalLinkButton.textContent = "Gå til portalen";
+    portalLinkButton.classList.add("buttoncreate");
+    portalLinkButton.onclick = () => {
+        const companyJson = JSON.stringify([activeCompany]);
+        sessionStorage.setItem("representing", companyJson);
+        window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
+    };
+    portalresponsdiv.appendChild(portalLinkButton);
+
 
     // Legger til linjeskift etter linken
     portalresponsdiv.appendChild(document.createElement("br"));
