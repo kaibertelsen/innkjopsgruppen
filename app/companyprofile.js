@@ -731,18 +731,26 @@ function employeebenefits(data) {
         employerLinkContainer.innerHTML = ""; // Tøm eksisterende innhold
 
         if (data.ansattfordelerlink) {
+            
             let url = "https://portal.innkjops-gruppen.no/app-portal?"+data.ansattfordelerlink;
             const link = document.getElementById("employerlink");
             link.href = url;
             link.textContent = "Invitasjonslink";
             link.target = "_blank";
+            link.style.display = "none";
 
             // Lag kopier-knappen
             const copyButton = document.getElementById("copylinkbutton");
             copyButton.onclick = function () {
-                navigator.clipboard.writeText(url).then(() => {
-                    alert("Lenken er kopiert til utklippstavlen!");
-                }).catch(err => console.error("Kopiering feilet:", err));
+               //send linken på epost til brukeren
+                let mailData = {
+                    name:userObject.navn,
+                    mail:userObject.epost,
+                    phone:userObject.telefon,
+                    companyname:activeCompany.Name,
+                    link:url
+                };
+                sendansattfordelerlink(mailData);
             };
         } else {
             // Generer lenken dersom den ikke finnes
@@ -752,6 +760,13 @@ function employeebenefits(data) {
     } else {
         elementWrapper.style.display = "none";
     }
+}
+function sendansattfordelerlink(mailData){
+
+    console.log("Sender ansattfordelerlink til", mailData);
+
+
+
 }
 
 function  generateEmployerLink(data){   
