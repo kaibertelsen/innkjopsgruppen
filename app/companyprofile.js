@@ -750,7 +750,8 @@ function employeebenefits(data) {
                     mail:userObject.epost,
                     phone:userObject.telefon,
                     companyname:activeCompany.Name,
-                    link:url
+                    link:url,
+                    groupemail:activeCompany.gruppemail
                 };
                 sendansattfordelerlink(mailData);
             };
@@ -764,11 +765,32 @@ function employeebenefits(data) {
         elementWrapper.style.display = "none";
     }
 }
-function sendansattfordelerlink(mailData){
+async function sendansattfordelerlink(data){
+    const formData = new FormData();
+    for (const key in data) {
+        const value = data[key];
+        // Sjekk om verdien er en array eller objekt og stringify hvis nødvendig
+        formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
+    }
 
-    console.log("Sender ansattfordelerlink til", mailData);
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2n1r7zc/", {
+        method: "POST",
+        body: formData
+    });
 
+    if (response.ok) {
+        //skrive at epost er sendt
+        const ansattfordelermailsendt = document.getElementById("ansattfordelermailsendt");
+        ansattfordelermailsendt.style.display = "block";
+        setTimeout(() => {
+            ansattfordelermailsendt.style.display = "none";
+        }, 3000);
+        ansattfordelermailsendt.textContent = "Epost med invitasjonslink er sendt til "+userObject.epost;
 
+    } else {
+        console.error("Error sending data to Zapier:", response.statusText);
+    }
+ 
 
 }
 
