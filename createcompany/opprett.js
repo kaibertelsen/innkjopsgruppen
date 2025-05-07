@@ -271,7 +271,7 @@ function responsecompany(data) {
     //oppdatert i airtable
     document.getElementById("loadingtext").style.display = "block";
     document.getElementById("loadingtext").innerHTML = "Opprettet i airtable<br> sender data til pipedrive";
-    // Oppdater i Webflow også
+    // Oppdater i pipedrive
     let companyObject = data.fields || {}; // Sikrer at fields eksisterer
     activeCompany = companyObject;
     companyId = companyObject.airtable;
@@ -357,14 +357,7 @@ function companycreateFinish(data) {
     // Skjul input wrapper
     document.getElementById("mycompanyinputwrapper").style.display = "none";
 
-    // Lag knappen
-    const addUserButton = document.createElement("button");
-    addUserButton.textContent = "Legg til bruker";
-    addUserButton.classList.add("buttoncreate");
-    addUserButton.onclick = () => creatUserOnCompany(addUserButton);
     
-    // Legg knappen til under linken
-    portalresponsdiv.appendChild(addUserButton);
 }
 
 function controllcompanyinputs() {
