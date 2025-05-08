@@ -38,6 +38,46 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     exportData(updatedexportData, fieldMapping, filename);
 });
 
+document.getElementById("xlsexportbuttonrapport").addEventListener("click", () => {
+    // Mapping til nye navn
+    const fieldMapping = {
+        Name: "Navn",
+        orgnr: "Org.nr",
+        adresse:"Adresse",
+        postnr:"Postnummer",
+        poststed:"Poststed",
+        groupname: "Gruppe",
+        type:"Type",
+        valuegroup: "Abonnement",
+        value:"Handel",
+        kickback:"Kickback",
+        winningdate: "Vunnet dato",
+        invoicedate: "Faktura dato",
+        exit: "Oppsigelses dato",
+        airtable:"SystemID",
+        names:"Kontaktpersoner",
+        emails:"E-poster"
+    };
+
+    // Hent tekstverdier fra selectorer
+    const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
+    const customerListSelector = document.getElementById("customerlistselector");
+
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
+    const customerListText = customerListSelector.options[customerListSelector.selectedIndex].text || "Alle";
+
+    // Generer filnavn
+    let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
+    
+    let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet
+    updatedexportData = emailContactMerge(updatedexportData);
+    updatedexportData = nameContactMerge(updatedexportData);
+    //add contactemails
+    
+    // Eksporter til Excel
+    exportData(updatedexportData, fieldMapping, filename);
+});
+
 function emailContactMerge(companylist) {
     companylist.forEach(company => {
         // Hent e-post fra brukere som ikke er "ansatt"

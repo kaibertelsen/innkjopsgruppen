@@ -161,7 +161,6 @@ function userResponse(data) {
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
 
-
 function settGroupDesign(company){
 
     //sjekk om gruppelogo skal byttes
