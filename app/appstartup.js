@@ -960,7 +960,18 @@ function connectToSupplier(supplier){
 
 
 
-    let body = JSON.stringify({company:[activeCompany.airtable],supplier:[supplier.airtable],bruker:[userid]});
+    let body = JSON.stringify(
+        {company:[activeCompany.airtable],
+            supplier:[supplier.airtable],
+            bruker:[userid],
+            contactinfotosupplier: "test",
+        });
+
+
+
+
+
+
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"responsSupplierConnection")
 
 }
