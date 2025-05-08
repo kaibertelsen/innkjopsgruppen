@@ -947,7 +947,7 @@ function connectToSupplier(supplier) {
     let contactUser = userObject || null;
 
     // Hvis superadmin utfører tilkoblingen
-    if (userObject?.superadmin?.includes(supplier?.klient)) {
+    if (userObject?.superadmin) {
         // Sjekk om det finnes en adminbruker i selskapet
         const adminUser = activeCompany.connection?.find(conn =>
             conn.role === "admin" && conn.company === activeCompany.airtable
@@ -975,9 +975,9 @@ function connectToSupplier(supplier) {
     if (contactUser) {
         contactinfotosupplier = `
             <div style="font-weight:bold; font-size:16px;">Kontaktperson:</div>
-            ${contactUser.name || ""}<br>
-            ${contactUser.phone || ""}<br>
-            ${contactUser.email || ""}
+            ${contactUser.navn || ""}<br>
+            ${contactUser.telefon || ""}<br>
+            ${contactUser.epost || ""}
         `.trim();
     }
     
