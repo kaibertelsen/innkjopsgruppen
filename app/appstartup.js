@@ -953,9 +953,9 @@ function connectToSupplier(supplier){
     let inkluderBruker = true;
 
     // Hvis superadmin kobler på vegne av kunden
-    if (userObject?.superadmin?.includes(supplier?.klient)) {
+    if (userObject?.superadmin) {
         
-        console.log("Superadmin kobler på vegne av kunden");
+        console.log("Superadmin");
     }
 
 
