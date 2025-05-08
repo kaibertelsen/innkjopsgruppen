@@ -1011,16 +1011,13 @@ function responsSupplierConnection(rawdata) {
         let adress = data.companyadress[0] || "";
         let postnr = data.companypostnr[0] || "";
         let city = data.companycity[0] || "";
+        let contactinfotosupplier = data.contactinfotosupplier || "";
 
         // Formatering av kundedata i HTML
         function formatCustomerData() {
             return `
                 <p><strong>${data.companyname[0]} (${orgnr})</strong></p>
                 <p>Adresse: ${adress}, ${postnr} ${city}</p>
-                <p><strong>Kontaktperson:</strong><br>
-                ${data.brukernavn[0]}<br>
-                Telefon: ${data.brukertelefon ? data.brukertelefon[0] : "Ikke oppgitt"}<br>
-                E-post: ${data.useremail[0]}</p>
             `;
         }
 
@@ -1048,7 +1045,8 @@ function responsSupplierConnection(rawdata) {
                     content: data.mailcontentsupplier[0],
                     attachment: "",
                     type: "supplier",
-                    data: formatCustomerData()
+                    data: formatCustomerData(),
+                    contactinfotosupplier: contactinfotosupplier
                 };
                 break;
             case 3:
@@ -1060,7 +1058,8 @@ function responsSupplierConnection(rawdata) {
                     content: data.mailcontentsupplier[0],
                     attachment: "",
                     type: "IG",
-                    data: formatCustomerData()
+                    data: formatCustomerData(),
+                    contactinfotosupplier: contactinfotosupplier
                 };
                 break;
             default:
