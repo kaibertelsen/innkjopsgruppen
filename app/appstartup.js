@@ -944,6 +944,22 @@ function responseDeleteConenction(data){
 
 function connectToSupplier(supplier){
     // send kobling til airtable
+
+
+    //om dette er en superadmin som utfører tilkoblinger på vegne av kunden så sjekk først om det er en admin i selskapet om ikke så sjekk om det er en invitasjon
+    //og med adminrolle, om ikke det så skal ikke kontaktperson komme med
+
+    // Avklar om kontaktperson (bruker) skal legges ved
+    let inkluderBruker = true;
+
+    // Hvis superadmin kobler på vegne av kunden
+    if (userObject?.superadmin?.includes(supplier?.klient)) {
+        
+        console.log("Superadmin kobler på vegne av kunden");
+    }
+
+
+
     let body = JSON.stringify({company:[activeCompany.airtable],supplier:[supplier.airtable],bruker:[userid]});
     POSTNewRowairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"responsSupplierConnection")
 
