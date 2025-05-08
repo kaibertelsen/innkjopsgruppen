@@ -950,7 +950,7 @@ function connectToSupplier(supplier) {
     if (userObject?.superadmin) {
        // Finn første bruker i selskapet som har rollen "admin"
         const adminUser = activeCompany.bruker?.find(user =>
-            user.rolle === "admin"
+            user.rolle === "Admin"
         );
 
         if (adminUser) {
