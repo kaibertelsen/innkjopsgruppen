@@ -192,18 +192,22 @@ document.getElementById("Privatinput").addEventListener("change", function() {
 });
 
 document.getElementById("sendDataToServer").addEventListener("click", function () {
-    const name = document.getElementById("contactnameInput").value;
-    const phone = document.getElementById("TelefonInput").value;
-    const email = document.getElementById("EpostInput").value;
-    const companyName = document.getElementById("FirmanavnInput").value;
-    const companyOrgNumber = document.getElementById("orgnrinput").value;
-    const selectedRadio = document.querySelector('input[name="type"]:checked').value;
+    const name = document.getElementById("contactnameInput").value.trim();
+    const phone = document.getElementById("TelefonInput").value.trim();
+    const email = document.getElementById("EpostInput").value.trim();
+    const companyName = document.getElementById("FirmanavnInput").value.trim();
+    const companyOrgNumber = document.getElementById("orgnrinput").value.trim();
+    const selectedRadio = document.querySelector('input[name="type"]:checked')?.value;
 
-    if (selectedRadio === "Bedrift") {
-        if (companyName === "" || companyOrgNumber === "") {
-            alert("Vennligst fyll ut Firmanavn og Org.nr");
-            return;
-        }
+    // Sjekk om påkrevde felter er fylt ut
+    if (!name || !email || !phone) {
+        alert("Vennligst fyll ut navn, e-post og telefonnummer.");
+        return;
+    }
+
+    if (selectedRadio === "Bedrift" && (!companyName || !companyOrgNumber)) {
+        alert("Vennligst fyll ut Firmanavn og Org.nr for bedriftskunder.");
+        return;
     }
 
     const data = {
@@ -217,6 +221,7 @@ document.getElementById("sendDataToServer").addEventListener("click", function (
 
     sendDataToZapierWebhookCreatUser(data);
 });
+
 
 async function sendDataToZapierWebhookCreatUser(data) {
     const formData = new FormData();
