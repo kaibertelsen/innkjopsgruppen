@@ -1016,10 +1016,16 @@ function responsSupplierConnection(rawdata) {
         // Formatering av kundedata i HTML
         function formatCustomerData() {
             return `
-                <p><strong>${data.companyname[0]} (${orgnr})</strong></p>
-                <p>Adresse: ${adress}, ${postnr} ${city}</p>
+                <div>
+                    <span style="font-weight: bold; font-size: 16px;">${data.companyname[0]}</span>
+                    <span> (${orgnr})</span>
+                </div>
+                <div>
+                    Adresse: ${adress}, ${postnr} ${city}
+                </div>
             `;
         }
+        
 
         switch (outputnr) {
             case 1:
