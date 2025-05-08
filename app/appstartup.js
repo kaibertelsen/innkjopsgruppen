@@ -942,39 +942,58 @@ function responseDeleteConenction(data){
     console.log(data);
 }
 
-function connectToSupplier(supplier){
-    // send kobling til airtable
+function connectToSupplier(supplier) {
+    let contactinfotosupplier = "";
+    let contactUser = userObject || null;
 
+    // Hvis superadmin utfører tilkoblingen
+    if (userObject?.superadmin?.includes(supplier?.klient)) {
+        // Sjekk om det finnes en adminbruker i selskapet
+        const adminUser = activeCompany.connection?.find(conn =>
+            conn.role === "admin" && conn.company === activeCompany.airtable
+        );
 
-    //om dette er en superadmin som utfører tilkoblinger på vegne av kunden så sjekk først om det er en admin i selskapet om ikke så sjekk om det er en invitasjon
-    //og med adminrolle, om ikke det så skal ikke kontaktperson komme med
+        if (adminUser) {
+            contactUser = adminUser;
+        } else {
+            // Sjekk om det finnes en invitasjon med adminrolle
+            const invitation = activeCompany.invitasjon?.find(inv =>
+                inv.role === "admin" && inv.company === activeCompany.airtable
+            );
+            if (invitation) {
+                contactUser = invitation;
+            }
+        }
 
-    // Avklar om kontaktperson (bruker) skal legges ved
-    let inkluderBruker = true;
-
-    // Hvis superadmin kobler på vegne av kunden
-    if (userObject?.superadmin) {
-        
-        console.log("Superadmin");
+        // Hvis ingen admin eller invitasjon → ikke send med kontaktinfo
+        if (!contactUser) {
+            contactinfotosupplier = "";
+        }
     }
 
+    // Hvis vi har en kontaktperson – bygg HTML-tekst
+    if (contactUser) {
+        contactinfotosupplier = `
+            <div style="font-weight:bold; font-size:16px;">Kontaktperson:</div>
+            ${contactUser.name || ""}<br>
+            ${contactUser.phone || ""}<br>
+            ${contactUser.email || ""}
+        `.trim();
+    }
+    
 
+    // Bygg JSON-body for Airtable
+    const body = JSON.stringify({
+        company: [activeCompany.airtable],
+        supplier: [supplier.airtable],
+        bruker: [userid],
+        contactinfotosupplier: contactinfotosupplier
+    });
 
-    let body = JSON.stringify(
-        {company:[activeCompany.airtable],
-            supplier:[supplier.airtable],
-            bruker:[userid],
-            contactinfotosupplier: "test",
-        });
-
-
-
-
-
-
-    POSTNewRowairtable("app1WzN1IxEnVu3m0","tblLjCOdb9elLmKOb",body,"responsSupplierConnection")
-
+    // Send til Airtable
+    POSTNewRowairtable("app1WzN1IxEnVu3m0", "tblLjCOdb9elLmKOb", body, "responsSupplierConnection");
 }
+
 
 function responsSupplierConnection(rawdata) {
     let data = rawdata.fields;
