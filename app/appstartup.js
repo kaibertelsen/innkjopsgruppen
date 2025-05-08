@@ -972,7 +972,6 @@ function connectToSupplier(supplier) {
         }
     }
 
-    // Hvis vi har en kontaktperson – bygg HTML-tekst
     if (contactUser) {
         contactinfotosupplier = `
             <div style="font-weight:bold; font-size:16px;">Kontaktperson:</div>
@@ -980,7 +979,11 @@ function connectToSupplier(supplier) {
             ${contactUser.telefon || ""}<br>
             ${contactUser.epost || ""}
         `.trim();
+    } else {
+        const proceed = confirm("Ingen kontaktperson er registrert for selskapet. Ønsker du likevel å utføre koblingen?");
+        if (!proceed) return;
     }
+    
     
 
     // Bygg JSON-body for Airtable
