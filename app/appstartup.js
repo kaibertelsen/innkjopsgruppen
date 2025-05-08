@@ -974,7 +974,7 @@ function connectToSupplier(supplier) {
 
     if (contactUser) {
         contactinfotosupplier = `
-            <div style="font-weight:bold; font-size:16px;">Kontaktperson:</div>
+            <div style="font-weight:bold;">Kontaktperson:</div>
             ${contactUser.navn || ""}<br>
             ${contactUser.telefon || ""}<br>
             ${contactUser.epost || ""}
@@ -1017,7 +1017,7 @@ function responsSupplierConnection(rawdata) {
         function formatCustomerData() {
             return `
                 <div>
-                    <span style="font-weight: bold; font-size: 16px;">${data.companyname[0]}</span>
+                    <span style="font-weight: bold;">${data.companyname[0]}</span>
                     <span> (${orgnr})</span>
                 </div>
                 <div>
