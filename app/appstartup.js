@@ -948,18 +948,19 @@ function connectToSupplier(supplier) {
 
     // Hvis superadmin utfører tilkoblingen
     if (userObject?.superadmin) {
-        // Sjekk om det finnes en adminbruker i selskapet
-        const adminUser = activeCompany.connection?.find(conn =>
-            conn.role === "admin" && conn.company === activeCompany.airtable
+       // Finn første bruker i selskapet som har rollen "admin"
+        const adminUser = activeCompany.bruker?.find(user =>
+            user.rolle === "admin"
         );
 
         if (adminUser) {
             contactUser = adminUser;
         } else {
-            // Sjekk om det finnes en invitasjon med adminrolle
+            // Er det noen invitasjon til selskapet?
             const invitation = activeCompany.invitasjon?.find(inv =>
-                inv.role === "admin" && inv.company === activeCompany.airtable
-            );
+                inv.company === activeCompany.airtable
+            ) || null;
+            
             if (invitation) {
                 contactUser = invitation;
             }
