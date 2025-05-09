@@ -75,7 +75,7 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
     
     let updatedexportData = emailContactMerge(activeCustomerlist);
     updatedexportData = nameContactMerge(updatedexportData);
-    updatedexportData = expandCompaniesWithSuppliers(activeCustomerlist); // originalArray er arrayet
+    updatedexportData = expandCompaniesWithSuppliers(updatedexportData); // originalArray er arrayet
     
     // Eksporter til Excel
     exportData(updatedexportData, fieldMapping, filename);

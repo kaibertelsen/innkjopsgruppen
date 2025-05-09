@@ -286,6 +286,7 @@ function expandCompaniesWithSuppliers(data) {
         const orgnr = company.orgnr;
         let totalKickback = 0;
         let totalValue = 0;
+        let totalCut = 0;
         const supplierTotals = {};
 
         // Summer opp per leverandør
@@ -300,9 +301,10 @@ function expandCompaniesWithSuppliers(data) {
 
                     totalValue += value;
                     totalKickback += kickback;
+                    totalCut += cut;
 
                     if (!supplierTotals[supplier]) {
-                        supplierTotals[supplier] = { value: 0, kickback: 0 };
+                        supplierTotals[supplier] = { value: 0, kickback: 0, cut: 0 };
                     }
 
                     supplierTotals[supplier].value += value;
@@ -317,6 +319,8 @@ function expandCompaniesWithSuppliers(data) {
             ...company,
             kickback: totalKickback,
             value: totalValue,
+            cut: totalCut,
+            totalSavings: totalKickback + totalCut,
             supplierTotals
         });
 
@@ -331,11 +335,13 @@ function expandCompaniesWithSuppliers(data) {
                 supplier: supplier,
                 supplierValue: totals.value,
                 supplierKickback: totals.kickback,
-                supplierSavings: totals.cut,
+                supplierCut: totals.cut,
+                Besparelse: totals.kickback + totals.cut
             });
         });
     });
 
     return result;
 }
+
 
