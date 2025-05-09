@@ -66,6 +66,8 @@ function visBistandOgAnalysePerKunde(dataArray) {
     container.innerHTML = "";
 
     const dateRange = select.value;
+    const selectedText = select.options[select.selectedIndex]?.text || "valgt periode";
+
     if (!dateRange) {
         container.innerHTML = "<p>Velg en periode for å se oversikten.</p>";
         return;
@@ -108,6 +110,24 @@ function visBistandOgAnalysePerKunde(dataArray) {
         return;
     }
 
+    // Øverste totaloppsummering
+    const totalBox = document.createElement("div");
+    totalBox.className = "rapport-row rapport-header";
+    totalBox.style.marginBottom = "10px";
+    totalBox.innerHTML = `
+        <div class="rapport-col" style="font-weight: bold; color: white;">
+            Total ${selectedText}
+        </div>
+        <div class="rapport-col" style="font-weight: bold; color: white;">
+            ${totalBistand.toFixed(2)} kr
+        </div>
+        <div class="rapport-col" style="font-weight: bold; color: white;">
+            ${totalAnalyse.toFixed(2)} kr
+        </div>
+        <div class="rapport-col" style="font-weight: bold; color: white;">&nbsp;</div>
+    `;
+    container.appendChild(totalBox);
+
     // Header
     const header = document.createElement("div");
     header.className = "rapport-row rapport-header";
@@ -131,18 +151,8 @@ function visBistandOgAnalysePerKunde(dataArray) {
         `;
         container.appendChild(row);
     });
-
-    // Totalsum
-    const totalRow = document.createElement("div");
-    totalRow.className = "rapport-row rapport-footer";
-    totalRow.innerHTML = `
-        <div class="rapport-col" style="font-weight: bold">Total</div>
-        <div class="rapport-col" style="font-weight: bold">${totalBistand.toFixed(2)} kr</div>
-        <div class="rapport-col" style="font-weight: bold">${totalAnalyse.toFixed(2)} kr</div>
-        <div class="rapport-col" style="font-weight: bold">-</div>
-    `;
-    container.appendChild(totalRow);
 }
+
 
 
 
