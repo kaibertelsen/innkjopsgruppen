@@ -71,7 +71,7 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
     const customerListText = customerListSelector.options[customerListSelector.selectedIndex].text || "Alle";
 
     // Generer filnavn
-    let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
+    let filename = `Full-Kunde-Rapport-Siste-12mnd - ${dashboardGroupText} - ${customerListText}`;
     
     let updatedexportData = emailContactMerge(activeCustomerlist);
     updatedexportData = nameContactMerge(updatedexportData);
