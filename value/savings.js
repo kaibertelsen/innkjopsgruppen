@@ -59,7 +59,7 @@ function populateFellesBesparelseDatoSelector() {
 }
 
 // Etter at du har satt dataArray:
-lastInnBrukereIFilter(dataArray);
+lastInnBrukereIFilter(dachboardtotalarraybufferdata);
 
 function lastInnBrukereIFilter(dataArray) {
     const userSelect = document.getElementById("usernamesselector");
