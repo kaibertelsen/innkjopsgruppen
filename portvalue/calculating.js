@@ -296,6 +296,7 @@ function expandCompaniesWithSuppliers(data) {
                     const supplier = entry.supplier || "Ukjent leverandør";
                     const value = parseFloat(entry.value || 0);
                     const kickback = parseFloat(entry.kickbackvalue || 0);
+                    const cut = parseFloat(entry.cut || 0);
 
                     totalValue += value;
                     totalKickback += kickback;
@@ -306,6 +307,7 @@ function expandCompaniesWithSuppliers(data) {
 
                     supplierTotals[supplier].value += value;
                     supplierTotals[supplier].kickback += kickback;
+                    supplierTotals[supplier].cut += cut;
                 }
             });
         }
