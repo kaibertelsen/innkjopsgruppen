@@ -314,7 +314,7 @@ function expandCompaniesWithSuppliers(data) {
             });
         }
 
-        // Først: legg til original selskapslinje
+        // Legg til hovedselskap-linje
         result.push({
             ...company,
             kickback: totalKickback,
@@ -324,24 +324,27 @@ function expandCompaniesWithSuppliers(data) {
             supplierTotals
         });
 
-        // Deretter: legg til én linje per leverandør, sortert etter verdi
+        // Legg til leverandørlinjer kun hvis minst én verdi > 0
         const sortedSuppliers = Object.entries(supplierTotals)
             .sort((a, b) => b[1].value - a[1].value);
 
         sortedSuppliers.forEach(([supplier, totals]) => {
-            result.push({
-                Name: name,
-                orgnr: orgnr,
-                supplier: supplier,
-                supplierValue: totals.value,
-                supplierKickback: totals.kickback,
-                supplierCut: totals.cut,
-                Besparelse: totals.kickback + totals.cut
-            });
+            if (totals.value > 0 || totals.kickback > 0 || totals.cut > 0) {
+                result.push({
+                    Name: name,
+                    orgnr: orgnr,
+                    supplier: supplier,
+                    supplierValue: totals.value,
+                    supplierKickback: totals.kickback,
+                    supplierCut: totals.cut,
+                    Besparelse: totals.kickback + totals.cut
+                });
+            }
         });
     });
 
     return result;
 }
+
 
 
