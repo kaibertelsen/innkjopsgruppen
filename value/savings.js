@@ -57,3 +57,57 @@ function populateFellesBesparelseDatoSelector() {
         selector.appendChild(option);
     });
 }
+
+function visBesparelseOversikt(dataArray) {
+    const select = document.getElementById("fellesbesparelsedatoselector");
+    const container = document.getElementById("listbesparelsesresultat");
+    container.innerHTML = ""; // Tøm liste før ny visning
+
+    const dateRange = select.value;
+    if (!dateRange) {
+        container.innerHTML = "<p>Velg en periode for å se besparelse.</p>";
+        return;
+    }
+
+    const [startDate, endDate] = dateRange.split(",").map(d => new Date(d));
+
+    // Filtrer på dato
+    const filtrert = dataArray.filter(item => {
+        const date = new Date(item.maindate);
+        return date >= startDate && date <= endDate;
+    });
+
+    // Grupper per customer og summer
+    const grupper = {};
+    filtrert.forEach(item => {
+        const navn = item.customer || "Ukjent kunde";
+        if (!grupper[navn]) {
+            grupper[navn] = { totalValue: 0, totalSavings: 0 };
+        }
+        grupper[navn].totalValue += parseFloat(item.value || 0);
+        grupper[navn].totalSavings += parseFloat(item.kickbackvalue || 0) + parseFloat(item.cutvalue || 0);
+    });
+
+    // Sorter alfabetisk og lag liste
+    const sortert = Object.entries(grupper).sort((a, b) => a[0].localeCompare(b[0]));
+
+    if (sortert.length === 0) {
+        container.innerHTML = "<p>Ingen data i valgt periode.</p>";
+        return;
+    }
+
+    sortert.forEach(([kunde, summer]) => {
+        const div = document.createElement("div");
+        div.classList.add("besparelsesrad"); // valgfri klasse for styling
+        div.innerHTML = `
+            <strong>${kunde}</strong><br>
+            Total handel: ${summer.totalValue.toFixed(1)} kr<br>
+            Total besparelse: ${summer.totalSavings.toFixed(1)} kr
+        `;
+        container.appendChild(div);
+    });
+}
+
+document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
+    visBesparelseOversikt(dachboardtotalarraybufferdata);
+});
