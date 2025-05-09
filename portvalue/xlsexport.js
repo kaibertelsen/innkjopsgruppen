@@ -73,7 +73,7 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
     // Generer filnavn
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
     
-    let updatedexportData = flattenCompanyPerSupplier(activeCustomerlist); // originalArray er arrayet
+    let updatedexportData = expandCompaniesWithSuppliers(activeCustomerlist); // originalArray er arrayet
     console.log(updatedexportData);
     //updatedexportData = emailContactMerge(updatedexportData);
    //updatedexportData = nameContactMerge(updatedexportData);

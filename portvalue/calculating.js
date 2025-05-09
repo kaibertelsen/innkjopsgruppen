@@ -274,39 +274,54 @@ function addSummedKeys(data) {
     });
 }
 
-function flattenCompanyPerSupplier(data) {
+function expandCompaniesWithSuppliers(data) {
     const today = new Date();
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(today.getFullYear() - 1);
 
-    let result = [];
+    const result = [];
 
     data.forEach(company => {
-        const name = company.name;
+        const name = company.Name;
         const orgnr = company.orgnr;
+        let totalKickback = 0;
+        let totalValue = 0;
+        const supplierTotals = {};
 
-        const supplierMap = {};
-
+        // Summer opp per leverandør
         if (Array.isArray(company.cashflowjson)) {
             company.cashflowjson.forEach(entry => {
                 const date = new Date(entry.maindate);
                 if (date >= oneYearAgo && date <= today) {
                     const supplier = entry.supplier || "Ukjent leverandør";
-                    if (!supplierMap[supplier]) {
-                        supplierMap[supplier] = { value: 0, kickback: 0 };
+                    const value = parseFloat(entry.value || 0);
+                    const kickback = parseFloat(entry.kickbackvalue || 0);
+
+                    totalValue += value;
+                    totalKickback += kickback;
+
+                    if (!supplierTotals[supplier]) {
+                        supplierTotals[supplier] = { value: 0, kickback: 0 };
                     }
 
-                    supplierMap[supplier].value += parseFloat(entry.value || 0);
-                    supplierMap[supplier].kickback += parseFloat(entry.kickbackvalue || 0);
+                    supplierTotals[supplier].value += value;
+                    supplierTotals[supplier].kickback += kickback;
                 }
             });
         }
 
-        // Sorter leverandørene etter verdi synkende
-        const sortedSuppliers = Object.entries(supplierMap)
+        // Først: legg til original selskapslinje
+        result.push({
+            ...company,
+            kickback: totalKickback,
+            value: totalValue,
+            supplierTotals
+        });
+
+        // Deretter: legg til én linje per leverandør, sortert etter verdi
+        const sortedSuppliers = Object.entries(supplierTotals)
             .sort((a, b) => b[1].value - a[1].value);
 
-        // Legg til en linje per leverandør
         sortedSuppliers.forEach(([supplier, totals]) => {
             result.push({
                 Firmanavn: name,
@@ -320,6 +335,7 @@ function flattenCompanyPerSupplier(data) {
 
     return result;
 }
+
 
 
 
