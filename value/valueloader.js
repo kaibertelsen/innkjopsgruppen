@@ -20,7 +20,9 @@ const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/value/link-modul.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/value/listloopfunction.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/value/employerlist.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js"
+    "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/value/savings.js"
+ 
 ];
 
 // Laste inn alle skriptene sekvensielt
