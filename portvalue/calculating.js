@@ -246,26 +246,29 @@ function animateCounter(elementId, startValue = 0, endValue, duration = 500, suf
 }
 
 function addSummedKeys(data) {
-    const today = new Date(); // Dagens dato
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(today.getFullYear() - 1); // Dato for 12 måneder siden
+    // Hent valgt datoperiode fra selector
+    const dateRange = document.getElementById("listdateselector")?.value;
+    const [startDate, endDate] = dateRange
+        ? dateRange.split(",").map(d => new Date(d))
+        : [null, null];
 
     return data.map(company => {
-        // Summerer verdiene i cashflowjson innenfor 12 måneder tilbake
         let totalKickback = 0;
         let totalValue = 0;
 
         if (Array.isArray(company.cashflowjson)) {
             company.cashflowjson.forEach(cashflow => {
                 const transactionDate = new Date(cashflow.maindate);
-                if (transactionDate >= oneYearAgo && transactionDate <= today) {
+                if (
+                    startDate && endDate &&
+                    transactionDate >= startDate && transactionDate <= endDate
+                ) {
                     totalKickback += parseFloat(cashflow.kickbackvalue || 0);
                     totalValue += parseFloat(cashflow.value || 0);
                 }
             });
         }
 
-        // Returnerer et nytt objekt med de nye nøklene lagt til
         return {
             ...company,
             kickback: totalKickback,
@@ -273,6 +276,7 @@ function addSummedKeys(data) {
         };
     });
 }
+
 
 function expandCompaniesWithSuppliers(data) {
     // Hent valgt datoperiode fra selector

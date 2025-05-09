@@ -26,8 +26,21 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
     const customerListText = customerListSelector.options[customerListSelector.selectedIndex].text || "Alle";
 
+    // Hent valgt datoperiode
+    const dateRange = document.getElementById("listdateselector")?.value;
+    let periodText = "";
+
+    if (dateRange) {
+        const [start, end] = dateRange.split(",");
+        const formatDate = (d) => {
+            const dt = new Date(d);
+            return dt.toISOString().split("T")[0]; // f.eks. 2024-05-09
+        };
+        periodText = ` - ${formatDate(start)} til ${formatDate(end)}`;
+    }
+
     // Generer filnavn
-    let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
+    let filename = `Full-Kunde-Rapport - ${dashboardGroupText} - ${customerListText}${periodText}`;
     
     let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet
     updatedexportData = emailContactMerge(updatedexportData);
