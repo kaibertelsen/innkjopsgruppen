@@ -182,7 +182,6 @@ function visBistandOgAnalysePerKunde(dataArray) {
 }
 
 
-
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
 });
