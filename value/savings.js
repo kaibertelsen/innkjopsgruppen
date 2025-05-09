@@ -86,6 +86,8 @@ function visBesparelseOversikt(dataArray) {
         }
         grupper[navn].totalValue += parseFloat(item.value || 0);
         grupper[navn].totalSavings += parseFloat(item.kickbackvalue || 0) + parseFloat(item.cutvalue || 0);
+
+        
     });
 
     // Sorter alfabetisk og lag liste
