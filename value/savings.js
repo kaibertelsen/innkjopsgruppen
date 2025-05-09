@@ -61,14 +61,13 @@ function populateFellesBesparelseDatoSelector() {
 function visBesparelseOversikt(dataArray) {
     const select = document.getElementById("fellesbesparelsedatoselector");
     const container = document.getElementById("listbesparelsesresultat");
-    const totalTekst = document.getElementById("totalbesparelsetekst");
-    
+    const summeringEl = document.getElementById("fellesbesparelsesummering");
     container.innerHTML = ""; // Tøm liste før ny visning
-    totalTekst.innerHTML = ""; // Tøm totaltekst
 
     const dateRange = select.value;
     if (!dateRange) {
         container.innerHTML = "<p>Velg en periode for å se besparelse.</p>";
+        if (summeringEl) summeringEl.innerText = "";
         return;
     }
 
@@ -80,51 +79,78 @@ function visBesparelseOversikt(dataArray) {
         return date >= startDate && date <= endDate;
     });
 
-    // Grupper per customer og summer
+    // Grupper per kunde og summer
     const grupper = {};
     filtrert.forEach(item => {
         const navn = item.customer || "Ukjent kunde";
         if (!grupper[navn]) {
-            grupper[navn] = { totalValue: 0, totalSavings: 0 };
+            grupper[navn] = { totalValue: 0, totalSavings: 0, totalKickback: 0 };
         }
-        grupper[navn].totalValue += parseFloat(item.value || 0);
-        grupper[navn].totalSavings += parseFloat(item.kickbackvalue || 0) + parseFloat(item.cutvalue || 0);
+
+        const value = parseFloat(item.value || 0);
+        const kickback = parseFloat(item.kickbackvalue || 0);
+        const cut = parseFloat(item.cutvalue || 0);
+
+        grupper[navn].totalValue += value;
+        grupper[navn].totalSavings += kickback + cut;
+        grupper[navn].totalKickback += kickback;
     });
 
-    // Filtrer bort de med 0 i både handel og besparelse
+    // Fjern kunder med nullverdi
     const sortert = Object.entries(grupper)
-        .filter(([_, sum]) => sum.totalValue > 0 || sum.totalSavings > 0)
+        .filter(([_, data]) => data.totalValue > 0 || data.totalSavings > 0 || data.totalKickback > 0)
         .sort((a, b) => a[0].localeCompare(b[0]));
 
     if (sortert.length === 0) {
         container.innerHTML = "<p>Ingen data i valgt periode.</p>";
+        if (summeringEl) summeringEl.innerText = "";
         return;
     }
 
+    // Overskriftsrad
+    const header = document.createElement("div");
+    header.className = "rapport-row rapport-header";
+    header.innerHTML = `
+        <div class="rapport-col kunde">Kunde</div>
+        <div class="rapport-col handel">Handel</div>
+        <div class="rapport-col besparelse">Besparelse</div>
+        <div class="rapport-col kickback">Kickback</div>
+    `;
+    container.appendChild(header);
+
+    // Summering totalt
     let sumValue = 0;
     let sumSavings = 0;
+    let sumKickback = 0;
 
+    // Rader for hver kunde
     sortert.forEach(([kunde, summer]) => {
         sumValue += summer.totalValue;
         sumSavings += summer.totalSavings;
+        sumKickback += summer.totalKickback;
 
-        const div = document.createElement("div");
-        div.classList.add("besparelsesrad");
-        div.innerHTML = `
-            <strong>${kunde}</strong><br>
-            Total handel: ${summer.totalValue.toFixed(1)} kr<br>
-            Total besparelse: ${summer.totalSavings.toFixed(1)} kr
+        const row = document.createElement("div");
+        row.className = "rapport-row";
+        row.innerHTML = `
+            <div class="rapport-col kunde">${kunde}</div>
+            <div class="rapport-col handel">${summer.totalValue.toLocaleString("no-NO")} kr</div>
+            <div class="rapport-col besparelse">${summer.totalSavings.toLocaleString("no-NO")} kr</div>
+            <div class="rapport-col kickback">${summer.totalKickback.toLocaleString("no-NO")} kr</div>
         `;
-        container.appendChild(div);
+        container.appendChild(row);
     });
 
-    // Vis totalsum i eget tekstelement
-    totalTekst.innerHTML = `
-        <strong>Totalt for perioden:</strong><br>
-        Total handel: ${sumValue.toFixed(1)} kr<br>
-        Total besparelse: ${sumSavings.toFixed(1)} kr
-    `;
+    // Vis totalsummer
+    if (summeringEl) {
+        summeringEl.innerHTML = `
+            ${sortert.length} stk. Kunder<br>
+            Handel: <strong>${sumValue.toLocaleString("no-NO")} kr</strong><br>
+            Besparelse: <strong>${sumSavings.toLocaleString("no-NO")} kr</strong><br>
+            Kickback: <strong>${sumKickback.toLocaleString("no-NO")} kr</strong>
+        `;
+    }
 }
+
 
 
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
