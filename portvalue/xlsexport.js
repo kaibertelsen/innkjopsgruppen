@@ -56,7 +56,11 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
         exit: "Oppsigelses dato",
         airtable:"SystemID",
         names:"Kontaktpersoner",
-        emails:"E-poster"
+        emails:"E-poster",
+        supplier:"Leverandør",
+        supplierValue:"Leverandør_Handel",
+        supplierKickback:"Leverandør_Kickback",
+        supplierSavings:"Leverandør_Besparelse"
     };
 
     // Hent tekstverdier fra selectorer
@@ -69,13 +73,14 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
     // Generer filnavn
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
     
-    let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet
-    updatedexportData = emailContactMerge(updatedexportData);
-    updatedexportData = nameContactMerge(updatedexportData);
+    let updatedexportData = flattenCompanyPerSupplier(activeCustomerlist); // originalArray er arrayet
+    console.log(updatedexportData);
+    //updatedexportData = emailContactMerge(updatedexportData);
+   //updatedexportData = nameContactMerge(updatedexportData);
     //add contactemails
     
     // Eksporter til Excel
-    exportData(updatedexportData, fieldMapping, filename);
+    //exportData(updatedexportData, fieldMapping, filename);
 });
 
 function emailContactMerge(companylist) {

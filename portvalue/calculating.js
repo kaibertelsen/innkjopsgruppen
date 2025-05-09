@@ -274,4 +274,52 @@ function addSummedKeys(data) {
     });
 }
 
+function flattenCompanyPerSupplier(data) {
+    const today = new Date();
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+    let result = [];
+
+    data.forEach(company => {
+        const name = company.name;
+        const orgnr = company.orgnr;
+
+        const supplierMap = {};
+
+        if (Array.isArray(company.cashflowjson)) {
+            company.cashflowjson.forEach(entry => {
+                const date = new Date(entry.maindate);
+                if (date >= oneYearAgo && date <= today) {
+                    const supplier = entry.supplier || "Ukjent leverandør";
+                    if (!supplierMap[supplier]) {
+                        supplierMap[supplier] = { value: 0, kickback: 0 };
+                    }
+
+                    supplierMap[supplier].value += parseFloat(entry.value || 0);
+                    supplierMap[supplier].kickback += parseFloat(entry.kickbackvalue || 0);
+                }
+            });
+        }
+
+        // Sorter leverandørene etter verdi synkende
+        const sortedSuppliers = Object.entries(supplierMap)
+            .sort((a, b) => b[1].value - a[1].value);
+
+        // Legg til en linje per leverandør
+        sortedSuppliers.forEach(([supplier, totals]) => {
+            result.push({
+                Firmanavn: name,
+                OrgNr: orgnr,
+                Leverandør: supplier,
+                Handel: totals.value,
+                Kickback: totals.kickback
+            });
+        });
+    });
+
+    return result;
+}
+
+
 
