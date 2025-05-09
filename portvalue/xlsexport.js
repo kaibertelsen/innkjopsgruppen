@@ -78,7 +78,7 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
     updatedexportData = expandCompaniesWithSuppliers(activeCustomerlist); // originalArray er arrayet
     
     // Eksporter til Excel
-    //exportData(updatedexportData, fieldMapping, filename);
+    exportData(updatedexportData, fieldMapping, filename);
 });
 
 function emailContactMerge(companylist) {
