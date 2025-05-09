@@ -151,10 +151,10 @@ function visBesparelseOversikt(dataArray) {
     }
 }
 
-function visBistandOgAnalyseOversikt(dataArray) {
+function visBistandOgAnalysePerKunde(dataArray) {
     const select = document.getElementById("fellesbesparelsedatoselector");
     const container = document.getElementById("listbesparelsesresultat");
-    container.innerHTML = ""; // Tøm visning
+    container.innerHTML = "";
 
     const dateRange = select.value;
     if (!dateRange) {
@@ -163,55 +163,62 @@ function visBistandOgAnalyseOversikt(dataArray) {
     }
 
     const [startDate, endDate] = dateRange.split(",").map(d => new Date(d));
+
     const grupper = {};
     let totalBistand = 0;
     let totalAnalyse = 0;
 
-    // Filtrering og summering
+    // Grupper per kunde
     dataArray.forEach(item => {
         const dato = new Date(item.maindate);
         if (dato >= startDate && dato <= endDate) {
-            const bruker = item.username || "Ukjent bruker";
+            const kunde = item.customer || "Ukjent kunde";
             const bistand = parseFloat(item.bistandvalue || 0);
             const analyse = parseFloat(item.analysevalue || 0);
+            const bruker = item.username || "Ukjent";
 
-            if (!grupper[bruker]) {
-                grupper[bruker] = { bistand: 0, analyse: 0 };
+            if (!grupper[kunde]) {
+                grupper[kunde] = { bistand: 0, analyse: 0, brukere: new Set() };
             }
 
-            grupper[bruker].bistand += bistand;
-            grupper[bruker].analyse += analyse;
+            grupper[kunde].bistand += bistand;
+            grupper[kunde].analyse += analyse;
+            grupper[kunde].brukere.add(bruker);
 
             totalBistand += bistand;
             totalAnalyse += analyse;
         }
     });
 
-    const sortert = Object.entries(grupper).sort((a, b) => a[0].localeCompare(b[0]));
+    const sortert = Object.entries(grupper)
+        .filter(([_, val]) => val.bistand > 0 || val.analyse > 0)
+        .sort((a, b) => a[0].localeCompare(b[0]));
 
     if (sortert.length === 0) {
-        container.innerHTML = "<p>Ingen registreringer i valgt periode.</p>";
+        container.innerHTML = "<p>Ingen data i valgt periode.</p>";
         return;
     }
 
-    // Lag header
+    // Header
     const header = document.createElement("div");
     header.className = "rapport-row rapport-header";
     header.innerHTML = `
-        <div class="rapport-col">Bruker</div>
+        <div class="rapport-col">Kunde</div>
         <div class="rapport-col">Bistand</div>
         <div class="rapport-col">Analyse</div>
+        <div class="rapport-col">Brukere</div>
     `;
     container.appendChild(header);
 
-    // Radene
-    sortert.forEach(([bruker, summer], index) => {
+    // Rader
+    sortert.forEach(([kunde, summer], index) => {
         const row = document.createElement("div");
         row.className = `rapport-row ${index % 2 === 0 ? "even" : "odd"}`;
         row.innerHTML = `
-            <div class="rapport-col">${bruker}</div>
+            <div class="rapport-col"><strong>${kunde}</strong></div>
             <div class="rapport-col">${summer.bistand.toFixed(2)} kr</div>
             <div class="rapport-col">${summer.analyse.toFixed(2)} kr</div>
+            <div class="rapport-col">${Array.from(summer.brukere).join(", ")}</div>
         `;
         container.appendChild(row);
     });
@@ -223,6 +230,7 @@ function visBistandOgAnalyseOversikt(dataArray) {
         <div class="rapport-col" style="font-weight: bold">Total</div>
         <div class="rapport-col" style="font-weight: bold">${totalBistand.toFixed(2)} kr</div>
         <div class="rapport-col" style="font-weight: bold">${totalAnalyse.toFixed(2)} kr</div>
+        <div class="rapport-col" style="font-weight: bold">-</div>
     `;
     container.appendChild(totalRow);
 }
@@ -230,5 +238,5 @@ function visBistandOgAnalyseOversikt(dataArray) {
 
 
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
-    visBistandOgAnalyseOversikt(dachboardtotalarraybufferdata);
+    visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
 });
