@@ -73,11 +73,9 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
     // Generer filnavn
     let filename = `Kunder - ${dashboardGroupText} - ${customerListText}`;
     
-    let updatedexportData = expandCompaniesWithSuppliers(activeCustomerlist); // originalArray er arrayet
-    console.log(updatedexportData);
-    //updatedexportData = emailContactMerge(updatedexportData);
-   //updatedexportData = nameContactMerge(updatedexportData);
-    //add contactemails
+    let updatedexportData = emailContactMerge(activeCustomerlist);
+    updatedexportData = nameContactMerge(updatedexportData);
+    updatedexportData = expandCompaniesWithSuppliers(activeCustomerlist); // originalArray er arrayet
     
     // Eksporter til Excel
     //exportData(updatedexportData, fieldMapping, filename);
