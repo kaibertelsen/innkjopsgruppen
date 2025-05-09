@@ -126,35 +126,46 @@ function visBistandOgAnalysePerKunde(dataArray) {
 
     const sortert = Object.entries(grupper).sort((a, b) => a[0].localeCompare(b[0]));
 
-    // Summering for oversikt
+    // Total summering
     let totalBistand = 0;
     let totalAnalyse = 0;
+    sortert.forEach(([, info]) => {
+        totalBistand += info.bistand;
+        totalAnalyse += info.analyse;
+    });
 
     // Bygg tabell
     const table = document.createElement("table");
-    table.classList.add("fellesbesparelse-table"); // valgfri stylingklasse
+    table.classList.add("fellesbesparelse-table");
 
     const thead = document.createElement("thead");
     thead.innerHTML = `
-        <tr style="background:#444; color:white;">
-            <th style="text-align:left;">Kunde</th>
+        <tr>
+            <th>Kunde</th>
             <th style="text-align:right;">Bistand</th>
             <th style="text-align:right;">Analyse</th>
-            <th style="text-align:left;">Brukere</th>
+            <th>Brukere</th>
         </tr>`;
     table.appendChild(thead);
 
     const tbody = document.createElement("tbody");
 
-    sortert.forEach(([kunde, info], index) => {
+    // 👉 Total-linje først etter header
+    const sumRow = document.createElement("tr");
+    sumRow.classList.add("total-row");
+    sumRow.innerHTML = `
+        <td>Total ${periodeSelector.options[periodeSelector.selectedIndex].text}</td>
+        <td style="text-align:right;">${totalBistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td style="text-align:right;">${totalAnalyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td>-</td>
+    `;
+    tbody.appendChild(sumRow);
+
+    // 👉 Deretter alle kundelinjer
+    sortert.forEach(([kunde, info]) => {
         if (info.bistand === 0 && info.analyse === 0) return;
 
-        totalBistand += info.bistand;
-        totalAnalyse += info.analyse;
-
         const rad = document.createElement("tr");
-        rad.style.background = index % 2 === 0 ? "#f7f7f7" : "#ececec";
-
         rad.innerHTML = `
             <td><strong>${kunde}</strong></td>
             <td style="text-align:right;">${info.bistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
@@ -163,18 +174,6 @@ function visBistandOgAnalysePerKunde(dataArray) {
         `;
         tbody.appendChild(rad);
     });
-
-    // Legg til summeringsrad nederst
-    const sumRow = document.createElement("tr");
-    sumRow.style.fontWeight = "bold";
-    sumRow.style.background = "#ddd";
-    sumRow.innerHTML = `
-        <td>Total</td>
-        <td style="text-align:right;">${totalBistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
-        <td style="text-align:right;">${totalAnalyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
-        <td>-</td>
-    `;
-    tbody.appendChild(sumRow);
 
     table.appendChild(tbody);
     container.appendChild(table);
@@ -187,4 +186,4 @@ document.getElementById("fellesbesparelsedatoselector").addEventListener("change
 
 document.getElementById("usernamesselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
-})
+});
