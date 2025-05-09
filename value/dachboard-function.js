@@ -109,6 +109,7 @@ function daschboardDataToArray(data){
     var analysevaluearray = data.fields.analysevaluecashflow;
     var grouparray = data.fields.customergroup;
     var groupnamearray = data.fields.customergroupname;
+    var usernamearray = data.fields.username;
     var newarray = [];
     
     
@@ -126,7 +127,8 @@ function daschboardDataToArray(data){
         bistandvalue:bistandvaluearray[i],
         analysevalue:analysevaluearray[i],
         group:grouparray[i],
-        groupname:groupnamearray[i]
+        groupname:groupnamearray[i],
+        username:usernamearray[i]
         });
     }
     
