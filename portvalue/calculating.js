@@ -275,9 +275,11 @@ function addSummedKeys(data) {
 }
 
 function expandCompaniesWithSuppliers(data) {
-    const today = new Date();
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(today.getFullYear() - 1);
+    // Hent valgt datoperiode fra selector
+    const dateRange = document.getElementById("listdateselector")?.value;
+    const [startDate, endDate] = dateRange
+        ? dateRange.split(",").map(d => new Date(d))
+        : [null, null];
 
     const result = [];
 
@@ -289,11 +291,13 @@ function expandCompaniesWithSuppliers(data) {
         let totalCut = 0;
         const supplierTotals = {};
 
-        // Summer opp per leverandør
         if (Array.isArray(company.cashflowjson)) {
             company.cashflowjson.forEach(entry => {
                 const date = new Date(entry.maindate);
-                if (date >= oneYearAgo && date <= today) {
+                if (
+                    startDate && endDate &&
+                    date >= startDate && date <= endDate
+                ) {
                     const supplier = entry.supplier || "Ukjent leverandør";
                     const value = parseFloat(entry.value || 0);
                     const kickback = parseFloat(entry.kickbackvalue || 0);
@@ -323,9 +327,8 @@ function expandCompaniesWithSuppliers(data) {
             totalSavings: +(totalKickback + totalCut).toFixed(1),
             supplierTotals
         });
-        
 
-        // Legg til leverandørlinjer kun hvis minst én verdi > 0
+        // Legg til leverandørlinjer hvis minst én verdi > 0
         const sortedSuppliers = Object.entries(supplierTotals)
             .sort((a, b) => b[1].value - a[1].value);
 
@@ -340,13 +343,13 @@ function expandCompaniesWithSuppliers(data) {
                     supplierCut: +totals.cut.toFixed(1),
                     Besparelse: +(totals.kickback + totals.cut).toFixed(1)
                 });
-                
             }
         });
     });
 
     return result;
 }
+
 
 
 
