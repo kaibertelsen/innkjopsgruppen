@@ -151,8 +151,84 @@ function visBesparelseOversikt(dataArray) {
     }
 }
 
+function visBistandOgAnalyseOversikt(dataArray) {
+    const select = document.getElementById("fellesbesparelsedatoselector");
+    const container = document.getElementById("listbesparelsesresultat");
+    container.innerHTML = ""; // Tøm visning
+
+    const dateRange = select.value;
+    if (!dateRange) {
+        container.innerHTML = "<p>Velg en periode for å se oversikten.</p>";
+        return;
+    }
+
+    const [startDate, endDate] = dateRange.split(",").map(d => new Date(d));
+    const grupper = {};
+    let totalBistand = 0;
+    let totalAnalyse = 0;
+
+    // Filtrering og summering
+    dataArray.forEach(item => {
+        const dato = new Date(item.maindate);
+        if (dato >= startDate && dato <= endDate) {
+            const bruker = item.username || "Ukjent bruker";
+            const bistand = parseFloat(item.bistandvalue || 0);
+            const analyse = parseFloat(item.analysevalue || 0);
+
+            if (!grupper[bruker]) {
+                grupper[bruker] = { bistand: 0, analyse: 0 };
+            }
+
+            grupper[bruker].bistand += bistand;
+            grupper[bruker].analyse += analyse;
+
+            totalBistand += bistand;
+            totalAnalyse += analyse;
+        }
+    });
+
+    const sortert = Object.entries(grupper).sort((a, b) => a[0].localeCompare(b[0]));
+
+    if (sortert.length === 0) {
+        container.innerHTML = "<p>Ingen registreringer i valgt periode.</p>";
+        return;
+    }
+
+    // Lag header
+    const header = document.createElement("div");
+    header.className = "rapport-row rapport-header";
+    header.innerHTML = `
+        <div class="rapport-col">Bruker</div>
+        <div class="rapport-col">Bistand</div>
+        <div class="rapport-col">Analyse</div>
+    `;
+    container.appendChild(header);
+
+    // Radene
+    sortert.forEach(([bruker, summer], index) => {
+        const row = document.createElement("div");
+        row.className = `rapport-row ${index % 2 === 0 ? "even" : "odd"}`;
+        row.innerHTML = `
+            <div class="rapport-col">${bruker}</div>
+            <div class="rapport-col">${summer.bistand.toFixed(2)} kr</div>
+            <div class="rapport-col">${summer.analyse.toFixed(2)} kr</div>
+        `;
+        container.appendChild(row);
+    });
+
+    // Totalsum
+    const totalRow = document.createElement("div");
+    totalRow.className = "rapport-row rapport-footer";
+    totalRow.innerHTML = `
+        <div class="rapport-col" style="font-weight: bold">Total</div>
+        <div class="rapport-col" style="font-weight: bold">${totalBistand.toFixed(2)} kr</div>
+        <div class="rapport-col" style="font-weight: bold">${totalAnalyse.toFixed(2)} kr</div>
+    `;
+    container.appendChild(totalRow);
+}
+
 
 
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
-    visBesparelseOversikt(dachboardtotalarraybufferdata);
+    visBistandOgAnalyseOversikt(dachboardtotalarraybufferdata);
 });
