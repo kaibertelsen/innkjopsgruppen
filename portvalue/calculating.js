@@ -328,16 +328,14 @@ function expandCompaniesWithSuppliers(data) {
             result.push({
                 Name: name,
                 orgnr: orgnr,
-                Leverandør: supplier,
-                Handel: totals.value,
-                Kickback: totals.kickback
+                supplier: supplier,
+                supplierValue: totals.value,
+                supplierKickback: totals.kickback,
+                supplierSavings: totals.cut,
             });
         });
     });
 
     return result;
 }
-
-
-
 
