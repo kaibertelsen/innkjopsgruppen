@@ -38,6 +38,9 @@ function responddaschboard(data,id){
     
     loaddaschboard(dachboardtotalarraybufferdata);
     updateOpenlistPage("");
+
+    // Etter at du har satt user
+    lastInnBrukereIFilter(dachboardtotalarraybufferdata);
 }
     
 function loaddaschboard(data){
