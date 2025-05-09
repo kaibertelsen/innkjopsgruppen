@@ -67,19 +67,34 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
     const dashboardGroupSelector = document.getElementById("dashboardgroupselector");
     const customerListSelector = document.getElementById("customerlistselector");
 
-    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex].text || "Alle";
-    const customerListText = customerListSelector.options[customerListSelector.selectedIndex].text || "Alle";
+    const dashboardGroupText = dashboardGroupSelector.options[dashboardGroupSelector.selectedIndex]?.text || "Alle";
+    const customerListText = customerListSelector.options[customerListSelector.selectedIndex]?.text || "Alle";
+
+    // Hent valgt datoperiode
+    const dateRange = document.getElementById("listdateselector")?.value;
+    let periodText = "";
+
+    if (dateRange) {
+        const [start, end] = dateRange.split(",");
+        const formatDate = (d) => {
+            const dt = new Date(d);
+            return dt.toISOString().split("T")[0]; // f.eks. 2024-05-09
+        };
+        periodText = ` - ${formatDate(start)} til ${formatDate(end)}`;
+    }
 
     // Generer filnavn
-    let filename = `Full-Kunde-Rapport-Siste-12mnd - ${dashboardGroupText} - ${customerListText}`;
-    
+    let filename = `Full-Kunde-Rapport - ${dashboardGroupText} - ${customerListText}${periodText}`;
+
+    // Datahåndtering
     let updatedexportData = emailContactMerge(activeCustomerlist);
     updatedexportData = nameContactMerge(updatedexportData);
-    updatedexportData = expandCompaniesWithSuppliers(updatedexportData); // originalArray er arrayet
-    
+    updatedexportData = expandCompaniesWithSuppliers(updatedexportData);
+
     // Eksporter til Excel
     exportData(updatedexportData, fieldMapping, filename);
 });
+
 
 function emailContactMerge(companylist) {
     companylist.forEach(company => {
