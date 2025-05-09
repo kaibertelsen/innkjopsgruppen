@@ -136,6 +136,8 @@ function daschboardDataToArray(data){
     
 }
 
+
+
 function daschboardSummer(data){
     
     var value = 0;
