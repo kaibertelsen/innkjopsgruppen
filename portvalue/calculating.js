@@ -324,8 +324,8 @@ function expandCompaniesWithSuppliers(data) {
 
         sortedSuppliers.forEach(([supplier, totals]) => {
             result.push({
-                Firmanavn: name,
-                OrgNr: orgnr,
+                Name: name,
+                orgnr: orgnr,
                 Leverandør: supplier,
                 Handel: totals.value,
                 Kickback: totals.kickback
