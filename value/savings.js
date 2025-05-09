@@ -61,7 +61,10 @@ function populateFellesBesparelseDatoSelector() {
 function visBesparelseOversikt(dataArray) {
     const select = document.getElementById("fellesbesparelsedatoselector");
     const container = document.getElementById("listbesparelsesresultat");
+    const totalTekst = document.getElementById("totalbesparelsetekst");
+    
     container.innerHTML = ""; // Tøm liste før ny visning
+    totalTekst.innerHTML = ""; // Tøm totaltekst
 
     const dateRange = select.value;
     if (!dateRange) {
@@ -86,21 +89,27 @@ function visBesparelseOversikt(dataArray) {
         }
         grupper[navn].totalValue += parseFloat(item.value || 0);
         grupper[navn].totalSavings += parseFloat(item.kickbackvalue || 0) + parseFloat(item.cutvalue || 0);
-
-        
     });
 
-    // Sorter alfabetisk og lag liste
-    const sortert = Object.entries(grupper).sort((a, b) => a[0].localeCompare(b[0]));
+    // Filtrer bort de med 0 i både handel og besparelse
+    const sortert = Object.entries(grupper)
+        .filter(([_, sum]) => sum.totalValue > 0 || sum.totalSavings > 0)
+        .sort((a, b) => a[0].localeCompare(b[0]));
 
     if (sortert.length === 0) {
         container.innerHTML = "<p>Ingen data i valgt periode.</p>";
         return;
     }
 
+    let sumValue = 0;
+    let sumSavings = 0;
+
     sortert.forEach(([kunde, summer]) => {
+        sumValue += summer.totalValue;
+        sumSavings += summer.totalSavings;
+
         const div = document.createElement("div");
-        div.classList.add("besparelsesrad"); // valgfri klasse for styling
+        div.classList.add("besparelsesrad");
         div.innerHTML = `
             <strong>${kunde}</strong><br>
             Total handel: ${summer.totalValue.toFixed(1)} kr<br>
@@ -108,7 +117,15 @@ function visBesparelseOversikt(dataArray) {
         `;
         container.appendChild(div);
     });
+
+    // Vis totalsum i eget tekstelement
+    totalTekst.innerHTML = `
+        <strong>Totalt for perioden:</strong><br>
+        Total handel: ${sumValue.toFixed(1)} kr<br>
+        Total besparelse: ${sumSavings.toFixed(1)} kr
+    `;
 }
+
 
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
     visBesparelseOversikt(dachboardtotalarraybufferdata);
