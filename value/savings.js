@@ -58,104 +58,135 @@ function populateFellesBesparelseDatoSelector() {
     });
 }
 
+// Etter at du har satt dataArray:
+lastInnBrukereIFilter(dataArray);
+
+function lastInnBrukereIFilter(dataArray) {
+    const userSelect = document.getElementById("usernamesselector");
+    const brukereSet = new Set();
+
+    dataArray.forEach(item => {
+        const bruker = item.username?.trim();
+        if (bruker) {
+            brukereSet.add(bruker);
+        }
+    });
+
+    // Sortér og legg til i select
+    const sorterteBrukere = Array.from(brukereSet).sort();
+    userSelect.innerHTML = `<option value="">Alle brukere</option>`;
+    sorterteBrukere.forEach(bruker => {
+        const option = document.createElement("option");
+        option.value = bruker;
+        option.textContent = bruker;
+        userSelect.appendChild(option);
+    });
+}
 
 
 function visBistandOgAnalysePerKunde(dataArray) {
-    const select = document.getElementById("fellesbesparelsedatoselector");
+    const periodeSelector = document.getElementById("fellesbesparelsedatoselector");
+    const userSelector = document.getElementById("usernamesselector");
     const container = document.getElementById("listbesparelsesresultat");
+
     container.innerHTML = "";
 
-    const dateRange = select.value;
-    const selectedText = select.options[select.selectedIndex]?.text || "valgt periode";
+    const dateRange = periodeSelector.value;
+    const selectedUser = userSelector.value;
 
     if (!dateRange) {
-        container.innerHTML = "<p>Velg en periode for å se oversikten.</p>";
+        container.innerHTML = "<p>Velg periode for å vise oversikt.</p>";
         return;
     }
 
     const [startDate, endDate] = dateRange.split(",").map(d => new Date(d));
 
+    // Filtrer på dato og evt. bruker
+    const filtrert = dataArray.filter(item => {
+        const dato = new Date(item.maindate);
+        const innenforPeriode = dato >= startDate && dato <= endDate;
+        const brukerMatch = !selectedUser || item.username === selectedUser;
+        return innenforPeriode && brukerMatch;
+    });
+
+    // Grupper per selskap
     const grupper = {};
+    filtrert.forEach(item => {
+        const navn = item.customer || "Ukjent kunde";
+        if (!grupper[navn]) {
+            grupper[navn] = {
+                bistand: 0,
+                analyse: 0,
+                brukere: new Set()
+            };
+        }
+        grupper[navn].bistand += parseFloat(item.bistandvalue || 0);
+        grupper[navn].analyse += parseFloat(item.analysevalue || 0);
+        if (item.username) grupper[navn].brukere.add(item.username);
+    });
+
+    const sortert = Object.entries(grupper).sort((a, b) => a[0].localeCompare(b[0]));
+
+    // Summering for oversikt
     let totalBistand = 0;
     let totalAnalyse = 0;
 
-    // Grupper per kunde
-    dataArray.forEach(item => {
-        const dato = new Date(item.maindate);
-        if (dato >= startDate && dato <= endDate) {
-            const kunde = item.customer || "Ukjent kunde";
-            const bistand = parseFloat(item.bistandvalue || 0);
-            const analyse = parseFloat(item.analysevalue || 0);
-            const bruker = item.username || "Ukjent";
+    // Bygg tabell
+    const table = document.createElement("table");
+    table.classList.add("fellesbesparelse-table"); // valgfri stylingklasse
 
-            if (!grupper[kunde]) {
-                grupper[kunde] = { bistand: 0, analyse: 0, brukere: new Set() };
-            }
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+        <tr style="background:#444; color:white;">
+            <th style="text-align:left;">Kunde</th>
+            <th style="text-align:right;">Bistand</th>
+            <th style="text-align:right;">Analyse</th>
+            <th style="text-align:left;">Brukere</th>
+        </tr>`;
+    table.appendChild(thead);
 
-            grupper[kunde].bistand += bistand;
-            grupper[kunde].analyse += analyse;
-            grupper[kunde].brukere.add(bruker);
+    const tbody = document.createElement("tbody");
 
-            totalBistand += bistand;
-            totalAnalyse += analyse;
-        }
-    });
+    sortert.forEach(([kunde, info], index) => {
+        if (info.bistand === 0 && info.analyse === 0) return;
 
-    const sortert = Object.entries(grupper)
-        .filter(([_, val]) => val.bistand > 0 || val.analyse > 0)
-        .sort((a, b) => a[0].localeCompare(b[0]));
+        totalBistand += info.bistand;
+        totalAnalyse += info.analyse;
 
-    if (sortert.length === 0) {
-        container.innerHTML = "<p>Ingen data i valgt periode.</p>";
-        return;
-    }
+        const rad = document.createElement("tr");
+        rad.style.background = index % 2 === 0 ? "#f7f7f7" : "#ececec";
 
-    // Øverste totaloppsummering
-    const totalBox = document.createElement("div");
-    totalBox.className = "rapport-row rapport-header";
-    totalBox.style.marginBottom = "10px";
-    totalBox.innerHTML = `
-        <div class="rapport-col" style="font-weight: bold; color: white;">
-            Total ${selectedText}
-        </div>
-        <div class="rapport-col" style="font-weight: bold; color: white;">
-            ${totalBistand.toFixed(2)} kr
-        </div>
-        <div class="rapport-col" style="font-weight: bold; color: white;">
-            ${totalAnalyse.toFixed(2)} kr
-        </div>
-        <div class="rapport-col" style="font-weight: bold; color: white;">&nbsp;</div>
-    `;
-    container.appendChild(totalBox);
-
-    // Header
-    const header = document.createElement("div");
-    header.className = "rapport-row rapport-header";
-    header.innerHTML = `
-        <div class="rapport-col">Kunde</div>
-        <div class="rapport-col">Bistand</div>
-        <div class="rapport-col">Analyse</div>
-        <div class="rapport-col">Brukere</div>
-    `;
-    container.appendChild(header);
-
-    // Rader
-    sortert.forEach(([kunde, summer], index) => {
-        const row = document.createElement("div");
-        row.className = `rapport-row ${index % 2 === 0 ? "even" : "odd"}`;
-        row.innerHTML = `
-            <div class="rapport-col"><strong>${kunde}</strong></div>
-            <div class="rapport-col">${summer.bistand.toFixed(2)} kr</div>
-            <div class="rapport-col">${summer.analyse.toFixed(2)} kr</div>
-            <div class="rapport-col">${Array.from(summer.brukere).join(", ")}</div>
+        rad.innerHTML = `
+            <td><strong>${kunde}</strong></td>
+            <td style="text-align:right;">${info.bistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+            <td style="text-align:right;">${info.analyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+            <td>${Array.from(info.brukere).join(", ")}</td>
         `;
-        container.appendChild(row);
+        tbody.appendChild(rad);
     });
-}
 
+    // Legg til summeringsrad nederst
+    const sumRow = document.createElement("tr");
+    sumRow.style.fontWeight = "bold";
+    sumRow.style.background = "#ddd";
+    sumRow.innerHTML = `
+        <td>Total</td>
+        <td style="text-align:right;">${totalBistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td style="text-align:right;">${totalAnalyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td>-</td>
+    `;
+    tbody.appendChild(sumRow);
+
+    table.appendChild(tbody);
+    container.appendChild(table);
+}
 
 
 
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
 });
+
+document.getElementById("usernamesselector").addEventListener("change", () => {
+    visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
+})
