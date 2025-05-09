@@ -40,7 +40,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
     }
 
     // Generer filnavn
-    let filename = `Full-Kunde-Rapport - ${dashboardGroupText} - ${customerListText}${periodText}`;
+    let filename = `Kunde-Liste - ${dashboardGroupText} - ${customerListText}${periodText}`;
     
     let updatedexportData = addSummedKeys(activeCustomerlist); // originalArray er arrayet
     updatedexportData = emailContactMerge(updatedexportData);
