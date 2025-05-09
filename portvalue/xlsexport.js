@@ -60,7 +60,7 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
         supplier:"Leverandør",
         supplierValue:"Leverandør_Handel",
         supplierKickback:"Leverandør_Kickback",
-        supplierSavings:"Leverandør_Besparelse"
+        supplierCut:"Leverandør_Besparelse"
     };
 
     // Hent tekstverdier fra selectorer
