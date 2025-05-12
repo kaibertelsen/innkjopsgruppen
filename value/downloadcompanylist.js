@@ -70,11 +70,16 @@ async function fetchAndParseJSON(url) {
 
 function companySelected(company){
     //laste ned alle besparelseslinjene på dette selskapet 
-    document.getElementById("customernametext").innerHTML = company.name;
+    document.getElementById("customernametext").innerHTML = company.name || "Laster ned...";
     document.getElementById("companyvolumwrapper").style.display = "block";
 
     companyId = company.airtable;
-    SelectedCompanyInFirstTab = company;
+    //hvis company inneholder mer en bare airtable nøkkelen
+    if(company?.orgnr){
+        SelectedCompanyInFirstTab = company;
+    }
+
+    
     let body = bodyFindlist(company.airtable,"customerid");
     Getlistairtable(baseid,"tbly9xd4ho0Z9Mvlv",body,"respondcustomerlist");
   
