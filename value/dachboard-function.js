@@ -167,6 +167,23 @@ function parseCashFlowJsonArray(rawArray) {
                 obj.analysevalue = obj.analyse;
             }
 
+            //verdier til numbers
+            if (obj.value) {
+                obj.value = Number(obj.value);
+            }
+            if (obj.cutvalue) {
+                obj.cutvalue = Number(obj.cutvalue);
+            }
+            if (obj.bistandvalue) {
+                obj.bistandvalue = Number(obj.bistandvalue);
+            }
+            if (obj.analysevalue) {
+                obj.analysevalue = Number(obj.analysevalue);
+            }
+            if (obj.kickbackvalue) {
+                obj.kickbackvalue = Number(obj.kickbackvalue);
+            }
+
             parsedArray.push(obj);
         } catch (e) {
             console.warn(`Feil ved parsing av element ${index}:`, e);
