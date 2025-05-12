@@ -114,7 +114,7 @@ function visBistandOgAnalysePerKunde(dataArray) {
                 bistand: 0,
                 analyse: 0,
                 brukere: new Set(),
-                airtable: item.airtable // 👈 hentet fra item
+                airtable: item.customerid || "" // 👈 hentet fra item
             };
         }
         grupper[navn].bistand += parseFloat(item.bistandvalue || 0);
