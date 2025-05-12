@@ -58,8 +58,6 @@ function populateFellesBesparelseDatoSelector() {
     });
 }
 
-
-
 function lastInnBrukereIFilter(dataArray) {
     const userSelect = document.getElementById("usernamesselector");
     const brukereSet = new Set();
@@ -81,7 +79,6 @@ function lastInnBrukereIFilter(dataArray) {
         userSelect.appendChild(option);
     });
 }
-
 
 function visBistandOgAnalysePerKunde(dataArray) {
     const periodeSelector = document.getElementById("fellesbesparelsedatoselector");
@@ -178,7 +175,6 @@ function visBistandOgAnalysePerKunde(dataArray) {
     table.appendChild(tbody);
     container.appendChild(table);
 }
-
 
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
