@@ -75,9 +75,9 @@ function companySelected(company){
 
     companyId = company.airtable;
     //hvis company inneholder mer en bare airtable nøkkelen
-    if(company?.orgnr){
-        SelectedCompanyInFirstTab = company;
-    }
+
+    SelectedCompanyInFirstTab = company;
+    
 
     
     let body = bodyFindlist(company.airtable,"customerid");
