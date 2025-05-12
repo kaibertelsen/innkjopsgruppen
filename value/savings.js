@@ -205,9 +205,10 @@ function visKundeDetaljer(jsonString) {
     console.log("AirTable-ID:", data.airtable);
     console.log("Detaljer:", data);
     // F.eks: naviger til detaljside eller vis modal
+   console.log(companylist, buffercompanydata, Allcompanylist);
 
     //finne company i arrayen Allcompanylist
-    const company = Allcompanylist.find(company => company.airtable === data.airtable);
+    const company = companylist.find(company => company.airtable === data.airtable);
     if (!company) {
         console.error("Fant ikke selskapet i listen.");
         return;
