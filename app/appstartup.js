@@ -956,9 +956,7 @@ function connectToSupplier(supplier) {
             contactUser = adminUser;
         } else {
             // Er det noen invitasjon til selskapet?
-            const invitation = activeCompany.invitasjon?.find(inv =>
-                inv.company === activeCompany.airtable
-            ) || null;
+            const invitation = activeCompany?.invitasjon[0] || null;
             
             if (invitation) {
                 contactUser = invitation;
