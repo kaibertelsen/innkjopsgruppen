@@ -144,7 +144,7 @@ function daschboardDataToArray(data){
 
 
 
-    return newarray;
+    return datajson;
     
 }
 
