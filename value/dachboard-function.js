@@ -140,12 +140,26 @@ function daschboardDataToArray(data){
 
     console.log("dachboarddata",data.fields.json);
     //let datajson = JSON.parse(data.fields.json);
+    const datajson = parseCashFlowJsonArray(data.fields.json);
     
 
     return newarray;
     
 }
 
+function parseCashFlowJsonArray(rawArray) {
+    const parsedArray = [];
+
+    rawArray.forEach((item, index) => {
+        try {
+            parsedArray.push(JSON.parse(item));
+        } catch (e) {
+            console.warn(`Feil ved parsing av element ${index}:`, e);
+        }
+    });
+
+    return parsedArray;
+}
 
 
 function daschboardSummer(data){
