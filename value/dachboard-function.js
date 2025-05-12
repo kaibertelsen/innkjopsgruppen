@@ -100,46 +100,7 @@ function listdachboardtopp(data){
 
 function daschboardDataToArray(data){
 
-
-    /*
-    var valuearray = data.fields.valuecashflow;
-    var cutvaluearray = data.fields.cutvaluecashflow;
-    var suppliernamearray = data.fields.suppliername;
-    var customernamearray = data.fields.customername;
-    var kickbackarray = data.fields.kickbackvaluecashflow;
-    var maindate = data.fields.maindate;
-    var seconddate = data.fields.seconddate;
-    var airtable = data.fields.cashflowairtable;
-    var bistandvaluearray = data.fields.bistandvaluecashflow;
-    var analysevaluearray = data.fields.analysevaluecashflow;
-    var grouparray = data.fields.customergroup;
-    var groupnamearray = data.fields.customergroupname;
-    var usernamearray = data.fields.username;
-    var newarray = [];
-    
-    
-    
-    for(var i = 0;i<suppliernamearray.length;i++){
-    newarray.push({
-        airtable:airtable[i],
-        maindate:maindate[i],
-        seconddate:seconddate[i],
-        value:valuearray[i],
-        cutvalue:cutvaluearray[i],
-        supplier:suppliernamearray[i],
-        customer:customernamearray[i],
-        kickbackvalue:kickbackarray[i],
-        bistandvalue:bistandvaluearray[i],
-        analysevalue:analysevaluearray[i],
-        group:grouparray[i],
-        groupname:groupnamearray[i],
-        username:usernamearray[i]
-        });
-    }
-*/
-
     const datajson = parseCashFlowJsonArray(data.fields.json);
-
     return datajson;
     
 }
