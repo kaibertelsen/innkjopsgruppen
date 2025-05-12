@@ -101,7 +101,7 @@ function listdachboardtopp(data){
 function daschboardDataToArray(data){
 
 
-    
+    /*
     var valuearray = data.fields.valuecashflow;
     var cutvaluearray = data.fields.cutvaluecashflow;
     var suppliernamearray = data.fields.suppliername;
@@ -136,13 +136,9 @@ function daschboardDataToArray(data){
         username:usernamearray[i]
         });
     }
+*/
 
-
-    console.log("dachboarddata",data.fields.json);
-    //let datajson = JSON.parse(data.fields.json);
     const datajson = parseCashFlowJsonArray(data.fields.json);
-
-
 
     return datajson;
     
