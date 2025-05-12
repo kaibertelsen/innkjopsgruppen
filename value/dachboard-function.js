@@ -184,6 +184,14 @@ function parseCashFlowJsonArray(rawArray) {
                 obj.kickbackvalue = Number(obj.kickbackvalue);
             }
 
+            // gjøre om dato "2024-06-30T00:00:00.000Z" til "2024-06-30"
+            if (obj.maindate) {
+                obj.maindate = obj.maindate.split("T")[0];
+            }
+            if (obj.seconddate) {
+                obj.seconddate = obj.seconddate.split("T")[0];
+            }
+
             parsedArray.push(obj);
         } catch (e) {
             console.warn(`Feil ved parsing av element ${index}:`, e);
