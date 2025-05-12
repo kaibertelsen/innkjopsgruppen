@@ -686,16 +686,19 @@ async function sendUserToZapier(data) {
 
 function runActivation(data){
 
-    if (!data) {
-        //gå til innloggingsiden
-        window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
-        return;
-    }
+    
 
     //start activeringssiden
     document.getElementById("emailverificatiomtabbutton").click();
     
     let decryptedData = decryptData(data);
+
+    if (!decryptedData) {
+        //gå til innloggingsiden
+        window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
+        return;
+    }
+
 
     let password = decryptedData.password;
     let email = decryptedData.email;
