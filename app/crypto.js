@@ -54,11 +54,6 @@ function decryptData(encryptedString) {
         return JSON.parse(decrypted); // Forsøk å parse JSON
     } catch (error) {
         console.error("Dekrypteringsfeil:", error);
-
-        //etter 3 sekunder, hvis det ikke er dekryptert, så gå til adresse
-        setTimeout(() => {
-            window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
-        }, 3000);
         return null;
     }
 }

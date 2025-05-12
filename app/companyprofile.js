@@ -686,6 +686,12 @@ async function sendUserToZapier(data) {
 
 function runActivation(data){
 
+    if (!data) {
+        //gå til innloggingsiden
+        window.location.href = "https://portal.innkjops-gruppen.no/app-portal";
+        return;
+    }
+
     //start activeringssiden
     document.getElementById("emailverificatiomtabbutton").click();
     
@@ -708,6 +714,13 @@ function runActivation(data){
     setTimeout(() => {
             document.getElementById("logginbutton").click();
     }, 3000);
+
+
+
+
+
+
+
 }
 
 function removeUrlParameter(param) {
