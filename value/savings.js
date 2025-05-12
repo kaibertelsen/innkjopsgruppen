@@ -158,14 +158,16 @@ function visBistandOgAnalysePerKunde(dataArray) {
     `;
     tbody.appendChild(sumRow);
 
-    // Kundelinjer
     sortert.forEach(([kunde, info]) => {
         if (info.bistand === 0 && info.analyse === 0) return;
-
+    
         const rad = document.createElement("tr");
+        const infoPayload = encodeURIComponent(JSON.stringify({ navn: kunde, ...info }));
+        
         rad.innerHTML = `
             <td>
-                <a href="#" onclick="visKundeDetaljer('${kunde.replace(/'/g, "\\'")}')" style="color:#2156a4; font-weight:bold; text-decoration:none;">
+                <a href="#" onclick="visKundeDetaljer(decodeURIComponent('${infoPayload}'))" 
+                   style="color:#2156a4; font-weight:bold; text-decoration:none;">
                     ${kunde}
                 </a>
             </td>
@@ -175,6 +177,7 @@ function visBistandOgAnalysePerKunde(dataArray) {
         `;
         tbody.appendChild(rad);
     });
+    
 
     table.appendChild(tbody);
     container.appendChild(table);
@@ -189,6 +192,10 @@ document.getElementById("usernamesselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
 });
 
-function visKundeDetaljer(navn) {
-    alert("Viser detaljer for: " + navn);
+function visKundeDetaljer(encodedObj) {
+    const info = JSON.parse(encodedObj);
+    console.log("Klikket på kunde:", info.navn);
+    console.log("Handelsdata:", info);
+    alert(`Detaljer for ${info.navn}\nBistand: ${info.bistand} kr\nAnalyse: ${info.analyse} kr`);
 }
+
