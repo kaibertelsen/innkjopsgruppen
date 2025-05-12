@@ -113,7 +113,8 @@ function visBistandOgAnalysePerKunde(dataArray) {
             grupper[navn] = {
                 bistand: 0,
                 analyse: 0,
-                brukere: new Set()
+                brukere: new Set(),
+                airtable: item.airtable // 👈 hentet fra item
             };
         }
         grupper[navn].bistand += parseFloat(item.bistandvalue || 0);
@@ -162,19 +163,25 @@ function visBistandOgAnalysePerKunde(dataArray) {
         if (info.bistand === 0 && info.analyse === 0) return;
     
         const rad = document.createElement("tr");
-        const infoPayload = encodeURIComponent(JSON.stringify({ navn: kunde, ...info }));
+        const infoPayload = encodeURIComponent(JSON.stringify({
+            navn: kunde,
+            airtable: info.airtable,
+            bistand: info.bistand,
+            analyse: info.analyse,
+            brukere: Array.from(info.brukere)
+        }));
         
         rad.innerHTML = `
-            <td>
-                <a href="#" onclick="visKundeDetaljer(decodeURIComponent('${infoPayload}'))" 
-                   style="color:#2156a4; font-weight:bold; text-decoration:none;">
-                    ${kunde}
-                </a>
-            </td>
-            <td style="text-align:right;">${info.bistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
-            <td style="text-align:right;">${info.analyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
-            <td>${Array.from(info.brukere).join(", ")}</td>
-        `;
+        <td>
+            <a href="#" onclick="visKundeDetaljer(decodeURIComponent('${infoPayload}'))"
+               style="color:#2156a4; font-weight:bold; text-decoration:none;">
+                ${kunde}
+            </a>
+        </td>
+        <td style="text-align:right;">${info.bistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td style="text-align:right;">${info.analyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td>${Array.from(info.brukere).join(", ")}</td>
+    `;
         tbody.appendChild(rad);
     });
     
@@ -192,10 +199,11 @@ document.getElementById("usernamesselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
 });
 
-function visKundeDetaljer(encodedObj) {
-    const info = JSON.parse(encodedObj);
-    console.log("Klikket på kunde:", info.navn);
-    console.log("Handelsdata:", info);
-    alert(`Detaljer for ${info.navn}\nBistand: ${info.bistand} kr\nAnalyse: ${info.analyse} kr`);
+function visKundeDetaljer(jsonString) {
+    const data = JSON.parse(jsonString);
+    console.log("Kunde:", data.navn);
+    console.log("AirTable-ID:", data.airtable);
+    console.log("Detaljer:", data);
+    // F.eks: naviger til detaljside eller vis modal
 }
 
