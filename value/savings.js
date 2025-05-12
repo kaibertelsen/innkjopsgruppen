@@ -147,24 +147,28 @@ function visBistandOgAnalysePerKunde(dataArray) {
 
     const tbody = document.createElement("tbody");
 
-    // 👉 Total-linje først etter header
+    // Total-linje etter header
     const sumRow = document.createElement("tr");
     sumRow.classList.add("total-row");
     sumRow.innerHTML = `
-        <td>Total ${periodeSelector.options[periodeSelector.selectedIndex].text}</td>
-        <td style="text-align:right;">${totalBistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
-        <td style="text-align:right;">${totalAnalyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td style="font-weight:bold;">Total ${periodeSelector.options[periodeSelector.selectedIndex].text}</td>
+        <td style="text-align:right; font-weight:bold;">${totalBistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
+        <td style="text-align:right; font-weight:bold;">${totalAnalyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
         <td>-</td>
     `;
     tbody.appendChild(sumRow);
 
-    // 👉 Deretter alle kundelinjer
+    // Kundelinjer
     sortert.forEach(([kunde, info]) => {
         if (info.bistand === 0 && info.analyse === 0) return;
 
         const rad = document.createElement("tr");
         rad.innerHTML = `
-            <td><strong>${kunde}</strong></td>
+            <td>
+                <a href="#" onclick="visKundeDetaljer('${kunde.replace(/'/g, "\\'")}')" style="color:#2156a4; font-weight:bold; text-decoration:none;">
+                    ${kunde}
+                </a>
+            </td>
             <td style="text-align:right;">${info.bistand.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
             <td style="text-align:right;">${info.analyse.toLocaleString("no-NO", {minimumFractionDigits: 2})} kr</td>
             <td>${Array.from(info.brukere).join(", ")}</td>
@@ -176,6 +180,7 @@ function visBistandOgAnalysePerKunde(dataArray) {
     container.appendChild(table);
 }
 
+
 document.getElementById("fellesbesparelsedatoselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
 });
@@ -183,3 +188,7 @@ document.getElementById("fellesbesparelsedatoselector").addEventListener("change
 document.getElementById("usernamesselector").addEventListener("change", () => {
     visBistandOgAnalysePerKunde(dachboardtotalarraybufferdata);
 });
+
+function visKundeDetaljer(navn) {
+    alert("Viser detaljer for: " + navn);
+}
