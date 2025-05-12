@@ -110,9 +110,14 @@ function listElements(data,list,type){
                     mark = data[i].mark;
             }
             noteelement.innerHTML = mark;
-            //Lag bruker elemen
+            
+            //Lag bruker element
             const userelement = document.createElement("div");
             userelement.textContent = data[i].username || "-";
+            //høyrestill i cellen
+            userelement.style.textAlign = "right";
+            //set italic
+            userelement.style.fontStyle = "italic";
             clonerow.appendChild(userelement);
             
 
