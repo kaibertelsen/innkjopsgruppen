@@ -141,18 +141,48 @@ function daschboardDataToArray(data){
     console.log("dachboarddata",data.fields.json);
     //let datajson = JSON.parse(data.fields.json);
     const datajson = parseCashFlowJsonArray(data.fields.json);
+
+   //nøkler som må genereres eller genereres 
+    cut må døpes om til cutvalue
+    bistand må døpes om til bistandvalue
+    analyse må døpes om til analysevalue
+
+
+
+
+
+
+
+
+
+
+
     
 
     return newarray;
     
 }
 
+
 function parseCashFlowJsonArray(rawArray) {
     const parsedArray = [];
 
     rawArray.forEach((item, index) => {
         try {
-            parsedArray.push(JSON.parse(item));
+            const obj = JSON.parse(item);
+
+            // Kopier verdier til nye nøkler (beholder originale)
+            if ('cut' in obj) {
+                obj.cutvalue = obj.cut;
+            }
+            if ('bistand' in obj) {
+                obj.bistandvalue = obj.bistand;
+            }
+            if ('analyse' in obj) {
+                obj.analysevalue = obj.analyse;
+            }
+
+            parsedArray.push(obj);
         } catch (e) {
             console.warn(`Feil ved parsing av element ${index}:`, e);
         }
@@ -160,6 +190,7 @@ function parseCashFlowJsonArray(rawArray) {
 
     return parsedArray;
 }
+
 
 
 function daschboardSummer(data){
