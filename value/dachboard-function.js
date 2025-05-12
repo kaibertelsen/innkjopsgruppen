@@ -138,8 +138,8 @@ function daschboardDataToArray(data){
     }
 
 
-    console.log("dachboarddata",data.json);
-    let datajson = JSON.parse(data.fields.json);
+    console.log("dachboarddata",data.fields.json);
+    //let datajson = JSON.parse(data.fields.json);
     
 
     return newarray;
