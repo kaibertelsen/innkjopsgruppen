@@ -110,7 +110,13 @@ function listElements(data,list,type){
                     mark = data[i].mark;
             }
             noteelement.innerHTML = mark;
-            //
+            //Lag bruker elemen
+            const userelement = document.createElement("div");
+            userelement.textContent = data[i].username || "-";
+            clonerow.appendChild(userelement);
+            
+
+
             const bvalueelement = clonerow.getElementsByClassName("bvalue")[0];
             if(type == 2){
                 var bistandvalue = 0;
