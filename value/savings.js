@@ -205,5 +205,15 @@ function visKundeDetaljer(jsonString) {
     console.log("AirTable-ID:", data.airtable);
     console.log("Detaljer:", data);
     // F.eks: naviger til detaljside eller vis modal
+
+    //finne company i arrayen Allcompanylist
+    const company = allcompanylist.find(company => company.airtable === data.airtable);
+    if (!company) {
+        console.error("Fant ikke selskapet i listen.");
+        return;
+    }
+
+    companySelected(company);
+    document.getElementById("companysavingstabbutton").click();
 }
 
