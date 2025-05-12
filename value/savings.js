@@ -165,7 +165,7 @@ function visBistandOgAnalysePerKunde(dataArray) {
         const rad = document.createElement("tr");
         const infoPayload = encodeURIComponent(JSON.stringify({
             navn: kunde,
-            airtable: info.airtable,
+            airtable: info.customerid || "",
             bistand: info.bistand,
             analyse: info.analyse,
             brukere: Array.from(info.brukere)
