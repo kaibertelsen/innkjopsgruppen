@@ -142,22 +142,7 @@ function daschboardDataToArray(data){
     //let datajson = JSON.parse(data.fields.json);
     const datajson = parseCashFlowJsonArray(data.fields.json);
 
-   //nøkler som må genereres eller genereres 
-    cut må døpes om til cutvalue
-    bistand må døpes om til bistandvalue
-    analyse må døpes om til analysevalue
 
-
-
-
-
-
-
-
-
-
-
-    
 
     return newarray;
     
