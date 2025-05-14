@@ -237,6 +237,13 @@ function listCustomer(data) {
 
         //skul periode filter
         listdateselector.style.display = "none";
+    }else if (selectedFilter === "notinterest"){
+        filteredData = data.filter(company => {
+            // Sjekk om company.type er "notinterest"
+            const isNotInterest = company.category === "Ikke interessert i abb";
+            // Returner true hvis alle kriteriene er oppfylt
+            return isNotInterest;
+        });
     }
     
 
