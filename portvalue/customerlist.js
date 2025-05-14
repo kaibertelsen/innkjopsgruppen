@@ -241,6 +241,22 @@ function listCustomer(data) {
         const invoiceintervall = companyElement.querySelector(".invoiceintervall");
         const insolvency = companyElement.querySelector(".insolvency");
         const winbackDatecell = companyElement.querySelector(".winback");
+        //
+        const categoryCell = companyElement.querySelector(".category");
+        const categoryText = company.category ? company.category : "-";
+        categoryCell.textContent = categoryText;
+        // Legg til klikkhendelse for å åpne redigeringsvinduet
+        categoryCell.addEventListener("click", () => {
+            const categoryOptions = [
+                { text: "Ingen", value: "-" },
+                { text: "Ikke interessert i abb", value: "Ikke interessert i abb" }
+            ];
+            triggerEditDropdown(categoryCell, company, "category", categoryOptions, selectedOption => {
+                company.category = selectedOption.value;
+                categoryCell.textContent = selectedOption.text;
+                updateCompanyData(company.airtable, { category: selectedOption.value });
+            });
+        }); 
 
         const lossreasonCell = companyElement.querySelector(".lossreason");
         lossreasonCell.textContent = company.lossreason || "-";
