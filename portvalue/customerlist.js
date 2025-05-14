@@ -11,6 +11,45 @@ document.getElementById("listdateselector").addEventListener("change", () => {
     listCustomer(klientdata);
 });
 
+//last inn data i dropdownfilter
+populateCustomerSelector();
+
+function populateCustomerSelector() {
+    const selectElement = document.getElementById("customerlistselector");
+  
+    // Array med verdier og visningsnavn
+    const options = [
+      { value: "valuegroup", name: "Abn. kunder" },
+      { value: "supplier", name: "Abn. leverandører" },
+      { value: "kickback", name: "Handels kunder" },
+      { value: "winback", name: "Vunnet tilbake" },
+      { value: "zero", name: "Inaktive kunder" },
+      { value: "exitRegistered", name: "Oppsigelse registrert" },
+      { value: "exit", name: "Avsluttede abn." },
+      { value: "duplicate", name: "Duplikater" },
+      { value: "freerider", name: "Ikke-betalende medlemmer" },
+      { value: "", name: "Alle registrerte selskap" },
+      { value: "insolvency", name: "Konkurser" },
+      { value:"notinterest", name:"Ikke interessert i abb"}
+    ];
+  
+    // Sorter alfabetisk på navn
+    options.sort((a, b) => a.name.localeCompare(b.name, "no", { sensitivity: "base" }));
+  
+    // Fjern eksisterende alternativer
+    selectElement.innerHTML = "";
+  
+    // Legg inn nye alternativer
+    options.forEach(opt => {
+      const option = document.createElement("option");
+      option.value = opt.value;
+      option.textContent = opt.name;
+      selectElement.appendChild(option);
+    });
+}
+  
+
+  
 
 function listCustomer(data) {
     const list = document.getElementById("customerlist");
