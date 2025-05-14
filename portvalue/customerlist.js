@@ -243,7 +243,7 @@ function listCustomer(data) {
         const winbackDatecell = companyElement.querySelector(".winback");
         //
         const categoryCell = companyElement.querySelector(".category");
-        const categoryText = company.category ? company.category : "-";
+        const categoryText = company.category ? company.category : "Ingen";
         categoryCell.textContent = categoryText;
         // Legg til klikkhendelse for å åpne redigeringsvinduet
         categoryCell.addEventListener("click", () => {
