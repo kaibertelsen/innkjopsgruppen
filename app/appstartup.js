@@ -94,6 +94,10 @@ function userResponse(data) {
       
         //fjerner nøkkelen fra sessionStorage
         sessionStorage.removeItem("representing");
+
+        //synligjør er representing knapp
+        visRepresentantInfo("Innkjøpsgruppen AS");
+        
     }else{
         // Konverter JSON-strenger til objekter
         const jsonStrings = data.fields.companyjson;
@@ -160,6 +164,34 @@ function userResponse(data) {
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
+
+function visRepresentantInfo(selskapNavn) {
+    // Sjekk om banneret allerede finnes
+    if (document.getElementById("info-banner")) return;
+
+    const banner = document.createElement("div");
+    banner.id = "info-banner";
+    banner.textContent = `De representerer selskap: ${selskapNavn}`;
+
+    // Stil
+    Object.assign(banner.style, {
+        position: "fixed",
+        top: "0",
+        left: "0",
+        backgroundColor: "#d32f2f", // Rød farge
+        color: "white",
+        padding: "10px 15px",
+        fontWeight: "bold",
+        fontFamily: "sans-serif",
+        fontSize: "14px",
+        zIndex: "9999",
+        borderBottomRightRadius: "8px",
+        boxShadow: "0 2px 5px rgba(0,0,0,0.3)"
+    });
+
+    document.body.appendChild(banner);
+}
+
 
 function settGroupDesign(company){
 
@@ -994,7 +1026,6 @@ function connectToSupplier(supplier) {
     // Send til Airtable
     POSTNewRowairtable("app1WzN1IxEnVu3m0", "tblLjCOdb9elLmKOb", body, "responsSupplierConnection");
 }
-
 
 function responsSupplierConnection(rawdata) {
     let data = rawdata.fields;
