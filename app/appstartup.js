@@ -96,8 +96,9 @@ function userResponse(data) {
         sessionStorage.removeItem("representing");
 
         //synligjør er representing knapp
-        visRepresentantInfo("Innkjøpsgruppen AS");
-        
+        let companyname = companys[0].Name;
+        visRepresentantInfo(companyname);
+
     }else{
         // Konverter JSON-strenger til objekter
         const jsonStrings = data.fields.companyjson;
@@ -171,7 +172,7 @@ function visRepresentantInfo(selskapNavn) {
 
     const banner = document.createElement("div");
     banner.id = "info-banner";
-    banner.textContent = `De representerer selskap: ${selskapNavn}`;
+    banner.textContent = `Du representerer selskapet: ${selskapNavn}`;
 
     // Stil
     Object.assign(banner.style, {
