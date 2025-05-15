@@ -13,8 +13,8 @@
 
 function clearFollowingupCompanies(data) {
     const now = new Date(); // Nåværende dato
-    const nineMonthsAgo = new Date();
-    nineMonthsAgo.setMonth(now.getMonth() - 5); // Beregn dato for 9 måneder siden
+    const MonthsAgo = new Date();
+    MonthsAgo.setMonth(now.getMonth() - 5); // Beregn dato for 9 måneder siden
 
     // Lag en ny array med filtrerte objekter
     const filteredData = data.filter(obj => {
@@ -27,7 +27,7 @@ function clearFollowingupCompanies(data) {
         if (obj.followupstatus === "NORMAL" || obj.followupstatus === "HIDE") {
             if (obj.currentfollowupdate) {
                 const followUpDate = new Date(obj.currentfollowupdate);
-                return followUpDate < nineMonthsAgo; // Inkluder hvis currentfollowupdate er før 9 måneder siden
+                return followUpDate < MonthsAgo; // Inkluder hvis currentfollowupdate er før 9 måneder siden
             }
             return false; // Ekskluder hvis currentfollowupdate mangler
         }
@@ -37,10 +37,10 @@ function clearFollowingupCompanies(data) {
             return false;
         }
 
-        // Inkluder bare selskaper med currentfollowupdate før 9 måneder siden
+        // Inkluder bare selskaper med currentfollowupdate før 6 måneder siden
         if (obj.currentfollowupdate) {
             const followUpDate = new Date(obj.currentfollowupdate);
-            return followUpDate < nineMonthsAgo;
+            return followUpDate < MonthsAgo;
         }
 
         // Ekskluder objekter uten currentfollowupdate
