@@ -68,8 +68,9 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
         invoicedate: "Faktura dato",
         exit: "Oppsigelses dato",
         airtable:"SystemID",
-        names:"Kontaktpersoner",
-        emails:"E-poster",
+        names:"Kontaktperson",
+        phones:"Telefon",
+        emails:"E-post",
         supplier:"Leverandør",
         supplierValue:"Leverandør_Handel",
         supplierKickback:"Leverandør_Kickback",
@@ -130,22 +131,28 @@ function emailContactMerge(companylist) {
 
 function nameContactMerge(companylist) {
     companylist.forEach(company => {
-        // Hent navn fra brukere som ikke er "ansatt"
-        let names = (company.bruker || [])
-            .filter(user => user.rolle !== "ansatt") // Utelat "ansatt"
-            .map(user => user.navn); // Hent e-postene
+        // Filtrer ut brukere som ikke er "ansatt"
+        let relevantUsers = (company.bruker || []).filter(user => user.rolle !== "ansatt");
 
         // Hvis det ikke finnes brukere, sjekk "invitasjon"-feltet
-        if (names.length === 0) {
-            names = (company.invitasjon || []).map(invite => invite.navn);
+        if (relevantUsers.length === 0) {
+            relevantUsers = company.invitasjon || [];
         }
 
-        // Lagre resultatet i "emails" som en kommaseparert streng
-        company.names = names.join(",");
+        // Hent navn og telefon separat
+        const names = relevantUsers.map(person => person.navn || "");
+        const phones = relevantUsers
+            .map(person => person.telefon)
+            .filter(telefon => !!telefon); // Fjern undefined/null
+
+        // Lagre resultatene som kommaseparerte strenger
+        company.names = names.join(", ");
+        company.phones = phones.join(", ");
     });
 
-    return companylist; // Returnerer den oppdaterte listen
+    return companylist;
 }
+
 
 document.getElementById("exportsumportecompanys").addEventListener("click", () => {
     // Hent tekstverdier fra selectorer
