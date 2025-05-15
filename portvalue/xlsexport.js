@@ -69,7 +69,6 @@ document.getElementById("xlsexportbuttonrapport").addEventListener("click", () =
         exit: "Oppsigelses dato",
         airtable:"SystemID",
         names:"Kontaktperson",
-        phones:"Telefon",
         emails:"E-post",
         supplier:"Leverandør",
         supplierValue:"Leverandør_Handel",
@@ -134,24 +133,26 @@ function nameContactMerge(companylist) {
         // Filtrer ut brukere som ikke er "ansatt"
         let relevantUsers = (company.bruker || []).filter(user => user.rolle !== "ansatt");
 
-        // Hvis det ikke finnes brukere, sjekk "invitasjon"-feltet
+        // Hvis ingen relevante brukere finnes, bruk invitasjoner i stedet
         if (relevantUsers.length === 0) {
             relevantUsers = company.invitasjon || [];
         }
 
-        // Hent navn og telefon separat
-        const names = relevantUsers.map(person => person.navn || "");
-        const phones = relevantUsers
-            .map(person => person.telefon)
-            .filter(telefon => !!telefon); // Fjern undefined/null
+        // Lag navn med ev. telefon i parentes
+        const names = relevantUsers.map(person => {
+            if (person.telefon) {
+                return `${person.navn} (${person.telefon})`;
+            }
+            return person.navn;
+        });
 
-        // Lagre resultatene som kommaseparerte strenger
+        // Lagre kommaseparert streng
         company.names = names.join(", ");
-        company.phones = phones.join(", ");
     });
 
     return companylist;
 }
+
 
 
 document.getElementById("exportsumportecompanys").addEventListener("click", () => {
