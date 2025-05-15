@@ -1,20 +1,4 @@
 
-/*
-function startfollowinguplist(){
-
-
-        let klientid = "rec1QGUGBMVaqxhp1";
-        GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC",klientid,"respondfollouplist");
-   
-
-
-
-    // Sjekker om `mainfollowuplist` har elementer
-    if (Array.isArray(mainfollowuplist) && mainfollowuplist.length > 0) {
-        startfollouplist(mainfollowuplist); // Oppdaterer oppfølgingslisten
-    }
- }
- */
  function generateAirtableQuery(fromdate, todate, dateField, statusField) {
     let formula = `AND(IS_AFTER({${dateField}}, '${fromdate}'), IS_BEFORE({${dateField}}, '${todate}'), NOT({${statusField}} = 1))`;
 
@@ -30,7 +14,7 @@ function startfollowinguplist(){
 function clearFollowingupCompanies(data) {
     const now = new Date(); // Nåværende dato
     const nineMonthsAgo = new Date();
-    nineMonthsAgo.setMonth(now.getMonth() - 9); // Beregn dato for 9 måneder siden
+    nineMonthsAgo.setMonth(now.getMonth() - 5); // Beregn dato for 9 måneder siden
 
     // Lag en ny array med filtrerte objekter
     const filteredData = data.filter(obj => {
@@ -65,39 +49,6 @@ function clearFollowingupCompanies(data) {
 
     return filteredData; // Returner den nye arrayen
 }
-/*
-function respondfollouplist(data, id) {
-    
-     // Sjekk om data.fields.membersjson eksisterer og er en array
-     if (!data || !data.fields || !data.fields.membersjson || !Array.isArray(data.fields.membersjson)) {
-        console.error("Ugyldig dataformat: Forventet et objekt med 'fields.membersjson' som en array.");
-        return;
-    }
-
-    // Hent arrayen og konverter JSON-strenger til objekter
-    const jsonStrings = data.fields.membersjson;
-    const objects = convertJsonStringsToObjects(jsonStrings);
-
-    // Legger til neste fornyelsesdato i arrayet
-    var listanddate = addNextRenewalDatetoarray(clearFollowingupCompanies(objects));
-
-    // Sjekker om mainfollowuplist er forskjellig fra listanddate
-    if (JSON.stringify(mainfollowuplist) !== JSON.stringify(listanddate)) {
-        startfollouplist(listanddate); // Starter oppdatering av oppfølgingslisten
-    }
-
-    // Oppdaterer mainfollowuplist
-    mainfollowuplist = listanddate;
-
-    // Skjuler loader hvis den finnes
-    const loader = document.getElementById("followingloader");
-    if (loader) {
-        loader.style.display = "none";
-    }
-
-
-}
-*/
 
 function prepareStartFolloupList(objects){
     // Legger til neste fornyelsesdato i arrayet
@@ -233,7 +184,7 @@ function daysUntil(targetDate) {
    return differenceInDays;
 }
  
- function filterfollowupSelector(data,selectorid){
+function filterfollowupSelector(data,selectorid){
   var selector = document.getElementById(selectorid);
   data = filteredRemoveFollowup(data);
   
@@ -260,7 +211,7 @@ function daysUntil(targetDate) {
 
 
 
- }
+}
 
 function filteredRemoveFollowup(data) {
     let array = [];

@@ -193,7 +193,6 @@ function visRepresentantInfo(selskapNavn) {
     document.body.appendChild(banner);
 }
 
-
 function settGroupDesign(company){
 
     //sjekk om gruppelogo skal byttes
