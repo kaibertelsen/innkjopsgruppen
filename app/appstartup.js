@@ -814,7 +814,7 @@ function convertSuppliersJsonStringsToObjects(jsonStrings) {
 }
 
 function supplierChosed(supplier) {
-    console.log(supplier);
+    
     activeSupplier = supplier;
     const checkbox = document.getElementById("supplierSwitsjIntern");
     if(Employeemode){
@@ -830,6 +830,12 @@ function supplierChosed(supplier) {
     }
     // Simulerer klikk på elementet med id "tabsupplier"
     document.getElementById("tabsupplier").click();
+
+    // scroll til toppen av siden
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scroll
+    });
 
     let supplierconteinerpage = document.getElementById("supplierconteinerpage");
 
