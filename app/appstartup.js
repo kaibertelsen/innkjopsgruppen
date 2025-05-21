@@ -832,7 +832,10 @@ function supplierChosed(supplier) {
     document.getElementById("tabsupplier").click();
 
     // scroll til toppen av siden
-    scrollToTop();
+    setTimeout(() => {
+        scrollToTop();
+    }, 1000);
+      
 
     let supplierconteinerpage = document.getElementById("supplierconteinerpage");
 
