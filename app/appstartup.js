@@ -883,9 +883,8 @@ function scrollToTop() {
       top: 0,
       behavior: 'smooth'
     });
-  }
+}
   
-
 function listDocuments(attachments) {
     const documentList = document.getElementById("documentlist");
     if (!documentList) {
@@ -990,7 +989,7 @@ function responseDeleteConenction(data){
 
 function connectToSupplier(supplier) {
     let contactinfotosupplier = "";
-    let contactUser = userObject || null;
+    let contactUser = "";
 
     // Hvis superadmin utfører tilkoblingen
     if (userObject?.superadmin) {
@@ -1014,6 +1013,8 @@ function connectToSupplier(supplier) {
         if (!contactUser) {
             contactinfotosupplier = "";
         }
+    }else{
+        contactUser = userObject || "";
     }
 
     if (contactUser) {
