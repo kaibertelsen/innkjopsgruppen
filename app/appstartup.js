@@ -832,10 +832,7 @@ function supplierChosed(supplier) {
     document.getElementById("tabsupplier").click();
 
     // scroll til toppen av siden
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth' // Smooth scroll
-    });
+    scrollToTop();
 
     let supplierconteinerpage = document.getElementById("supplierconteinerpage");
 
@@ -876,6 +873,15 @@ function supplierChosed(supplier) {
         image.style.display = "none";
     }
 }
+
+function scrollToTop() {
+    const el = document.scrollingElement || document.documentElement || document.body;
+    el.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  
 
 function listDocuments(attachments) {
     const documentList = document.getElementById("documentlist");
