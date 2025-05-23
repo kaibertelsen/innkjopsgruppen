@@ -529,11 +529,12 @@ function startUserInvitationView(data){
         if (emailLabel) emailLabel.textContent = data.epost;
 
         const TermsofServiceSelector = document.getElementById("termsofservicelink");
-        if (TermsofServiceSelector) {
+        const thermselement = document.getElementById("termsofservice");
 
             if (data?.rolle == "ansatt") {
-                    parentElement.TermsofServiceSelector.style.display = "none";
+                thermselement.style.display = "none";
             }else{
+                thermselement.style.display = "inline-block";
                 //hvis vilkår er tilgjengelig sett den til href
                 if (data?.vilkarurl) {
                     TermsofServiceSelector.href = data.vilkarurl;
@@ -542,7 +543,7 @@ function startUserInvitationView(data){
                     TermsofServiceSelector.href = "https://ucarecdn.com/9d6eda35-4a29-4d61-99d6-840f9cb6309c/VilkarIG100425std.pdf";
                 }
             }
-        }
+        
 
         acseptbutton.addEventListener("click", function() {
             acseptInvitationNewUser();
