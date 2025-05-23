@@ -532,7 +532,7 @@ function startUserInvitationView(data){
         if (TermsofServiceSelector) {
 
             if (data?.rolle == "ansatt") {
-                    parent.TermsofServiceSelector.style.display = "none";
+                    parentElement.TermsofServiceSelector.style.display = "none";
             }else{
                 //hvis vilkår er tilgjengelig sett den til href
                 if (data?.vilkarurl) {
