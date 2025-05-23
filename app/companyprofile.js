@@ -483,7 +483,7 @@ function startUserInvitationView(data){
 
     let textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
         if(data?.rolle == "ansatt"){
-            textContent = `Du er invitert til i leverandørportalen.`;
+            textContent = `Du er invitert til leverandørportalen.`;
         }
 
     
