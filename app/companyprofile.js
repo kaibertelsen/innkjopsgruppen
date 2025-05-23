@@ -480,6 +480,12 @@ function startUserInvitationView(data){
     const acseptedwrapper = document.getElementById("acseptedwrapper");
     const uapwrapper = document.getElementById("usernameandpasswordwrapper");
     const acseptbutton = document.getElementById("acseptinvitationbutton");
+
+    let textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
+        if(data?.rolle == "ansatt"){
+            textContent = `Du er invitert til i leverandørportalen.`;
+        }
+
     
     if(data?.akseptert){
         contentview.style.display = "none";
@@ -492,11 +498,13 @@ function startUserInvitationView(data){
         //dette er en eksisterende bruker og vindu for passord skal ikke vises
 
         // Hent elementene og oppdater dem kun hvis de finnes
-    const nameText = invitationuserwrapper.querySelector(".namelabel");
-    if (nameText) nameText.textContent = `Hei ${data.navn}.`;
+        const nameText = invitationuserwrapper.querySelector(".namelabel");
+        if (nameText) nameText.textContent = `Hei ${data.navn}.`;
+
+        
 
         const infotextLabel = invitationuserwrapper.querySelector(".infotextlable");
-        if (infotextLabel) infotextLabel.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
+        if (infotextLabel) infotextLabel.textContent = textContent;
         acseptbutton.style.display = "lnline-block";
         uapwrapper.style.display = "none";
         acseptbutton.addEventListener("click", function() {
@@ -515,7 +523,7 @@ function startUserInvitationView(data){
         if (nameText) nameText.textContent = `Hei ${data.navn}.`;
 
         const infotextLabel = invitationuserwrapper.querySelector(".infotextlable");
-        if (infotextLabel) infotextLabel.textContent = `Du er invitert til å administrere selskapet ${data.firmanavn} i leverandørportalen.`;
+        if (infotextLabel) infotextLabel.textContent = textContent;
 
         const emailLabel = invitationuserwrapper.querySelector(".emaillable");
         if (emailLabel) emailLabel.textContent = data.epost;
@@ -523,12 +531,16 @@ function startUserInvitationView(data){
         const TermsofServiceSelector = document.getElementById("termsofservicelink");
         if (TermsofServiceSelector) {
 
-            //hvis vilkår er tilgjengelig sett den til href
-            if (data?.vilkarurl) {
-                TermsofServiceSelector.href = data.vilkarurl;
-            } else {
-                //sett den til standard
-                TermsofServiceSelector.href = "https://ucarecdn.com/9d6eda35-4a29-4d61-99d6-840f9cb6309c/VilkarIG100425std.pdf";
+            if (data?.rolle == "ansatt") {
+                    parent.TermsofServiceSelector.style.display = "none";
+            }else{
+                //hvis vilkår er tilgjengelig sett den til href
+                if (data?.vilkarurl) {
+                    TermsofServiceSelector.href = data.vilkarurl;
+                } else {
+                    //sett den til standard
+                    TermsofServiceSelector.href = "https://ucarecdn.com/9d6eda35-4a29-4d61-99d6-840f9cb6309c/VilkarIG100425std.pdf";
+                }
             }
         }
 
