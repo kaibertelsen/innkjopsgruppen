@@ -242,6 +242,16 @@ function settGroupDesign(company){
                 customerlayoutConteiner.style.display = "flex";
             }
     }
+    
+    
+    if(company?.airtable == "rec0jnyHkirPzugns"){
+        //skjule customerlogo dette er selskapet som holder alle private uten selskap
+        const customerlayoutConteiner = document.getElementById("customerlayoutConteiner");
+        if (customerlayoutConteiner) {
+            customerlayoutConteiner.style.display = "none";
+        }
+
+    }
 
     //last inn logo
     const customerlogo = document.getElementById("customerlogopages");
