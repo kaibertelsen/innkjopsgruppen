@@ -529,12 +529,12 @@ function startUserInvitationView(data){
         if (emailLabel) emailLabel.textContent = data.epost;
 
         const TermsofServiceSelector = document.getElementById("termsofservicelink");
-        const thermselement = document.getElementById("termsofservice");
+        const termsofservice = document.getElementById("termsofservice");
 
             if (data?.rolle == "ansatt") {
-                thermselement.style.display = "none";
+                termsofservice.style.display = "none";
             }else{
-                thermselement.style.display = "inline-block";
+                termsofservice.style.display = "inline-block";
                 //hvis vilkår er tilgjengelig sett den til href
                 if (data?.vilkarurl) {
                     TermsofServiceSelector.href = data.vilkarurl;
