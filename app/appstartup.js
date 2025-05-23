@@ -68,7 +68,26 @@ function userResponse(data) {
         console.log("Brukeren er allerede onboarded.");
     } else {
         // Brukeren er ikke onboarded, fortsett med onboarding-prosessen
-        rootPageControll("welcome");
+        document.getElementById("tabwelcome").click();
+
+
+        const PrivacyUserWelcome = document.getElementById("PrivacyUserWelcome");
+        const CompanyUserWelcome = document.getElementById("CompanyUserWelcome");
+
+        //sjekk om det er en ansattbruker eller bedriftsbruker
+        if (data.fields?.rolle === "ansatt") {
+            // hvis riktig velkomsttekster
+            PrivacyUserWelcome.style.display = "block";
+            CompanyUserWelcome.style.display = "none";
+
+        }else{
+
+            PrivacyUserWelcome.style.display = "none";
+            CompanyUserWelcome.style.display = "block";
+        }
+
+
+
     }
 
     userObject = data.fields;
