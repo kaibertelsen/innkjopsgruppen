@@ -344,7 +344,7 @@ function loadEditwrapper(data){
     const supplierinput = document.getElementById("dropdownInputsupplier");
     supplierinput.value =  data.suppliertext || data.suppliername;
     supplierinput.disabled = false;
-    if(!data?.suppliertext){
+    if(!data?.suppliertext && data?.supplier){
         //legge til airtable
         supplierinput.dataset.airtable = data.supplier[0];  
     }
