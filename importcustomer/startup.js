@@ -193,6 +193,19 @@ function controllXls(data) {
         }
     });
 
+    //sjekke epost kollonnen om den inneholder en gyldig epost
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    nye.forEach(item => {
+        const rawEmail = item["E-post"]?.trim();
+        const containsMultiple = rawEmail?.includes(",") || rawEmail?.includes(";") || rawEmail?.includes(" ");
+    
+        if (!emailRegex.test(rawEmail) || containsMultiple) {
+            alert(`Ugyldig e-postadresse for selskapet ${item["Selskap"]} (${item["Org.nr"]}). Vennligst sjekk e-postfeltet.`);
+            item["E-post"] = ""; // Fjern ugyldig e-post
+        }
+    });
+
     if (eksisterende.length > 0) {
         alert("Noen av selskapene finnes allerede i portalen basert på navn og organisasjonsnummer.");
     }
