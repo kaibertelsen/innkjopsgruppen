@@ -155,9 +155,17 @@ async function importXlsFile(urlToXlsFile) {
             row.eachCell((cell, colIndex) => {
                 const header = headers[colIndex];
                 if (header) {
-                    console.log(cell.text);
-                    rowData[header] = cell.text.trim();
+                    let value = "";
+                
+                    if (typeof cell.text === "string") {
+                        value = cell.text.trim();
+                    } else if (cell.text?.richText?.[0]?.text) {
+                        value = cell.text.richText.map(rt => rt.text).join("").trim();
+                    }
+                
+                    rowData[header] = value;
                 }
+                
             });
             sheetData.push(rowData);
         }
