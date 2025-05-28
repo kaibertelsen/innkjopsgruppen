@@ -155,6 +155,7 @@ async function importXlsFile(urlToXlsFile) {
             row.eachCell((cell, colIndex) => {
                 const header = headers[colIndex];
                 if (header) {
+                    console.log(cell.text);
                     rowData[header] = cell.text.trim();
                 }
             });
