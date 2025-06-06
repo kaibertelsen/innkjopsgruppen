@@ -1197,7 +1197,7 @@ document.getElementById("xlsexportbutton").addEventListener("click", () => {
         companyuseremail: "Bruker e-poster"
     };
 
-    let filename = "Tilkoblinger for " + GlobalConnections[0].suppliername[0];
+    let filename = "Tilkoblinger for " + activeSupplier.name;
 
     // Eksporter til Excel
     exportData(GlobalConnections, selectedFields, fieldMapping, filename);
