@@ -98,9 +98,13 @@ function startFollowinglistElement(data) {
         let abonnementvalue = parseFloat(company.valuegroup) || 0; // Sikrer at dette alltid er et tall
         let savings = 0;
 
-        // Beregn datoen for 12 måneder siden
-        const twelveMonthsAgo = new Date();
-        twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1);
+        const now = new Date();
+        const twelveMonthsAgo = new Date(
+            now.getFullYear() - 1,
+            now.getMonth(),
+            now.getDate()
+        );
+        twelveMonthsAgo.setHours(0, 0, 0, 0);
 
         // Beregn totale besparelser for de siste 12 månedene
         for (let cashflow of company.cashflowjson || []) {

@@ -64,7 +64,6 @@ async function GetlistairtableNoCache(baseId,tableId,body,id){
 
 }
 
-
 async function POSTairtable(baseId,tableId,body,id){
     let token = MemberStack.getToken();
     let response = await fetch(`https://expoapi-zeta.vercel.app/api/row?baseId=${baseId}&tableId=${tableId}&token=${token}`, {
@@ -213,8 +212,6 @@ async function sendDataToZapierWebhook(data,url,id) {
     apireturn({success: true, data: data, id: id});
   }
 }
-
-
 
 
 
