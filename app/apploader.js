@@ -33,9 +33,9 @@ cdnScripts.reduce((promise, script) => {
             companyId = member.airtableidfirma;
 
             // Sjekker om det er en bruker ikke har fått bruker i airtable
-            if (member?.airtableid) {
+            if (!member?.airtableid) {
                 console.log("Bruker har ikke bruker i airtable");
-                
+
             }
             //sjekke om det er en bruker som venter på et selskap
             if (sessionStorage.getItem("startupEmployer") !== "true") {
