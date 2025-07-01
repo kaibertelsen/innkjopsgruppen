@@ -95,6 +95,11 @@ function userResponse(data) {
     // Sjekk om data.fields.companyjson eksisterer og er en array
     if (!data || !data.fields || !data.fields.companyjson || !Array.isArray(data.fields.companyjson)) {
         console.error("Brukeren har ikke noe selskap tilknyttet");
+
+        //Det skal kjøres en kontroll om dette er en ny bruker fra ekstern portal
+
+
+
         return; // Avbryt hvis data ikke er gyldig
     }
 
