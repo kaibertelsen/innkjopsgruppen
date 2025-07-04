@@ -33,10 +33,48 @@ cdnScripts.reduce((promise, script) => {
             companyId = member.airtableidfirma;
 
             // Sjekker om det er en bruker ikke har fått bruker i airtable
-            if (!member?.airtableid) {
-                console.log("Bruker har ikke bruker i airtable");
+           // Sjekker om det er en bruker som ikke har fått bruker i Airtable
+        if (!member?.airtableid) {
+            console.log("Bruker har ikke bruker i Airtable");
 
-            }
+            // Opprett visuell melding
+            const errorMessage = document.createElement("div");
+            errorMessage.style.position = "fixed";
+            errorMessage.style.top = "50%";
+            errorMessage.style.left = "50%";
+            errorMessage.style.transform = "translate(-50%, -50%)";
+            errorMessage.style.backgroundColor = "white";
+            errorMessage.style.padding = "20px";
+            errorMessage.style.border = "1px solid black";
+            errorMessage.style.fontSize = "18px";
+            errorMessage.style.zIndex = "9999";
+            errorMessage.style.textAlign = "center";
+            errorMessage.innerHTML = `
+                <p>🛠️ Oppretter bruker i Innkjøpsgruppen...</p>
+                <p>Prøver igjen om <span id="countdown">20</span> sekunder.</p>
+            `;
+
+            document.body.appendChild(errorMessage);
+
+            // Start nedtelling
+            let count = 20;
+            const countdownEl = document.getElementById("countdown");
+            const countdownInterval = setInterval(() => {
+                count--;
+                countdownEl.textContent = count;
+                if (count <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+
+            // Last siden på nytt etter 20 sekunder
+            setTimeout(() => {
+                location.reload();
+            }, 20000);
+
+            return;
+        }
+
             //sjekke om det er en bruker som venter på et selskap
             if (sessionStorage.getItem("startupEmployer") !== "true") {
                 startUp(userid);
