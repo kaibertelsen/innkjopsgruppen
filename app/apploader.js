@@ -50,7 +50,7 @@ cdnScripts.reduce((promise, script) => {
             errorMessage.style.zIndex = "9999";
             errorMessage.style.textAlign = "center";
             errorMessage.innerHTML = `
-                <p>🛠️ Oppretter bruker i Innkjøpsgruppen...</p>
+                <p>🛠️ Oppretter bruker i Innkjøps-gruppen...</p>
                 <p>Prøver igjen om <span id="countdown">20</span> sekunder.</p>
             `;
 
