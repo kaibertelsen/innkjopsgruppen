@@ -14,6 +14,7 @@ var Employeemode = false;
 var isSharkey = false;
 var isLoggedin = false;
 var activeSupplierList;
+var memberObject = {};
 
 
 document.getElementById("menybuttonopener").addEventListener("click", function() {
@@ -206,7 +207,7 @@ function responsFromBM25(data) {
 
     //er det treff  så legg til bruker
     //er det ikke treff så søk mot brreg
-    
+
 
 
 }

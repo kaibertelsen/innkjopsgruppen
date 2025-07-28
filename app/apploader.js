@@ -31,6 +31,7 @@ cdnScripts.reduce((promise, script) => {
             userid = member.airtableid;
             memberId = member.id;
             companyId = member.airtableidfirma;
+            memberObject = member;
 
            // Sjekker om det er en bruker som ikke har fått bruker i Airtable
         if (!member?.airtableid) {
