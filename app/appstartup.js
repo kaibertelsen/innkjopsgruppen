@@ -202,14 +202,26 @@ function userResponse(data) {
 }
 
 function responsFromBM25(data) {
-   console.log(data);
+    console.log(data);
+  
+    // Sjekk om det er treff i data-arrayen
+    if (data.data && data.data.length > 0) {
+      const record = data.data[0]; // Hent første treff
+      const fields = record.fields;
+  
+  
+    // Legg til firma til bruker
+    let body = {company: [fields.airtable]};
+    body = JSON.stringify(body);
+    patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,body,"respondCompanyToUser");
+    } else {
+    // Ingen treff – søk mot Brønnøysundregisteret
+      console.log("søk mot Brønnøysundregisteret");
+    }
+}
 
-
-    //er det treff  så legg til bruker
-    //er det ikke treff så søk mot brreg
-
-
-
+function respondCompanyToUser(data) {
+    console.log(data);
 }
 
 function visRepresentantInfo(selskapNavn) {
@@ -785,6 +797,8 @@ function ruteresponse(data,id){
         responseDeleteConenction(data);
     }else if(id == "responsFromBM25"){
         responsFromBM25(data);
+    }else if(id == "respondCompanyToUser"){
+        respondCompanyToUser(data);
     }
     
 
