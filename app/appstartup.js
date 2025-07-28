@@ -104,7 +104,7 @@ function userResponse(data) {
          //sjekk om det er et selskap med dette org.nr
          let orgnr = memberObject.orgnr
          let body = airtablebodylistAND({orgnr: orgnr});
-         body = JSON.stringify(body);
+         
 
          //søk i airtabel etter selskapet
          Getlistairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",body,"responsFromBM25");
