@@ -97,10 +97,20 @@ function userResponse(data) {
         console.error("Brukeren har ikke noe selskap tilknyttet");
 
         //Det skal kjøres en kontroll om dette er en ny bruker fra ekstern portal
+        if(userObject?.origincode && userObject.origincode == "BM25"){
+         //denne bruker kommer fra BM25 portalen
 
+         //sjekk om det er et selskap med dette org.nr
+         let orgnr = memberObject.orgnr
+         let body = airtablebodylistAND({orgnr: orgnr});
+         body = JSON.stringify(body);
 
+         //søk i airtabel etter selskapet
+         Getlistairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",body,"responsFromBM25");
 
-        return; // Avbryt hvis data ikke er gyldig
+            return; // Avbryt videre prosessering
+        }
+
     }
 
     if (data?.fields?.rolle === "ansatt") {
@@ -188,6 +198,17 @@ function userResponse(data) {
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
+}
+
+function responsFromBM25(data) {
+   console.log(data);
+
+
+    //er det treff  så legg til bruker
+    //er det ikke treff så søk mot brreg
+    
+
+
 }
 
 function visRepresentantInfo(selskapNavn) {
@@ -761,6 +782,8 @@ function ruteresponse(data,id){
         responsZapierUrl(data);
     }else if(id == "responseDeleteConenction"){
         responseDeleteConenction(data);
+    }else if(id == "responsFromBM25"){
+        responsFromBM25(data);
     }
     
 

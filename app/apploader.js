@@ -32,7 +32,6 @@ cdnScripts.reduce((promise, script) => {
             memberId = member.id;
             companyId = member.airtableidfirma;
 
-            // Sjekker om det er en bruker ikke har fått bruker i airtable
            // Sjekker om det er en bruker som ikke har fått bruker i Airtable
         if (!member?.airtableid) {
             console.log("Bruker har ikke bruker i Airtable");
@@ -75,14 +74,17 @@ cdnScripts.reduce((promise, script) => {
             return;
         }
 
-            //sjekke om det er en bruker som venter på et selskap
-            if (sessionStorage.getItem("startupEmployer") !== "true") {
-                startUp(userid);
-                rootPageControll("list");
-            }else{
-                startWaitForCompany(companyId);
-            }
-            sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
+    
+
+        //sjekke om det er en bruker som venter på et selskap
+        if (sessionStorage.getItem("startupEmployer") !== "true") {
+            startUp(userid);
+            rootPageControll("list");
+        }else{
+            startWaitForCompany(companyId);
+        }
+        
+        sessionStorage.removeItem("rootToApp"); // Sletter nøkkelen etter omdirigering
         }else{
             isLoggedin = false;
             rootPageControll("login");
