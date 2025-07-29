@@ -291,9 +291,10 @@ function responsCreatCompanyFromBrreg(data) {
 
     // Hent selskapsnavn eller bruk fallback
     const companyName = data.fields.Name || "Ukjent Selskap";
+    const orgnr = data.fields.orgnr || "Ukjent Organisasjonsnummer";
 
     // Vis alert med tilpasset melding
-    alert(`Selskapet ${companyName} er opprettet i IG portalen!\n\nInformasjonen er hentet fra Brønnøysundregistrene basert på navn eller orgnr.`);
+    alert(`Selskapet ${companyName} (${orgnr}) er opprettet i IG portalen!\n\nInformasjonen er hentet fra Brønnøysundregistrene.`);
 
     // Restart siden etter at brukeren trykker OK
     location.reload();
