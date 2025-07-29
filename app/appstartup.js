@@ -258,11 +258,11 @@ function responsFromBrreg(data) {
 
     if(memberObject?.groupcode && memberObject.groupcode.trim() !== "") {
         // Hvis det er en spesifikk gruppe angitt, bruk den
-        if(memberObject.group === "malermester") {
+        if(memberObject.groupcode === "malermester") {
             groupId = "recoNU5XeVT3RUptW"; // Malermester
-        }else if(memberObject.group === "byggmester") {
+        }else if(memberObject.groupcode === "byggmester") {
             groupId = "rec1jnyHkirPzugns"; // Rørlegger
-        }else if(memberObject.group === "murermester") {
+        }else if(memberObject.groupcode === "murermester") {
             groupId = "recVlfvn9fzrOV2lc"; // Rørlegger
         }
     }
