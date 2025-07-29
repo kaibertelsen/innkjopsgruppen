@@ -245,12 +245,20 @@ async function getCompanyFromBrreg(input) {
             const data = await response.json();
             responsFromBrreg(data);
         } else {
-            console.error('Feil ved henting av firmaopplysninger:', response.status);
+            alert("Fant ikke organisasjonsnummeret eller navnet i Brønnøysundregistrene.\n\nVennligst ta kontakt med systemadministratør: info@innkjops-gruppen.no");
         }
     } catch (error) {
         console.error('Nettverksfeil:', error);
+        alert("Det oppstod en nettverksfeil ved henting av data fra Brønnøysundregistrene.\n\nPrøv igjen senere eller kontakt info@innkjops-gruppen.no");
     }
 }
+
+
+
+
+
+
+
 
 function responsFromBrreg(data) {
     console.log(data);
