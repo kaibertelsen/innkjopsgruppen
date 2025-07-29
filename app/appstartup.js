@@ -273,7 +273,7 @@ function responsFromBrreg(data) {
         Name: data.navn || "Ukjent Selskap",
         orgnr: data.organisasjonsnummer || "",
         adresse: data.forretningsadresse?.adresse[0] || "",
-        postnummer: data.forretningsadresse?.postnummer || "",
+        postnr: data.forretningsadresse?.postnummer || "",
         poststed: data.forretningsadresse?.poststed || "",
         gruppe: [groupId], // Legger til gruppetilhørighet
         bruker: [userid] // Legger til brukerens ID
