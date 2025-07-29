@@ -253,9 +253,45 @@ async function getCompanyFromBrreg(input) {
 
 function responsFromBrreg(data) {
     console.log(data);
+
+    let groupId = "rec6WRRFICDhUvfpt"; // Standard gruppe Byggmesterforbundet
+
+    if(memberObject?.group && memberObject.group.trim() !== "") {
+        // Hvis det er en spesifikk gruppe angitt, bruk den
+        if(memberObject.group === "malermester") {
+            groupId = "recoNU5XeVT3RUptW"; // Malermester
+        }else if(memberObject.group === "byggmester") {
+            groupId = "rec1jnyHkirPzugns"; // Rørlegger
+        }else if(memberObject.group === "murermester") {
+            groupId = "recVlfvn9fzrOV2lc"; // Rørlegger
+        }
+    }
+
+
+    // keynam in airtable
+    let company = { 
+        Name: data.navn || "Ukjent Selskap",
+        orgnr: data.organisasjonsnummer || "",
+        adresse: data.forretningsadresse?.adresse || "",
+        postnummer: data.forretningsadresse?.postnummer || "",
+        poststed: data.forretningsadresse?.poststed || "",
+        gruppe: [groupId], // Legger til gruppetilhørighet
+        bruker: [userid] // Legger til brukerens ID
+    }
+
+    //opprett selskap i Airtable
+    POSTairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", JSON.stringify(company), "responsCreatCompanyFromBrreg");
+
 }
 
+function responsCreatCompanyFromBrreg(data) {
+    console.log(data);
 
+    // Vis alert om at selskapet er opprettet
+    const companyName = data.fields.Name || "Ukjent Selskap";
+    alert(`Selskapet ${companyName} er opprettet i Innkjøps-gruppen!`);
+   
+}
 
 
 function respondCompanyToUser(data) {
@@ -841,6 +877,8 @@ function ruteresponse(data,id){
         responsFromBM25(data);
     }else if(id == "respondCompanyToUser"){
         respondCompanyToUser(data);
+    }else if(id == "responsCreatCompanyFromBrreg"){
+        responsCreatCompanyFromBrreg(data);
     }
     
 
