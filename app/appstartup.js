@@ -289,13 +289,16 @@ function responsFromBrreg(data) {
 function responsCreatCompanyFromBrreg(data) {
     console.log(data);
 
-    // Vis alert om at selskapet er opprettet
+    // Hent selskapsnavn eller bruk fallback
     const companyName = data.fields.Name || "Ukjent Selskap";
-    alert(`Selskapet ${companyName} er opprettet i Innkjøps-gruppen!`);
+
+    // Vis alert med tilpasset melding
+    alert(`Selskapet ${companyName} er opprettet i IG portalen!\n\nInformasjonen er hentet fra Brønnøysundregistrene basert på navn eller orgnr.`);
 
     // Restart siden etter at brukeren trykker OK
     location.reload();
 }
+
 
 
 
