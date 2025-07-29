@@ -206,22 +206,64 @@ function responsFromBM25(data) {
   
     // Sjekk om det er treff i data-arrayen
     if (data.data && data.data.length > 0) {
-      const record = data.data[0]; // Hent første treff
-      const fields = record.fields;
+        const record = data.data[0]; // Hent første treff
+        const fields = record.fields;
   
-  
-    // Legg til firma til bruker
-    let body = {company: [fields.airtable]};
-    body = JSON.stringify(body);
-    patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,body,"respondCompanyToUser");
+        // Legg til firma til bruker
+        let body = {company: [fields.airtable]};
+        body = JSON.stringify(body);
+        patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,body,"respondCompanyToUser");
     } else {
-    // Ingen treff – søk mot Brønnøysundregisteret
-      console.log("søk mot Brønnøysundregisteret");
+        // Ingen treff – søk mot Brønnøysundregisteret
+        let orgnr = memberObject.orgnr
+        let companyName = memberObject.companyname;
+
+        let searchInput = orgnr || companyName;
+
+        getCompanyFromBrreg(searchInput);
+        console.log("søk mot Brønnøysundregisteret");
     }
 }
 
+async function getCompanyFromBrreg(input) {
+    // Sjekker om input er et organisasjonsnummer (9 sifre)
+    const isOrgNr = /^\d{9}$/.test(input);
+    
+    let url;
+    if (isOrgNr) {
+        // Søk basert på organisasjonsnummer
+        url = `https://data.brreg.no/enhetsregisteret/api/enheter/${input}`;
+    } else {
+        // Søk basert på navn
+        url = `https://data.brreg.no/enhetsregisteret/api/enheter?navn=${encodeURIComponent(input)}`;
+    }
+
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            const data = await response.json();
+            responsFromBrreg(data);
+        } else {
+            console.error('Feil ved henting av firmaopplysninger:', response.status);
+        }
+    } catch (error) {
+        console.error('Nettverksfeil:', error);
+    }
+}
+
+function responsFromBrreg(data) {
+    console.log(data);
+}
+
+
+
+
 function respondCompanyToUser(data) {
     console.log(data);
+
+    //reload siden for å oppdatere selskapene
+    console.log("Selskap lagt til bruker, laster siden på nytt");
+    location.reload();
 }
 
 function visRepresentantInfo(selskapNavn) {
