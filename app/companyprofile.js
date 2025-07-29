@@ -68,7 +68,7 @@ function companyPageChosed(company) {
     let adress = conteinerpage.querySelector('.adress');
     adress.textContent = company.adresse || "-";
 
-    let post = conteinerpage.querySelector('.post');
+    let post = conteinerpage.querySelector('.postaddress');
     adress.textContent = company.postnr+" "+company.poststed;
 
     preLists(company);
