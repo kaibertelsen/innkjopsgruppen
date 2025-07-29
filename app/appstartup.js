@@ -107,7 +107,8 @@ function userResponse(data) {
          
 
          //søk i airtabel etter selskapet
-         Getlistairtable("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",body,"responsFromBM25");
+         GetlistairtableNoCache("app1WzN1IxEnVu3m0","tblFySDb9qVeVVY5c",body,"responsFromBM25");
+         
 
             return; // Avbryt videre prosessering
         }
