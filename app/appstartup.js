@@ -291,8 +291,11 @@ function responsCreatCompanyFromBrreg(data) {
     // Vis alert om at selskapet er opprettet
     const companyName = data.fields.Name || "Ukjent Selskap";
     alert(`Selskapet ${companyName} er opprettet i Innkjøps-gruppen!`);
-   
+
+    // Restart siden etter at brukeren trykker OK
+    location.reload();
 }
+
 
 
 function respondCompanyToUser(data) {
