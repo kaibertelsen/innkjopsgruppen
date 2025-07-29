@@ -111,6 +111,13 @@ function userResponse(data) {
          
 
             return; // Avbryt videre prosessering
+        }else{
+
+            alert("Din bruker har ikke fått tildelt et selskap enda.\n\nTa kontakt med systemadmin: info@innkjops-gruppen.no");
+            //gå til innlogging innkjøpsgruppen sin side
+            window.location.href = "https://innkjops-gruppen.no";
+
+
         }
 
     }
