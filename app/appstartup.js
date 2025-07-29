@@ -276,7 +276,8 @@ function responsFromBrreg(data) {
         postnr: data.forretningsadresse?.postnummer || "",
         poststed: data.forretningsadresse?.poststed || "",
         gruppe: [groupId], // Legger til gruppetilhørighet
-        bruker: [userid] // Legger til brukerens ID
+        bruker: [userid],
+        klient:["rec1QGUGBMVaqxhp1"] 
     }
 
     //opprett selskap i Airtable
