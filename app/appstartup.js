@@ -280,9 +280,9 @@ function responsFromBrreg(data) {
         if(memberObject.groupcode === "malermester") {
             groupId = "recoNU5XeVT3RUptW"; // Malermester
         }else if(memberObject.groupcode === "byggmester") {
-            groupId = "rec1jnyHkirPzugns"; // Rørlegger
+            groupId = "rec6WRRFICDhUvfpt"; 
         }else if(memberObject.groupcode === "murermester") {
-            groupId = "recVlfvn9fzrOV2lc"; // Rørlegger
+            groupId = "recVlfvn9fzrOV2lc"; 
         }
     }
 
