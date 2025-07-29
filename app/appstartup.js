@@ -281,7 +281,7 @@ function responsFromBrreg(data) {
     }
 
     //opprett selskap i Airtable
-    POSTairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", JSON.stringify(company), "responsCreatCompanyFromBrreg");
+    POSTNewRowairtable("app1WzN1IxEnVu3m0", "tblFySDb9qVeVVY5c", JSON.stringify(company), "responsCreatCompanyFromBrreg");
 
 }
 
