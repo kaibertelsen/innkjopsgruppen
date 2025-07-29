@@ -246,6 +246,9 @@ async function getCompanyFromBrreg(input) {
             responsFromBrreg(data);
         } else {
             alert("Fant ikke organisasjonsnummeret eller navnet i Brønnøysundregistrene.\n\nVennligst ta kontakt med systemadministratør: info@innkjops-gruppen.no");
+
+            //gå til innlogging innkjøpsgruppen sin side
+            window.location.href = "https://innkjops-gruppen.no";
         }
     } catch (error) {
         console.error('Nettverksfeil:', error);
