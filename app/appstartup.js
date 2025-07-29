@@ -256,7 +256,7 @@ function responsFromBrreg(data) {
 
     let groupId = "rec6WRRFICDhUvfpt"; // Standard gruppe Byggmesterforbundet
 
-    if(memberObject?.group && memberObject.group.trim() !== "") {
+    if(memberObject?.groupcode && memberObject.groupcode.trim() !== "") {
         // Hvis det er en spesifikk gruppe angitt, bruk den
         if(memberObject.group === "malermester") {
             groupId = "recoNU5XeVT3RUptW"; // Malermester
