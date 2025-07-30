@@ -2,6 +2,23 @@
 document.getElementById("logginbutton").addEventListener("click", function() {
     // Lagre verdien som en streng i sessionStorage
     sessionStorage.setItem("rootToApp", "true");
+
+    //lagre brukernavn og passord i sessionStorage
+    const username = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    // Sjekk om brukernavn og passord er fylt ut
+    if (!username || !password) {
+        alert("Vennligst fyll ut brukernavn og passord.");
+        return;
+    }
+    let logginfo = {    
+        username: username,
+        password: password
+    };
+    sessionStorage.setItem("logginfo", JSON.stringify(logginfo));
+
+
 });
 
 document.getElementById("creatUserButton").addEventListener("click", function() {
