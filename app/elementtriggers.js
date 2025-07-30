@@ -16,8 +16,7 @@ document.getElementById("logginbutton").addEventListener("click", function() {
         username: username,
         password: password
     };
-    sessionStorage.setItem("logginfo", JSON.stringify(logginfo));
-
+    localStorage.setItem("logginfo", JSON.stringify(logginfo));
 
 });
 
