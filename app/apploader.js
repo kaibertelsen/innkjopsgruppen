@@ -89,6 +89,7 @@ cdnScripts.reduce((promise, script) => {
         }else{
             isLoggedin = false;
             rootPageControll("login");
+            loadLoggInfo();
         }
     });
 

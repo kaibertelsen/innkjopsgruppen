@@ -27,7 +27,7 @@ function loadLoggInfo() {
     if (logginfo) {
         const parsedLogginfo = JSON.parse(logginfo);
         document.getElementById("email").value = parsedLogginfo.username;
-        document.getElementById("password").value = atob(parsedLogginfo.password); // Dekodet passord
+        document.getElementById("password").value = atob(parsedLogginfo.password);
     }
 }
 
