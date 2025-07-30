@@ -12,13 +12,24 @@ document.getElementById("logginbutton").addEventListener("click", function() {
         alert("Vennligst fyll ut brukernavn og passord.");
         return;
     }
+    const encodedPassword = btoa(password);
     let logginfo = {    
         username: username,
-        password: password
+        password: encodedPassword
     };
     localStorage.setItem("logginfo", JSON.stringify(logginfo));
 
 });
+
+
+function loadLoggInfo() {
+    const logginfo = localStorage.getItem("logginfo");
+    if (logginfo) {
+        const parsedLogginfo = JSON.parse(logginfo);
+        document.getElementById("email").value = parsedLogginfo.username;
+        document.getElementById("password").value = atob(parsedLogginfo.password); // Dekodet passord
+    }
+}
 
 document.getElementById("creatUserButton").addEventListener("click", function() {
     // Lagre verdien som en streng i sessionStorage
