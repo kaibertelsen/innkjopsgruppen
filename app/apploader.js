@@ -53,14 +53,14 @@ cdnScripts.reduce((promise, script) => {
                 <p>🛠️ Førstegangsoppsett pågår...</p>
                 <p>Vi klargjør din bruker og tilknytning til selskapet i Innkjøps-gruppen.</p>
                 <p>Dette skjer kun ved første innlogging.</p>
-                <p>Vennligst vent <span id="countdown">10</span> sekunder.</p>
+                <p>Vennligst vent <span id="countdown">20</span> sekunder.</p>
             `;
 
 
             document.body.appendChild(errorMessageElement);
 
             // Start nedtelling
-            let count = 10;
+            let count = 20;
             const countdownEl = document.getElementById("countdown");
             countdownInterval = setInterval(() => {
                 count--;
@@ -73,7 +73,7 @@ cdnScripts.reduce((promise, script) => {
             // Last siden på nytt etter 20 sekunder
             reloadTimeout = setTimeout(() => {
                 location.reload();
-            }, 10000);
+            }, 20000);
 
 
             //sjekker om der er en bruker i airtable med dette memberid
