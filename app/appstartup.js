@@ -256,7 +256,7 @@ async function getCompanyFromBrreg(input) {
             const data = await response.json();
             responsFromBrreg(data);
         } else {
-            alert("Fant ikke organisasjonsnummeret eller navnet i Brønnøysundregistrene.\n\nVennligst ta kontakt med systemadministratør: info@innkjops-gruppen.no");
+            alert(`Fant ikke dette organisasjonsnummeret: ${input} i Brønnøysundregistrene.\n\nVennligst ta kontakt med systemadministratør: info@innkjops-gruppen.no`);
 
             //gå til innlogging innkjøpsgruppen sin side
             window.location.href = "https://innkjops-gruppen.no";
@@ -294,11 +294,6 @@ function responseHaveUserInAirtable(data) {
         rootPageControll("list");
     }
 }
-
-
-
-
-
 
 function responsFromBrreg(data) {
     console.log(data);
@@ -347,8 +342,6 @@ function responsCreatCompanyFromBrreg(data) {
     // Restart siden etter at brukeren trykker OK
     location.reload();
 }
-
-
 
 
 function respondCompanyToUser(data) {
