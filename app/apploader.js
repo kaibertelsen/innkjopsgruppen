@@ -38,18 +38,18 @@ cdnScripts.reduce((promise, script) => {
             console.log("Bruker venter på bruker i Airtable");
 
             // Opprett visuell melding
-            const errorMessage = document.createElement("div");
-            errorMessage.style.position = "fixed";
-            errorMessage.style.top = "50%";
-            errorMessage.style.left = "50%";
-            errorMessage.style.transform = "translate(-50%, -50%)";
-            errorMessage.style.backgroundColor = "white";
-            errorMessage.style.padding = "20px";
-            errorMessage.style.border = "1px solid black";
-            errorMessage.style.fontSize = "18px";
-            errorMessage.style.zIndex = "9999";
-            errorMessage.style.textAlign = "center";
-            errorMessage.innerHTML = `
+            errorMessageElement = document.createElement("div");
+            errorMessageElement.style.position = "fixed";
+            errorMessageElement.style.top = "50%";
+            errorMessageElement.style.left = "50%";
+            errorMessageElement.style.transform = "translate(-50%, -50%)";
+            errorMessageElement.style.backgroundColor = "white";
+            errorMessageElement.style.padding = "20px";
+            errorMessageElement.style.border = "1px solid black";
+            errorMessageElement.style.fontSize = "18px";
+            errorMessageElement.style.zIndex = "9999";
+            errorMessageElement.style.textAlign = "center";
+            errorMessageElement.innerHTML = `
                 <p>🛠️ Førstegangsoppsett pågår...</p>
                 <p>Vi klargjør din bruker og tilknytning til selskapet i Innkjøps-gruppen.</p>
                 <p>Dette skjer kun ved første innlogging.</p>
@@ -57,7 +57,7 @@ cdnScripts.reduce((promise, script) => {
             `;
 
 
-            document.body.appendChild(errorMessage);
+            document.body.appendChild(errorMessageElement);
 
             // Start nedtelling
             let count = 20;

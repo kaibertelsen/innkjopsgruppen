@@ -15,6 +15,9 @@ var isSharkey = false;
 var isLoggedin = false;
 var activeSupplierList;
 var memberObject = {};
+let countdownInterval = null;
+let errorMessageElement = null;
+
 
 
 document.getElementById("menybuttonopener").addEventListener("click", function() {
@@ -276,17 +279,19 @@ function haveUserInAirtable(memberId){
 function responseHaveUserInAirtable(data) {
     console.log(data);
 
-    // Sjekk om det finnes minst ett treff
     if (data.data && data.data.length > 0) {
+        // Stop countdown og fjern meldingsboks
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (errorMessageElement) errorMessageElement.remove();
+
         const userRecord = data.data[0];
         const userId = userRecord.id;
-        const userEmail = userRecord.fields.epost;
 
-        // Start brukeroppsett og gå til riktig side
         startUp(userId);
         rootPageControll("list");
     } 
 }
+
 
 
 
