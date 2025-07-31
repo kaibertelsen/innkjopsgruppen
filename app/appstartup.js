@@ -277,18 +277,22 @@ function haveUserInAirtable(memberId){
 
 }
 
-if (data.data && data.data.length > 0) {
-    // Stopp countdown, fjern visuell boks og stopp reload
-    if (countdownInterval) clearInterval(countdownInterval);
-    if (reloadTimeout) clearTimeout(reloadTimeout);
-    if (errorMessageElement) errorMessageElement.remove();
+function responseHaveUserInAirtable(data) {
+    console.log(data);
 
-    const userRecord = data.data[0];
-    const userId = userRecord.id;
-    const userEmail = userRecord.fields.epost;
+    if (data.data && data.data.length > 0) {
+        // Stopp countdown, fjern visuell boks og stopp reload
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (reloadTimeout) clearTimeout(reloadTimeout);
+        if (errorMessageElement) errorMessageElement.remove();
 
-    startUp(userId);
-    rootPageControll("list");
+        const userRecord = data.data[0];
+        const userId = userRecord.id;
+        const userEmail = userRecord.fields.epost;
+
+        startUp(userId);
+        rootPageControll("list");
+    }
 }
 
 
