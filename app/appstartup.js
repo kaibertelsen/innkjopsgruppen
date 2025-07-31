@@ -264,8 +264,23 @@ async function getCompanyFromBrreg(input) {
 }
 
 
+function haveUserInAirtable(memberId){
 
+    //sjekker om det er en bruker i airtable med denne memberid
+    let body = airtablebodylistAND({memberId: memberId});
 
+    GetlistairtableNoCache("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",body,"responseHaveUserInAirtable");
+
+}
+
+function responseHaveUserInAirtable(data) {
+//hvis det er treff
+    console.log(data);
+    /*
+    startUp(userid);
+    rootPageControll("list");
+    */
+}
 
 
 
@@ -906,6 +921,8 @@ function ruteresponse(data,id){
         respondCompanyToUser(data);
     }else if(id == "responsCreatCompanyFromBrreg"){
         responsCreatCompanyFromBrreg(data);
+    }else if(id == "responseHaveUserInAirtable"){
+        responseHaveUserInAirtable(data);
     }
     
 

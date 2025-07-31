@@ -35,7 +35,7 @@ cdnScripts.reduce((promise, script) => {
 
            // Sjekker om det er en bruker som ikke har fått bruker i Airtable
         if (!member?.airtableid) {
-            console.log("Bruker har ikke bruker i Airtable");
+            console.log("Bruker venter på bruker i Airtable");
 
             // Opprett visuell melding
             const errorMessage = document.createElement("div");
@@ -50,9 +50,12 @@ cdnScripts.reduce((promise, script) => {
             errorMessage.style.zIndex = "9999";
             errorMessage.style.textAlign = "center";
             errorMessage.innerHTML = `
-                <p>🛠️ Oppretter bruker i Innkjøps-gruppen...</p>
-                <p>Prøver igjen om <span id="countdown">20</span> sekunder.</p>
+                <p>🛠️ Førstegangsoppsett pågår...</p>
+                <p>Vi klargjør din bruker og tilknytning til selskapet i Innkjøps-gruppen.</p>
+                <p>Dette skjer kun ved første innlogging.</p>
+                <p>Vennligst vent <span id="countdown">20</span> sekunder.</p>
             `;
+
 
             document.body.appendChild(errorMessage);
 
@@ -71,6 +74,10 @@ cdnScripts.reduce((promise, script) => {
             setTimeout(() => {
                 location.reload();
             }, 20000);
+
+
+            //sjekker om der er en bruker i airtable med dette memberid
+            haveUserInAirtable(memberId);
 
             return;
         }
