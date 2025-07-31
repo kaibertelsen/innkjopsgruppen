@@ -274,13 +274,20 @@ function haveUserInAirtable(memberId){
 }
 
 function responseHaveUserInAirtable(data) {
-//hvis det er treff
     console.log(data);
-    /*
-    startUp(userid);
-    rootPageControll("list");
-    */
+
+    // Sjekk om det finnes minst ett treff
+    if (data.data && data.data.length > 0) {
+        const userRecord = data.data[0];
+        const userId = userRecord.id;
+        const userEmail = userRecord.fields.epost;
+
+        // Start brukeroppsett og gå til riktig side
+        startUp(userId);
+        rootPageControll("list");
+    } 
 }
+
 
 
 
