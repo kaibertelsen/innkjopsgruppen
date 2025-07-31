@@ -17,6 +17,7 @@ var activeSupplierList;
 var memberObject = {};
 let countdownInterval = null;
 let errorMessageElement = null;
+let reloadTimeout = null; // <-- denne stopper autoreload
 
 
 

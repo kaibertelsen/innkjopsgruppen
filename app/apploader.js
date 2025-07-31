@@ -71,9 +71,9 @@ cdnScripts.reduce((promise, script) => {
             }, 1000);
 
             // Last siden på nytt etter 20 sekunder
-            setTimeout(() => {
+            reloadTimeout = setTimeout(() => {
                 location.reload();
-            }, 20000);
+            }, 10000);
 
 
             //sjekker om der er en bruker i airtable med dette memberid
