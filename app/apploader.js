@@ -62,7 +62,7 @@ cdnScripts.reduce((promise, script) => {
             // Start nedtelling
             let count = 20;
             const countdownEl = document.getElementById("countdown");
-            const countdownInterval = setInterval(() => {
+            countdownInterval = setInterval(() => {
                 count--;
                 countdownEl.textContent = count;
                 if (count <= 0) {
