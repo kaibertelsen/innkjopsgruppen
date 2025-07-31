@@ -277,20 +277,18 @@ function haveUserInAirtable(memberId){
 
 }
 
-function responseHaveUserInAirtable(data) {
-    console.log(data);
+if (data.data && data.data.length > 0) {
+    // Stopp countdown, fjern visuell boks og stopp reload
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (reloadTimeout) clearTimeout(reloadTimeout);
+    if (errorMessageElement) errorMessageElement.remove();
 
-    if (data.data && data.data.length > 0) {
-        // Stop countdown og fjern meldingsboks
-        if (countdownInterval) clearInterval(countdownInterval);
-        if (errorMessageElement) errorMessageElement.remove();
+    const userRecord = data.data[0];
+    const userId = userRecord.id;
+    const userEmail = userRecord.fields.epost;
 
-        const userRecord = data.data[0];
-        const userId = userRecord.id;
-
-        startUp(userId);
-        rootPageControll("list");
-    } 
+    startUp(userId);
+    rootPageControll("list");
 }
 
 

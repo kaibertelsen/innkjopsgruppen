@@ -53,14 +53,14 @@ cdnScripts.reduce((promise, script) => {
                 <p>🛠️ Førstegangsoppsett pågår...</p>
                 <p>Vi klargjør din bruker og tilknytning til selskapet i Innkjøps-gruppen.</p>
                 <p>Dette skjer kun ved første innlogging.</p>
-                <p>Vennligst vent <span id="countdown">20</span> sekunder.</p>
+                <p>Vennligst vent <span id="countdown">10</span> sekunder.</p>
             `;
 
 
             document.body.appendChild(errorMessageElement);
 
             // Start nedtelling
-            let count = 20;
+            let count = 10;
             const countdownEl = document.getElementById("countdown");
             countdownInterval = setInterval(() => {
                 count--;
