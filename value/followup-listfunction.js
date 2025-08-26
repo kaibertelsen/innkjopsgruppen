@@ -121,8 +121,9 @@ function startFollowinglistElement(data) {
         // Oppdater visning av savingsikon
         const savingsicon = rowElement.querySelector(".oversavings");
 
-        if (abonnementvalue > 0 && abonnementvalue <= savings) {
+        if (abonnementvalue <= savings) {
          // Kunden har spart mer enn abonnementverdi, og abonnementverdi er ikke 0
+         //abonnementvalue > 0 && 
          
         }else{
             savingsicon.classList.add("red");

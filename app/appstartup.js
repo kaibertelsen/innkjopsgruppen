@@ -267,7 +267,6 @@ async function getCompanyFromBrreg(input) {
     }
 }
 
-
 function haveUserInAirtable(memberId){
 
     //sjekker om det er en bruker i airtable med denne memberid
@@ -342,7 +341,6 @@ function responsCreatCompanyFromBrreg(data) {
     // Restart siden etter at brukeren trykker OK
     location.reload();
 }
-
 
 function respondCompanyToUser(data) {
     console.log(data);
