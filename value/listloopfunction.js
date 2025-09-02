@@ -1,3 +1,5 @@
+var repitingchange = false;
+
 function listElements(data,list,type){
 
     removeAllChildNodes(list);
@@ -659,6 +661,13 @@ function saveEditline(){
                 type:"bistand",
                 repeating:repeating
             };
+
+            //hvis det kun er repiterende som er forandret, så ikke legg til ny bruker
+            if(!repitingchange && !airtable){
+                //første gang den lagres
+            body.user = [userairtableid];
+            }
+
         }else if (type == "analyse"){
             body = {
                 date:date,
@@ -838,10 +847,10 @@ document.getElementById("editWrapperSelectorQuantity").addEventListener("change"
 );
 
 document.getElementById("repeatingLine").addEventListener("change", (event) => {
+    repitingchange = true;
     if (event.target.checked) {
       console.log("✅ Aktivert gjentakende linje");
     } else {
       console.log("⛔ Deaktivert gjentakende linje");
     }
 });
-  
