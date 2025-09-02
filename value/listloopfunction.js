@@ -657,7 +657,6 @@ function saveEditline(){
                 dachboard:["recfJZ0PCPOrWcBLq"],
                 note:note,
                 mark:mark,
-                user:[userairtableid],
                 type:"bistand",
                 repeating:repeating
             };
