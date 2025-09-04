@@ -359,7 +359,7 @@ function retunrMultiImportCustomer(data) {
     let onlyEmailSwitsh = document.getElementById('onlyEmailSwitsh').checked;
     if(onlyEmailSwitsh){
         //hoppe over invitasjons opprettelse og gå direkte til mail sending
-        multiOnlyEmailSending(invitations);
+        multiOnlyEmailSending(readyComsomerlist);
 
     }else{
 
@@ -371,9 +371,33 @@ function retunrMultiImportCustomer(data) {
 
 }
 function multiOnlyEmailSending(data) {
-    console.log("retunrMultiImportInvitations:", data);
+
+      // Hent innholdet fra TinyMCE editoren
+      var editorContent = tinymce.get("mailbodyelement").getContent();
+      var pipedrivestagestartid = document.getElementById("pipedrivestagestartid").value;
+      
+
+
+    data.forEach(item => {
+
+        let zapierData = {
+            navn: item["Kontaktperson"],
+            telefon: item["Telefon"],
+            epost: item["E-post"],
+            firmanavn: item["Selskap"],
+            orgnr: item["Org.nr"],
+            mailbody: editorContent || "",
+            pipedrivestagestartid: pipedrivestagestartid || "",
+            groupemail: "",
+        };
+
+        sendUserToZapier(zapierData)
+
+    });
 
 }
+
+
 
 function retunrMultiImportInvitations(data) {
     console.log("retunrMultiImportInvitations:", data);
