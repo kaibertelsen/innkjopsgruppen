@@ -326,6 +326,8 @@ function retunrMultiImportCustomer(data) {
 
     console.log("Importer resultat (kun relevante nøkler):", allRecords);
 
+
+
     const invitations = [];
     readyComsomerlist.forEach(item => {
         const navn = item["Selskap"]?.trim().toLowerCase();
@@ -353,9 +355,24 @@ function retunrMultiImportCustomer(data) {
 
     console.log("Invitations som skal importeres:", invitations);
 
-    sendCollection = "invitation";
+    //sjekke om switsjen med kun oprettelse av selskap er slått på
+    let onlyEmailSwitsh = document.getElementById('onlyEmailSwitsh').checked;
+    if(onlyEmailSwitsh){
+        //hoppe over invitasjons opprettelse og gå direkte til mail sending
+        multiOnlyEmailSending(invitations);
 
-    multisave(invitations, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
+    }else{
+
+        sendCollection = "invitation";
+        multisave(invitations, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
+
+    }       
+
+
+}
+function multiOnlyEmailSending(data) {
+    console.log("retunrMultiImportInvitations:", data);
+
 }
 
 function retunrMultiImportInvitations(data) {
