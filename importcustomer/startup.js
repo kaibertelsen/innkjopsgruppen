@@ -374,7 +374,17 @@ function multiOnlyEmailSending(data) {
 
       // Hent innholdet fra TinyMCE editoren
       var editorContent = tinymce.get("mailbodyelement").getContent();
-      var pipedrivestagestartid = document.getElementById("pipedrivestagestartid").value;
+
+    const selector = document.getElementById("groupSelector");
+    const selectedGroup = selector.value;
+
+    //finn gruppe i gGroups
+    const group = gGroups.find(group => group.airtable === selectedGroup);
+    let groupEmail = group.email || "";
+
+    //skal denne invitasjonen også registreres i pipedrive
+    let pipedrivestagestartid = group.pipedrivestagestartid || "";
+     
       
 
 
@@ -387,8 +397,8 @@ function multiOnlyEmailSending(data) {
             firmanavn: item["Selskap"],
             orgnr: item["Org.nr"],
             mailbody: editorContent || "",
-            pipedrivestagestartid: pipedrivestagestartid || "",
-            groupemail: "",
+            pipedrivestagestartid: pipedrivestagestartid,
+            groupemail: groupEmail
         };
 
         sendUserToZapier(zapierData)
