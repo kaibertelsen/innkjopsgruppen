@@ -301,11 +301,11 @@ function responsFromBrreg(data) {
 
     if(memberObject?.groupcode && memberObject.groupcode.trim() !== "") {
         // Hvis det er en spesifikk gruppe angitt, bruk den
-        if(memberObject.groupcode === "malermester") {
+        if(memberObject.groupcode === "MLF") {
             groupId = "recoNU5XeVT3RUptW"; // Malermester
-        }else if(memberObject.groupcode === "byggmester") {
+        }else if(memberObject.groupcode === "BM") {
             groupId = "rec6WRRFICDhUvfpt"; 
-        }else if(memberObject.groupcode === "murermester") {
+        }else if(memberObject.groupcode === "MRF") {
             groupId = "recVlfvn9fzrOV2lc"; 
         }
     }
