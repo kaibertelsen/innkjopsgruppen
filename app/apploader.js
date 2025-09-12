@@ -43,12 +43,15 @@ cdnScripts.reduce((promise, script) => {
             errorMessageElement.style.top = "50%";
             errorMessageElement.style.left = "50%";
             errorMessageElement.style.transform = "translate(-50%, -50%)";
-            errorMessageElement.style.backgroundColor = "white";
+            errorMessageElement.style.backgroundColor = "black";  // Sort bakgrunn
+            errorMessageElement.style.color = "white";            // Hvit tekst
             errorMessageElement.style.padding = "20px";
-            errorMessageElement.style.border = "1px solid black";
+            errorMessageElement.style.border = "8px solid white"; // 8px border
             errorMessageElement.style.fontSize = "18px";
             errorMessageElement.style.zIndex = "9999";
             errorMessageElement.style.textAlign = "center";
+            errorMessageElement.style.borderRadius = "12px"; // valgfritt: runde hjørner
+
             errorMessageElement.innerHTML = `
                 <p>🛠️ Førstegangsoppsett pågår...</p>
                 <p>Vi klargjør din bruker og tilknytning til selskapet i Innkjøps-gruppen.</p>
