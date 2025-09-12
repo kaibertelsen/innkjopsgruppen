@@ -224,7 +224,8 @@ function responsFromBM25(data) {
         // Legg til firma til bruker
         let body = {company: [fields.airtable]};
         body = JSON.stringify(body);
-        patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userid,body,"respondCompanyToUser");
+        let userAirtableid = userObject.airtable;
+        patchAirtable("app1WzN1IxEnVu3m0","tblMhgrvy31ihKYbr",userAirtableid,body,"respondCompanyToUser");
     } else {
         // Ingen treff – søk mot Brønnøysundregisteret
         let orgnr = memberObject.orgnr
