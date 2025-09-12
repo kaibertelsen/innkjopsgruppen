@@ -311,7 +311,7 @@ function responsFromBrreg(data) {
         }
     }
 
-
+    let userAirtableid = userObject.airtable;
     // keynam in airtable
     let company = { 
         Name: data.navn || "Ukjent Selskap",
@@ -320,7 +320,7 @@ function responsFromBrreg(data) {
         postnr: data.forretningsadresse?.postnummer || "",
         poststed: data.forretningsadresse?.poststed || "",
         gruppe: [groupId], // Legger til gruppetilhørighet
-        bruker: [userid],
+        bruker: [userAirtableid],
         klient:["rec1QGUGBMVaqxhp1"] 
     }
 
