@@ -304,7 +304,7 @@ function responsFromBrreg(data) {
         // Hvis det er en spesifikk gruppe angitt, bruk den
         if(memberObject.groupcode === "MLF") {
             groupId = "recoNU5XeVT3RUptW"; // Malermester
-        }else if(memberObject.groupcode === "BM") {
+        }else if(memberObject.groupcode === "BMF") {
             groupId = "rec6WRRFICDhUvfpt"; 
         }else if(memberObject.groupcode === "MRF") {
             groupId = "recVlfvn9fzrOV2lc"; 
