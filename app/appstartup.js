@@ -1259,19 +1259,28 @@ function responsSupplierConnection(rawdata) {
         let postnr = data.companypostnr[0] || "";
         let city = data.companycity[0] || "";
         let contactinfotosupplier = data.contactinfotosupplier || "";
+        let sendgruppenavntilleverandor = data.sendgruppenavntilleverandor || false;
+        let groupname = data.groupname || "";
 
         // Formatering av kundedata i HTML
         function formatCustomerData() {
             return `
                 <div>
                     <span style="font-weight: bold;">${data.companyname[0]}</span>
-                    <span> (${orgnr})</span>
+                </div>
+                <div>
+                    Org.nr: ${orgnr}
                 </div>
                 <div>
                     Adresse: ${adress}, ${postnr} ${city}
                 </div>
+                ${sendgruppenavntilleverandor && groupname ? `
+                <div>
+                    Gruppetilhørighet: ${groupname}
+                </div>` : ""}
             `;
         }
+
         
 
         switch (outputnr) {
