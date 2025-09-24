@@ -1259,8 +1259,8 @@ function responsSupplierConnection(rawdata) {
         let postnr = data.companypostnr[0] || "";
         let city = data.companycity[0] || "";
         let contactinfotosupplier = data.contactinfotosupplier || "";
-        let sendgruppenavntilleverandor = data.sendgruppenavntilleverandor || false;
-        let groupname = data.groupname || "";
+        let sendgruppenavntilleverandor = data.sendgruppenavntilleverandor[0] || false;
+        let groupname = data.groupname[0] || "";
 
         // Formatering av kundedata i HTML
         function formatCustomerData() {
