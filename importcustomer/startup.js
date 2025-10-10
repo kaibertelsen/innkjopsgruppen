@@ -178,6 +178,7 @@ async function importXlsFile(urlToXlsFile) {
 function controllXls(data) {
     const eksisterende = [];
     const nye = [];
+    const feil = [];
 
     // Sorter data alfabetisk på navn
     data.sort((a, b) => {
@@ -211,7 +212,13 @@ function controllXls(data) {
     
         if (!emailRegex.test(rawEmail) || containsMultiple) {
             alert(`Ugyldig e-postadresse for selskapet ${item["Selskap"]} (${item["Org.nr"]}). Vennligst sjekk e-postfeltet.`);
-            item["E-post"] = ""; // Fjern ugyldig e-post
+            //dette item skal fjernes fra nye listen og legges til i feil listen
+            feil.push(item);
+            const index = nye.indexOf(item);
+            if (index > -1) {
+                nye.splice(index, 1);
+            }
+
         }
     });
 
@@ -243,9 +250,10 @@ function controllXls(data) {
     }
 
     const eksisterendeHTML = generateStyledList(`Eksisterende selskaper (${eksisterende.length})`, eksisterende, "red");
+    const feilHTML = generateStyledList(`Selskaper med feil i e-post (${feil.length})`, feil, "orange");
     const nyeHTML = generateStyledList(`Nye selskaper (${nye.length})`, nye, "darkgreen");
 
-    container.insertAdjacentHTML("beforeend", eksisterendeHTML + nyeHTML);
+    container.insertAdjacentHTML("beforeend", eksisterendeHTML+ feilHTML + nyeHTML);
 }
 
 function importCustomerList(nye) {
