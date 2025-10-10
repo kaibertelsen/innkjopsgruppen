@@ -1202,6 +1202,7 @@ function connectToSupplier(supplier) {
         );
 
         if (adminUser) {
+            //bruk superadmin sin kontaktinfo
             contactUser = adminUser;
         } else {
             // Er det noen invitasjon til selskapet?
@@ -1212,9 +1213,19 @@ function connectToSupplier(supplier) {
             }
         }
 
-        // Hvis ingen admin eller invitasjon → ikke send med kontaktinfo
+        // Hvis ingen admin eller invitasjon → sjekk fallback på selskapet
         if (!contactUser) {
-            contactinfotosupplier = "";
+
+            if (activeCompany.email || activeCompany.telefon || activeCompany.kontaktperson) {
+                contactUser = {
+                    navn: activeCompany.kontaktperson || "",
+                    telefon: activeCompany.telefon || "",
+                    epost: activeCompany.email || ""
+                };
+            }else{
+                contactinfotosupplier = "";
+            }
+
         }
     }else{
         contactUser = userObject || "";
@@ -1470,4 +1481,5 @@ function responsShareKeyControll(data) {
     console.log(data);
     isSharkey = false;
 }
+
 
