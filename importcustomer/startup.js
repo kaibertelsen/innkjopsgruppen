@@ -468,8 +468,7 @@ function loopGenerateDataForPublickLink() {
     }else{
         //hente første element i gInventations
         const allRecords = gInventations;
-        mailSending = allRecords[0];
-        generateDataForPublickLink(mailSending);
+        generateDataForPublickLink(allRecords[0]);
     }
 
 }
@@ -491,7 +490,7 @@ function generateDataForPublickLink(data) {
     let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
 
     // Generer offentlig lenke
-    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink",dObject);
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink",data);
 }
 
 function generatePublicLink(data,response,dObject) {
