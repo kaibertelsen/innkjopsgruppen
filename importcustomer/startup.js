@@ -536,7 +536,7 @@ function responPostpublicLink(data){
     console.log(mailObject);
 
     // Send mail via Zapier
-    //sendUserToZapier(mailSending)
+    sendUserToZapier(mailSending)
     
 
     //finne objectet med data i gInventations og slette det
