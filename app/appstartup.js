@@ -1216,10 +1216,10 @@ function connectToSupplier(supplier) {
         // Hvis ingen admin eller invitasjon → sjekk fallback på selskapet
         if (!contactUser) {
 
-            if (activeCompany.email || activeCompany.telefon || activeCompany.kontaktperson) {
+            if (activeCompany.email || activeCompany.phone || activeCompany.contactperson) {
                 contactUser = {
-                    navn: activeCompany.kontaktperson || "",
-                    telefon: activeCompany.telefon || "",
+                    navn: activeCompany.contactperson || "",
+                    telefon: activeCompany.phone || "",
                     epost: activeCompany.email || ""
                 };
             }else{
