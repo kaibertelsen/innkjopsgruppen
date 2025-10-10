@@ -527,7 +527,8 @@ function responPostpublicLink(data){
     console.log(mailSending);
 
     // Send mail via Zapier
-    sendUserToZapier(mailSending)
+    //sendUserToZapier(mailSending)
+    console.log(mailSending);
 
     //finne objectet med data i gInventations og slette det
     const index = gInventations.findIndex(item => item.airtable === mailSending.airtable);
