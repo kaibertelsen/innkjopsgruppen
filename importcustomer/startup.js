@@ -407,8 +407,6 @@ function multiOnlyEmailSending(data) {
 
 }
 
-
-
 function retunrMultiImportInvitations(data) {
     console.log("retunrMultiImportInvitations:", data);
 
@@ -591,12 +589,13 @@ function generateStyledList(title, list, color) {
     html += `<ul style="list-style: none; padding-left: 0;">`;
 
     list.forEach(item => {
-        html += `<li style="color: ${color}; padding: 4px 0;">${item["Selskap"]} (${item["Org.nr"]})</li>`;
+        html += `<li style="color: ${color}; padding: 4px 0;">${item["Selskap"]} (${item["Org.nr"]}) ${item["E-post"]}</li>`;
     });
 
     html += `</ul>`;
     return html;
 }
+
 
 function ruteresponse(data,id){
 
