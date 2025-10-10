@@ -191,6 +191,26 @@ async function POSTairtablepublicLink(body,id) {
 
 }
 
+async function POSTairtablepublicLinkInData(body,id,dObject) {
+  let token = MemberStack.getToken();
+   let response = await fetch(`https://expoapi-zeta.vercel.app/api/share?token=${token}`, {
+    method: "POST",
+    body: body,
+    headers: {
+ 'Content-Type': 'application/json'
+  }
+  });
+  
+  if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+  }else{
+    let data = await response.json();
+        apireturn({success: true, data: data, id: id, dObject: dObject});
+  }
+
+}
+
+
 async function sendDataToZapierWebhook(data,url,id) {
     
   const formData = new FormData();
@@ -217,6 +237,9 @@ async function sendDataToZapierWebhook(data,url,id) {
 
 function apireturn(response){
   if(response.success){
+    if(response.dObject){
+      response.data.dObject = response.dObject;
+    }
    ruteresponse(response.data,response.id);
   }else{
       console.log(response);

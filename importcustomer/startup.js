@@ -491,10 +491,10 @@ function generateDataForPublickLink(data) {
     let expirationdateFormatted = expirationdate.toISOString().split('T')[0];
 
     // Generer offentlig lenke
-    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink");
+    generatePublicLink({ baseId, tableId, rowId, text, expirationdate: expirationdateFormatted },"responPostpublicLink",dObject);
 }
 
-function generatePublicLink(data,response) {
+function generatePublicLink(data,response,dObject) {
     // Sjekk om nødvendig data finnes
     if (!data.baseId || !data.tableId || !data.rowId || !data.text || !data.expirationdate) {
         console.error("Manglende data for å generere offentlig link.");
@@ -509,29 +509,31 @@ function generatePublicLink(data,response) {
     };
 
     // Send POST-forespørsel
-    POSTairtablepublicLink(JSON.stringify(body), response);
+    POSTairtablepublicLinkInData(JSON.stringify(body), response,dObject);
 }
 
 function responPostpublicLink(data){
+
+    let mailObject = data.dObject || {};
  
     // Sett href-attributtet til ønsket URL
     let link = "https://portal.innkjops-gruppen.no/app-portal?"+"shareKey="+data.shareKey+"&shareId="+data.shareId;
     console.log(link);
     //finne objectet i gInventations
-    mailSending.link = link;
+    mailObject.link = link;
 
     // Hent innholdet fra TinyMCE editoren
     var editorContent = tinymce.get("mailbodyelement").getContent();
-    mailSending.mailbody = editorContent;
+    mailObject.mailbody = editorContent;
 
     console.log(mailSending);
 
     // Send mail via Zapier
     //sendUserToZapier(mailSending)
-    console.log(mailSending);
+    
 
     //finne objectet med data i gInventations og slette det
-    const index = gInventations.findIndex(item => item.airtable === mailSending.airtable);
+    const index = gInventations.findIndex(item => item.airtable === mailObject.airtable);
     if (index !== -1) {
         gInventations[index].link = link;
     }
