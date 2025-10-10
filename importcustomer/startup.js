@@ -525,7 +525,7 @@ function responPostpublicLink(data){
     var editorContent = tinymce.get("mailbodyelement").getContent();
     mailObject.mailbody = editorContent;
 
-    console.log(mailSending);
+    console.log(mailObject);
 
     // Send mail via Zapier
     //sendUserToZapier(mailSending)
