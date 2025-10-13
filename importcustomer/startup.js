@@ -536,7 +536,7 @@ function responPostpublicLink(data){
     console.log(mailObject);
 
     // Send mail via Zapier
-    sendUserToZapier(mailSending)
+    sendUserToZapier(mailObject);
     
 
     //finne objectet med data i gInventations og slette det
@@ -565,7 +565,7 @@ async function sendUserToZapier(data) {
     });
 
     if (response.ok) {
-      
+        console.log("Data sent to Zapier successfully.");
     } else {
         console.error("Error sending data to Zapier:", response.statusText);
     }
