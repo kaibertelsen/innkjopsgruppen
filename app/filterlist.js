@@ -166,11 +166,15 @@ function filterSupplierListCategory(data) {
     if (businessButton.classList.contains("active")) {
         // Filtrer ut kategorier som inneholder "personell" i navnet
         console.log("Business mode - filtrerer ut personellkategorier");
-        let removeCategoryIds = ["recSbtJnNprzB42fd"];
+        let removeCategoryIds = "recSbtJnNprzB42fd";
         data = data.filter(supplier => {
             if (Array.isArray(supplier.category)) {
-                // Sjekk om leverandørens kategorier ikke inneholder noen av de uønskede kategoriene
-                return !supplier.category.some(cat => removeCategoryIds.includes(cat.id));
+                // Sjekk om leverandørens category array inneholder noen av de uønskede kategoriene da må de filtreres vekk
+                if(supplier.category.some(cat => cat.id === removeCategoryIds)){
+                console.log("filtrert" + supplier.name, supplier.category);
+                }
+                return true; // Behold leverandører uten kategorier
+                
             }
             return true; // Behold leverandører uten kategorier
         });
