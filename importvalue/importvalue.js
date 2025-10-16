@@ -74,8 +74,8 @@ function returnsaveimport(data,id){
 
 
     multisaveAirtable(saveObject, baseid, "tbly9xd4ho0Z9Mvlv");
-    
-    document.getElementById("importstatuswrapper").style.display = "block";
+
+   // document.getElementById("importstatuswrapper").style.display = "block";
     document.getElementById("aftercontrollelement").style.display = "none";
 
 }

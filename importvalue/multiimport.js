@@ -100,5 +100,6 @@ function statusProcessing(totalRows, uploadedRows) {
 
 function multiimportRespond(data) {
     console.log("Respons fra multiimport:", data);
+    returNewMultiImport(data);
 }
 
