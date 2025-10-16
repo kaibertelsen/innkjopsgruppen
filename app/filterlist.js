@@ -170,7 +170,7 @@ function filterSupplierListCategory(data) {
         data = data.filter(supplier => {
             if (Array.isArray(supplier.category)) {
                 // Sjekk om leverandørens category array inneholder noen av de uønskede kategoriene da må de filtreres vekk
-                if(supplier.category.some(cat => cat.id === removeCategoryIds)){
+                if(supplier.category.some(cat => cat.airtable === removeCategoryIds)){
                 console.log("filtrert" + supplier.name, supplier.category);
                 }
                 return true; // Behold leverandører uten kategorier
