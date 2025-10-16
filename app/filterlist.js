@@ -28,6 +28,7 @@ function loadFilterdata(list,data,nodeElement){
     }
 
     data.forEach((categori, index) => {
+
         const categoriElement = nodeElement.cloneNode(true);
         categoriElement.textContent = categori.name;
         categoriElement.dataset.airtable = categori.airtable;
@@ -41,6 +42,11 @@ function loadFilterdata(list,data,nodeElement){
         categoriElement.addEventListener("click", function() {
             categoriFilterTriggered(categoriElement);
         });
+
+         //sjekke om det er en personal kategori da skal den ikke lages
+         if(categori.airtable == "recSbtJnNprzB42fd"){
+            categoriElement.style.display = "none";
+         }
 
         list.appendChild(categoriElement);
     });
