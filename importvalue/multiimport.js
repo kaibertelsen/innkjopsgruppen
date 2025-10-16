@@ -6,7 +6,6 @@ async function multisaveAirtable(data, baseid, tabelid) {
 
     const sendBatch = async (batch) => {
         try {
-            console.log("Sender batch:", batch);
             const response = await POSTairtableMulti(baseid, tabelid, batch);
             uploadedRows += batch.length;
 
@@ -43,8 +42,6 @@ async function POSTairtableMulti(baseId, tableId, body) {
     return new Promise(async (resolve, reject) => {
         try {
             const token = await MemberStack.getToken();
-            console.log("Token mottatt:", token);
-
             let requestBody = body.map(item => ({ fields: { ...item } }));
 
             console.log("Request Body som skal sendes:", requestBody);
