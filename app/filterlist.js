@@ -161,30 +161,23 @@ function filterSupplierListCategory(data) {
     // Sjekk om en av de aktive knappene har tom dataset.airtable
     const hasDefaultButton = activeButtons.some(button => !button.dataset.airtable);
 
-    //sjekk om det er BusinessTaggButton som er aktiv, da skal den filtrere vekk personalkategorier
     const businessButton = document.getElementById("BusinessTaggButton");
-    if (businessButton.classList.contains("active")) {
-        // Filtrer ut kategorier som inneholder "personell" i navnet
+    const isBusinessMode = businessButton.classList.contains("active");
+    const removeCategoryId = "recSbtJnNprzB42fd";
+    
+    if (isBusinessMode) {
         console.log("Business mode - filtrerer ut personellkategorier");
-        let removeCategoryIds = "recSbtJnNprzB42fd";
+    
         data = data.filter(supplier => {
-            if (Array.isArray(supplier.category)) {
-                // Sjekk om leverandørens category array inneholder noen av de uønskede kategoriene da må de filtreres vekk
-                if(supplier.category.some(cat => cat.airtable === removeCategoryIds)){
-                    //finn ut om det er kun denne kategorien eller om det er flere
-                    if(supplier.category.length == 1){
-                        console.log("filtrert" + supplier.name, supplier.category);
-                       // return false; // fjern leverandøren hvis det er den eneste kategorien
-                    }
-                }
-                return true; // Behold leverandører uten kategorier
-                
-            }
-            return true; // Behold leverandører uten kategorier
+            const categories = supplier.category || [];
+            const hasOnlyRemovedCategory = 
+                categories.length === 1 && categories[0].airtable === removeCategoryId;
+    
+            // behold alle som IKKE bare har den fjernede kategorien
+            return !hasOnlyRemovedCategory;
         });
-
-    }else{
-        // Filtrer ut kategorier som inneholder "bedrift" i navnet
+    
+    } else {
         console.log("Personal mode - filtrerer ut bedriftskategorier");
     }
 
