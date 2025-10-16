@@ -67,14 +67,14 @@ function returnsaveimport(data,id){
     let importid = data.id;
     //1
     var saveObject = [];
-    //Registrere en import i airtable
+    //Lage saveobject for hver av de funne selskapene
     for(var i = 0;i<foundCompany.length;i++){
         saveObject.push(makesaveObject(foundCompany[i],importid));
     }
 
 
-    multisave(saveObject, baseid, "tbly9xd4ho0Z9Mvlv", "returNewMultiImport");
-  
+    multisaveAirtable(saveObject, baseid, "tbly9xd4ho0Z9Mvlv");
+    
     document.getElementById("importstatuswrapper").style.display = "block";
     document.getElementById("aftercontrollelement").style.display = "none";
 

@@ -14,7 +14,9 @@ function loadScript(url) {
 const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/importvalue/importvalue.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/importvalue/downloadcompanylist.js",
-    "https://kaibertelsen.github.io/innkjopsgruppen/apicom.js"
+    "https://kaibertelsen.github.io/innkjopsgruppen/apicom.js",
+    "https://kaibertelsen.github.io/innkjopsgruppen/importvalue/multiimport.js"
+
 ];
 
 // Laste inn alle skriptene sekvensielt
