@@ -161,17 +161,24 @@ function filterSupplierListCategory(data) {
     // Sjekk om en av de aktive knappene har tom dataset.airtable
     const hasDefaultButton = activeButtons.some(button => !button.dataset.airtable);
 
-
     //sjekk om det er BusinessTaggButton som er aktiv, da skal den filtrere vekk personalkategorier
     const businessButton = document.getElementById("BusinessTaggButton");
     if (businessButton.classList.contains("active")) {
         // Filtrer ut kategorier som inneholder "personell" i navnet
         console.log("Business mode - filtrerer ut personellkategorier");
+        let removeCategoryIds = ["recSbtJnNprzB42fd"];
+        data = data.filter(supplier => {
+            if (Array.isArray(supplier.category)) {
+                // Sjekk om leverandørens kategorier ikke inneholder noen av de uønskede kategoriene
+                return !supplier.category.some(cat => removeCategoryIds.includes(cat.id));
+            }
+            return true; // Behold leverandører uten kategorier
+        });
+
     }else{
         // Filtrer ut kategorier som inneholder "bedrift" i navnet
         console.log("Personal mode - filtrerer ut bedriftskategorier");
     }
-
 
     // Hvis det finnes en knapp med tom dataset.airtable, returner hele data ufiltrert
     if (hasDefaultButton) {
