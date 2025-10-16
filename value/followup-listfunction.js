@@ -109,7 +109,7 @@ function startFollowinglistElement(data) {
         // Beregn totale besparelser for de siste 12 månedene
         for (let cashflow of company.cashflowjson || []) {
             const maindate = new Date(cashflow.maindate);
-            if (maindate >= twelveMonthsAgo) {
+            if (maindate >= twelveMonthsAgo || company.repeating == "TRUE") {
                 // Bare ta med verdier innenfor de siste 12 månedene
                 const cut = parseFloat(cashflow.cut) || 0;
                 const bistand = parseFloat(cashflow.bistand) || 0;
