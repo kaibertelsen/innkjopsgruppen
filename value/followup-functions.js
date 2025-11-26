@@ -122,6 +122,10 @@ function addNextRenewalDatetoarray(data){
      for(var i = 0;i<data.length;i++){
          //finne ut nestegang denne avtalen fornyes
 
+         if(data[i].Name == "RØNNING ANLEGG AS"){
+            console.log("debug:",data[i]);
+         }
+
         let startdate = data[i].winningdate;
         if(data[i]?.manuelrewaldate){
             //denne har satt manuelt en dato for fornying så regn ut (12) mnd tilbake tid og sett denne datoen
