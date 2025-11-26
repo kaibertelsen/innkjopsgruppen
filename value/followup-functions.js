@@ -361,6 +361,10 @@ function getDateMonthsAgo(dateString, monthsAgo) {
         return null; // Returner null hvis datoStreng er tom eller ugyldig
     }
 
+    if (isNaN(monthsAgo) || monthsAgo < 0) {
+        return null; // Returner null hvis monthsAgo er ugyldig
+    }
+
     const date = new Date(dateString);
 
     if (isNaN(date)) return null; // Returner null hvis datoen er ugyldig
