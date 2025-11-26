@@ -16,6 +16,10 @@ function startFollowinglistElement(data) {
         return;
     }
 
+    if (data.Name === "RØNNING ANLEGG AS") {
+        console.log("Debugging RØNNING ANLEGG AS:", data);
+    }
+
     data.sort((a, b) => {
         const dateA = new Date(a.nextrenewaldate);
         const dateB = new Date(b.nextrenewaldate);
