@@ -30,10 +30,10 @@ function startFollowinglistElement(data) {
 
     data.forEach((company, index) => {
 
-        if (data.Name === "RØNNING ANLEGG AS") {
+        if (company.Name === "RØNNING ANLEGG AS") {
             console.log("Debugging RØNNING ANLEGG AS:", data);
         }
-        
+
         const rowElement = nodeElement.cloneNode(true);
         rowElement.classList.add("rowlistelement");
         rowElement.id = "row"+"elementfollowinguplist"+company.airtable;
