@@ -357,7 +357,9 @@ function startfollowuplist(data,load,sortname,descending){
 }
  
 function getDateMonthsAgo(dateString, monthsAgo) {
-    if (!dateString || !Number.isInteger(monthsAgo)) return null; // Returner null hvis input er ugyldig
+    if (dateString === null || dateString === undefined || dateString.trim() === "") {
+        return null; // Returner null hvis datoStreng er tom eller ugyldig
+    }
 
     const date = new Date(dateString);
 
