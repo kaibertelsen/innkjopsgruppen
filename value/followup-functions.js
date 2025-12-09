@@ -191,6 +191,12 @@ function daysUntil(targetDate) {
 function filterfollowupSelector(data,selectorid){
   var selector = document.getElementById(selectorid);
   data = filteredRemoveFollowup(data);
+
+  //fjern alle selskaper som her verdi 0 eller ingen verdi i valuegroup
+  data = data.filter(company => {
+    const valuegroup = parseFloat(company.valuegroup);
+    return !isNaN(valuegroup) && valuegroup > 0;
+    });
   
     if(selector.value == "missingfollowup"){
         //list alle som mangler oppfølging
