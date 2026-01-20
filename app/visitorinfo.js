@@ -2,7 +2,7 @@ function saveInfo(){
 
     activeCompany;
     userObject;
-
+/*
     saveVisitorInfo({
         name: userObject.navn || "",
         phone: userObject.telefon || "",
@@ -11,7 +11,7 @@ function saveInfo(){
         orgnr: activeCompany.orgnr|| "",
         metadata: {plan: activeCompany.groupname || "" }
     });
-
+*/
 }
 
 
