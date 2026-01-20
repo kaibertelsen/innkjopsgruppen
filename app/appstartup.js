@@ -217,27 +217,7 @@ function userResponse(data) {
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
 }
 
-function saveInfo(){
 
-    activeCompany;
-    userObject;
-
-    console.log("lagrer visitorinfo",activeCompany,userObject);
-
-    /*
-    saveVisitorInfo({
-        name: "Ola Nordmann",
-        phone: "+47 999 99 999",
-        email: "ola@kunde.no",
-        companies: "Kunde AS",
-        orgnr: "912345678",
-        metadata: { portalUserId: "u_123", plan: "Pro" }
-        });
-
-*/
-
-
-}
 
 function responsFromBM25(data) {
     console.log(data);

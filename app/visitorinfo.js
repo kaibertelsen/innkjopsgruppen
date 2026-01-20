@@ -1,3 +1,20 @@
+function saveInfo(){
+
+    activeCompany;
+    userObject;
+
+    saveVisitorInfo({
+        name: userObject.navn || "",
+        phone: userObject.telefon || "",
+        email: userObject.epost || "",
+        companies: activeCompany.Name || "",
+        orgnr: activeCompany.orgnr|| "",
+        metadata: {plan: activeCompany.groupname || "" }
+    });
+
+}
+
+
 
 function saveVisitorInfo(visitor) {
 const clientId = window.bbConfig?.clientId;
