@@ -16,13 +16,10 @@ function saveInfo(){
 
 
 
- function saveVisitorInfo(visitor) {
+  function saveVisitorInfo(visitor) {
     try {
-      // bbConfig kan mangle – da gjør vi ingenting
       const clientId = window.bbConfig && window.bbConfig.clientId;
-      if (!clientId) return null;
-
-      const key = `VisitorInfo_${clientId}`;
+      const key = clientId ? `VisitorInfo_${clientId}` : "VisitorInfo";
 
       const payload = {
         name: visitor?.name || "",
@@ -40,11 +37,10 @@ function saveInfo(){
       localStorage.setItem(key, JSON.stringify(payload));
       return payload;
     } catch (e) {
-      // Viktig: aldri kast feil videre
       console.warn("[BusinessBooster] saveVisitorInfo ignored:", e);
       return null;
     }
-}
+  }
 
 
 /* Eksempelbruk:
