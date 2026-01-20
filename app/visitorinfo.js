@@ -35,6 +35,9 @@ function saveInfo(){
       };
 
       localStorage.setItem(key, JSON.stringify(payload));
+
+      window.dispatchEvent(new CustomEvent("bb:visitorinfo:updated"));
+      
       return payload;
     } catch (e) {
       console.warn("[BusinessBooster] saveVisitorInfo ignored:", e);
