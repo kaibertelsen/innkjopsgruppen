@@ -2,7 +2,7 @@ function saveInfo(){
 
     activeCompany;
     userObject;
-/*
+
     saveVisitorInfo({
         name: userObject.navn || "",
         phone: userObject.telefon || "",
@@ -11,30 +11,39 @@ function saveInfo(){
         orgnr: activeCompany.orgnr|| "",
         metadata: {plan: activeCompany.groupname || "" }
     });
-*/
+
 }
 
 
 
-function saveVisitorInfo(visitor) {
-const clientId = window.bbConfig?.clientId;
-if (!clientId) throw new Error("Missing bbConfig.clientId");
+ function saveVisitorInfo(visitor) {
+    try {
+      // bbConfig kan mangle – da gjør vi ingenting
+      const clientId = window.bbConfig && window.bbConfig.clientId;
+      if (!clientId) return null;
 
-const key = `VisitorInfo_${clientId}`;
+      const key = `VisitorInfo_${clientId}`;
 
-// Minimal normalisering / defaults
-const payload = {
-    name: visitor?.name || "",
-    phone: visitor?.phone || "",
-    email: visitor?.email || "",
-    companies: visitor?.companies || visitor?.company || "",
-    orgnr: visitor?.orgnr || visitor?.orgNr || "",
-    metadata: (visitor?.metadata && typeof visitor.metadata === "object") ? visitor.metadata : {},
-    updatedAt: new Date().toISOString()
-};
+      const payload = {
+        name: visitor?.name || "",
+        phone: visitor?.phone || "",
+        email: visitor?.email || "",
+        companies: visitor?.companies || visitor?.company || "",
+        orgnr: visitor?.orgnr || visitor?.orgNr || "",
+        metadata:
+          visitor?.metadata && typeof visitor.metadata === "object"
+            ? visitor.metadata
+            : {},
+        updatedAt: new Date().toISOString()
+      };
 
-localStorage.setItem(key, JSON.stringify(payload));
-return payload;
+      localStorage.setItem(key, JSON.stringify(payload));
+      return payload;
+    } catch (e) {
+      // Viktig: aldri kast feil videre
+      console.warn("[BusinessBooster] saveVisitorInfo ignored:", e);
+      return null;
+    }
 }
 
 
