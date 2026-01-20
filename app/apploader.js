@@ -17,6 +17,7 @@ const cdnScripts = [
     "https://kaibertelsen.github.io/innkjopsgruppen/app/crypto.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/app/employeeview.js",
     "https://kaibertelsen.github.io/innkjopsgruppen/apicomcurrent.js"
+    
 ];
 
 // Laste inn alle skriptene sekvensielt
