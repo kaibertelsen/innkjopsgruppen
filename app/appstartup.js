@@ -18,6 +18,7 @@ var memberObject = {};
 let countdownInterval = null;
 let errorMessageElement = null;
 let reloadTimeout = null; // <-- denne stopper autoreload
+let visitorObject = {};
 
 
 
@@ -205,12 +206,37 @@ function userResponse(data) {
     //setter riktig design i layout på bekgrunn av selskapets gruppetilhørighet
     settGroupDesign(activeCompany);
 
+    //lagre visitorinfo
+    saveInfo();
+
  
     //hvis portallogo
     document.getElementById("logobutton").style.display = "inline-block";
 
     //hente leverandører
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","recwnwSGJ0GvRwKFU","supplierResponse");
+}
+
+function saveInfo(){
+
+    activeCompany;
+    userObject;
+
+    console.log("lagrer visitorinfo",activeCompany,userObject);
+
+    /*
+    saveVisitorInfo({
+        name: "Ola Nordmann",
+        phone: "+47 999 99 999",
+        email: "ola@kunde.no",
+        companies: "Kunde AS",
+        orgnr: "912345678",
+        metadata: { portalUserId: "u_123", plan: "Pro" }
+        });
+
+*/
+
+
 }
 
 function responsFromBM25(data) {
