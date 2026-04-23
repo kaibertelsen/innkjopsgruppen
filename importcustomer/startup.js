@@ -336,17 +336,41 @@ function controllXlsInviteExisting(data) {
     container.innerHTML = "";
     container.style.display = "inline-block";
 
-    if (eksisterendeMedMatch.length > 0 || nyeSomMaaOpprettes.length > 0) {
+    const totalRader = eksisterendeMedMatch.length + nyeSomMaaOpprettes.length + feil.length;
+    const totalInvitasjoner = eksisterendeMedMatch.length + nyeSomMaaOpprettes.length;
+
+    const summaryHTML = `
+        <div style="background:#fff; border:1px solid #d0d7de; border-radius:10px; padding:16px 20px; margin-bottom:16px; color:#24292f; max-width:720px;">
+            <h2 style="margin:0 0 12px 0; font-size:1.15rem;">Analyserapport av importfil</h2>
+            <div style="display:grid; grid-template-columns:1fr auto; gap:6px 16px; font-size:0.95rem;">
+                <span>Totalt antall rader i fil:</span><strong>${totalRader}</strong>
+                <span style="color:#0a5ea8;">Eksisterende selskaper – inviteres direkte:</span><strong style="color:#0a5ea8;">${eksisterendeMedMatch.length}</strong>
+                <span style="color:#1b5e20;">Nye selskaper – opprettes før invitasjon:</span><strong style="color:#1b5e20;">${nyeSomMaaOpprettes.length}</strong>
+                <span style="color:#b26a00;">Rader med ugyldig e-post (hoppes over):</span><strong style="color:#b26a00;">${feil.length}</strong>
+                <span style="border-top:1px solid #eaeef2; padding-top:6px;">Antall invitasjoner som vil bli sendt:</span><strong style="border-top:1px solid #eaeef2; padding-top:6px;">${totalInvitasjoner}</strong>
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML("beforeend", summaryHTML);
+
+    if (totalInvitasjoner > 0) {
         const importButton = document.createElement("button");
-        importButton.textContent = "Importer og inviter brukere";
-        importButton.style.marginBottom = "10px";
-        importButton.style.padding = "8px 16px";
+        importButton.textContent = nyeSomMaaOpprettes.length > 0
+            ? `Opprett ${nyeSomMaaOpprettes.length} nye selskap(er) og send ${totalInvitasjoner} invitasjon(er)`
+            : `Send ${totalInvitasjoner} invitasjon(er)`;
+        importButton.style.marginBottom = "16px";
+        importButton.style.padding = "10px 20px";
         importButton.style.backgroundColor = "#1b5e20";
         importButton.style.color = "#fff";
         importButton.style.border = "none";
-        importButton.style.borderRadius = "6px";
+        importButton.style.borderRadius = "8px";
         importButton.style.cursor = "pointer";
+        importButton.style.fontSize = "0.95rem";
+        importButton.style.fontWeight = "600";
         importButton.addEventListener("click", () => {
+            importButton.disabled = true;
+            importButton.style.opacity = "0.6";
+            importButton.style.cursor = "not-allowed";
             importInviteExistingFlow();
         });
         container.appendChild(importButton);
@@ -355,17 +379,17 @@ function controllXlsInviteExisting(data) {
     const matchHTML = generateMatchStyledList(
         `Eksisterende selskaper – inviteres direkte (${eksisterendeMedMatch.length})`,
         eksisterendeMedMatch,
-        "darkblue"
+        "#0a5ea8"
     );
     const nyeHTML = generateStyledList(
         `Nye selskaper – opprettes før invitasjon (${nyeSomMaaOpprettes.length})`,
         nyeSomMaaOpprettes,
-        "darkgreen"
+        "#1b5e20"
     );
     const feilHTML = generateStyledList(
         `Rader med ugyldig e-post (${feil.length})`,
         feil,
-        "orange"
+        "#b26a00"
     );
 
     container.insertAdjacentHTML("beforeend", matchHTML + nyeHTML + feilHTML);
