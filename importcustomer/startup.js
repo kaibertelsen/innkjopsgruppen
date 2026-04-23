@@ -15,6 +15,12 @@ var gPendingExistingInvitations = [];
 //Slå på ansattfordeler som standard
 document.getElementById('benefitsSwitsh').checked = true;
 
+//Sett standardvalg for import-modus
+const importModeSelectorEl = document.getElementById("importModeSelector");
+if (importModeSelectorEl) {
+    importModeSelectorEl.value = "standard";
+}
+
 function getCustomer(){     
     //hente kunder
     GETairtable("app1WzN1IxEnVu3m0","tbldZL68MyLNBRjQC","rec1QGUGBMVaqxhp1","customerResponse","skipCache");
