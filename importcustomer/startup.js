@@ -455,10 +455,40 @@ function importInviteExistingFlow() {
         gPendingExistingInvitations = existingInvitations;
         importCustomerList(readyComsomerlist);
     } else if (existingInvitations.length > 0) {
+        //ingen nye selskap å opprette – sett opp lokal status-blokk og start direkte på invitasjoner
+        insertInviteExistingStatusBlockOnlyExisting(existingInvitations.length);
+        gPendingInvitationsToSend = existingInvitations;
         sendCollection = "invitation";
         multisave(existingInvitations, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
     } else {
         alert("Ingen gyldige rader å importere.");
+    }
+}
+
+function insertInviteExistingStatusBlockOnlyExisting(antall) {
+    //fjern start-knappen
+    const startBtn = document.getElementById("inviteExistingStartButton");
+    if (startBtn) startBtn.remove();
+
+    const block = document.createElement("div");
+    block.id = "inviteExistingStep2Block";
+    block.innerHTML = `
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:10px; padding:16px 20px; margin-bottom:16px; color:#1b5e20; max-width:720px;">
+            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">Sender ${antall} invitasjon${antall === 1 ? "" : "er"}</h2>
+            <p style="margin:0 0 4px 0;">Fremdriften vises under.</p>
+            <div id="inviteExistingLocalStatus" style="margin-top:12px;">
+                <div id="localStatusInvitation" style="margin-bottom:6px;"></div>
+                <div id="localStatusEmailSending" style="margin-bottom:6px;"></div>
+                <div id="localStatusFinal" style="margin-top:12px;"></div>
+            </div>
+        </div>
+    `;
+
+    const processCard = document.getElementById("inviteExistingProcessCard");
+    if (processCard) {
+        processCard.insertAdjacentElement("afterend", block);
+    } else {
+        document.getElementById("resultlist").appendChild(block);
     }
 }
 
