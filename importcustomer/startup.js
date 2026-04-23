@@ -1,3 +1,4 @@
+//importcustomer/startup.js
 var userid;
 var gGroups = [];
 var gCustomers = [];
@@ -7,6 +8,9 @@ var mailSending = {};
 var totalInvitations = 0;
 var malonetext = "";
 var sendCollection = "";
+var gImportMode = "standard";
+var gExistingMatchesToInvite = [];
+var gPendingExistingInvitations = [];
 
 //Slå på ansattfordeler som standard
 document.getElementById('benefitsSwitsh').checked = true;
@@ -176,6 +180,14 @@ async function importXlsFile(urlToXlsFile) {
 }
 
 function controllXls(data) {
+    const mode = document.getElementById("importModeSelector")?.value || "standard";
+    gImportMode = mode;
+
+    if (mode === "inviteExisting") {
+        controllXlsInviteExisting(data);
+        return;
+    }
+
     const eksisterende = [];
     const nye = [];
     const feil = [];
@@ -254,6 +266,134 @@ function controllXls(data) {
     const nyeHTML = generateStyledList(`Nye selskaper (${nye.length})`, nye, "darkgreen");
 
     container.insertAdjacentHTML("beforeend", eksisterendeHTML+ feilHTML + nyeHTML);
+}
+
+function controllXlsInviteExisting(data) {
+    gExistingMatchesToInvite = [];
+    readyComsomerlist = [];
+    gPendingExistingInvitations = [];
+
+    const eksisterendeMedMatch = [];
+    const nyeSomMaaOpprettes = [];
+    const feil = [];
+
+    data.sort((a, b) => {
+        const nameA = a["Selskap"]?.trim().toLowerCase() || "";
+        const nameB = b["Selskap"]?.trim().toLowerCase() || "";
+        return nameA.localeCompare(nameB, 'no', { sensitivity: 'base' });
+    });
+
+    data.forEach(item => {
+        const orgnr = item["Org.nr"]?.trim();
+        const match = orgnr
+            ? gCustomers.find(c => c.orgnr?.trim() === orgnr)
+            : null;
+        if (match) {
+            eksisterendeMedMatch.push({
+                xlsRow: item,
+                customerAirtable: match.airtable,
+                customerName: match.Name
+            });
+        } else {
+            nyeSomMaaOpprettes.push(item);
+        }
+    });
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isInvalidEmail = (xls) => {
+        const rawEmail = xls["E-post"]?.trim();
+        const containsMultiple = rawEmail?.includes(",") || rawEmail?.includes(";") || rawEmail?.includes(" ");
+        return !emailRegex.test(rawEmail) || containsMultiple;
+    };
+
+    for (let i = eksisterendeMedMatch.length - 1; i >= 0; i--) {
+        if (isInvalidEmail(eksisterendeMedMatch[i].xlsRow)) {
+            feil.push(eksisterendeMedMatch[i].xlsRow);
+            eksisterendeMedMatch.splice(i, 1);
+        }
+    }
+    for (let i = nyeSomMaaOpprettes.length - 1; i >= 0; i--) {
+        if (isInvalidEmail(nyeSomMaaOpprettes[i])) {
+            feil.push(nyeSomMaaOpprettes[i]);
+            nyeSomMaaOpprettes.splice(i, 1);
+        }
+    }
+
+    if (feil.length > 0) {
+        alert(`Fant ${feil.length} rad(er) med ugyldig e-post. Disse hoppes over.`);
+    }
+
+    gExistingMatchesToInvite = eksisterendeMedMatch;
+    readyComsomerlist = nyeSomMaaOpprettes;
+
+    const container = document.getElementById("resultlist");
+    container.innerHTML = "";
+    container.style.display = "inline-block";
+
+    if (eksisterendeMedMatch.length > 0 || nyeSomMaaOpprettes.length > 0) {
+        const importButton = document.createElement("button");
+        importButton.textContent = "Importer og inviter brukere";
+        importButton.style.marginBottom = "10px";
+        importButton.style.padding = "8px 16px";
+        importButton.style.backgroundColor = "#1b5e20";
+        importButton.style.color = "#fff";
+        importButton.style.border = "none";
+        importButton.style.borderRadius = "6px";
+        importButton.style.cursor = "pointer";
+        importButton.addEventListener("click", () => {
+            importInviteExistingFlow();
+        });
+        container.appendChild(importButton);
+    }
+
+    const matchHTML = generateMatchStyledList(
+        `Eksisterende selskaper – inviteres direkte (${eksisterendeMedMatch.length})`,
+        eksisterendeMedMatch,
+        "darkblue"
+    );
+    const nyeHTML = generateStyledList(
+        `Nye selskaper – opprettes før invitasjon (${nyeSomMaaOpprettes.length})`,
+        nyeSomMaaOpprettes,
+        "darkgreen"
+    );
+    const feilHTML = generateStyledList(
+        `Rader med ugyldig e-post (${feil.length})`,
+        feil,
+        "orange"
+    );
+
+    container.insertAdjacentHTML("beforeend", matchHTML + nyeHTML + feilHTML);
+}
+
+function importInviteExistingFlow() {
+    const selector = document.getElementById("groupSelector");
+    const selectedGroup = selector.value;
+    if (selectedGroup === "") {
+        alert("Vennligst velg en gruppe før du importerer.");
+        return;
+    }
+
+    const TermsofServiceSelectorValue = document.getElementById("TermsofServiceSelector").value;
+
+    const existingInvitations = gExistingMatchesToInvite.map(m => ({
+        navn: m.xlsRow["Kontaktperson"],
+        telefon: m.xlsRow["Telefon"],
+        epost: m.xlsRow["E-post"],
+        avsender: [userid],
+        rolle: "Admin",
+        firma: [m.customerAirtable],
+        vilkar: [TermsofServiceSelectorValue]
+    }));
+
+    if (readyComsomerlist.length > 0) {
+        gPendingExistingInvitations = existingInvitations;
+        importCustomerList(readyComsomerlist);
+    } else if (existingInvitations.length > 0) {
+        sendCollection = "invitation";
+        multisave(existingInvitations, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
+    } else {
+        alert("Ingen gyldige rader å importere.");
+    }
 }
 
 function importCustomerList(nye) {
@@ -361,11 +501,16 @@ function retunrMultiImportCustomer(data) {
         }
     });
 
+    if (gImportMode === "inviteExisting" && gPendingExistingInvitations.length > 0) {
+        invitations.push(...gPendingExistingInvitations);
+        gPendingExistingInvitations = [];
+    }
+
     console.log("Invitations som skal importeres:", invitations);
 
     //sjekke om switsjen med kun oprettelse av selskap er slått på
     let onlyEmailSwitsh = document.getElementById('onlyEmailSwitsh').checked;
-    if(onlyEmailSwitsh){
+    if(onlyEmailSwitsh && gImportMode !== "inviteExisting"){
         //hoppe over invitasjons opprettelse og gå direkte til mail sending
         multiOnlyEmailSending(readyComsomerlist);
 
@@ -374,7 +519,7 @@ function retunrMultiImportCustomer(data) {
         sendCollection = "invitation";
         multisave(invitations, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
 
-    }       
+    }
 
 
 }
@@ -602,6 +747,24 @@ function generateStyledList(title, list, color) {
         html += `<li style="color: ${color}; padding: 4px 0;">${item["Selskap"]} (${item["Org.nr"]}) ${item["E-post"]}</li>`;
     });
 
+    html += `</ul>`;
+    return html;
+}
+
+function generateMatchStyledList(title, list, color) {
+    let html = `<h3>${title}</h3>`;
+    html += `<p style="color:${color}; font-size: 0.9em; font-style: italic; margin-top: -10px; margin-bottom: 10px;">Antall: ${list.length}</p>`;
+
+    if (list.length === 0) {
+        html += `<p style="color:${color};">Ingen</p>`;
+        return html;
+    }
+
+    html += `<ul style="list-style: none; padding-left: 0;">`;
+    list.forEach(item => {
+        const xls = item.xlsRow;
+        html += `<li style="color: ${color}; padding: 4px 0;">${xls["Selskap"]} (${xls["Org.nr"]}) ${xls["E-post"]} → <strong>${item.customerName}</strong></li>`;
+    });
     html += `</ul>`;
     return html;
 }
