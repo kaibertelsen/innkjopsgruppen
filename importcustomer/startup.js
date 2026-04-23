@@ -356,10 +356,13 @@ function controllXlsInviteExisting(data) {
     container.insertAdjacentHTML("beforeend", summaryHTML);
 
     if (totalInvitasjoner > 0) {
+        const actionWrapper = document.createElement("div");
+        actionWrapper.id = "inviteExistingActionArea";
+
         let stepsHTML;
         if (harNye) {
             stepsHTML = `
-                <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
+                <div id="inviteExistingProcessCard" style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
                     <h3 style="margin:0 0 10px 0; font-size:1rem;">Prosessen består av 2 steg:</h3>
                     <ol style="margin:0; padding-left:20px; font-size:0.93rem; line-height:1.55;">
                         <li style="margin-bottom:6px;"><strong>Steg 1 (knapp nedenfor):</strong> Opprett ${nyeSomMaaOpprettes.length} manglende selskap${nyeSomMaaOpprettes.length === 1 ? "" : "er"} i databasen.</li>
@@ -370,7 +373,7 @@ function controllXlsInviteExisting(data) {
             `;
         } else {
             stepsHTML = `
-                <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
+                <div id="inviteExistingProcessCard" style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
                     <h3 style="margin:0 0 10px 0; font-size:1rem;">Slik kjøres prosessen når du trykker knappen:</h3>
                     <ol style="margin:0; padding-left:20px; font-size:0.93rem; line-height:1.55;">
                         <li style="margin-bottom:4px;">Opprett ${totalInvitasjoner} invitasjon${totalInvitasjoner === 1 ? "" : "er"} koblet til riktig selskap.</li>
@@ -380,9 +383,10 @@ function controllXlsInviteExisting(data) {
                 </div>
             `;
         }
-        container.insertAdjacentHTML("beforeend", stepsHTML);
+        actionWrapper.insertAdjacentHTML("beforeend", stepsHTML);
 
         const importButton = document.createElement("button");
+        importButton.id = "inviteExistingStartButton";
         importButton.textContent = harNye
             ? "Opprett de manglende selskaper"
             : `Send ${totalInvitasjoner} invitasjon${totalInvitasjoner === 1 ? "" : "er"}`;
@@ -401,7 +405,8 @@ function controllXlsInviteExisting(data) {
             importButton.style.cursor = "not-allowed";
             importInviteExistingFlow();
         });
-        container.appendChild(importButton);
+        actionWrapper.appendChild(importButton);
+        container.appendChild(actionWrapper);
     }
 
     const matchHTML = generateMatchStyledList(
@@ -591,20 +596,25 @@ function retunrMultiImportCustomer(data) {
 function showInvitationConfirmation(invitations, antallOpprettet) {
     gPendingInvitationsToSend = invitations;
 
-    const container = document.getElementById("resultlist");
     const invPlural = invitations.length === 1 ? "" : "er";
     const selskapPlural = antallOpprettet === 1 ? "" : "er";
 
-    const confirmHTML = `
-        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:10px; padding:16px 20px; margin:16px 0; color:#1b5e20; max-width:720px;">
+    //fjern steg 1-knappen slik at brukeren ikke forholder seg til den mer
+    const startBtn = document.getElementById("inviteExistingStartButton");
+    if (startBtn) startBtn.remove();
+
+    const confirmBlock = document.createElement("div");
+    confirmBlock.id = "inviteExistingStep2Block";
+    confirmBlock.innerHTML = `
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:10px; padding:16px 20px; margin-bottom:16px; color:#1b5e20; max-width:720px;">
             <h2 style="margin:0 0 8px 0; font-size:1.1rem;">✓ Steg 1 fullført</h2>
             <p style="margin:0 0 8px 0;">${antallOpprettet} nytt selskap${selskapPlural} er opprettet i databasen.</p>
             <p style="margin:0;">Neste steg: Opprett ${invitations.length} invitasjon${invPlural} og send e-post med invitasjonslenke til kontaktpersonene. Klikk knappen under for å starte.</p>
         </div>
     `;
-    container.insertAdjacentHTML("beforeend", confirmHTML);
 
     const sendButton = document.createElement("button");
+    sendButton.id = "inviteExistingSendButton";
     sendButton.textContent = `Send ${invitations.length} invitasjon${invPlural}`;
     sendButton.style.marginBottom = "16px";
     sendButton.style.padding = "10px 20px";
@@ -621,7 +631,15 @@ function showInvitationConfirmation(invitations, antallOpprettet) {
         sendButton.style.cursor = "not-allowed";
         sendPendingInvitations();
     });
-    container.appendChild(sendButton);
+    confirmBlock.appendChild(sendButton);
+
+    //plasser steg 2-blokken rett under prosess-kortet, ikke nederst i containeren
+    const processCard = document.getElementById("inviteExistingProcessCard");
+    if (processCard) {
+        processCard.insertAdjacentElement("afterend", confirmBlock);
+    } else {
+        document.getElementById("resultlist").appendChild(confirmBlock);
+    }
 }
 
 function sendPendingInvitations() {
