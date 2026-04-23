@@ -425,7 +425,10 @@ function controllXlsInviteExisting(data) {
         "#b26a00"
     );
 
-    container.insertAdjacentHTML("beforeend", matchHTML + nyeHTML + feilHTML);
+    const listsWrapper = document.createElement("div");
+    listsWrapper.id = "inviteExistingListsWrapper";
+    listsWrapper.innerHTML = matchHTML + nyeHTML + feilHTML;
+    container.appendChild(listsWrapper);
 }
 
 function importInviteExistingFlow() {
@@ -603,13 +606,22 @@ function showInvitationConfirmation(invitations, antallOpprettet) {
     const startBtn = document.getElementById("inviteExistingStartButton");
     if (startBtn) startBtn.remove();
 
+    //topp-statusen for selskap-opprettelse er nå kommunisert i det grønne kortet — rens den så det ikke er dobbel info
+    const topCustomerStatus = document.getElementById("statusCustomersUploading");
+    if (topCustomerStatus) topCustomerStatus.innerHTML = "";
+
     const confirmBlock = document.createElement("div");
     confirmBlock.id = "inviteExistingStep2Block";
     confirmBlock.innerHTML = `
         <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:10px; padding:16px 20px; margin-bottom:16px; color:#1b5e20; max-width:720px;">
             <h2 style="margin:0 0 8px 0; font-size:1.1rem;">✓ Steg 1 fullført</h2>
             <p style="margin:0 0 8px 0;">${antallOpprettet} nytt selskap${selskapPlural} er opprettet i databasen.</p>
-            <p style="margin:0;">Neste steg: Opprett ${invitations.length} invitasjon${invPlural} og send e-post med invitasjonslenke til kontaktpersonene. Klikk knappen under for å starte.</p>
+            <p id="inviteExistingNextStepText" style="margin:0;">Neste steg: Opprett ${invitations.length} invitasjon${invPlural} og send e-post med invitasjonslenke til kontaktpersonene. Klikk knappen under for å starte.</p>
+            <div id="inviteExistingLocalStatus" style="margin-top:14px; display:none;">
+                <div id="localStatusInvitation" style="margin-bottom:6px;"></div>
+                <div id="localStatusEmailSending" style="margin-bottom:6px;"></div>
+                <div id="localStatusFinal" style="margin-top:12px;"></div>
+            </div>
         </div>
     `;
 
@@ -626,9 +638,11 @@ function showInvitationConfirmation(invitations, antallOpprettet) {
     sendButton.style.fontSize = "0.95rem";
     sendButton.style.fontWeight = "600";
     sendButton.addEventListener("click", () => {
-        sendButton.disabled = true;
-        sendButton.style.opacity = "0.6";
-        sendButton.style.cursor = "not-allowed";
+        sendButton.remove();
+        const hint = document.getElementById("inviteExistingNextStepText");
+        if (hint) hint.textContent = "Prosessen kjører — følg fremdriften under.";
+        const local = document.getElementById("inviteExistingLocalStatus");
+        if (local) local.style.display = "block";
         sendPendingInvitations();
     });
     confirmBlock.appendChild(sendButton);
@@ -640,6 +654,15 @@ function showInvitationConfirmation(invitations, antallOpprettet) {
     } else {
         document.getElementById("resultlist").appendChild(confirmBlock);
     }
+}
+
+function finalizeInviteExistingFlow() {
+    const finalEl = document.getElementById("localStatusFinal");
+    if (finalEl) {
+        finalEl.innerHTML = `<strong style="font-size:1.4rem; color:#1b5e20;">🎉 FERDIG!!</strong>`;
+    }
+    const listsWrapper = document.getElementById("inviteExistingListsWrapper");
+    if (listsWrapper) listsWrapper.remove();
 }
 
 function sendPendingInvitations() {
@@ -747,6 +770,9 @@ function loopGenerateDataForPublickLink() {
     //sjekke om det er flere invitasjoner igjen
     if(gInventations.length == 0){
         //Ferdig å sende mail
+        if (gImportMode === "inviteExisting") {
+            finalizeInviteExistingFlow();
+        }
     }else{
         //hente første element i gInventations
         const allRecords = gInventations;
@@ -950,6 +976,7 @@ function convertCustomerJsonStringsToObjects(jsonStrings) {
 
 function statusProcessing(totalRows, uploadedRows) {
     let statusEl;
+    const inInviteExisting = gImportMode === "inviteExisting";
 
     const doneMessage = (text, count) =>
         `<strong style="font-size: 1.1rem; color: green; opacity: 0; transition: opacity 0.5s;">✔️ ${count} ${text} – Ferdig!</strong>`;
@@ -969,7 +996,9 @@ function statusProcessing(totalRows, uploadedRows) {
         }
 
     } else if (sendCollection === "invitation") {
-        statusEl = document.getElementById("statusInvitation");
+        statusEl = inInviteExisting
+            ? document.getElementById("localStatusInvitation")
+            : document.getElementById("statusInvitation");
         if (!statusEl) return;
 
         if (uploadedRows >= totalRows) {
@@ -980,14 +1009,19 @@ function statusProcessing(totalRows, uploadedRows) {
         }
 
     } else if (sendCollection === "email") {
-        statusEl = document.getElementById("statusEmailSending");
+        statusEl = inInviteExisting
+            ? document.getElementById("localStatusEmailSending")
+            : document.getElementById("statusEmailSending");
         if (!statusEl) return;
 
+        const doneText = inInviteExisting ? "invitasjoner sendt" : "e-poster sendt";
+        const progressText = inInviteExisting ? "Sender invitasjoner" : "Sender e-poster";
+
         if (uploadedRows >= totalRows) {
-            statusEl.innerHTML = doneMessage("e-poster sendt", uploadedRows);
+            statusEl.innerHTML = doneMessage(doneText, uploadedRows);
             requestAnimationFrame(() => statusEl.firstChild.style.opacity = 1);
         } else {
-            statusEl.innerHTML = progressMessage("Sender e-poster", uploadedRows, totalRows);
+            statusEl.innerHTML = progressMessage(progressText, uploadedRows, totalRows);
         }
     }
 }
