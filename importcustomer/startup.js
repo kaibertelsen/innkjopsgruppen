@@ -11,6 +11,7 @@ var sendCollection = "";
 var gImportMode = "standard";
 var gExistingMatchesToInvite = [];
 var gPendingExistingInvitations = [];
+var gPendingInvitationsToSend = [];
 
 //Slå på ansattfordeler som standard
 document.getElementById('benefitsSwitsh').checked = true;
@@ -355,22 +356,30 @@ function controllXlsInviteExisting(data) {
     container.insertAdjacentHTML("beforeend", summaryHTML);
 
     if (totalInvitasjoner > 0) {
-        const steps = [];
+        let stepsHTML;
         if (harNye) {
-            steps.push(`Opprett ${nyeSomMaaOpprettes.length} nye selskap${nyeSomMaaOpprettes.length === 1 ? "" : "er"} i databasen`);
+            stepsHTML = `
+                <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
+                    <h3 style="margin:0 0 10px 0; font-size:1rem;">Prosessen består av 2 steg:</h3>
+                    <ol style="margin:0; padding-left:20px; font-size:0.93rem; line-height:1.55;">
+                        <li style="margin-bottom:6px;"><strong>Steg 1 (knapp nedenfor):</strong> Opprett ${nyeSomMaaOpprettes.length} manglende selskap${nyeSomMaaOpprettes.length === 1 ? "" : "er"} i databasen.</li>
+                        <li style="margin-bottom:6px;"><strong>Steg 2 (ny knapp vises etter steg 1):</strong> Opprett ${totalInvitasjoner} invitasjon${totalInvitasjoner === 1 ? "" : "er"}, generer unik invitasjonslenke og send e-post til ${totalInvitasjoner} kontaktperson${totalInvitasjoner === 1 ? "" : "er"}.</li>
+                    </ol>
+                    <p style="margin:10px 0 0 0; font-size:0.85rem; color:#57606a; font-style:italic;">Fremdriften vises i statusfeltene under mens prosessen kjører.</p>
+                </div>
+            `;
+        } else {
+            stepsHTML = `
+                <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
+                    <h3 style="margin:0 0 10px 0; font-size:1rem;">Slik kjøres prosessen når du trykker knappen:</h3>
+                    <ol style="margin:0; padding-left:20px; font-size:0.93rem; line-height:1.55;">
+                        <li style="margin-bottom:4px;">Opprett ${totalInvitasjoner} invitasjon${totalInvitasjoner === 1 ? "" : "er"} koblet til riktig selskap.</li>
+                        <li style="margin-bottom:4px;">Generer unik invitasjonslenke og send e-post til ${totalInvitasjoner} kontaktperson${totalInvitasjoner === 1 ? "" : "er"}.</li>
+                    </ol>
+                    <p style="margin:10px 0 0 0; font-size:0.85rem; color:#57606a; font-style:italic;">Fremdriften vises i statusfeltene under mens prosessen kjører.</p>
+                </div>
+            `;
         }
-        steps.push(`Opprett ${totalInvitasjoner} invitasjon${totalInvitasjoner === 1 ? "" : "er"} koblet til riktig selskap`);
-        steps.push(`Generer unik invitasjonslenke og send e-post til ${totalInvitasjoner} kontaktperson${totalInvitasjoner === 1 ? "" : "er"}`);
-
-        const stepsHTML = `
-            <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
-                <h3 style="margin:0 0 10px 0; font-size:1rem;">Slik kjøres prosessen når du trykker knappen:</h3>
-                <ol style="margin:0; padding-left:20px; font-size:0.93rem; line-height:1.55;">
-                    ${steps.map(s => `<li style="margin-bottom:4px;">${s}</li>`).join("")}
-                </ol>
-                <p style="margin:10px 0 0 0; font-size:0.85rem; color:#57606a; font-style:italic;">Fremdriften vises i statusfeltene under mens prosessen kjører.</p>
-            </div>
-        `;
         container.insertAdjacentHTML("beforeend", stepsHTML);
 
         const importButton = document.createElement("button");
@@ -557,6 +566,12 @@ function retunrMultiImportCustomer(data) {
 
     console.log("Invitations som skal importeres:", invitations);
 
+    if (gImportMode === "inviteExisting") {
+        //pause – vis bekreftelse på at selskapene er opprettet, og vent på at bruker klikker "Send invitasjoner"
+        showInvitationConfirmation(invitations, allRecords.length);
+        return;
+    }
+
     //sjekke om switsjen med kun oprettelse av selskap er slått på
     let onlyEmailSwitsh = document.getElementById('onlyEmailSwitsh').checked;
     if(onlyEmailSwitsh && gImportMode !== "inviteExisting"){
@@ -572,6 +587,53 @@ function retunrMultiImportCustomer(data) {
 
 
 }
+
+function showInvitationConfirmation(invitations, antallOpprettet) {
+    gPendingInvitationsToSend = invitations;
+
+    const container = document.getElementById("resultlist");
+    const invPlural = invitations.length === 1 ? "" : "er";
+    const selskapPlural = antallOpprettet === 1 ? "" : "er";
+
+    const confirmHTML = `
+        <div style="background:#e6f4ea; border:1px solid #34a853; border-radius:10px; padding:16px 20px; margin:16px 0; color:#1b5e20; max-width:720px;">
+            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">✓ Steg 1 fullført</h2>
+            <p style="margin:0 0 8px 0;">${antallOpprettet} nytt selskap${selskapPlural} er opprettet i databasen.</p>
+            <p style="margin:0;">Neste steg: Opprett ${invitations.length} invitasjon${invPlural} og send e-post med invitasjonslenke til kontaktpersonene. Klikk knappen under for å starte.</p>
+        </div>
+    `;
+    container.insertAdjacentHTML("beforeend", confirmHTML);
+
+    const sendButton = document.createElement("button");
+    sendButton.textContent = `Send ${invitations.length} invitasjon${invPlural}`;
+    sendButton.style.marginBottom = "16px";
+    sendButton.style.padding = "10px 20px";
+    sendButton.style.backgroundColor = "#1b5e20";
+    sendButton.style.color = "#fff";
+    sendButton.style.border = "none";
+    sendButton.style.borderRadius = "8px";
+    sendButton.style.cursor = "pointer";
+    sendButton.style.fontSize = "0.95rem";
+    sendButton.style.fontWeight = "600";
+    sendButton.addEventListener("click", () => {
+        sendButton.disabled = true;
+        sendButton.style.opacity = "0.6";
+        sendButton.style.cursor = "not-allowed";
+        sendPendingInvitations();
+    });
+    container.appendChild(sendButton);
+}
+
+function sendPendingInvitations() {
+    if (!gPendingInvitationsToSend || gPendingInvitationsToSend.length === 0) {
+        alert("Ingen invitasjoner å sende.");
+        return;
+    }
+    sendCollection = "invitation";
+    multisave(gPendingInvitationsToSend, "app1WzN1IxEnVu3m0", "tblc1AGhwc6MMu4Aw", "retunrMultiImportInvitations");
+    gPendingInvitationsToSend = [];
+}
+
 function multiOnlyEmailSending(data) {
 
       // Hent innholdet fra TinyMCE editoren
