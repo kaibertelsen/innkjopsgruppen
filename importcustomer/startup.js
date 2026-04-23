@@ -338,6 +338,7 @@ function controllXlsInviteExisting(data) {
 
     const totalRader = eksisterendeMedMatch.length + nyeSomMaaOpprettes.length + feil.length;
     const totalInvitasjoner = eksisterendeMedMatch.length + nyeSomMaaOpprettes.length;
+    const harNye = nyeSomMaaOpprettes.length > 0;
 
     const summaryHTML = `
         <div style="background:#fff; border:1px solid #d0d7de; border-radius:10px; padding:16px 20px; margin-bottom:16px; color:#24292f; max-width:720px;">
@@ -354,10 +355,28 @@ function controllXlsInviteExisting(data) {
     container.insertAdjacentHTML("beforeend", summaryHTML);
 
     if (totalInvitasjoner > 0) {
+        const steps = [];
+        if (harNye) {
+            steps.push(`Opprett ${nyeSomMaaOpprettes.length} nye selskap${nyeSomMaaOpprettes.length === 1 ? "" : "er"} i databasen`);
+        }
+        steps.push(`Opprett ${totalInvitasjoner} invitasjon${totalInvitasjoner === 1 ? "" : "er"} koblet til riktig selskap`);
+        steps.push(`Generer unik invitasjonslenke og send e-post til ${totalInvitasjoner} kontaktperson${totalInvitasjoner === 1 ? "" : "er"}`);
+
+        const stepsHTML = `
+            <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#24292f; max-width:720px;">
+                <h3 style="margin:0 0 10px 0; font-size:1rem;">Slik kjøres prosessen når du trykker knappen:</h3>
+                <ol style="margin:0; padding-left:20px; font-size:0.93rem; line-height:1.55;">
+                    ${steps.map(s => `<li style="margin-bottom:4px;">${s}</li>`).join("")}
+                </ol>
+                <p style="margin:10px 0 0 0; font-size:0.85rem; color:#57606a; font-style:italic;">Fremdriften vises i statusfeltene under mens prosessen kjører.</p>
+            </div>
+        `;
+        container.insertAdjacentHTML("beforeend", stepsHTML);
+
         const importButton = document.createElement("button");
-        importButton.textContent = nyeSomMaaOpprettes.length > 0
-            ? `Opprett ${nyeSomMaaOpprettes.length} nye selskap(er) og send ${totalInvitasjoner} invitasjon(er)`
-            : `Send ${totalInvitasjoner} invitasjon(er)`;
+        importButton.textContent = harNye
+            ? "Opprett de manglende selskaper"
+            : `Send ${totalInvitasjoner} invitasjon${totalInvitasjoner === 1 ? "" : "er"}`;
         importButton.style.marginBottom = "16px";
         importButton.style.padding = "10px 20px";
         importButton.style.backgroundColor = "#1b5e20";
