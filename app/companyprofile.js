@@ -449,7 +449,7 @@ async function sendMail(data) {
         formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
     }
 
-    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2avamvd/", {
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/24993663/2avamvd/", {
         method: "POST",
         body: formData
     });
@@ -683,7 +683,7 @@ async function sendUserToZapier(data) {
         formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
     }
 
-    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2ajscws/", {
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/24993663/2ajscws/", {
         method: "POST",
         body: formData
     });
@@ -804,7 +804,7 @@ async function sendansattfordelerlink(data){
         formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
     }
 
-    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2n1r7zc/", {
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/24993663/2n1r7zc/", {
         method: "POST",
         body: formData
     });

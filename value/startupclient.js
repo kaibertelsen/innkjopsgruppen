@@ -146,7 +146,7 @@ function sendresponsData(data) {
             body.comment = "Link åpnet - Bruker ikke innlogget";
         }
 
-        sendDataToZapierWebhook(body, "https://hooks.zapier.com/hooks/catch/10455257/2ggc5vw/", "responsDataLink");
+        sendDataToZapierWebhook(body, "https://hooks.zapier.com/hooks/catch/24993663/2ggc5vw/", "responsDataLink");
         console.log("Data sendt til Zapier:", body);
     } catch (error) {
         console.error("Feil ved sending av responsdata:", error);

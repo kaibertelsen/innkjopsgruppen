@@ -257,7 +257,7 @@ async function sendDataToZapierWebhookCreatUser(data) {
         formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value);
     }
 
-    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/2p3skv0/", {
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/24993663/2p3skv0/", {
         method: "POST",
         body: formData
     });

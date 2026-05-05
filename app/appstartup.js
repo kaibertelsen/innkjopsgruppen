@@ -1268,7 +1268,7 @@ function responsSupplierConnection(rawdata) {
 
     if (data?.outputnr) {
         let outputnr = data.outputnr[0];
-        let Url = "https://hooks.zapier.com/hooks/catch/10455257/2gk1hb3/";
+        let Url = "https://hooks.zapier.com/hooks/catch/24993663/2gk1hb3/";
         let body = { mailto: "", name: "", subject: "", content: "", attachment: "", type: "", data: "" };
 
         let orgnr = data.companyorgnr[0] || "";

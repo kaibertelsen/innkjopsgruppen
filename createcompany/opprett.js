@@ -404,7 +404,7 @@ async function sendToZapier(data) {
         formData.append(key, Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value);
     }
 
-    const response = await fetch("https://hooks.zapier.com/hooks/catch/10455257/29whqiz/", {
+    const response = await fetch("https://hooks.zapier.com/hooks/catch/24993663/29whqiz/", {
         method: "POST",
         body: formData
     });
